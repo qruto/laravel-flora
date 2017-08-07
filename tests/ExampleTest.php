@@ -45,7 +45,7 @@ class ExampleTest extends TestCase
      */
     protected function getPackageProviders($app)
     {
-        return [\ZFort\Skeleton\SkeletonServiceProvider::class];
+        return [\ZFort\Skeleton\InstallerServiceProvider::class];
     }
 
     /**
