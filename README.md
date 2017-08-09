@@ -1,4 +1,4 @@
-# Very short description of the package
+# Application installation command
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Software License][ico-license]](LICENSE.md)
@@ -7,50 +7,72 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-**Note:** Replace ```zfort``` ```zfort``` ```developers@zfort.com``` ```laravel-app-installer``` ```Package provider ability to setup pre/post install/update actions``` with their correct values in [README.md](README.md), [CHANGELOG.md](CHANGELOG.md), [CONTRIBUTING.md](CONTRIBUTING.md), [LICENSE.md](LICENSE.md) and [composer.json](composer.json) files, then delete this line.
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what PSRs you support to avoid any confusion with users and contributors.
-
-## Postcardware
-
-You're free to use this package (it's [MIT-licensed](LICENSE.md)), but if it makes it to your production environment we highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using.
-
-Our address is: Buchmy St, 1-B, 3rd floor, Kharkiv, Ukraine.
-
-We publish all received postcards [on our company website](https://zfort.com/en/opensource/postcards).
-
-## Structure
-
-If any of the following are applicable to your project, then the directory structure should follow industry best practises by being named the following.
-
-```
-bin/        
-config/
-src/
-tests/
-vendor/
-```
+This package adds `artisan app:install` command, which runs defined commands related to the current environment
 
 ## Installation
 
-**Note:** Remove this paragraph if you are building a public package  
-This package is custom built for [ZFort](https://zfort.com) projects and is therefore not registered on packagist. In order to install it via composer you must specify this extra repository in `composer.json`:
+Via Composer
 
-```json
-"repositories": [ { "type": "composer", "url": "https://satis.zfort.com/" } ]
+``` bash
+$ composer require zfort/laravel-app-installer
 ```
 
-You can install the package via composer:
-
-```bash
-composer require zfort/laravel-app-installer
+Now add the service provider in config/app.php file:
+```php
+'providers' => [
+    // ...
+    ZFort\SocialAuth\InstallerServiceProvider::class,
+];
 ```
+Run `artisan make:installer` command to create installer config in `app` directory
 
 ## Usage
 
-``` php
-$skeleton = new ZFort\Skeleton();
-echo $skeleton->echoPhrase('Hello, ZFort!');
+InstallerConfig contents:
+```php
+namespace App;
+
+use ZFort\AppInstaller\Contracts\Runner;
+
+class InstallerConfig
+{
+    public function production(Runner $run)
+    {
+        return $run
+            ->artisan('key:generate')
+            ->artisan('migrate')
+            ->external('npm', 'install', '--production')
+            ->external('npm', 'run', 'production')
+            ->artisan('route:cache')
+            ->artisan('config:cache')
+            ->artisan('optimize')
+            ->external('composer', 'dump-autoload', '--optimize');
+    }
+
+    public function local(Runner $run)
+    {
+        return $run
+            ->artisan('key:generate')
+            ->artisan('migrate')
+            ->external('npm', 'install')
+            ->external('npm', 'run', 'development');
+    }
+}
+```
+You can add any another method which called the same as your environment name, for example `staging` and define different commands
+
+If you want to move config file from the `app` directory to a different place, just add a new binding in the `AppServiceProvider`
+```php
+$this->app->bind('project.installer', \AnotherNameSpace\InstallerConfig::class);
+```
+
+####List of commands available to run
+```php
+$run
+    ->artisan('command', ['argument' => 'argument_value', '-param' => 'param_value', '--option' => 'option_value', ...]) // Artisan command
+    ->external('command', 'argument', 'argument_value', '-param', 'param_value', '--option=option_value', ...) // Any external command
+    ->callable('command', 'argument', ...) // Callable function (like for call_user_func)
 ```
 
 ## Changelog
