@@ -5,6 +5,7 @@ namespace ZFort\AppInstaller;
 use Illuminate\Support\ServiceProvider;
 use ZFort\AppInstaller\Contracts\Runner;
 use ZFort\AppInstaller\Console\Commands\Install;
+use ZFort\AppInstaller\Console\Commands\InstallerMakeCommand;
 use ZFort\AppInstaller\Contracts\Executor as ExecutorContract;
 
 class InstallerServiceProvider extends ServiceProvider
@@ -16,11 +17,12 @@ class InstallerServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->app->singleton('command.installer.install', Install::class);
+            $this->app->singleton('command.installer.make', InstallerMakeCommand::class);
             $this->app->bind('project.installer', \App\InstallerConfig::class);
             $this->app->bind(Runner::class, Run::class);
             $this->app->bind(ExecutorContract::class, Executor::class);
 
-            $this->commands('command.installer.install');
+            $this->commands(['command.installer.install', 'command.installer.make']);
         }
     }
 }
