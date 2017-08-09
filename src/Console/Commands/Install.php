@@ -4,6 +4,7 @@ namespace ZFort\AppInstaller\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Container\Container;
+use ZFort\AppInstaller\Contracts\Executor as ExecutorContract;
 
 class Install extends Command
 {
@@ -19,27 +20,22 @@ class Install extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
-
-    /**
-     * Create a new command instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
+    protected $description = 'Install the application based on the current environment';
 
     /**
      * Execute the console command.
      *
-     * @param Container $container
-     * @return mixed
+     * @return void
      */
     public function handle(Container $container)
     {
-        $Config = $container->make('project.installer');
-        $run = $container->call([$Config, config('app.env')]);
+        $container->makeWith(ExecutorContract::class, ['installCommand' => $this])
+            ->exec(
+                // Get project installer config commands
+                $container->call([
+                    $container->make('project.installer'),
+                    config('app.env'),
+                ])->getCommands()
+            );
     }
 }
