@@ -27,6 +27,12 @@ Now add the service provider in config/app.php file:
 ```
 Run `artisan make:installer` command to create installer config in `app` directory
 
+You can override config key where stored current environment, just publish config file, and set `env_config_key` value
+```bash
+php artisan vendor:publish --provider="ZFort\AppInstaller\InstallerServiceProvider" --tag=config
+```
+By default it set to `app.env`
+
 ## Usage
 
 InstallerConfig contents:

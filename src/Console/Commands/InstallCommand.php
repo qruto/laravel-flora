@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Contracts\Container\Container;
 use ZFort\AppInstaller\Contracts\Executor as ExecutorContract;
 
-class Install extends Command
+class InstallCommand extends Command
 {
     /**
      * The name and signature of the console command.
@@ -32,9 +32,12 @@ class Install extends Command
     {
         $Executor = $container->makeWith(ExecutorContract::class, ['installCommand' => $this]);
 
+        $Config = $container->make('config');
+        $env = $Config->get($Config->get('laravel-installer.env_config_key'));
+
         $Executor->exec($container->call([
             $Config = $container->make('project.installer'),
-            $this->option('root') ? config('app.env') . 'Root' : config('app.env'),
+            $this->option('root') ? $env . 'Root' : $env,
         ])->getCommands());
     }
 }

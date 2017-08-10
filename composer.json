@@ -21,6 +21,7 @@
         "illuminate/support": "^5.4",
         "illuminate/container": "^5.4",
         "illuminate/console": "^5.4",
+        "illuminate/config": "^5.4",
         "symfony/process": "~3.3"
     },
     "require-dev": {
