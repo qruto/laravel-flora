@@ -18,7 +18,11 @@
     ],
     "require": {
         "php": "^7.1",
-        "illuminate/support": "^5.4"
+        "illuminate/support": "^5.4",
+        "illuminate/container": "^5.4",
+        "illuminate/console": "^5.4",
+        "illuminate/config": "^5.4",
+        "symfony/process": "~3.3"
     },
     "require-dev": {
         "phpunit/phpunit": "^6.0",
@@ -27,12 +31,12 @@
     },
     "autoload": {
         "psr-4": {
-            "ZFort\\Skeleton\\": "src"
+            "ZFort\\AppInstaller\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "ZFort\\Skeleton\\Test\\": "tests"
+            "ZFort\\AppInstaller\\Test\\": "tests"
         }
     },
     "scripts": {
@@ -44,11 +48,8 @@
     "extra": {
         "laravel": {
             "providers": [
-                "ZFort\\Skeleton\\SkeletonServiceProvider"
-            ],
-            "aliases": {
-                "Skeleton": "ZFort\\Skeleton\\SkeletonFacade"
-            }
+                "ZFort\\AppInstaller\\InstallerServiceProvider"
+            ]
         }
     }
 }
