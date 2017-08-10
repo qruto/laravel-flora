@@ -60,7 +60,36 @@ class InstallerConfig
     }
 }
 ```
+
 You can add any another method which called the same as your environment name, for example `staging` and define different commands
+
+If you need to run commands with root privileges separately you can define method with next convention
+```php
+namespace App;
+
+use ZFort\AppInstaller\Contracts\Runner;
+
+class InstallerConfig
+{
+    public function local(Runner $run)
+    {
+        return $run
+            ->artisan('key:generate')
+            ->artisan('migrate')
+            ->external('npm', 'install')
+            ->external('npm', 'run', 'development');
+    }
+    
+    public function localRoot(Runner $run)
+    {
+        return $run
+            ->external('service', 'php-fpm', 'restart')
+            ->external('supervisorctl', 'reread')
+            ->external('supervisorctl', 'update');
+    }
+}
+```
+Run it by passing "root" option - `artisan app:insstall --root`
 
 If you want to move config file from the `app` directory to a different place, just add a new binding in the `AppServiceProvider`
 ```php

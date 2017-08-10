@@ -13,7 +13,8 @@ class Install extends Command
      *
      * @var string
      */
-    protected $signature = 'app:install';
+    protected $signature = 'app:install
+                            {--root : Run commands which requires root privileges}';
 
     /**
      * The console command description.
@@ -29,13 +30,11 @@ class Install extends Command
      */
     public function handle(Container $container)
     {
-        $container->makeWith(ExecutorContract::class, ['installCommand' => $this])
-            ->exec(
-                // Get project installer config commands
-                $container->call([
-                    $container->make('project.installer'),
-                    config('app.env'),
-                ])->getCommands()
-            );
+        $Executor = $container->makeWith(ExecutorContract::class, ['installCommand' => $this]);
+
+        $Executor->exec($container->call([
+            $Config = $container->make('project.installer'),
+            $this->option('root') ? config('app.env') . 'Root' : config('app.env'),
+        ])->getCommands());
     }
 }
