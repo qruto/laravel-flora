@@ -29,7 +29,21 @@ class Run implements Runner
         return $this;
     }
 
-    protected function pushCommand(string $type, $command, array $arguments)
+    public function dispatch($job): Runner
+    {
+        $this->pushCommand(__FUNCTION__, $job);
+
+        return $this;
+    }
+
+    public function dispatchNow($job): Runner
+    {
+        $this->pushCommand(__FUNCTION__, $job);
+
+        return $this;
+    }
+
+    protected function pushCommand(string $type, $command, array $arguments = [])
     {
         $this->commands[] = compact('type', 'command', 'arguments');
     }
