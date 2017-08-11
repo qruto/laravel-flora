@@ -10,5 +10,9 @@ interface Runner
 
     public function callable(callable $function, ...$arguments): self;
 
+    public function dispatch($job): self;
+
+    public function dispatchNow($job): self;
+
     public function getCommands(): array;
 }

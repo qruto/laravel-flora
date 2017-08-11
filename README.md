@@ -108,6 +108,8 @@ $run
     ->artisan('command', ['argument' => 'argument_value', '-param' => 'param_value', '--option' => 'option_value', ...]) // Artisan command
     ->external('command', 'argument', 'argument_value', '-param', 'param_value', '--option=option_value', ...) // Any external command
     ->callable('command', 'argument', ...) // Callable function (like for call_user_func)
+    ->dispatch(new JobClass) // Dispatch job task
+    ->dispatchNow(new JobClass) // Dispatch job task without queue
 ```
 
 ## Changelog

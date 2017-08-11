@@ -3,7 +3,9 @@
 namespace ZFort\AppInstaller;
 
 use Illuminate\Console\Command;
+use Illuminate\Container\Container;
 use Symfony\Component\Process\Process;
+use Illuminate\Contracts\Bus\Dispatcher;
 use Symfony\Component\Process\ProcessBuilder;
 use ZFort\AppInstaller\Contracts\Executor as ExecutorContract;
 
@@ -62,5 +64,24 @@ class Executor implements ExecutorContract
 
         is_callable($function, false, $name);
         $this->installCommand->info("Callable: $name called");
+    }
+
+    public function dispatch($job)
+    {
+        $this->printJob($job, Container::getInstance()->make(Dispatcher::class)->dispatch($job));
+    }
+
+    public function dispatchNow($job)
+    {
+        $this->printJob($job, Container::getInstance()->make(Dispatcher::class)->dispatchNow($job));
+    }
+
+    protected function printJob($job, $result)
+    {
+        $message = 'Job "' . get_class($job) . '" has been processed';
+
+        $message .= is_string($result) ? '. Result: ' . $result : '';
+
+        $this->installCommand->info($message);
     }
 }
