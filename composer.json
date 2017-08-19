@@ -1,6 +1,6 @@
 {
     "name": "mad-web/laravel-initializer",
-    "description": "Package provider ability to setup pre/post install/update actions",
+    "description": "Package provides ability to setup application initialization actions",
     "type": "library",
     "keywords": [
         "mad-web",
@@ -18,26 +18,26 @@
     ],
     "require": {
         "php": "^7.1",
-        "illuminate/support": "^5.4",
-        "illuminate/container": "^5.4",
-        "illuminate/console": "^5.4",
-        "illuminate/config": "^5.4",
-        "illuminate/bus": "^5.4",
+        "illuminate/support": "~5.4.0",
+        "illuminate/container": "~5.4.0",
+        "illuminate/console": "~5.4.0",
+        "illuminate/config": "~5.4.0",
+        "illuminate/bus": "~5.4.0",
         "symfony/process": "~3.3"
     },
     "require-dev": {
-        "phpunit/phpunit": "^6.0",
-        "orchestra/testbench": "~3.0",
+        "phpunit/phpunit": "^5.7",
+        "orchestra/testbench": "~3.4.8",
         "mockery/mockery": "^0.9.9"
     },
     "autoload": {
         "psr-4": {
-            "ZFort\\AppInstaller\\": "src"
+            "MadWeb\\Initializer\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "ZFort\\AppInstaller\\Test\\": "tests"
+            "MadWeb\\Initializer\\Test\\": "tests"
         }
     },
     "scripts": {
@@ -49,7 +49,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "ZFort\\AppInstaller\\InstallerServiceProvider"
+                "MadWeb\\Initializer\\InitializerServiceProvider"
             ]
         }
     }
