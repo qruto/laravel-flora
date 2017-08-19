@@ -2,7 +2,7 @@
 
 namespace DummyNamespace;
 
-use ZFort\AppInstaller\Contracts\Runner;
+use MadWeb\Initializer\Contracts\Runner;
 
 class InstallerConfig
 {

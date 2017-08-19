@@ -1,10 +1,10 @@
 <?php
 
-namespace ZFort\AppInstaller\Console\Commands;
+namespace MadWeb\Initializer\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Container\Container;
-use ZFort\AppInstaller\Contracts\Executor as ExecutorContract;
+use MadWeb\Initializer\Contracts\Executor as ExecutorContract;
 
 class InstallCommand extends Command
 {
