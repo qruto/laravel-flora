@@ -1,8 +1,8 @@
 <?php
 
-namespace ZFort\AppInstaller;
+namespace MadWeb\Initializer;
 
-use ZFort\AppInstaller\Contracts\Runner;
+use MadWeb\Initializer\Contracts\Runner;
 
 class Run implements Runner
 {

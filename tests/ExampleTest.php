@@ -1,11 +1,11 @@
 <?php
 
-namespace ZFort\Skeleton\Test;
+namespace MadWeb\Skeleton\Test;
 
 use Orchestra\Testbench\TestCase;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Contracts\Debug\ExceptionHandler;
-use ZFort\Skeleton\Test\Utils\TestExceptionHandler;
+use MadWeb\Skeleton\Test\Utils\TestExceptionHandler;
 
 class ExampleTest extends TestCase
 {
@@ -45,7 +45,7 @@ class ExampleTest extends TestCase
      */
     protected function getPackageProviders($app)
     {
-        return [\ZFort\Skeleton\InstallerServiceProvider::class];
+        return [\MadWeb\Skeleton\InstallerServiceProvider::class];
     }
 
     /**
@@ -55,7 +55,7 @@ class ExampleTest extends TestCase
     protected function getPackageAliases($app)
     {
         return [
-            'Skeleton' => \ZFort\Skeleton\SkeletonFacade::class,
+            'Skeleton' => \MadWeb\Skeleton\SkeletonFacade::class,
         ];
     }
 

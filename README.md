@@ -22,14 +22,14 @@ Now add the service provider in config/app.php file:
 ```php
 'providers' => [
     // ...
-    ZFort\SocialAuth\InstallerServiceProvider::class,
+    MadWeb\Initializer\InitializerServiceProvider::class,
 ];
 ```
 Run `artisan make:installer` command to create installer config in `app` directory
 
 You can override config key where stored current environment, just publish config file, and set `env_config_key` value
 ```bash
-php artisan vendor:publish --provider="ZFort\AppInstaller\InstallerServiceProvider" --tag=config
+php artisan vendor:publish --provider="MadWeb\Initializer\InitializerServiceProvider" --tag=config
 ```
 By default it set to `app.env`
 
@@ -39,7 +39,7 @@ InstallerConfig contents:
 ```php
 namespace App;
 
-use ZFort\AppInstaller\Contracts\Runner;
+use MadWeb\Initializer\Contracts\Runner;
 
 class InstallerConfig
 {
@@ -73,7 +73,7 @@ If you need to run commands with root privileges separately you can define metho
 ```php
 namespace App;
 
-use ZFort\AppInstaller\Contracts\Runner;
+use MadWeb\Initializer\Contracts\Runner;
 
 class InstallerConfig
 {
@@ -135,10 +135,6 @@ If you discover any security related issues, please email madweb.dev@gmail.com i
 - [Mad Web](https://github.com/mad-web)
 - [All Contributors](../../contributors)
 
-## About ZFort
-
-ZFort Group is a full-scale IT outsourcing service provider that has delivered premium web development, consulting and B2B solutions since 2000.
-
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
@@ -146,12 +142,14 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [ico-version]: https://img.shields.io/packagist/v/mad-web/laravel-initializer.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
 [ico-travis]: https://img.shields.io/travis/mad-web/laravel-initializer/master.svg?style=flat-square
+[ico-style]: https://styleci.io/repos/100302581/shield
 [ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/mad-web/laravel-initializer.svg?style=flat-square
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/mad-web/laravel-initializer.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/mad-web/laravel-initializer.svg?style=flat-square
 
 [link-packagist]: https://packagist.org/packages/mad-web/llaravel-initializer
 [link-travis]: https://travis-ci.org/mad-web/laravel-initializer
+[link-style]: https://styleci.io/repos/100302581
 [link-scrutinizer]: https://scrutinizer-ci.com/g/mad-web/laravel-initializer/code-structure
 [link-code-quality]: https://scrutinizer-ci.com/g/mad-web/laravel-initializer
 [link-downloads]: https://packagist.org/packages/mad-web/laravel-initializer

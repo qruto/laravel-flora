@@ -1,12 +1,12 @@
 <?php
 
-namespace ZFort\AppInstaller;
+namespace MadWeb\Initializer;
 
 use Illuminate\Support\ServiceProvider;
-use ZFort\AppInstaller\Contracts\Runner;
-use ZFort\AppInstaller\Console\Commands\InstallCommand;
-use ZFort\AppInstaller\Console\Commands\InstallerMakeCommand;
-use ZFort\AppInstaller\Contracts\Executor as ExecutorContract;
+use MadWeb\Initializer\Contracts\Runner;
+use MadWeb\Initializer\Console\Commands\InstallCommand;
+use MadWeb\Initializer\Console\Commands\InstallerMakeCommand;
+use MadWeb\Initializer\Contracts\Executor as ExecutorContract;
 
 class InstallerServiceProvider extends ServiceProvider
 {

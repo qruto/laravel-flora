@@ -1,6 +1,6 @@
 <?php
 
-namespace ZFort\AppInstaller\Contracts;
+namespace MadWeb\Initializer\Contracts;
 
 interface Runner
 {
