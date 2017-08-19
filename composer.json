@@ -1,18 +1,18 @@
 {
-    "name": "zfort/laravel-initializer",
+    "name": "mad-web/laravel-initializer",
     "description": "Package provider ability to setup pre/post install/update actions",
     "type": "library",
     "keywords": [
-        "zfort",
+        "mad-web",
         "laravel-initializer"
     ],
-    "homepage": "https://github.com/zfort/laravel-initializer",
+    "homepage": "https://github.com/mad-web/laravel-initializer",
     "license": "MIT",
     "authors": [
         {
-            "name": "zfort",
-            "email": "developer@zfort.com",
-            "homepage": "https://zfort.com",
+            "name": "Mad Web",
+            "email": "madweb.dev@gmail.com",
+            "homepage": "https://github.com/mad-web",
             "role": "Developer"
         }
     ],

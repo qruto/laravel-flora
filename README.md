@@ -15,7 +15,7 @@ This package adds `artisan app:install` command, which runs defined commands rel
 Via Composer
 
 ``` bash
-$ composer require zfort/laravel-initializer
+$ composer require mad-web/laravel-initializer
 ```
 
 Now add the service provider in config/app.php file:
@@ -128,11 +128,11 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) and [CONDUCT](CONDUCT.md) for details
 
 ## Security
 
-If you discover any security related issues, please email developer@zfort.com instead of using the issue tracker.
+If you discover any security related issues, please email madweb.dev@gmail.com instead of using the issue tracker.
 
 ## Credits
 
-- [zfort](https://github.com/zfort)
+- [Mad Web](https://github.com/mad-web)
 - [All Contributors](../../contributors)
 
 ## About ZFort
@@ -143,17 +143,17 @@ ZFort Group is a full-scale IT outsourcing service provider that has delivered p
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-[ico-version]: https://img.shields.io/packagist/v/zfort/laravel-initializer.svg?style=flat-square
+[ico-version]: https://img.shields.io/packagist/v/mad-web/laravel-initializer.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/zfort/laravel-initializer/master.svg?style=flat-square
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/zfort/laravel-initializer.svg?style=flat-square
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/zfort/laravel-initializer.svg?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/zfort/laravel-initializer.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/mad-web/laravel-initializer/master.svg?style=flat-square
+[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/mad-web/laravel-initializer.svg?style=flat-square
+[ico-code-quality]: https://img.shields.io/scrutinizer/g/mad-web/laravel-initializer.svg?style=flat-square
+[ico-downloads]: https://img.shields.io/packagist/dt/mad-web/laravel-initializer.svg?style=flat-square
 
-[link-packagist]: https://packagist.org/packages/zfort/llaravel-initializer
-[link-travis]: https://travis-ci.org/zfort/laravel-initializer
-[link-scrutinizer]: https://scrutinizer-ci.com/g/zfort/laravel-initializer/code-structure
-[link-code-quality]: https://scrutinizer-ci.com/g/zfort/laravel-initializer
-[link-downloads]: https://packagist.org/packages/zfort/laravel-initializer
-[link-author]: https://github.com/zfort
+[link-packagist]: https://packagist.org/packages/mad-web/llaravel-initializer
+[link-travis]: https://travis-ci.org/mad-web/laravel-initializer
+[link-scrutinizer]: https://scrutinizer-ci.com/g/mad-web/laravel-initializer/code-structure
+[link-code-quality]: https://scrutinizer-ci.com/g/mad-web/laravel-initializer
+[link-downloads]: https://packagist.org/packages/mad-web/laravel-initializer
+[link-author]: https://github.com/mad-web
 [link-contributors]: ../../contributors
