@@ -4,7 +4,16 @@
     "type": "library",
     "keywords": [
         "mad-web",
-        "laravel-initializer"
+        "laravel-initializer",
+        "install",
+        "update",
+        "deploy",
+        "init",
+        "initialize",
+        "exec",
+        "command",
+        "tasks",
+        "process"
     ],
     "homepage": "https://github.com/mad-web/laravel-initializer",
     "license": "MIT",
