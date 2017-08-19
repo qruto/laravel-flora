@@ -1,12 +1,12 @@
 {
-    "name": "zfort/laravel-app-installer",
+    "name": "zfort/laravel-initializer",
     "description": "Package provider ability to setup pre/post install/update actions",
     "type": "library",
     "keywords": [
         "zfort",
-        "laravel-app-installer"
+        "laravel-initializer"
     ],
-    "homepage": "https://github.com/zfort/laravel-app-installer",
+    "homepage": "https://github.com/zfort/laravel-initializer",
     "license": "MIT",
     "authors": [
         {

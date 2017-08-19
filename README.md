@@ -15,7 +15,7 @@ This package adds `artisan app:install` command, which runs defined commands rel
 Via Composer
 
 ``` bash
-$ composer require zfort/laravel-app-installer
+$ composer require zfort/laravel-initializer
 ```
 
 Now add the service provider in config/app.php file:
@@ -143,17 +143,17 @@ ZFort Group is a full-scale IT outsourcing service provider that has delivered p
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-[ico-version]: https://img.shields.io/packagist/v/zfort/laravel-app-installer.svg?style=flat-square
+[ico-version]: https://img.shields.io/packagist/v/zfort/laravel-initializer.svg?style=flat-square
 [ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/zfort/laravel-app-installer/master.svg?style=flat-square
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/zfort/laravel-app-installer.svg?style=flat-square
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/zfort/laravel-app-installer.svg?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/zfort/laravel-app-installer.svg?style=flat-square
+[ico-travis]: https://img.shields.io/travis/zfort/laravel-initializer/master.svg?style=flat-square
+[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/zfort/laravel-initializer.svg?style=flat-square
+[ico-code-quality]: https://img.shields.io/scrutinizer/g/zfort/laravel-initializer.svg?style=flat-square
+[ico-downloads]: https://img.shields.io/packagist/dt/zfort/laravel-initializer.svg?style=flat-square
 
-[link-packagist]: https://packagist.org/packages/zfort/laravel-app-installer
-[link-travis]: https://travis-ci.org/zfort/laravel-app-installer
-[link-scrutinizer]: https://scrutinizer-ci.com/g/zfort/laravel-app-installer/code-structure
-[link-code-quality]: https://scrutinizer-ci.com/g/zfort/laravel-app-installer
-[link-downloads]: https://packagist.org/packages/zfort/laravel-app-installer
+[link-packagist]: https://packagist.org/packages/zfort/llaravel-initializer
+[link-travis]: https://travis-ci.org/zfort/laravel-initializer
+[link-scrutinizer]: https://scrutinizer-ci.com/g/zfort/laravel-initializer/code-structure
+[link-code-quality]: https://scrutinizer-ci.com/g/zfort/laravel-initializer
+[link-downloads]: https://packagist.org/packages/zfort/laravel-initializer
 [link-author]: https://github.com/zfort
 [link-contributors]: ../../contributors
