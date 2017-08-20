@@ -45,7 +45,7 @@ class ExampleTest extends TestCase
      */
     protected function getPackageProviders($app)
     {
-        return [\MadWeb\Skeleton\InstallerServiceProvider::class];
+        return [\MadWeb\Skeleton\InitializerServiceProvider::class];
     }
 
     /**

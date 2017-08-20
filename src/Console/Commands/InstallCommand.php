@@ -33,7 +33,7 @@ class InstallCommand extends Command
         $Executor = $container->makeWith(ExecutorContract::class, ['installCommand' => $this]);
 
         $Config = $container->make('config');
-        $env = $Config->get($Config->get('laravel-installer.env_config_key'));
+        $env = $Config->get($Config->get('initializer.env_config_key'));
 
         $Executor->exec($container->call([
             $Config = $container->make('project.installer'),
