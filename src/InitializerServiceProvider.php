@@ -16,7 +16,7 @@ class InitializerServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/../config/initializer.php' => config_path('initializer.php'),
+            __DIR__.'/../config/initializer.php' => config_path('initializer.php'),
         ], 'config');
     }
 
@@ -26,7 +26,7 @@ class InitializerServiceProvider extends ServiceProvider
     public function register()
     {
         if ($this->app->runningInConsole()) {
-            $this->mergeConfigFrom(__DIR__ . '/../config/initializer.php', 'initializer');
+            $this->mergeConfigFrom(__DIR__.'/../config/initializer.php', 'initializer');
 
             $this->app->singleton('command.initializer.install', InstallCommand::class);
             $this->app->singleton('command.initializer.installer.make', InstallerMakeCommand::class);

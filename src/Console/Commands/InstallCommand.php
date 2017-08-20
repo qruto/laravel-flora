@@ -37,7 +37,7 @@ class InstallCommand extends Command
 
         $Executor->exec($container->call([
             $Config = $container->make('project.installer'),
-            $this->option('root') ? $env . 'Root' : $env,
+            $this->option('root') ? $env.'Root' : $env,
         ])->getCommands());
     }
 }

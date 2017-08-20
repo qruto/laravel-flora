@@ -78,9 +78,9 @@ class Executor implements ExecutorContract
 
     protected function printJob($job, $result)
     {
-        $message = 'Job "' . get_class($job) . '" has been processed';
+        $message = 'Job "'.get_class($job).'" has been processed';
 
-        $message .= is_string($result) ? '. Result: ' . $result : '';
+        $message .= is_string($result) ? '. Result: '.$result : '';
 
         $this->installCommand->info($message);
     }
