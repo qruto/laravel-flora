@@ -16,22 +16,22 @@ abstract class MakeSupervisorConfig
     protected $container;
 
     /**
-     * Supervisor config folder path
+     * Supervisor config folder path.
      */
     protected $path;
 
     /**
-     * Supervisor configuration name
+     * Supervisor configuration name.
      */
     protected $fileName;
 
     /**
-     * Supervisor config parameters
+     * Supervisor config parameters.
      */
     protected $params;
 
     /**
-     * Name of the supervisor process
+     * Name of the supervisor process.
      */
     protected $processName = '';
 
@@ -41,7 +41,7 @@ abstract class MakeSupervisorConfig
     public function __construct(array $params = [], string $fileName = '', string $path = '/etc/supervisor/conf.d/')
     {
         $this->path = $path;
-        $this->fileName = $fileName ?: $this->configName() . '.conf';
+        $this->fileName = $fileName ?: $this->configName().'.conf';
         $this->params = $params;
         $this->container = Container::getInstance();
     }
@@ -54,11 +54,11 @@ abstract class MakeSupervisorConfig
     public function handle()
     {
         $this->container->make('files')->put(
-            $this->path . $this->fileName,
+            $this->path.$this->fileName,
             $this->makeSupervisorConfig($this->processName, $this->params)
         );
 
-        return 'Supervisor config file created. Path: ' . $this->path . $this->fileName;
+        return 'Supervisor config file created. Path: '.$this->path.$this->fileName;
     }
 
     protected function makeSupervisorConfig(string $programName, array $data)
@@ -71,20 +71,20 @@ abstract class MakeSupervisorConfig
             'user' => get_current_user(),
             'numprocs' => 1,
             'redirect_stderr' => true,
-            'stdout_logfile' => "{$this->getLogsPath()}/{$this->configName()}.log"
+            'stdout_logfile' => "{$this->getLogsPath()}/{$this->configName()}.log",
         ];
         $data = array_merge($default_config, $data);
 
         $app_name = str_slug($this->getApplicationName());
-        $config = "[program:$app_name-$programName]" . PHP_EOL;
+        $config = "[program:$app_name-$programName]".PHP_EOL;
 
         foreach ($data as $key => $value) {
             if (is_bool($value)) {
                 $value = $value ? 'true' : 'false';
             } else {
-                $value = (string)$value;
+                $value = (string) $value;
             }
-            $config .= "$key=$value" . PHP_EOL;
+            $config .= "$key=$value".PHP_EOL;
         }
 
         return $config;
@@ -92,7 +92,7 @@ abstract class MakeSupervisorConfig
 
     protected function getLogsPath(): string
     {
-        return $this->container->make('path.storage') . DIRECTORY_SEPARATOR . 'logs';
+        return $this->container->make('path.storage').DIRECTORY_SEPARATOR.'logs';
     }
 
     /**
@@ -100,7 +100,7 @@ abstract class MakeSupervisorConfig
      */
     protected function configName(): string
     {
-        return str_slug($this->getApplicationName() . '-' . $this->processName);
+        return str_slug($this->getApplicationName().'-'.$this->processName);
     }
 
     protected function getApplicationName()

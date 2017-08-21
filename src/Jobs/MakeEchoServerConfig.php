@@ -11,7 +11,7 @@ class MakeEchoServerConfig
     use Dispatchable, Queueable;
 
     /**
-     * Config for overriding default echo server values
+     * Config for overriding default echo server values.
      */
     protected $config;
 
@@ -27,7 +27,7 @@ class MakeEchoServerConfig
      */
     public function handle(Container $container)
     {
-        $path = $container->basePath() . DIRECTORY_SEPARATOR . 'laravel-echo-server.json';
+        $path = $container->basePath().DIRECTORY_SEPARATOR.'laravel-echo-server.json';
         $container->make('files')->put(
             $path,
             json_encode(array_merge([
@@ -37,11 +37,11 @@ class MakeEchoServerConfig
                 'databaseConfig' => [
                     'redis' => [
                         'host' => config('database.redis.default.host'),
-                        'port' => config('database.redis.default.port')
+                        'port' => config('database.redis.default.port'),
                     ],
                     'sqlite' => [
-                        'databasePath' => '/storage/laravel-echo-server.sqlite'
-                    ]
+                        'databasePath' => '/storage/laravel-echo-server.sqlite',
+                    ],
                 ],
                 'devMode' => config('app.debug'),
                 'host' => parse_url(url('/'), PHP_URL_HOST),
@@ -49,10 +49,10 @@ class MakeEchoServerConfig
                 'protocol' => 'http',
                 'socketio' => [],
                 'sslCertPath' => '',
-                'sslKeyPath' => ''
+                'sslKeyPath' => '',
             ], $this->config), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
         );
 
-        return 'Config file for web-socket server created. File: ' . $path;
+        return 'Config file for web-socket server created. File: '.$path;
     }
 }
