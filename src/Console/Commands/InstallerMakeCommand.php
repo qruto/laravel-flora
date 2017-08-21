@@ -1,6 +1,6 @@
 <?php
 
-namespace ZFort\AppInstaller\Console\Commands;
+namespace MadWeb\Initializer\Console\Commands;
 
 use Illuminate\Console\GeneratorCommand;
 

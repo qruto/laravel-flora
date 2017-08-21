@@ -1,6 +1,6 @@
 <?php
 
-namespace ZFort\Skeleton\Test\Utils;
+namespace MadWeb\Skeleton\Test\Utils;
 
 use Illuminate\Foundation\Exceptions\Handler;
 

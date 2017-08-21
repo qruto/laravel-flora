@@ -10,7 +10,7 @@
          processIsolation="false"
          stopOnFailure="false">
     <testsuites>
-        <testsuite name="ZFort Test Suite">
+        <testsuite name="Mad Web Test Suite">
             <directory>tests</directory>
         </testsuite>
     </testsuites>
