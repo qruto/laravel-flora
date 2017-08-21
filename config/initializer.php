@@ -8,5 +8,5 @@ return [
     |
     | Config path, where storing current environment value
     */
-    'env_config_key' => 'app.env'
+    'env_config_key' => 'app.env',
 ];
