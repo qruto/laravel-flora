@@ -148,7 +148,7 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/mad-web/laravel-initializer.svg?style=flat-square
 [ico-downloads]: https://img.shields.io/packagist/dt/mad-web/laravel-initializer.svg?style=flat-square
 
-[link-packagist]: https://packagist.org/packages/mad-web/llaravel-initializer
+[link-packagist]: https://packagist.org/packages/mad-web/laravel-initializer
 [link-travis]: https://travis-ci.org/mad-web/laravel-initializer
 [link-style]: https://styleci.io/repos/100302581
 [link-scrutinizer]: https://scrutinizer-ci.com/g/mad-web/laravel-initializer/code-structure
