@@ -13,6 +13,6 @@ class MakeQueueSupervisorConfig extends MakeSupervisorConfig
             'numprocs' => 3,
         ];
 
-        parent::__construct($path, $fileName, $params);
+        parent::__construct($params, $fileName, $path);
     }
 }

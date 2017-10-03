@@ -43,6 +43,21 @@ class Run implements Runner
         return $this;
     }
 
+    public function publish(array $providers): Runner
+    {
+        foreach ($providers as $provider => $tag) {
+            $arguments['--provider'] = $provider;
+
+            if (!is_numeric($providers) and is_string($tag)) {
+                $arguments['--tag'] = $tag;
+            }
+
+            $this->artisan('vendor:publish', $arguments);
+        }
+
+        return $this;
+    }
+
     protected function pushCommand(string $type, $command, array $arguments = [])
     {
         $this->commands[] = compact('type', 'command', 'arguments');

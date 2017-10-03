@@ -12,6 +12,6 @@ class MakeSocketSupervisorConfig extends MakeSupervisorConfig
             'command' => 'node ./node_modules/.bin/laravel-echo-server start',
         ];
 
-        parent::__construct($path, $fileName, $params);
+        parent::__construct($params, $fileName, $path);
     }
 }
