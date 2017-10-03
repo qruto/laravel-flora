@@ -13,13 +13,19 @@ This package adds `artisan app:install` command, which runs defined commands rel
 
 ## Installation
 
-Via Composer
+_*For Laravel <= 5.4*_ - Via Composer
+
+``` bash
+$ composer require mad-web/laravel-initializer:~0.1.0
+```
+
+_*For Laravel >= 5.5*_ - Via Composer
 
 ``` bash
 $ composer require mad-web/laravel-initializer
 ```
 
-Now add the service provider in config/app.php file:
+_*For Laravel >= 5.5*_ - Now add the service provider in config/app.php file:
 ```php
 'providers' => [
     // ...
