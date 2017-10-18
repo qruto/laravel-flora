@@ -46,9 +46,9 @@ class Run implements Runner
     public function publish(array $providers): Runner
     {
         foreach ($providers as $provider => $tag) {
-            $arguments['--provider'] = $provider;
+            $arguments['--provider'] = is_numeric($provider) ? $tag : $provider;
 
-            if (!is_numeric($providers) and is_string($tag)) {
+            if (! is_numeric($provider) and is_string($tag)) {
                 $arguments['--tag'] = $tag;
             }
 
