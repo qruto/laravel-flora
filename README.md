@@ -117,6 +117,8 @@ $run
     ->callable('command', 'argument', ...) // Callable function (like for call_user_func)
     ->dispatch(new JobClass) // Dispatch job task
     ->dispatchNow(new JobClass) // Dispatch job task without queue
+    ->publish([ServiceProvider::class]) // Publish package assets
+    ->publish([ServiceProvider::class => 'tag']) // Publish package assets with tag
 ```
 
 ## Changelog
