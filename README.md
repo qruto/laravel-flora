@@ -25,7 +25,7 @@ _*For Laravel >= 5.5*_ - Via Composer
 $ composer require mad-web/laravel-initializer
 ```
 
-_*For Laravel >= 5.5*_ - Now add the service provider in config/app.php file:
+_*For Laravel < 5.5*_ - Now add the service provider in config/app.php file:
 ```php
 'providers' => [
     // ...
