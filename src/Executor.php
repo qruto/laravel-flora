@@ -6,7 +6,6 @@ use Illuminate\Console\Command;
 use Illuminate\Container\Container;
 use Symfony\Component\Process\Process;
 use Illuminate\Contracts\Bus\Dispatcher;
-use Symfony\Component\Process\ProcessBuilder;
 use MadWeb\Initializer\Contracts\Executor as ExecutorContract;
 
 class Executor implements ExecutorContract
@@ -32,11 +31,10 @@ class Executor implements ExecutorContract
 
     public function external(string $command, array $arguments = [])
     {
-        $Builder = new ProcessBuilder(array_merge([$command], $arguments));
-        $Builder->setTimeout(null);
+        $Process = new Process(array_merge([$command], $arguments));
+        $Process->setTimeout(null);
 
-        $Process = $Builder->getProcess();
-        if ((bool) @proc_open(
+        if ((bool) @proc_open( //TODO: replace by Process::isTtySupported() after symfony/process:4.1 release
             'echo 1 >/dev/null',
             [
                 ['file', '/dev/tty', 'r'],
