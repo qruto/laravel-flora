@@ -2,7 +2,6 @@
 
 namespace MadWeb\Initializer;
 
-use Exception;
 use InvalidArgumentException;
 use MadWeb\Initializer\Contracts\Runner;
 
