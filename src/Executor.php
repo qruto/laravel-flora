@@ -31,7 +31,7 @@ class Executor implements ExecutorContract
 
     public function external(string $command, array $arguments = [])
     {
-        $Process = new Process(array_merge([$command], $arguments));
+        $Process = new Process(empty($arguments) ? $command : array_merge([$command], $arguments));
         $Process->setTimeout(null);
 
         if ((bool) @proc_open( //TODO: replace by Process::isTtySupported() after symfony/process:4.1 release

@@ -36,7 +36,7 @@ class InstallCommand extends Command
         $env = $Config->get($Config->get('initializer.env_config_key'));
 
         $Executor->exec($container->call([
-            $Config = $container->make('project.installer'),
+            $container->make('project.installer'),
             $this->option('root') ? $env.'Root' : $env,
         ])->getCommands());
     }
