@@ -19,7 +19,7 @@ before_script:
 
 script:
   - vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
-  - composer require scrutinizer/ocular --dev
+  - wget https://scrutinizer-ci.com/ocular.phar
 
 after_script:
-  - php vendor/bin/ocular code-coverage:upload --format=php-clover coverage.clover
+  - php ocular.phar code-coverage:upload --format=php-clover coverage.clover
