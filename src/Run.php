@@ -50,6 +50,8 @@ class Run implements Runner
             $this->artisan('vendor:publish', ['--provider' => $providers]);
         } elseif (is_array($providers)) {
             foreach ($providers as $provider => $tag) {
+                $arguments = [];
+
                 $arguments['--provider'] = is_numeric($provider) ? $tag : $provider;
 
                 if (! is_numeric($provider) and is_string($tag)) {
