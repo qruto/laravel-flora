@@ -31,8 +31,8 @@ class MakeEchoServerConfig
         $container->make('files')->put(
             $path,
             json_encode(array_merge([
-                'authEndpoint' => '/broadcasting/auth',
                 'authHost' => url('/'),
+                'authEndpoint' => '/broadcasting/auth',
                 'database' => 'redis',
                 'databaseConfig' => [
                     'redis' => [
@@ -50,6 +50,14 @@ class MakeEchoServerConfig
                 'socketio' => [],
                 'sslCertPath' => '',
                 'sslKeyPath' => '',
+                'sslCertChainPath' => '',
+                'sslPassphrase' => '',
+                'apiOriginAllow' => [
+                    'allowCors' => false,
+                    'allowOrigin' => '',
+                    'allowMethods' => '',
+                    'allowHeaders' => ''
+                ]
             ], $this->config), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
         );
 
