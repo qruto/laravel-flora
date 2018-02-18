@@ -46,22 +46,21 @@ class Run implements Runner
 
     public function publish($providers): Runner
     {
-        $arguments = [];
-
         if (is_string($providers)) {
-           $arguments['--provider'] = $providers;
+            $this->artisan('vendor:publish', ['--provider' => $providers]);
         } elseif (is_array($providers)) {
             foreach ($providers as $provider => $tag) {
                 $arguments['--provider'] = is_numeric($provider) ? $tag : $provider;
+
                 if (! is_numeric($provider) and is_string($tag)) {
                     $arguments['--tag'] = $tag;
                 }
+
+                $this->artisan('vendor:publish', $arguments);
             }
         } else {
             throw new InvalidArgumentException('Invalid publishable argument.');
         }
-
-        $this->artisan('vendor:publish', $arguments);
 
         return $this;
     }
