@@ -6,7 +6,7 @@ return [
     | Environment configuration key
     |--------------------------------------------------------------------------
     |
-    | Config path, where storing current environment value
+    | Config path, where current environment value stored
     */
     'env_config_key' => 'app.env',
 ];

@@ -28,7 +28,7 @@ class MakeEchoServerConfig
     public function handle(Container $container)
     {
         $path = $container->basePath().DIRECTORY_SEPARATOR.'laravel-echo-server.json';
-        $container->make('files')->put(
+        file_put_contents(
             $path,
             json_encode(array_merge([
                 'authHost' => url('/'),

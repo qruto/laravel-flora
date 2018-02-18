@@ -53,7 +53,7 @@ abstract class MakeSupervisorConfig
      */
     public function handle()
     {
-        $this->container->make('files')->put(
+        file_put_contents(
             $this->path.$this->fileName,
             $this->makeSupervisorConfig($this->processName, $this->params)
         );
