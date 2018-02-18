@@ -2,6 +2,8 @@
 
 namespace MadWeb\Initializer;
 
+use Exception;
+use InvalidArgumentException;
 use MadWeb\Initializer\Contracts\Runner;
 
 class Run implements Runner
@@ -43,17 +45,24 @@ class Run implements Runner
         return $this;
     }
 
-    public function publish(array $providers): Runner
+    public function publish($providers): Runner
     {
-        foreach ($providers as $provider => $tag) {
-            $arguments['--provider'] = is_numeric($provider) ? $tag : $provider;
+        $arguments = [];
 
-            if (! is_numeric($provider) and is_string($tag)) {
-                $arguments['--tag'] = $tag;
+        if (is_string($providers)) {
+           $arguments['--provider'] = $providers;
+        } elseif (is_array($providers)) {
+            foreach ($providers as $provider => $tag) {
+                $arguments['--provider'] = is_numeric($provider) ? $tag : $provider;
+                if (! is_numeric($provider) and is_string($tag)) {
+                    $arguments['--tag'] = $tag;
+                }
             }
-
-            $this->artisan('vendor:publish', $arguments);
+        } else {
+            throw new InvalidArgumentException('Invalid publishable argument.');
         }
+
+        $this->artisan('vendor:publish', $arguments);
 
         return $this;
     }
