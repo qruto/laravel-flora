@@ -55,8 +55,8 @@ class MakeEchoServerConfig
                     'allowCors' => false,
                     'allowOrigin' => '',
                     'allowMethods' => '',
-                    'allowHeaders' => ''
-                ]
+                    'allowHeaders' => '',
+                ],
             ], $this->config), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
         );
 

@@ -31,7 +31,7 @@ class MakeSupervisorConfigJobTest extends RunnerCommandsTestCase
             $run->dispatch(new MakeQueueSupervisorConfig([
                 'directory' => 'some/awesome/path',
                 'autostart' => false,
-                'user' => 'test-user'
+                'user' => 'test-user',
             ], 'test-queue.conf', base_path('/')));
         });
 
@@ -66,7 +66,7 @@ class MakeSupervisorConfigJobTest extends RunnerCommandsTestCase
             $run->dispatch(new MakeSocketSupervisorConfig([
                 'directory' => 'some/awesome/path',
                 'autostart' => false,
-                'user' => 'test-user'
+                'user' => 'test-user',
             ], 'test-queue.conf', base_path('/')));
         });
 
