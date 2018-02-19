@@ -27,10 +27,10 @@ class MakeEchoServerConfig
      */
     public function handle(Container $container)
     {
-        $path = $container->basePath().DIRECTORY_SEPARATOR.'laravel-echo-server.json';
-        $container->make('files')->put(
+        $path = base_path('laravel-echo-server.json');
+        file_put_contents(
             $path,
-            json_encode(array_merge([
+            json_encode(array_replace_recursive([
                 'authHost' => url('/'),
                 'authEndpoint' => '/broadcasting/auth',
                 'database' => 'redis',

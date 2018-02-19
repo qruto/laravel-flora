@@ -3,17 +3,11 @@
 namespace MadWeb\Initializer\Jobs\Supervisor;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Container\Container;
 use Illuminate\Foundation\Bus\Dispatchable;
 
 abstract class MakeSupervisorConfig
 {
     use Dispatchable, Queueable;
-
-    /**
-     * @var \Illuminate\Contracts\Container\Container
-     */
-    protected $container;
 
     /**
      * Supervisor config folder path.
@@ -43,7 +37,6 @@ abstract class MakeSupervisorConfig
         $this->path = $path;
         $this->fileName = $fileName ?: $this->configName().'.conf';
         $this->params = $params;
-        $this->container = Container::getInstance();
     }
 
     /**
@@ -53,7 +46,7 @@ abstract class MakeSupervisorConfig
      */
     public function handle()
     {
-        $this->container->make('files')->put(
+        file_put_contents(
             $this->path.$this->fileName,
             $this->makeSupervisorConfig($this->processName, $this->params)
         );
@@ -65,7 +58,7 @@ abstract class MakeSupervisorConfig
     {
         $default_config = [
             'process_name' => '%(program_name)s_%(process_num)02d',
-            'directory' => $this->container->basePath(),
+            'directory' => base_path(),
             'autostart' => true,
             'autorestart' => true,
             'user' => get_current_user(),
@@ -92,7 +85,7 @@ abstract class MakeSupervisorConfig
 
     protected function getLogsPath(): string
     {
-        return $this->container->make('path.storage').DIRECTORY_SEPARATOR.'logs';
+        return storage_path('logs');
     }
 
     /**

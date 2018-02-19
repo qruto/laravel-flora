@@ -62,5 +62,8 @@
                 "MadWeb\\Initializer\\InitializerServiceProvider"
             ]
         }
+    },
+    "suggest": {
+        "laravel/framework": "Required to use additional MakeCronTask, MakeEchoServerConfig and MakeSupervisorConfig Jobs."
     }
 }
