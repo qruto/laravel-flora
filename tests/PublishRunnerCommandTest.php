@@ -3,6 +3,7 @@
 namespace MadWeb\Initializer\Test;
 
 use MadWeb\Initializer\Run;
+use InvalidArgumentException;
 use MadWeb\Initializer\Test\TestFixtures\TestServiceProviderOne;
 use MadWeb\Initializer\Test\TestFixtures\TestServiceProviderTwo;
 
@@ -119,6 +120,15 @@ class PublishRunnerCommandTest extends RunnerCommandsTestCase
         $this->assertFileNotExists($public_path_to_file_two);
 
         unlink($public_path_to_file_one);
+    }
+
+    /** @test */
+    public function exception_on_invalid_argument()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->declareCommands(function (Run $run) {
+            $run->publish(true);
+        });
     }
 
     protected function getPackageProviders($app)
