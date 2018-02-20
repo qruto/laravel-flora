@@ -4,9 +4,12 @@ namespace MadWeb\Initializer\Test;
 
 use Mockery;
 use MadWeb\Initializer\Run;
+use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
 class CallableRunnerCommandTest extends RunnerCommandsTestCase
 {
+    use MockeryPHPUnitIntegration;
+
     /** @test */
     public function callable()
     {

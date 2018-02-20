@@ -58,7 +58,7 @@ class MakeEchoServerConfigJobTest extends RunnerCommandsTestCase
                 'databaseConfig' => [
                     'redis' => [
                         'host' => 'some-another-host',
-                    ]
+                    ],
                 ],
                 'port' => 1234,
             ]));

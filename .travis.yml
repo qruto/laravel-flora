@@ -18,7 +18,7 @@ before_script:
   - travis_retry composer update ${COMPOSER_FLAGS} --no-interaction --prefer-source
 
 script:
-  - vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+  - vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover --exclude-group=cron-task
   - wget https://scrutinizer-ci.com/ocular.phar
 
 after_script:

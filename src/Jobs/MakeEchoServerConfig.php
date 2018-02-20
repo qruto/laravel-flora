@@ -3,7 +3,6 @@
 namespace MadWeb\Initializer\Jobs;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Container\Container;
 use Illuminate\Foundation\Bus\Dispatchable;
 
 class MakeEchoServerConfig
@@ -25,7 +24,7 @@ class MakeEchoServerConfig
      *
      * @return string
      */
-    public function handle(Container $container)
+    public function handle()
     {
         $path = base_path('laravel-echo-server.json');
         file_put_contents(
@@ -56,8 +55,8 @@ class MakeEchoServerConfig
                     'allowCors' => false,
                     'allowOrigin' => '',
                     'allowMethods' => '',
-                    'allowHeaders' => ''
-                ]
+                    'allowHeaders' => '',
+                ],
             ], $this->config), JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
         );
 

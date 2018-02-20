@@ -7,7 +7,10 @@ use MadWeb\Initializer\Jobs\MakeCronTask;
 
 class MakeCronTaskTest extends RunnerCommandsTestCase
 {
-    /** @test */
+    /**
+     * @group cron-task
+     * @test
+     */
     public function dispatch_job()
     {
         $this->declareCommands(function (Run $run) {
