@@ -4,6 +4,24 @@ All Notable changes to `laravel-initializer` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## 0.4.0 - 2018-02-20
+### Added
+- test cases
+- `MakeEchoServerConfig` job updated with latest version of `laravel-echo-server` configuration
+- ability to pass publishable providers as string
+
+### Changed
+- `laravel/framework` is now required for use `MakeSocketSupervisorConfig`, `MakeQueueSupervisorConfig`, `MakeCronTask`, `MakeEchoServerConfig` jobs
+- laravel `files` service usage replaced by simple `file_put_contents` function
+- Now command `external('ls -la')` doesn't cast 1st param into array, just passes as string
+
+### Fixed
+- conflict for Laravel 5.5 and `symfony/process:~4.0`, Laravel 5.5 uses `~3.0` version. Laravel Initializer now support `symfony/process:~3.0|~4.0`
+- Fixed overriding default config for `MakeEchoServerConfig`, now it uses `array_replace_recursive()` function
+
+### Removed
+- TravisCI PHP tests on 7.0
+
 ## 0.3.0 - 2018-02-15
 - Add compatiblity for Laravel 5.6
 - Make compatible with `symfony/process:~4.0`
