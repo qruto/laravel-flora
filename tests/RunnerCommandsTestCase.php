@@ -18,6 +18,10 @@ abstract class RunnerCommandsTestCase extends TestCase
     protected function declareCommands(Closure $callback): void
     {
         $this->app->resolving(Run::class, function (Run $run) use ($callback) {
+            /**
+             * @todo Remove this after resolving issue
+             * @see https://github.com/laravel/framework/pull/23290
+             */
             static $is_called = false;
 
             $is_called ?: $callback($run);

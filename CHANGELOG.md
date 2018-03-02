@@ -4,7 +4,7 @@ All Notable changes to `laravel-initializer` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
-## 0.4.0 - 2018-02-20
+## 0.4.0 - 2018-03-02
 ### Added
 - test cases
 - `MakeEchoServerConfig` job updated with latest version of `laravel-echo-server` configuration
