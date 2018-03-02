@@ -9,7 +9,7 @@ class MakeQueueSupervisorConfig extends MakeSupervisorConfig
     public function __construct(array $params = [], string $fileName = '', string $path = '/etc/supervisor/conf.d/')
     {
         $params = $params ?: [
-            'command' => 'php artisan queue:work --sleep=3 --tries=3 --daemon',
+            'command' => 'php artisan queue:work --sleep=3 --tries=3',
             'numprocs' => 3,
         ];
 
