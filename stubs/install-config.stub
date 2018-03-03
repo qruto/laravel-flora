@@ -3,6 +3,8 @@
 namespace DummyNamespace;
 
 use MadWeb\Initializer\Contracts\Runner;
+use MadWeb\Initializer\Jobs\Supervisor\MakeQueueSupervisorConfig;
+use MadWeb\Initializer\Jobs\Supervisor\MakeSocketSupervisorConfig;
 
 class Install
 {
@@ -19,6 +21,11 @@ class Install
             ->external('composer', 'dump-autoload', '--optimize');
     }
 
+    public function productionRoot(Runner $run)
+    {
+        return $this->localRoot($run);
+    }
+
     public function local(Runner $run)
     {
         return $run
@@ -26,5 +33,14 @@ class Install
             ->artisan('migrate')
             ->external('npm', 'install')
             ->external('npm', 'run', 'development');
+    }
+
+    public function localRoot(Runner $run)
+    {
+        return $run
+            ->dispatch(new MakeQueueSupervisorConfig)
+            ->dispatch(new MakeSocketSupervisorConfig)
+            ->external('supervisorctl', 'reread')
+            ->external('supervisorctl', 'update');
     }
 }
