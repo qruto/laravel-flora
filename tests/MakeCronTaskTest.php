@@ -8,14 +8,15 @@ use MadWeb\Initializer\Jobs\MakeCronTask;
 class MakeCronTaskTest extends RunnerCommandsTestCase
 {
     /**
-     * @group cron-task
      * @test
+     * @group cron-task
+     * @dataProvider initCommandsSet
      */
-    public function dispatch_job()
+    public function dispatch_job($command)
     {
         $this->declareCommands(function (Run $run) {
             $run->dispatch(new MakeCronTask);
-        });
+        }, $command);
 
         $base_path = base_path();
         $task = '* * * * * php '.$base_path.'/artisan schedule:run >> /dev/null 2>&1';

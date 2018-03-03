@@ -12,10 +12,11 @@ abstract class RunnerCommandsTestCase extends TestCase
     {
         parent::setUp();
 
-        $this->app->bind('project.installer', \MadWeb\Initializer\Test\TestFixtures\TestInstallerConfig::class);
+        $this->app->bind('project.installer', \MadWeb\Initializer\Test\TestFixtures\TestInitializerClass::class);
+        $this->app->bind('project.updater', \MadWeb\Initializer\Test\TestFixtures\TestInitializerClass::class);
     }
 
-    protected function declareCommands(Closure $callback): void
+    protected function declareCommands(Closure $callback, $command): void
     {
         $this->app->resolving(Run::class, function (Run $run) use ($callback) {
             /**
@@ -28,6 +29,15 @@ abstract class RunnerCommandsTestCase extends TestCase
 
             $is_called = true;
         });
-        Artisan::call('app:install');
+
+        Artisan::call($command);
+    }
+
+    public function initCommandsSet()
+    {
+        return [
+            ['app:install'],
+            ['app:update'],
+        ];
     }
 }
