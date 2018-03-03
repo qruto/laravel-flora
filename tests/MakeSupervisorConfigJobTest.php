@@ -10,12 +10,15 @@ class MakeSupervisorConfigJobTest extends RunnerCommandsTestCase
 {
     protected const PATTERN = '/\[program:\w+-%s\]\n(\w+=.*\n)+/';
 
-    /** @test */
-    public function dispatch_queue_job()
+    /**
+     * @test
+     * @dataProvider initCommandsSet
+     */
+    public function dispatch_queue_job($command)
     {
         $this->declareCommands(function (Run $run) {
             $run->dispatch(new MakeQueueSupervisorConfig([], 'test-queue.conf', base_path('/')));
-        });
+        }, $command);
 
         $file_path = base_path('test-queue.conf');
 
@@ -24,8 +27,11 @@ class MakeSupervisorConfigJobTest extends RunnerCommandsTestCase
         unlink($file_path);
     }
 
-    /** @test */
-    public function dispatch_queue_job_with_override_config()
+    /**
+     * @test
+     * @dataProvider initCommandsSet
+     */
+    public function dispatch_queue_job_with_override_config($command)
     {
         $this->declareCommands(function (Run $run) {
             $run->dispatch(new MakeQueueSupervisorConfig([
@@ -33,7 +39,7 @@ class MakeSupervisorConfigJobTest extends RunnerCommandsTestCase
                 'autostart' => false,
                 'user' => 'test-user',
             ], 'test-queue.conf', base_path('/')));
-        });
+        }, $command);
 
         $file_path = base_path('test-queue.conf');
 
@@ -45,12 +51,15 @@ class MakeSupervisorConfigJobTest extends RunnerCommandsTestCase
         unlink($file_path);
     }
 
-    /** @test */
-    public function dispatch_socket_job()
+    /**
+     * @test
+     * @dataProvider initCommandsSet
+     */
+    public function dispatch_socket_job($command)
     {
         $this->declareCommands(function (Run $run) {
             $run->dispatch(new MakeSocketSupervisorConfig([], 'test-queue.conf', base_path('/')));
-        });
+        }, $command);
 
         $file_path = base_path('test-queue.conf');
 
@@ -59,8 +68,11 @@ class MakeSupervisorConfigJobTest extends RunnerCommandsTestCase
         unlink($file_path);
     }
 
-    /** @test */
-    public function dispatch_socket_job_with_override_config()
+    /**
+     * @test
+     * @dataProvider initCommandsSet
+     */
+    public function dispatch_socket_job_with_override_config($command)
     {
         $this->declareCommands(function (Run $run) {
             $run->dispatch(new MakeSocketSupervisorConfig([
@@ -68,7 +80,7 @@ class MakeSupervisorConfigJobTest extends RunnerCommandsTestCase
                 'autostart' => false,
                 'user' => 'test-user',
             ], 'test-queue.conf', base_path('/')));
-        });
+        }, $command);
 
         $file_path = base_path('test-queue.conf');
 

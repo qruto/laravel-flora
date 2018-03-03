@@ -9,12 +9,15 @@ use MadWeb\Initializer\Test\TestFixtures\TestServiceProviderTwo;
 
 class PublishRunnerCommandTest extends RunnerCommandsTestCase
 {
-    /** @test */
-    public function publish_by_array()
+    /**
+     * @test
+     * @dataProvider initCommandsSet
+     */
+    public function publish_by_array($command)
     {
         $this->declareCommands(function (Run $run) {
             $run->publish([TestServiceProviderOne::class]);
-        });
+        }, $command);
 
         $public_path_to_file = public_path('test-publishable-one.txt');
 
@@ -23,12 +26,15 @@ class PublishRunnerCommandTest extends RunnerCommandsTestCase
         unlink($public_path_to_file);
     }
 
-    /** @test */
-    public function publish_by_string()
+    /**
+     * @test
+     * @dataProvider initCommandsSet
+     */
+    public function publish_by_string($command)
     {
         $this->declareCommands(function (Run $run) {
             $run->publish(TestServiceProviderOne::class);
-        });
+        }, $command);
 
         $public_path_to_file = public_path('test-publishable-one.txt');
 
@@ -37,12 +43,15 @@ class PublishRunnerCommandTest extends RunnerCommandsTestCase
         unlink($public_path_to_file);
     }
 
-    /** @test */
-    public function publish_with_tag()
+    /**
+     * @test
+     * @dataProvider initCommandsSet
+     */
+    public function publish_with_tag($command)
     {
         $this->declareCommands(function (Run $run) {
             $run->publish([TestServiceProviderOne::class => 'public']);
-        });
+        }, $command);
 
         $public_path_to_file = public_path('test-publishable-one.txt');
 
@@ -51,27 +60,33 @@ class PublishRunnerCommandTest extends RunnerCommandsTestCase
         unlink($public_path_to_file);
     }
 
-    /** @test */
-    public function publish_with_wrong_tag()
+    /**
+     * @test
+     * @dataProvider initCommandsSet
+     */
+    public function publish_with_wrong_tag($command)
     {
         $this->declareCommands(function (Run $run) {
             $run->publish([TestServiceProviderOne::class => 'wrong-tag']);
-        });
+        }, $command);
 
         $public_path_to_file = public_path('test-publishable-one.txt');
 
         $this->assertFileNotExists($public_path_to_file);
     }
 
-    /** @test */
-    public function publish_multiple_providers()
+    /**
+     * @test
+     * @dataProvider initCommandsSet
+     */
+    public function publish_multiple_providers($command)
     {
         $this->declareCommands(function (Run $run) {
             $run->publish([
                 TestServiceProviderOne::class,
                 TestServiceProviderTwo::class,
             ]);
-        });
+        }, $command);
 
         $public_path_to_file_one = public_path('test-publishable-one.txt');
         $public_path_to_file_two = public_path('test-publishable-two.txt');
@@ -83,15 +98,18 @@ class PublishRunnerCommandTest extends RunnerCommandsTestCase
         unlink($public_path_to_file_two);
     }
 
-    /** @test */
-    public function publish_multiple_providers_with_tags()
+    /**
+     * @test
+     * @dataProvider initCommandsSet
+     */
+    public function publish_multiple_providers_with_tags($command)
     {
         $this->declareCommands(function (Run $run) {
             $run->publish([
                 TestServiceProviderOne::class => 'public',
                 TestServiceProviderTwo::class => 'public',
             ]);
-        });
+        }, $command);
 
         $public_path_to_file_one = public_path('test-publishable-one.txt');
         $public_path_to_file_two = public_path('test-publishable-two.txt');
@@ -103,15 +121,18 @@ class PublishRunnerCommandTest extends RunnerCommandsTestCase
         unlink($public_path_to_file_two);
     }
 
-    /** @test */
-    public function publish_multiple_providers_with_one_wrong_tag()
+    /**
+     * @test
+     * @dataProvider initCommandsSet
+     */
+    public function publish_multiple_providers_with_one_wrong_tag($command)
     {
         $this->declareCommands(function (Run $run) {
             $run->publish([
                 TestServiceProviderOne::class => 'public',
                 TestServiceProviderTwo::class => 'wrong-tag',
             ]);
-        });
+        }, $command);
 
         $public_path_to_file_one = public_path('test-publishable-one.txt');
         $public_path_to_file_two = public_path('test-publishable-two.txt');
@@ -122,13 +143,16 @@ class PublishRunnerCommandTest extends RunnerCommandsTestCase
         unlink($public_path_to_file_one);
     }
 
-    /** @test */
-    public function exception_on_invalid_argument()
+    /**
+     * @test
+     * @dataProvider initCommandsSet
+     */
+    public function exception_on_invalid_argument($command)
     {
         $this->expectException(InvalidArgumentException::class);
         $this->declareCommands(function (Run $run) {
             $run->publish(true);
-        });
+        }, $command);
     }
 
     protected function getPackageProviders($app)

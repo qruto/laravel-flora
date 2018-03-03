@@ -10,8 +10,11 @@ class CallableRunnerCommandTest extends RunnerCommandsTestCase
 {
     use MockeryPHPUnitIntegration;
 
-    /** @test */
-    public function callable()
+    /**
+     * @test
+     * @dataProvider initCommandsSet
+     */
+    public function callable($command)
     {
         $mock = Mockery::mock()->shouldReceive('someMethod')->once()->getMock();
         $this->declareCommands(function (Run $run) use ($mock) {
@@ -19,6 +22,6 @@ class CallableRunnerCommandTest extends RunnerCommandsTestCase
                 $mock,
                 'someMethod',
             ]);
-        });
+        }, $command);
     }
 }

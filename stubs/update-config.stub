@@ -4,27 +4,27 @@ namespace DummyNamespace;
 
 use MadWeb\Initializer\Contracts\Runner;
 
-class InstallerConfig
+class Update
 {
     public function production(Runner $run)
     {
         return $run
-            ->artisan('key:generate')
-            ->artisan('migrate')
+            ->external('composer', 'install', '--no-dev', '--prefer-dist', '--optimize-autoloader')
             ->external('npm', 'install', '--production')
             ->external('npm', 'run', 'production')
             ->artisan('route:cache')
             ->artisan('config:cache')
-            ->artisan('optimize')
-            ->external('composer', 'dump-autoload', '--optimize');
+            ->artisan('migrate', ['--force' => true])
+            ->artisan('queue:restart'); // ->artisan('horizon:terminate');
     }
 
     public function local(Runner $run)
     {
         return $run
-            ->artisan('key:generate')
-            ->artisan('migrate')
+            ->external('composer', 'install')
             ->external('npm', 'install')
-            ->external('npm', 'run', 'development');
+            ->external('npm', 'run', 'development')
+            ->artisan('migrate')
+            ->artisan('queue:restart'); // ->artisan('horizon:terminate');
     }
 }

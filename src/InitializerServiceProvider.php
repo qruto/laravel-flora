@@ -4,9 +4,10 @@ namespace MadWeb\Initializer;
 
 use Illuminate\Support\ServiceProvider;
 use MadWeb\Initializer\Contracts\Runner;
+use MadWeb\Initializer\Console\Commands\UpdateCommand;
 use MadWeb\Initializer\Console\Commands\InstallCommand;
-use MadWeb\Initializer\Console\Commands\InstallerMakeCommand;
 use MadWeb\Initializer\Contracts\Executor as ExecutorContract;
+use MadWeb\Initializer\Console\Commands\InitializersMakeCommand;
 
 class InitializerServiceProvider extends ServiceProvider
 {
@@ -25,16 +26,22 @@ class InitializerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        if ($this->app->runningInConsole()) {
-            $this->mergeConfigFrom(__DIR__.'/../config/initializer.php', 'initializer');
+        $this->mergeConfigFrom(__DIR__.'/../config/initializer.php', 'initializer');
 
-            $this->app->singleton('command.initializer.install', InstallCommand::class);
-            $this->app->singleton('command.initializer.installer.make', InstallerMakeCommand::class);
-            $this->app->bind('project.installer', \App\InstallerConfig::class);
-            $this->app->bind(Runner::class, Run::class);
-            $this->app->bind(ExecutorContract::class, Executor::class);
+        $this->app->singleton('command.initializer.install', InstallCommand::class);
+        $this->app->singleton('command.initializer.update', UpdateCommand::class);
+        $this->app->singleton('command.initializer.make', InitializersMakeCommand::class);
 
-            $this->commands(['command.initializer.install', 'command.initializer.installer.make']);
-        }
+        $this->app->bind('project.installer', \App\Install::class);
+        $this->app->bind('project.updater', \App\Update::class);
+
+        $this->app->bind(Runner::class, Run::class);
+        $this->app->bind(ExecutorContract::class, Executor::class);
+
+        $this->commands([
+            'command.initializer.install',
+            'command.initializer.update',
+            'command.initializer.make',
+        ]);
     }
 }

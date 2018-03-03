@@ -7,12 +7,15 @@ use MadWeb\Initializer\Jobs\MakeEchoServerConfig;
 
 class MakeEchoServerConfigJobTest extends RunnerCommandsTestCase
 {
-    /** @test */
-    public function dispatch_job()
+    /**
+     * @test
+     * @dataProvider initCommandsSet
+     */
+    public function dispatch_job($command)
     {
         $this->declareCommands(function (Run $run) {
             $run->dispatch(new MakeEchoServerConfig);
-        });
+        }, $command);
 
         $config_path = base_path('laravel-echo-server.json');
 
@@ -49,8 +52,11 @@ class MakeEchoServerConfigJobTest extends RunnerCommandsTestCase
         unlink($config_path);
     }
 
-    /** @test */
-    public function override_default_configuration()
+    /**
+     * @test
+     * @dataProvider initCommandsSet
+     */
+    public function override_default_configuration($command)
     {
         $this->declareCommands(function (Run $run) {
             $run->dispatch(new MakeEchoServerConfig([
@@ -62,7 +68,7 @@ class MakeEchoServerConfigJobTest extends RunnerCommandsTestCase
                 ],
                 'port' => 1234,
             ]));
-        });
+        }, $command);
 
         $config_path = base_path('laravel-echo-server.json');
 

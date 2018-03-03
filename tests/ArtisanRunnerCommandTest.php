@@ -7,8 +7,11 @@ use Illuminate\Support\Facades\Artisan;
 
 class ArtisanRunnerCommandTest extends RunnerCommandsTestCase
 {
-    /** @test */
-    public function console_command()
+    /**
+     * @test
+     * @dataProvider initCommandsSet
+     */
+    public function console_command($command)
     {
         $comment = 'Some comment';
 
@@ -18,7 +21,7 @@ class ArtisanRunnerCommandTest extends RunnerCommandsTestCase
 
         $this->declareCommands(function (Run $run) {
             $run->artisan('some:command');
-        });
+        }, $command);
 
         $this->assertEquals(Artisan::output(), $comment."\n");
     }
