@@ -8,7 +8,7 @@
 [![Quality Score][ico-code-quality]][link-code-quality]
 [![Total Downloads][ico-downloads]][link-downloads]
 
-This package adds `artisan app:install` command, which runs defined commands related to the current environment.
+This package adds `app:install` and `app:update` artisan commands, which runs predefined commands related to the current environment to initialize your application.
 
 ## Installation
 
@@ -18,13 +18,7 @@ _*For Laravel <= 5.4*_ - Via Composer
 composer require mad-web/laravel-initializer:~0.1.0
 ```
 
-_*For Laravel >= 5.5*_ - Via Composer
-
-``` bash
-composer require mad-web/laravel-initializer
-```
-
-_*For Laravel < 5.5*_ - add the service provider in `config/app.php` file:
+add the service provider in `config/app.php` file:
 
 ```php
 'providers' => [
@@ -33,7 +27,13 @@ _*For Laravel < 5.5*_ - add the service provider in `config/app.php` file:
 ];
 ```
 
-Run `artisan make:installer` command to create installer config in `app` directory.
+_*For Laravel >= 5.5*_ - Via Composer
+
+``` bash
+composer require mad-web/laravel-initializer
+```
+
+Run `artisan make:initializers` command to create install and update config classes in `app` directory.
 
 You can override config key which stores current environment value, just publish config file, and set `env_config_key` value.
 
@@ -45,14 +45,16 @@ _by default value is set to `app.env` for laravel, in most cases you don't need 
 
 ## Usage
 
-InstallerConfig contents:
+Usage of `app:install` and `app:update` command are the same except that `app:install` uses `Install` class and `app:update` uses `Update` class.
+
+Install class contents:
 
 ```php
 namespace App;
 
 use MadWeb\Initializer\Contracts\Runner;
 
-class InstallerConfig
+class Install
 {
     public function production(Runner $run)
     {
@@ -86,8 +88,10 @@ If you need to run commands with root privileges separately, you can define a me
 namespace App;
 
 use MadWeb\Initializer\Contracts\Runner;
+use MadWeb\Initializer\Jobs\Supervisor\MakeQueueSupervisorConfig;
+use MadWeb\Initializer\Jobs\Supervisor\MakeSocketSupervisorConfig;
 
-class InstallerConfig
+class Install
 {
     public function local(Runner $run)
     {
@@ -101,7 +105,8 @@ class InstallerConfig
     public function localRoot(Runner $run)
     {
         return $run
-            ->external('service', 'php-fpm', 'restart')
+            ->dispatch(new MakeQueueSupervisorConfig)
+            ->dispatch(new MakeSocketSupervisorConfig)
             ->external('supervisorctl', 'reread')
             ->external('supervisorctl', 'update');
     }
@@ -114,10 +119,11 @@ Run it by passing "**root**" option:
 artisan app:install --root
 ```
 
-If you want to move config file from the `app` directory to a different place, just rebind `project.installer` key in the `AppServiceProvider`.
+If you want to move config classes from the `app` directory to a different place, just rebind `project.installer` and `project.updater` keys in the `AppServiceProvider`.
 
 ```php
-$this->app->bind('project.installer', \AnotherNameSpace\InstallerConfig::class);
+$this->app->bind('project.installer', \AnotherNameSpace\Install::class);
+$this->app->bind('project.updater', \AnotherNameSpace\Update::class);
 ```
 
 ### List of commands available to run
@@ -229,6 +235,58 @@ On the same way as `MakeQueueSupervisorConfig` this job creates supervisor confi
 Just add dispatch `MakeSocketSupervisorConfig` job to runner chain. The difference from `MakeQueueSupervisorConfig` is the command `node ./node_modules/.bin/laravel-echo-server start` and the config filename is `your-application-name-socket.conf`.
 
 Both config files save log files to `your-project-path/storage/logs`.
+
+## Installation by one command
+
+It would be nice to have ability to install an application by one command. We provide nice hack to implement this behavior.
+
+Add `project-install` script into `scripts` section in `composer.json`.
+
+```json
+scripts": {
+    ...
+    "project-install": [
+        "@composer install --no-scripts",
+        "@php artisan app:install"
+    ],
+    ...
+},
+```
+
+Then you can run just
+
+```bash
+composer project-install
+```
+
+to initialize your project.
+
+If your application has commands that requires root privileges and you use Unix based system, add the following command into your runner chain.
+
+```php
+public function local(Runner $run)
+{
+    return $run
+        ->artisan('key:generate')
+        ->artisan('migrate')
+        ->external('npm', 'install')
+        ->external('npm', 'run', 'development')
+        ->external('sudo', 'php', 'artisan', 'app:install', '--root');
+}
+
+public function localRoot(Runner $run)
+{
+    return $run
+        ->dispatch(new MakeQueueSupervisorConfig)
+        ->dispatch(new MakeSocketSupervisorConfig)
+        ->external('supervisorctl', 'reread')
+        ->external('supervisorctl', 'update');
+}
+```
+
+## Upgrading
+
+Please see [UPGRADING](UPGRADING.md) for details.
 
 ## Changelog
 
