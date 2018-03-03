@@ -10,11 +10,11 @@ use MadWeb\Initializer\Contracts\Executor as ExecutorContract;
 
 class Executor implements ExecutorContract
 {
-    protected $installCommand;
+    protected $artisanCommand;
 
-    public function __construct(Command $installCommand)
+    public function __construct(Command $artisanCommand)
     {
-        $this->installCommand = $installCommand;
+        $this->artisanCommand = $artisanCommand;
     }
 
     public function exec(array $commands)
@@ -26,7 +26,7 @@ class Executor implements ExecutorContract
 
     public function artisan(string $command, array $arguments = [])
     {
-        $this->installCommand->call($command, $arguments);
+        $this->artisanCommand->call($command, $arguments);
     }
 
     public function external(string $command, array $arguments = [])
@@ -49,9 +49,9 @@ class Executor implements ExecutorContract
         }
         $Process->run(function ($type, $buffer) {
             if (Process::ERR === $type) {
-                $this->installCommand->error($buffer);
+                $this->artisanCommand->error($buffer);
             } else {
-                $this->installCommand->line($buffer);
+                $this->artisanCommand->line($buffer);
             }
         });
     }
@@ -61,7 +61,7 @@ class Executor implements ExecutorContract
         call_user_func($function, ...$arguments);
 
         is_callable($function, false, $name);
-        $this->installCommand->info("Callable: $name called");
+        $this->artisanCommand->info("Callable: $name called");
     }
 
     public function dispatch($job)
@@ -80,6 +80,6 @@ class Executor implements ExecutorContract
 
         $message .= is_string($result) ? '. Result: '.$result : '';
 
-        $this->installCommand->info($message);
+        $this->artisanCommand->info($message);
     }
 }
