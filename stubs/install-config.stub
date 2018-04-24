@@ -17,7 +17,6 @@ class Install
             ->external('npm', 'run', 'production')
             ->artisan('route:cache')
             ->artisan('config:cache')
-            ->artisan('optimize')
             ->external('composer', 'dump-autoload', '--optimize');
     }
 
