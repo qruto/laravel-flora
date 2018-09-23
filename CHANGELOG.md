@@ -4,7 +4,19 @@ All Notable changes to `laravel-initializer` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
-## 1.0 - 2018-03-03
+## 1.1.0 - 2018-09-23
+
+### Added
+
+- Laravel 5.7 support
+
+## 1.0.1 - 2018-04-24
+
+### Removed
+
+- deprecated linting option from styleci config
+
+## 1.0.0 - 2018-03-03
 
 This version contains two breaking changes, please see [UPGRADING](UPGRADING.md) for details.
 
