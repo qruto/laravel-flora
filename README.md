@@ -148,6 +148,7 @@ $run
         AnotherServiceProvider::class,
     ]) // Publish multiple packages assets
     ->publish([ServiceProvider::class => 'tag']) // Publish package assets with tag
+    ->publish(ServiceProvider::class, true) // Force publish, works in any variations
 ```
 
 ## Useful jobs

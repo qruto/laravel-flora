@@ -147,6 +147,64 @@ class PublishRunnerCommandTest extends RunnerCommandsTestCase
      * @test
      * @dataProvider initCommandsSet
      */
+    public function force_publish_by_string($command)
+    {
+        $this->declareCommands(function (Run $run) {
+            $run->publish(TestServiceProviderOne::class);
+        }, $command);
+
+        $public_path_to_file = public_path('test-publishable-one.txt');
+
+        $this->assertFileExists($public_path_to_file);
+
+        $last_update = filectime($public_path_to_file);
+
+        // Need for changing last modified time of publishable file
+        sleep(1);
+        $this->declareCommands(function (Run $run) {
+            $run->publish(TestServiceProviderOne::class, true);
+        }, $command);
+
+        clearstatcache();
+
+        $this->assertTrue($last_update < filectime($public_path_to_file));
+
+        unlink($public_path_to_file);
+    }
+
+    /**
+     * @test
+     * @dataProvider initCommandsSet
+     */
+    public function force_publish_by_array($command)
+    {
+        $this->declareCommands(function (Run $run) {
+            $run->publish([TestServiceProviderOne::class]);
+        }, $command);
+
+        $public_path_to_file = public_path('test-publishable-one.txt');
+
+        $this->assertFileExists($public_path_to_file);
+
+        $last_update = filectime($public_path_to_file);
+
+        // Need for changing last modified time of publishable file
+        sleep(1);
+        $this->declareCommands(function (Run $run) {
+            $run->publish([TestServiceProviderOne::class], true);
+        }, $command);
+
+        clearstatcache();
+
+        $this->assertTrue($last_update < filectime($public_path_to_file));
+
+        unlink($public_path_to_file);
+    }
+
+    /**
+     * @test
+     * @dataProvider initCommandsSet
+     */
     public function exception_on_invalid_argument($command)
     {
         $this->expectException(InvalidArgumentException::class);

@@ -44,10 +44,16 @@ class Run implements Runner
         return $this;
     }
 
-    public function publish($providers): Runner
+    public function publish($providers, bool $force = false): Runner
     {
         if (is_string($providers)) {
-            $this->artisan('vendor:publish', ['--provider' => $providers]);
+            $arguments = ['--provider' => $providers];
+
+            if ($force) {
+                $arguments['--force'] = true;
+            }
+
+            $this->artisan('vendor:publish', $arguments);
         } elseif (is_array($providers)) {
             foreach ($providers as $provider => $tag) {
                 $arguments = [];
@@ -56,6 +62,10 @@ class Run implements Runner
 
                 if (! is_numeric($provider) and is_string($tag)) {
                     $arguments['--tag'] = $tag;
+                }
+
+                if ($force) {
+                    $arguments['--force'] = true;
                 }
 
                 $this->artisan('vendor:publish', $arguments);
