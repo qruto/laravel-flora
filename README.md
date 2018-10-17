@@ -1,14 +1,21 @@
-# Application installation command
+<p align="center">
+    <img title="Laravel Initializer" height="100" src="docs/logo.png" />
+</p>
+<p align="center">A convenient way to <strong>initialize</strong> your project.</p>
+<p align="center">
+    <a href="https://packagist.org/packages/mad-web/laravel-initializer"><img src="https://img.shields.io/packagist/v/mad-web/laravel-initializer.svg" alt="Latest Stable Version"></a>
+    <a href="https://travis-ci.org/mad-web/laravel-initializer"><img src="https://img.shields.io/travis/mad-web/laravel-initializer/master.svg" alt="Build Status"></a>
+    <a href="https://styleci.io/repos/100302581"><img src="https://styleci.io/repos/100302581/shield?style=flat" alt="Code Style Status"></a>
+    <a href="https://scrutinizer-ci.com/g/mad-web/laravel-initializer/code-structure"><img src="https://img.shields.io/scrutinizer/coverage/g/mad-web/laravel-initializer.svg" alt="Code Coverage Status"></a>
+    <a href="https://scrutinizer-ci.com/g/mad-web/laravel-initializer"><img src="https://img.shields.io/scrutinizer/g/mad-web/laravel-initializer.svg" alt="Quality Score"></a>
+    <a href="https://packagist.org/packages/mad-web/laravel-initializer"><img src="https://img.shields.io/packagist/dt/mad-web/laravel-initializer.svg" alt="Quality Score"></a>
+    <a href="LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-brightgreen.svg" alt="Software License"></a>
+</p>
 
-[![Latest Version on Packagist][ico-version]][link-packagist]
-[![Software License][ico-license]](LICENSE.md)
-[![Build Status][ico-travis]][link-travis]
-[![StyleCI][ico-style]][link-style]
-[![Coverage Status][ico-scrutinizer]][link-scrutinizer]
-[![Quality Score][ico-code-quality]][link-code-quality]
-[![Total Downloads][ico-downloads]][link-downloads]
+## Introduction
 
-This package adds `app:install` and `app:update` artisan commands, which runs predefined commands related to the current environment to initialize your application.
+This package adds `app:install` and `app:update` artisan commands, which runs predefined actions depending on the current environment to initialize your application.
+We all know that we have to document the installation process of the application in each project, and we also always write deploy scripts in Forge, Envoy.blade.php, ~~bash scripts~~ etc. With **Initializer** you have an ability to define these processes directly in application by simple commands chain.
 
 ## Installation
 
@@ -65,7 +72,6 @@ class Install
             ->external('npm', 'run', 'production')
             ->artisan('route:cache')
             ->artisan('config:cache')
-            ->artisan('optimize')
             ->external('composer', 'dump-autoload', '--optimize');
     }
 
@@ -315,19 +321,5 @@ If you discover any security related issues, please email madweb.dev@gmail.com i
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-[ico-version]: https://img.shields.io/packagist/v/mad-web/laravel-initializer.svg?style=flat-square
-[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square
-[ico-travis]: https://img.shields.io/travis/mad-web/laravel-initializer/master.svg?style=flat-square
-[ico-style]: https://styleci.io/repos/100302581/shield
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/mad-web/laravel-initializer.svg?style=flat-square
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/mad-web/laravel-initializer.svg?style=flat-square
-[ico-downloads]: https://img.shields.io/packagist/dt/mad-web/laravel-initializer.svg?style=flat-square
-
-[link-packagist]: https://packagist.org/packages/mad-web/laravel-initializer
-[link-travis]: https://travis-ci.org/mad-web/laravel-initializer
-[link-style]: https://styleci.io/repos/100302581
-[link-scrutinizer]: https://scrutinizer-ci.com/g/mad-web/laravel-initializer/code-structure
-[link-code-quality]: https://scrutinizer-ci.com/g/mad-web/laravel-initializer
-[link-downloads]: https://packagist.org/packages/mad-web/laravel-initializer
 [link-author]: https://github.com/mad-web
 [link-contributors]: ../../contributors
