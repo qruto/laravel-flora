@@ -15,7 +15,7 @@
 ## Introduction
 
 This package adds `app:install` and `app:update` artisan commands, which runs predefined actions depending on the current environment to initialize your application.
-We all know that we have to document the installation process of the application in each project, and we also always write deploy scripts in Forge, Envoy.blade.php, ~~bash scripts~~ etc. With **Initializer** you have an ability to define these processes directly in application by simple commands chain.
+We all know that we have to document the installation process of the application in each project, and we also always write deploy scripts in Forge, Envoy.blade.php, ~~bash scripts~~ etc. With **Initializer** you have an ability to define these processes directly in application by simple commands chain and totally simplify your **_deploy script_**.
 
 ## Installation
 
@@ -253,7 +253,7 @@ Add `project-install` script into `scripts` section in `composer.json`.
 scripts": {
     ...
     "project-install": [
-        "@composer install --no-scripts",
+        "@composer install",
         "@php artisan app:install"
     ],
     ...
@@ -289,6 +289,29 @@ public function localRoot(Runner $run)
         ->external('supervisorctl', 'reread')
         ->external('supervisorctl', 'update');
 }
+```
+
+## Safe Update
+
+In cases when latest changes has been pulled and some functionnality of currently not installed package
+uses in one of a _Service Provider_ you will get an error. To prevent this issue you should make `composer install`
+at first, to simlify this process you are be able to define `project-update` script:
+
+```json
+scripts": {
+    ...
+    "project-update": [
+        "@composer install",
+        "@php artisan app:update"
+    ],
+    ...
+},
+```
+
+Then you can run just
+
+```bash
+composer project-update
 ```
 
 ## Upgrading

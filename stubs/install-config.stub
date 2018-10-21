@@ -11,6 +11,7 @@ class Install
     public function production(Runner $run)
     {
         return $run
+            ->external('composer', 'install', '--no-dev', '--prefer-dist', '--optimize-autoloader')
             ->artisan('key:generate')
             ->artisan('migrate')
             ->external('npm', 'install', '--production')
@@ -28,6 +29,7 @@ class Install
     public function local(Runner $run)
     {
         return $run
+            ->external('composer', 'install')
             ->artisan('key:generate')
             ->artisan('migrate')
             ->external('npm', 'install')
