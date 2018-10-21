@@ -4,6 +4,10 @@ All Notable changes to `laravel-initializer` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## 1.2.1 - 2018-10-22
+
+Improved default stubs
+
 ## 1.2.0 - 2018-10-21
 
 ### Added

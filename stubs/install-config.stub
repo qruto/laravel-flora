@@ -13,7 +13,9 @@ class Install
         return $run
             ->external('composer', 'install', '--no-dev', '--prefer-dist', '--optimize-autoloader')
             ->artisan('key:generate')
-            ->artisan('migrate')
+            ->artisan('migrate', ['--force' => true])
+            ->artisan('storage:link')
+//            ->dispatch(new MakeCronTask)
             ->external('npm', 'install', '--production')
             ->external('npm', 'run', 'production')
             ->artisan('route:cache')
@@ -32,6 +34,8 @@ class Install
             ->external('composer', 'install')
             ->artisan('key:generate')
             ->artisan('migrate')
+            ->artisan('storage:link')
+//            ->dispatch(new MakeCronTask)
             ->external('npm', 'install')
             ->external('npm', 'run', 'development');
     }

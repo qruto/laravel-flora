@@ -14,7 +14,7 @@ interface Runner
 
     public function dispatchNow($job): self;
 
-    public function publish($providers): self;
+    public function publish($providers, bool $force = false): self;
 
     public function getCommands(): array;
 }
