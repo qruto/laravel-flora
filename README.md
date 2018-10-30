@@ -42,7 +42,7 @@ composer require mad-web/laravel-initializer
 
 Run `artisan make:initializers` command to create install and update config classes in `app` directory.
 
-You can override config key which stores current environment value, just publish config file, and set `env_config_key` value.
+You can override config key which stores current environment value, publish config file and set `env_config_key` value.
 
 ```bash
 php artisan vendor:publish --provider="MadWeb\Initializer\InitializerServiceProvider" --tag=config
@@ -225,7 +225,7 @@ $run
 
 This job creates configuration file with the command `php artisan queue:work --sleep=3 --tries=3` in `/etc/supervisor/conf.d/` folder by default, with a filename according to this convention `your-application-name-queue.conf`.
 
-If you want to override default options just pass it into job constructor.
+If you want to override default options, pass it into job constructor.
 For example if you want to use [Laravel Horizon](https://laravel.com/docs/5.6/horizon) instead of default queue workers.
 
 ```php
@@ -239,7 +239,7 @@ $run
 ### Create supervisor config file for laravel echo server
 
 On the same way as `MakeQueueSupervisorConfig` this job creates supervisor config file for launching laravel echo server.
-Just add dispatch `MakeSocketSupervisorConfig` job to runner chain. The difference from `MakeQueueSupervisorConfig` is the command `node ./node_modules/.bin/laravel-echo-server start` and the config filename is `your-application-name-socket.conf`.
+Add dispatch `MakeSocketSupervisorConfig` job to runner chain. The difference from `MakeQueueSupervisorConfig` is the command `node ./node_modules/.bin/laravel-echo-server start` and the config filename is `your-application-name-socket.conf`.
 
 Both config files save log files to `your-project-path/storage/logs`.
 
@@ -308,7 +308,7 @@ scripts": {
 },
 ```
 
-Then you can run just
+Then you can run:
 
 ```bash
 composer project-update
