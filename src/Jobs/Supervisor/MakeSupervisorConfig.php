@@ -2,6 +2,7 @@
 
 namespace MadWeb\Initializer\Jobs\Supervisor;
 
+use Illuminate\Support\Str;
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
 
@@ -68,7 +69,7 @@ abstract class MakeSupervisorConfig
         ];
         $data = array_merge($default_config, $data);
 
-        $app_name = str_slug($this->getApplicationName());
+        $app_name = Str::slug($this->getApplicationName());
         $config = "[program:$app_name-$programName]".PHP_EOL;
 
         foreach ($data as $key => $value) {
@@ -93,7 +94,7 @@ abstract class MakeSupervisorConfig
      */
     protected function configName(): string
     {
-        return str_slug($this->getApplicationName().'-'.$this->processName);
+        return Str::slug($this->getApplicationName().'-'.$this->processName);
     }
 
     protected function getApplicationName()
