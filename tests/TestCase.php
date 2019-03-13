@@ -2,6 +2,7 @@
 
 namespace MadWeb\Initializer\Test;
 
+use PHPUnit\Runner\Version;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 
 abstract class TestCase extends OrchestraTestCase
@@ -30,5 +31,17 @@ abstract class TestCase extends OrchestraTestCase
     protected function getPackageProviders($app)
     {
         return [\MadWeb\Initializer\InitializerServiceProvider::class];
+    }
+
+    /**
+     * Added for support backward capability with PHPUnit < 8.0.
+     */
+    public static function assertStringContainsString(string $needle, string $haystack, string $message = ''): void
+    {
+        if (version_compare(Version::series(), '8.0') >= 0) {
+            parent::assertStringContainsString($needle, $haystack, $message = '');
+        } else {
+            parent::assertContains($needle, $haystack, $message);
+        }
     }
 }

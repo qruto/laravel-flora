@@ -19,22 +19,7 @@ We all know that we have to document the installation process of the application
 
 ## Installation
 
-_*For Laravel <= 5.4*_ - Via Composer
-
-``` bash
-composer require mad-web/laravel-initializer:~0.1.0
-```
-
-add the service provider in `config/app.php` file:
-
-```php
-'providers' => [
-    ...
-    MadWeb\Initializer\InitializerServiceProvider::class,
-];
-```
-
-_*For Laravel >= 5.5*_ - Via Composer
+Via Composer
 
 ``` bash
 composer require mad-web/laravel-initializer

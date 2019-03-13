@@ -21,7 +21,7 @@ class MakeCronTaskTest extends RunnerCommandsTestCase
         $base_path = base_path();
         $task = '* * * * * php '.$base_path.'/artisan schedule:run >> /dev/null 2>&1';
 
-        $this->assertContains($task, exec('crontab -l'));
+        $this->assertStringContainsString($task, exec('crontab -l'));
 
         exec('crontab -l | grep -v \''.$task.'\' | crontab -');
         if (empty(exec('crontab -l'))) {

@@ -44,9 +44,9 @@ class MakeSupervisorConfigJobTest extends RunnerCommandsTestCase
         $file_path = base_path('test-queue.conf');
 
         $generated_file_content = file_get_contents($file_path);
-        $this->assertContains('directory=some/awesome/path', $generated_file_content);
-        $this->assertContains('autostart=false', $generated_file_content);
-        $this->assertContains('user=test-user', $generated_file_content);
+        $this->assertStringContainsString('directory=some/awesome/path', $generated_file_content);
+        $this->assertStringContainsString('autostart=false', $generated_file_content);
+        $this->assertStringContainsString('user=test-user', $generated_file_content);
 
         unlink($file_path);
     }
@@ -85,9 +85,9 @@ class MakeSupervisorConfigJobTest extends RunnerCommandsTestCase
         $file_path = base_path('test-queue.conf');
 
         $generated_file_content = file_get_contents($file_path);
-        $this->assertContains('directory=some/awesome/path', $generated_file_content);
-        $this->assertContains('autostart=false', $generated_file_content);
-        $this->assertContains('user=test-user', $generated_file_content);
+        $this->assertStringContainsString('directory=some/awesome/path', $generated_file_content);
+        $this->assertStringContainsString('autostart=false', $generated_file_content);
+        $this->assertStringContainsString('user=test-user', $generated_file_content);
 
         unlink($file_path);
     }
