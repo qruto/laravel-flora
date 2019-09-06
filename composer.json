@@ -32,7 +32,7 @@
         "illuminate/console": "~5.5.0|~5.8.0|^6.0",
         "illuminate/config": "~5.5.0|~5.8.0|^6.0",
         "illuminate/bus": "~5.5.0|~5.8.0|^6.0",
-        "symfony/process": "~3.0|~4.1"
+        "symfony/process": "^4.1"
     },
     "require-dev": {
         "codedungeon/phpunit-result-printer": "^0.26",
