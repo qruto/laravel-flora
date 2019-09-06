@@ -34,15 +34,7 @@ class Executor implements ExecutorContract
         $Process = new Process(empty($arguments) ? $command : array_merge([$command], $arguments));
         $Process->setTimeout(null);
 
-        if ((bool) @proc_open( //TODO: replace by Process::isTtySupported() after symfony/process:4.1 release
-            'echo 1 >/dev/null',
-            [
-                ['file', '/dev/tty', 'r'],
-                ['file', '/dev/tty', 'w'],
-                ['file', '/dev/tty', 'w'],
-            ],
-            $pipes
-        )) {
+        if (Process::isTtySupported()) {
             $Process->setTty(true);
         } elseif (Process::isPtySupported()) {
             $Process->setPty(true);

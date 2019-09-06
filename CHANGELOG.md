@@ -4,6 +4,12 @@ All Notable changes to `laravel-initializer` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## 1.4.0 - 2019-09-06
+
+- Laravel 6.0 support
+- Minimum required PHP version upped to 7.2
+- Dropped support of unsupported Laravel versions
+
 ## 1.3.0 - 2019-03-13
 
 Laravel 5.8 support
