@@ -56,6 +56,11 @@ class Run implements Runner
         return $this;
     }
 
+    public function publishForce($providers): Runner
+    {
+        return $this->publish($providers, true);
+    }
+
     protected function pushCommand(string $type, $command, array $arguments = [])
     {
         $this->commands[] = compact('type', 'command', 'arguments');
