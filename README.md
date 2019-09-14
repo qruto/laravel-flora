@@ -25,7 +25,15 @@ Via Composer
 composer require mad-web/laravel-initializer
 ```
 
-Run `artisan make:initializers` command to create install and update config classes in `app` directory.
+then run:
+
+```
+php artisan make:initializers
+```
+
+It create `Install` and `Update` classes in `app` directory
+which contains `local` and `production` methods according to different environments.
+This methods should return runner chain with specific to install or update actions.
 
 You can override config key which stores current environment value, publish config file and set `env_config_key` value.
 
