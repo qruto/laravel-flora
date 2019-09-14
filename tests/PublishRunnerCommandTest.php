@@ -6,6 +6,7 @@ use MadWeb\Initializer\Run;
 use InvalidArgumentException;
 use MadWeb\Initializer\Test\TestFixtures\TestServiceProviderOne;
 use MadWeb\Initializer\Test\TestFixtures\TestServiceProviderTwo;
+use MadWeb\Initializer\Test\TestFixtures\TestServiceProviderMultipleTags;
 
 class PublishRunnerCommandTest extends RunnerCommandsTestCase
 {
@@ -13,7 +14,7 @@ class PublishRunnerCommandTest extends RunnerCommandsTestCase
      * @test
      * @dataProvider initCommandsSet
      */
-    public function publish_by_array($command)
+    public function by_array($command)
     {
         $this->declareCommands(function (Run $run) {
             $run->publish([TestServiceProviderOne::class]);
@@ -30,7 +31,7 @@ class PublishRunnerCommandTest extends RunnerCommandsTestCase
      * @test
      * @dataProvider initCommandsSet
      */
-    public function publish_by_string($command)
+    public function by_string($command)
     {
         $this->declareCommands(function (Run $run) {
             $run->publish(TestServiceProviderOne::class);
@@ -47,7 +48,7 @@ class PublishRunnerCommandTest extends RunnerCommandsTestCase
      * @test
      * @dataProvider initCommandsSet
      */
-    public function publish_with_tag($command)
+    public function with_tag($command)
     {
         $this->declareCommands(function (Run $run) {
             $run->publish([TestServiceProviderOne::class => 'public']);
@@ -64,7 +65,32 @@ class PublishRunnerCommandTest extends RunnerCommandsTestCase
      * @test
      * @dataProvider initCommandsSet
      */
-    public function publish_with_wrong_tag($command)
+    public function with_multiple_tags($command)
+    {
+        $this->declareCommands(function (Run $run) {
+            $run->publish([
+                TestServiceProviderMultipleTags::class => ['one', 'two'],
+            ]);
+        }, $command);
+
+        $public_path_to_file_one = public_path('test-publishable-one.txt');
+
+        $this->assertFileExists($public_path_to_file_one);
+
+        unlink($public_path_to_file_one);
+
+        $public_path_to_file_two = public_path('test-publishable-two.txt');
+
+        $this->assertFileExists($public_path_to_file_two);
+
+        unlink($public_path_to_file_two);
+    }
+
+    /**
+     * @test
+     * @dataProvider initCommandsSet
+     */
+    public function with_wrong_tag($command)
     {
         $this->declareCommands(function (Run $run) {
             $run->publish([TestServiceProviderOne::class => 'wrong-tag']);
@@ -79,7 +105,7 @@ class PublishRunnerCommandTest extends RunnerCommandsTestCase
      * @test
      * @dataProvider initCommandsSet
      */
-    public function publish_multiple_providers($command)
+    public function multiple_providers($command)
     {
         $this->declareCommands(function (Run $run) {
             $run->publish([
@@ -102,7 +128,7 @@ class PublishRunnerCommandTest extends RunnerCommandsTestCase
      * @test
      * @dataProvider initCommandsSet
      */
-    public function publish_multiple_providers_with_tags($command)
+    public function multiple_providers_with_tags($command)
     {
         $this->declareCommands(function (Run $run) {
             $run->publish([
@@ -125,7 +151,7 @@ class PublishRunnerCommandTest extends RunnerCommandsTestCase
      * @test
      * @dataProvider initCommandsSet
      */
-    public function publish_multiple_providers_with_one_wrong_tag($command)
+    public function multiple_providers_with_one_wrong_tag($command)
     {
         $this->declareCommands(function (Run $run) {
             $run->publish([
@@ -147,7 +173,7 @@ class PublishRunnerCommandTest extends RunnerCommandsTestCase
      * @test
      * @dataProvider initCommandsSet
      */
-    public function force_publish_by_string($command)
+    public function force_by_string($command)
     {
         $this->declareCommands(function (Run $run) {
             $run->publish(TestServiceProviderOne::class);
@@ -176,7 +202,7 @@ class PublishRunnerCommandTest extends RunnerCommandsTestCase
      * @test
      * @dataProvider initCommandsSet
      */
-    public function force_publish_by_array($command)
+    public function force_by_array($command)
     {
         $this->declareCommands(function (Run $run) {
             $run->publish([TestServiceProviderOne::class]);
@@ -205,7 +231,7 @@ class PublishRunnerCommandTest extends RunnerCommandsTestCase
      * @test
      * @dataProvider initCommandsSet
      */
-    public function exception_on_invalid_argument($command)
+    public function exception_on_invalid_provider($command)
     {
         $this->expectException(InvalidArgumentException::class);
         $this->declareCommands(function (Run $run) {
@@ -217,8 +243,9 @@ class PublishRunnerCommandTest extends RunnerCommandsTestCase
     {
         $providers = parent::getPackageProviders($app);
 
-        array_push($providers, TestServiceProviderOne::class);
-        array_push($providers, TestServiceProviderTwo::class);
+        $providers[] = TestServiceProviderOne::class;
+        $providers[] = TestServiceProviderTwo::class;
+        $providers[] = TestServiceProviderMultipleTags::class;
 
         return $providers;
     }
