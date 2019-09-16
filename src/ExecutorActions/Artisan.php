@@ -59,6 +59,8 @@ class Artisan
     {
         $this->artisanCommand->task($this->title(), function () {
             if ($this->artisanCommand->getOutput()->isVerbose()) {
+                $this->artisanCommand->line('');
+
                 return ! $this->artisanCommand->call($this->command, $this->arguments);
             }
 

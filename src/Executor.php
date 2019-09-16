@@ -6,6 +6,8 @@ use Illuminate\Console\Command;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Bus\Dispatcher;
 use MadWeb\Initializer\ExecutorActions\Artisan;
+use MadWeb\Initializer\ExecutorActions\Callback;
+use MadWeb\Initializer\ExecutorActions\Dispatch;
 use MadWeb\Initializer\ExecutorActions\External;
 use MadWeb\Initializer\Contracts\Executor as ExecutorContract;
 
@@ -37,28 +39,16 @@ class Executor implements ExecutorContract
 
     public function callable(callable $function, array $arguments = [])
     {
-        call_user_func($function, ...$arguments);
-
-        is_callable($function, false, $name);
-        $this->artisanCommand->info('Calling <fg=green;options=bold>callable</> "'.$name.'"...');
+        value(new Callback($this->artisanCommand, $function, $arguments))();
     }
 
     public function dispatch($job)
     {
-        $this->printJob($job, Container::getInstance()->make(Dispatcher::class)->dispatch($job));
+        value(new Dispatch($this->artisanCommand, $job))();
     }
 
     public function dispatchNow($job)
     {
-        $this->printJob($job, Container::getInstance()->make(Dispatcher::class)->dispatchNow($job));
-    }
-
-    protected function printJob($job, $result)
-    {
-        $message = 'Dispatching <fg=green;options=bold>job</> "'.get_class($job).'"...';
-
-        $message .= is_string($result) ? '. Result: '.$result : '';
-
-        $this->artisanCommand->info($message);
+        value(new Dispatch($this->artisanCommand, $job, true))();
     }
 }

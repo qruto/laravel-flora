@@ -38,6 +38,7 @@ class External
             $isVerbose = $this->artisanCommand->getOutput()->isVerbose();
 
             if ($isVerbose) {
+                $this->artisanCommand->line('');
                 if (Process::isTtySupported()) {
                     $Process->setTty(true);
                 } elseif (Process::isPtySupported()) {
