@@ -8,6 +8,7 @@ use MadWeb\Initializer\Console\Commands\UpdateCommand;
 use MadWeb\Initializer\Console\Commands\InstallCommand;
 use MadWeb\Initializer\Contracts\Executor as ExecutorContract;
 use MadWeb\Initializer\Console\Commands\InitializersMakeCommand;
+use NunoMaduro\LaravelConsoleTask\LaravelConsoleTaskServiceProvider;
 
 class InitializerServiceProvider extends ServiceProvider
 {
@@ -19,6 +20,8 @@ class InitializerServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__.'/../config/initializer.php' => config_path('initializer.php'),
         ], 'config');
+
+        $this->app->register(LaravelConsoleTaskServiceProvider::class);
     }
 
     /**

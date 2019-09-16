@@ -4,8 +4,9 @@ namespace MadWeb\Initializer;
 
 use Illuminate\Console\Command;
 use Illuminate\Container\Container;
-use Symfony\Component\Process\Process;
 use Illuminate\Contracts\Bus\Dispatcher;
+use MadWeb\Initializer\ExecutorActions\Artisan;
+use MadWeb\Initializer\ExecutorActions\External;
 use MadWeb\Initializer\Contracts\Executor as ExecutorContract;
 
 class Executor implements ExecutorContract
@@ -26,26 +27,12 @@ class Executor implements ExecutorContract
 
     public function artisan(string $command, array $arguments = [])
     {
-        $this->artisanCommand->call($command, $arguments);
+        value(new Artisan($this->artisanCommand, $command, $arguments))();
     }
 
     public function external(string $command, array $arguments = [])
     {
-        $Process = new Process(empty($arguments) ? $command : array_merge([$command], $arguments));
-        $Process->setTimeout(null);
-
-        if (Process::isTtySupported()) {
-            $Process->setTty(true);
-        } elseif (Process::isPtySupported()) {
-            $Process->setPty(true);
-        }
-        $Process->run(function ($type, $buffer) {
-            if (Process::ERR === $type) {
-                $this->artisanCommand->error($buffer);
-            } else {
-                $this->artisanCommand->line($buffer);
-            }
-        });
+        value(new External($this->artisanCommand, $command, $arguments))();
     }
 
     public function callable(callable $function, array $arguments = [])
@@ -53,7 +40,7 @@ class Executor implements ExecutorContract
         call_user_func($function, ...$arguments);
 
         is_callable($function, false, $name);
-        $this->artisanCommand->info("Callable: $name called");
+        $this->artisanCommand->info('Calling <fg=green;options=bold>callable</> "'.$name.'"...');
     }
 
     public function dispatch($job)
@@ -68,7 +55,7 @@ class Executor implements ExecutorContract
 
     protected function printJob($job, $result)
     {
-        $message = 'Job "'.get_class($job).'" has been processed';
+        $message = 'Dispatching <fg=green;options=bold>job</> "'.get_class($job).'"...';
 
         $message .= is_string($result) ? '. Result: '.$result : '';
 

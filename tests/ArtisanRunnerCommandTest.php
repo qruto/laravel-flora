@@ -25,4 +25,17 @@ class ArtisanRunnerCommandTest extends RunnerCommandsTestCase
 
         $this->assertEquals(Artisan::output(), $comment."\n");
     }
+
+    /**
+     * @test
+     * @dataProvider initCommandsSet
+     */
+    public function error_command($command)
+    {
+        $comment = 'Some comment';
+
+        $this->declareCommands(function (Run $run) {
+            $run->artisan('migrate');
+        }, $command);
+    }
 }
