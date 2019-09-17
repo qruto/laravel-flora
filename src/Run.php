@@ -3,11 +3,11 @@
 namespace MadWeb\Initializer;
 
 use Illuminate\Console\Command;
-use MadWeb\Initializer\ExecutorActions\Artisan;
-use MadWeb\Initializer\ExecutorActions\Publish;
-use MadWeb\Initializer\ExecutorActions\Callback;
-use MadWeb\Initializer\ExecutorActions\Dispatch;
-use MadWeb\Initializer\ExecutorActions\External;
+use MadWeb\Initializer\Actions\Artisan;
+use MadWeb\Initializer\Actions\Publish;
+use MadWeb\Initializer\Actions\Callback;
+use MadWeb\Initializer\Actions\Dispatch;
+use MadWeb\Initializer\Actions\External;
 use MadWeb\Initializer\Contracts\Runner as RunnerContract;
 
 class Run implements RunnerContract

@@ -1,25 +1,24 @@
 <?php
 
-namespace MadWeb\Initializer\ExecutorActions;
+namespace MadWeb\Initializer\Actions;
 
 use Illuminate\Console\Command;
 
-class Artisan
+class Artisan extends Action
 {
-    private $artisanCommand;
-
     private $command;
 
     private $arguments;
 
     public function __construct(Command $artisanCommand, string $command, array $arguments = [])
     {
-        $this->artisanCommand = $artisanCommand;
+        parent::__construct($artisanCommand);
+
         $this->command = $command;
         $this->arguments = $arguments;
     }
 
-    private function title()
+    public function title(): string
     {
         $title = '';
 
@@ -45,7 +44,7 @@ class Artisan
             }
         } else {
             $title = "<comment>Running artisan command:</comment> $this->command (".
-                $this->artisanCommand
+                $this->getArtisanCommnad()
                     ->getApplication()
                     ->find($this->command)
                     ->getDescription().
@@ -55,16 +54,21 @@ class Artisan
         return $title;
     }
 
-    public function __invoke(): bool
+    public function message(): string
     {
-        return $this->artisanCommand->task($this->title(), function () {
-            if ($this->artisanCommand->getOutput()->isVerbose()) {
-                $this->artisanCommand->getOutput()->newLine();
+        return '';
+    }
 
-                return ! $this->artisanCommand->call($this->command, $this->arguments);
-            }
+    public function run(): bool
+    {
+        $artisanCommnad = $this->getArtisanCommnad();
 
-            return ! $this->artisanCommand->callSilent($this->command, $this->arguments);
-        });
+        if ($artisanCommnad->getOutput()->isVerbose()) {
+            $artisanCommnad->getOutput()->newLine();
+
+            return ! $artisanCommnad->call($this->command, $this->arguments);
+        }
+
+        return ! $artisanCommnad->callSilent($this->command, $this->arguments);
     }
 }

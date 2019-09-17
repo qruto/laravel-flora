@@ -1,15 +1,13 @@
 <?php
 
-namespace MadWeb\Initializer\ExecutorActions;
+namespace MadWeb\Initializer\Actions;
 
 use InvalidArgumentException;
 use Illuminate\Console\Command;
 
-class Publish
+class Publish extends Action
 {
     private const COMMAND = 'vendor:publish';
-
-    private $artisanCommand;
 
     /** @var string|array */
     private $providers;
@@ -22,12 +20,23 @@ class Publish
 
     public function __construct(Command $artisanCommand, $providers, bool $force = false)
     {
-        $this->artisanCommand = $artisanCommand;
+        parent::__construct($artisanCommand);
+
         $this->providers = $providers;
         $this->force = $force;
     }
 
-    public function __invoke()
+    public function title(): string
+    {
+        return '';
+    }
+
+    public function message(): string
+    {
+        return '';
+    }
+
+    public function run(): bool
     {
         if (is_string($this->providers)) {
             $this->addProvider($this->providers);
@@ -37,10 +46,12 @@ class Publish
             throw new InvalidArgumentException('Invalid publishable argument.');
         }
 
+        $result = true;
         foreach ($this->arguments as $argument) {
-            new Artisan($this->artisanCommand, self::COMMAND, $argument);
-            value(new Artisan($this->artisanCommand, self::COMMAND, $argument))();
+            $result = value(new Artisan($this->getArtisanCommnad(), self::COMMAND, $argument))();
         }
+
+        return $result;
     }
 
     private function addProvider(string $provider, $tag = null)
