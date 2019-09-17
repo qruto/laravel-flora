@@ -27,9 +27,9 @@ class Dispatch
         return '<comment>Dispatching job:</comment> '.get_class($this->job);
     }
 
-    public function __invoke()
+    public function __invoke(): bool
     {
-        $this->artisanCommand->task($this->title(), function () {
+        return $this->artisanCommand->task($this->title(), function () {
             $result = null;
 
             if ($this->runNow) {
@@ -39,7 +39,7 @@ class Dispatch
             }
 
             if ($this->artisanCommand->getOutput()->isVerbose()) {
-                $this->artisanCommand->line('');
+                $this->artisanCommand->getOutput()->newLine();
                 $this->artisanCommand->info($result);
             }
         });

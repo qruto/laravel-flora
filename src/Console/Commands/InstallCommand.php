@@ -30,4 +30,9 @@ class InstallCommand extends AbstractInitializeCommand
     {
         return $container->make('project.installer');
     }
+
+    protected function title(): string
+    {
+        return 'Applicatoin installation';
+    }
 }

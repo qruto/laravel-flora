@@ -21,10 +21,21 @@ abstract class AbstractInitializeCommand extends Command
         $Config = $container->make('config');
         $env = $Config->get($Config->get('initializer.env_config_key'));
 
-        $Executor->exec($container->call([
+        $this->alert($this->title().' started');
+
+        $isDoneWithFailures = $Executor->exec($container->call([
             $this->getInitializerInstance($container),
             $this->option('root') ? $env.'Root' : $env,
         ])->getCommands());
+
+        $this->output->newLine();
+
+        if ($isDoneWithFailures) {
+            $this->error($this->title().' done with errors');
+            $this->error('You could rerun command with -v flag for see more details');
+        } else {
+            $this->info($this->title().' done!');
+        }
     }
 
     /**
@@ -33,4 +44,6 @@ abstract class AbstractInitializeCommand extends Command
      * @return object
      */
     abstract protected function getInitializerInstance(Container $container);
+
+    abstract protected function title(): string;
 }

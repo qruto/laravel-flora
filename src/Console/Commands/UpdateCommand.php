@@ -30,4 +30,9 @@ class UpdateCommand extends AbstractInitializeCommand
     {
         return $container->make('project.updater');
     }
+
+    protected function title(): string
+    {
+        return 'Applicatoin update';
+    }
 }

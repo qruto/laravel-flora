@@ -15,6 +15,8 @@ class Executor implements ExecutorContract
 {
     protected $artisanCommand;
 
+    private $isDoneWithErrors = false;
+
     public function __construct(Command $artisanCommand)
     {
         $this->artisanCommand = $artisanCommand;
@@ -23,32 +25,43 @@ class Executor implements ExecutorContract
     public function exec(array $commands)
     {
         foreach ($commands as $command) {
-            $this->{$command['type']}($command['command'], $command['arguments']);
+            $isDone = $this->{$command['type']}($command['command'], $command['arguments']);
+
+            if (! $this->isDoneWithErrors and $isDone === false) {
+                $this->isDoneWithErrors = true;
+            }
         }
+
+        return $this->isDoneWithErrors;
     }
 
-    public function artisan(string $command, array $arguments = [])
+    public function isDoneWithErrors(): bool
     {
-        value(new Artisan($this->artisanCommand, $command, $arguments))();
+        return $this->isDoneWithErrors;
     }
 
-    public function external(string $command, array $arguments = [])
+    public function artisan(string $command, array $arguments = []): bool
     {
-        value(new External($this->artisanCommand, $command, $arguments))();
+        return value(new Artisan($this->artisanCommand, $command, $arguments))();
     }
 
-    public function callable(callable $function, array $arguments = [])
+    public function external(string $command, array $arguments = []): bool
     {
-        value(new Callback($this->artisanCommand, $function, $arguments))();
+        return value(new External($this->artisanCommand, $command, $arguments))();
     }
 
-    public function dispatch($job)
+    public function callable(callable $function, array $arguments = []): bool
     {
-        value(new Dispatch($this->artisanCommand, $job))();
+        return value(new Callback($this->artisanCommand, $function, $arguments))();
     }
 
-    public function dispatchNow($job)
+    public function dispatch($job): bool
     {
-        value(new Dispatch($this->artisanCommand, $job, true))();
+        return value(new Dispatch($this->artisanCommand, $job))();
+    }
+
+    public function dispatchNow($job): bool
+    {
+        return value(new Dispatch($this->artisanCommand, $job, true))();
     }
 }

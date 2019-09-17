@@ -29,11 +29,11 @@ class Callback
         return '<comment>Calling function:</comment> '.$name;
     }
 
-    public function __invoke()
+    public function __invoke(): bool
     {
-        $this->artisanCommand->task($this->title(), function () {
+        return $this->artisanCommand->task($this->title(), function () {
             if ($this->artisanCommand->getOutput()->isVerbose()) {
-                $this->artisanCommand->line('');
+                $this->artisanCommand->getOutput()->newLine();
             }
 
             return call_user_func($this->function, ...$this->arguments);

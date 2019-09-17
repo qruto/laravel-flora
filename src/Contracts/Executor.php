@@ -10,13 +10,13 @@ interface Executor
 
     public function exec(array $commands);
 
-    public function artisan(string $command, array $arguments = []);
+    public function artisan(string $command, array $arguments = []): bool;
 
-    public function external(string $command, array $arguments = []);
+    public function external(string $command, array $arguments = []): bool;
 
-    public function callable(callable $function, array $arguments = []);
+    public function callable(callable $function, array $arguments = []): bool;
 
-    public function dispatch($job);
+    public function dispatch($job): bool;
 
-    public function dispatchNow($job);
+    public function dispatchNow($job): bool;
 }

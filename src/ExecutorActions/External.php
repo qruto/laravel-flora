@@ -27,9 +27,9 @@ class External
         return "<comment>Running external command:</comment> $this->command $argString";
     }
 
-    public function __invoke()
+    public function __invoke(): bool
     {
-        $this->artisanCommand->task($this->title(), function () {
+        return $this->artisanCommand->task($this->title(), function () {
             $Process = new Process(empty($this->arguments)
                 ? $this->command
                 : array_merge([$this->command], $this->arguments));
@@ -38,7 +38,7 @@ class External
             $isVerbose = $this->artisanCommand->getOutput()->isVerbose();
 
             if ($isVerbose) {
-                $this->artisanCommand->line('');
+                $this->artisanCommand->getOutput()->newLine();
                 if (Process::isTtySupported()) {
                     $Process->setTty(true);
                 } elseif (Process::isPtySupported()) {
