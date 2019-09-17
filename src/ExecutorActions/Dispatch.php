@@ -5,7 +5,6 @@ namespace MadWeb\Initializer\ExecutorActions;
 use Illuminate\Console\Command;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Bus\Dispatcher;
-use Symfony\Component\Process\Process;
 
 class Dispatch
 {

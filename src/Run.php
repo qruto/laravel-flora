@@ -2,72 +2,67 @@
 
 namespace MadWeb\Initializer;
 
-use MadWeb\Initializer\Actions\Publish;
-use MadWeb\Initializer\Contracts\Runner;
+use Illuminate\Console\Command;
+use MadWeb\Initializer\ExecutorActions\Artisan;
+use MadWeb\Initializer\ExecutorActions\Publish;
+use MadWeb\Initializer\ExecutorActions\Callback;
+use MadWeb\Initializer\ExecutorActions\Dispatch;
+use MadWeb\Initializer\ExecutorActions\External;
+use MadWeb\Initializer\Contracts\Runner as RunnerContract;
 
-class Run implements Runner
+class Run implements RunnerContract
 {
-    protected $commands = [];
+    protected $artisanCommand;
 
-    public function artisan(string $command, array $arguments = []): Runner
+    public function __construct(Command $artisanCommand)
     {
-        $this->pushCommand(__FUNCTION__, $command, $arguments);
+        $this->artisanCommand = $artisanCommand;
+    }
+
+    public function artisan(string $command, array $arguments = []): RunnerContract
+    {
+        value(new Artisan($this->artisanCommand, $command, $arguments))();
 
         return $this;
     }
 
-    public function external(string $command, ...$arguments): Runner
+    public function publish($providers, bool $force = false): RunnerContract
     {
-        $this->pushCommand(__FUNCTION__, $command, $arguments);
+        value(new Publish($this->artisanCommand, $providers, $force))();
 
         return $this;
     }
 
-    public function callable(callable $function, ...$arguments): Runner
-    {
-        $this->pushCommand(__FUNCTION__, $function, $arguments);
-
-        return $this;
-    }
-
-    public function dispatch($job): Runner
-    {
-        $this->pushCommand(__FUNCTION__, $job);
-
-        return $this;
-    }
-
-    public function dispatchNow($job): Runner
-    {
-        $this->pushCommand(__FUNCTION__, $job);
-
-        return $this;
-    }
-
-    public function publish($providers, bool $force = false): Runner
-    {
-        $publishAction = new Publish($providers, $force);
-        $publishAction->handle();
-
-        foreach ($publishAction->getArguments() as $argument) {
-            $this->artisan(Publish::COMMAND, $argument);
-        }
-
-        return $this;
-    }
-
-    public function publishForce($providers): Runner
+    public function publishForce($providers): RunnerContract
     {
         return $this->publish($providers, true);
     }
 
-    protected function pushCommand(string $type, $command, array $arguments = [])
+    public function external(string $command, ...$arguments): RunnerContract
     {
-        $this->commands[] = compact('type', 'command', 'arguments');
+        value(new External($this->artisanCommand, $command, $arguments))();
+
+        return $this;
     }
 
-    public function getCommands(): array
+    public function callable(callable $function, ...$arguments): RunnerContract
     {
-        return $this->commands;
+        value(new Callback($this->artisanCommand, $function, $arguments))();
+
+        return $this;
+    }
+
+    public function dispatch($job): RunnerContract
+    {
+        value(new Dispatch($this->artisanCommand, $job))();
+
+        return $this;
+    }
+
+    public function dispatchNow($job): RunnerContract
+    {
+        value(new Dispatch($this->artisanCommand, $job, true))();
+
+        return $this;
     }
 }

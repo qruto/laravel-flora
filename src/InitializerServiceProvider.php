@@ -6,7 +6,6 @@ use Illuminate\Support\ServiceProvider;
 use MadWeb\Initializer\Contracts\Runner;
 use MadWeb\Initializer\Console\Commands\UpdateCommand;
 use MadWeb\Initializer\Console\Commands\InstallCommand;
-use MadWeb\Initializer\Contracts\Executor as ExecutorContract;
 use MadWeb\Initializer\Console\Commands\InitializersMakeCommand;
 use NunoMaduro\LaravelConsoleTask\LaravelConsoleTaskServiceProvider;
 
@@ -39,7 +38,6 @@ class InitializerServiceProvider extends ServiceProvider
         $this->app->bind('project.updater', \App\Update::class);
 
         $this->app->bind(Runner::class, Run::class);
-        $this->app->bind(ExecutorContract::class, Executor::class);
 
         $this->commands([
             'command.initializer.install',
