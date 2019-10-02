@@ -59,11 +59,11 @@ class Publish extends Action
         $title = '<comment>Publishing resource:</comment> ';
 
         if (isset($this->currentArgument['--provider'])) {
-            $title .= "Provider [<fg=cyan>{$this->currentArgument['--provider']}</>]";
+            $title .= "Provider [{$this->currentArgument['--provider']}]";
         }
 
         $tagStringCallback = function (string $tag) {
-            return " Tag[<fg=cyan>$tag</>]";
+            return " Tag [$tag]";
         };
 
         if (isset($this->currentArgument['--tag'])) {
