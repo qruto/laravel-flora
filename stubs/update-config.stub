@@ -27,7 +27,6 @@ class Update
             ->external('npm', 'install')
             ->external('npm', 'run', 'development')
             ->artisan('migrate')
-            ->artisan('cache:clear')
-            ->artisan('queue:restart'); // ->artisan('horizon:terminate');
+            ->artisan('cache:clear');
     }
 }

@@ -20,13 +20,7 @@ class Install
             ->external('npm', 'run', 'production')
             ->artisan('route:cache')
             ->artisan('config:cache')
-            ->artisan('event:cache')
-            ->external('composer', 'dump-autoload', '--optimize');
-    }
-
-    public function productionRoot(Runner $run)
-    {
-        return $this->localRoot($run);
+            ->artisan('event:cache');
     }
 
     public function local(Runner $run)
@@ -36,17 +30,7 @@ class Install
             ->artisan('key:generate')
             ->artisan('migrate')
             ->artisan('storage:link')
-//            ->dispatch(new MakeCronTask)
             ->external('npm', 'install')
             ->external('npm', 'run', 'development');
-    }
-
-    public function localRoot(Runner $run)
-    {
-        return $run
-            ->dispatch(new MakeQueueSupervisorConfig)
-            ->dispatch(new MakeSocketSupervisorConfig)
-            ->external('supervisorctl', 'reread')
-            ->external('supervisorctl', 'update');
     }
 }

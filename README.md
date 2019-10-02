@@ -59,20 +59,25 @@ class Install
     public function production(Runner $run)
     {
         return $run
+            ->external('composer', 'install', '--no-dev', '--prefer-dist', '--optimize-autoloader')
             ->artisan('key:generate')
-            ->artisan('migrate')
+            ->artisan('migrate', ['--force' => true])
+            ->artisan('storage:link')
+//            ->dispatch(new MakeCronTask)
             ->external('npm', 'install', '--production')
             ->external('npm', 'run', 'production')
             ->artisan('route:cache')
             ->artisan('config:cache')
-            ->external('composer', 'dump-autoload', '--optimize');
+            ->artisan('event:cache');
     }
 
     public function local(Runner $run)
     {
         return $run
+            ->external('composer', 'install')
             ->artisan('key:generate')
             ->artisan('migrate')
+            ->artisan('storage:link')
             ->external('npm', 'install')
             ->external('npm', 'run', 'development');
     }
@@ -92,16 +97,9 @@ use MadWeb\Initializer\Jobs\Supervisor\MakeSocketSupervisorConfig;
 
 class Install
 {
-    public function local(Runner $run)
-    {
-        return $run
-            ->artisan('key:generate')
-            ->artisan('migrate')
-            ->external('npm', 'install')
-            ->external('npm', 'run', 'development');
-    }
+    public function production(Runner $run) { ... }
 
-    public function localRoot(Runner $run)
+    public function productionRoot(Runner $run)
     {
         return $run
             ->dispatch(new MakeQueueSupervisorConfig)
@@ -247,14 +245,14 @@ It would be nice to have ability to install an application by one command. We pr
 Add `app-install` script into `scripts` section in `composer.json`.
 
 ```json
-scripts": {
+"scripts": {
     ...
     "app-install": [
         "@composer install",
         "@php artisan app:install"
     ],
     ...
-},
+}
 ```
 
 Then you can run just
@@ -265,27 +263,17 @@ composer app-install
 
 to initialize your application.
 
-If your application has commands that requires root privileges and you use Unix based system, add the following command into your runner chain.
+If your application has commands that requires root privileges and you use Unix based system, add the following command into your runner chain:
 
 ```php
-public function local(Runner $run)
+public function production(Runner $run)
 {
     return $run
-        ->artisan('key:generate')
-        ->artisan('migrate')
-        ->external('npm', 'install')
-        ->external('npm', 'run', 'development')
+        ...
         ->external('sudo', 'php', 'artisan', 'app:install', '--root');
 }
 
-public function localRoot(Runner $run)
-{
-    return $run
-        ->dispatch(new MakeQueueSupervisorConfig)
-        ->dispatch(new MakeSocketSupervisorConfig)
-        ->external('supervisorctl', 'reread')
-        ->external('supervisorctl', 'update');
-}
+public function productionRoot(Runner $run) { ... }
 ```
 
 ## Safe Update
@@ -295,7 +283,7 @@ uses in one of a _Service Provider_ you will get an error. To prevent this issue
 at first, to simlify this process you are be able to define `app-update` script:
 
 ```json
-scripts": {
+"scripts": {
     ...
     "app-update": [
         "@composer install",
