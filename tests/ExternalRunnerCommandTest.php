@@ -56,6 +56,6 @@ class ExternalRunnerCommandTest extends RunnerCommandsTestCase
             $run->external('invalid-command');
         }, $command);
 
-        $this->assertErrorAppeared('invalid-command: command not found', RuntimeException::class);
+        $this->assertErrorAppeared('invalid-command', RuntimeException::class);
     }
 }
