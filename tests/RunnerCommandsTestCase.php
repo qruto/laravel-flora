@@ -12,8 +12,8 @@ abstract class RunnerCommandsTestCase extends TestCase
     {
         parent::setUp();
 
-        $this->app->bind('project.installer', \MadWeb\Initializer\Test\TestFixtures\TestInitializerClass::class);
-        $this->app->bind('project.updater', \MadWeb\Initializer\Test\TestFixtures\TestInitializerClass::class);
+        $this->app->bind('app.installer', \MadWeb\Initializer\Test\TestFixtures\TestInitializerClass::class);
+        $this->app->bind('app.updater', \MadWeb\Initializer\Test\TestFixtures\TestInitializerClass::class);
     }
 
     protected function declareCommands(Closure $callback, $command, bool $verbose = false): void

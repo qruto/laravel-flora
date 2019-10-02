@@ -28,7 +28,7 @@ class InstallCommand extends AbstractInitializeCommand
      */
     protected function getInitializerInstance(Container $container)
     {
-        return $container->make('project.installer');
+        return $container->make('app.installer');
     }
 
     protected function title(): string

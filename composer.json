@@ -1,6 +1,6 @@
 {
     "name": "mad-web/laravel-initializer",
-    "description": "Package provides ability to setup application initialization actions",
+    "description": "A convenient way to initialize your application",
     "type": "library",
     "keywords": [
         "mad-web",

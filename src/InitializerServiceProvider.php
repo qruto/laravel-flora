@@ -34,8 +34,8 @@ class InitializerServiceProvider extends ServiceProvider
         $this->app->singleton('command.initializer.update', UpdateCommand::class);
         $this->app->singleton('command.initializer.make', InitializersMakeCommand::class);
 
-        $this->app->bind('project.installer', \App\Install::class);
-        $this->app->bind('project.updater', \App\Update::class);
+        $this->app->bind('app.installer', \App\Install::class);
+        $this->app->bind('app.updater', \App\Update::class);
 
         $this->app->bind(Runner::class, Run::class);
 

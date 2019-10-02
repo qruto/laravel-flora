@@ -28,7 +28,7 @@ class UpdateCommand extends AbstractInitializeCommand
      */
     protected function getInitializerInstance(Container $container)
     {
-        return $container->make('project.updater');
+        return $container->make('app.updater');
     }
 
     protected function title(): string

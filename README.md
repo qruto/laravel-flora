@@ -1,7 +1,7 @@
 <p align="center">
     <img title="Laravel Initializer" height="100" src="docs/logo.png" />
 </p>
-<p align="center">A convenient way to <strong>initialize</strong> your project.</p>
+<p align="center">A convenient way to <strong>initialize</strong> your application.</p>
 <p align="center">
     <a href="https://packagist.org/packages/mad-web/laravel-initializer"><img src="https://img.shields.io/packagist/v/mad-web/laravel-initializer.svg" alt="Latest Stable Version"></a>
     <a href="https://travis-ci.org/mad-web/laravel-initializer"><img src="https://img.shields.io/travis/mad-web/laravel-initializer/master.svg" alt="Build Status"></a>
@@ -118,11 +118,11 @@ Run it by passing "**root**" option:
 artisan app:install --root
 ```
 
-If you want to move config classes from the `app` directory to a different place, just rebind `project.installer` and `project.updater` keys in the `AppServiceProvider`.
+If you want to move config classes from the `app` directory to a different place, just rebind `app.installer` and `app.updater` keys in the `AppServiceProvider`.
 
 ```php
-$this->app->bind('project.installer', \AnotherNameSpace\Install::class);
-$this->app->bind('project.updater', \AnotherNameSpace\Update::class);
+$this->app->bind('app.installer', \AnotherNameSpace\Install::class);
+$this->app->bind('app.updater', \AnotherNameSpace\Update::class);
 ```
 
 ### Runner API (available actions to run)
@@ -165,7 +165,7 @@ $run
 This job will add
 
 ```txt
-* * * * * php /path-to-your-project/artisan schedule:run >> /dev/null 2>&1
+* * * * * php /path-to-your-app/artisan schedule:run >> /dev/null 2>&1
 ```
 
 to crontab list.
@@ -238,18 +238,18 @@ $run
 On the same way as `MakeQueueSupervisorConfig` this job creates supervisor config file for launching laravel echo server.
 Add dispatch `MakeSocketSupervisorConfig` job to runner chain. The difference from `MakeQueueSupervisorConfig` is the command `node ./node_modules/.bin/laravel-echo-server start` and the config filename is `your-application-name-socket.conf`.
 
-Both config files save log files to `your-project-path/storage/logs`.
+Both config files save log files to `your-app-path/storage/logs`.
 
 ## Installation by one command
 
 It would be nice to have ability to install an application by one command. We provide nice hack to implement this behavior.
 
-Add `project-install` script into `scripts` section in `composer.json`.
+Add `app-install` script into `scripts` section in `composer.json`.
 
 ```json
 scripts": {
     ...
-    "project-install": [
+    "app-install": [
         "@composer install",
         "@php artisan app:install"
     ],
@@ -260,10 +260,10 @@ scripts": {
 Then you can run just
 
 ```bash
-composer project-install
+composer app-install
 ```
 
-to initialize your project.
+to initialize your application.
 
 If your application has commands that requires root privileges and you use Unix based system, add the following command into your runner chain.
 
@@ -292,12 +292,12 @@ public function localRoot(Runner $run)
 
 In cases when latest changes has been pulled and some functionnality of currently not installed package
 uses in one of a _Service Provider_ you will get an error. To prevent this issue you should make `composer install`
-at first, to simlify this process you are be able to define `project-update` script:
+at first, to simlify this process you are be able to define `app-update` script:
 
 ```json
 scripts": {
     ...
-    "project-update": [
+    "app-update": [
         "@composer install",
         "@php artisan app:update"
     ],
@@ -308,7 +308,7 @@ scripts": {
 Then you can run:
 
 ```bash
-composer project-update
+composer app-update
 ```
 
 ## Upgrading
