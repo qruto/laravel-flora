@@ -21,7 +21,7 @@ abstract class Action
 
     public function __invoke(): bool
     {
-        $failed = !$this->getArtisanCommnad()->task($this->title(), function () {
+        $failed = ! $this->getArtisanCommnad()->task($this->title(), function () {
             try {
                 return $this->run();
             } catch (Exception $e) {
@@ -33,7 +33,7 @@ abstract class Action
 
         $this->failed = $failed;
 
-        return !$failed;
+        return ! $failed;
     }
 
     public function failed(): bool

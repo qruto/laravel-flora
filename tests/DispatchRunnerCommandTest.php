@@ -3,8 +3,8 @@
 namespace MadWeb\Initializer\Test;
 
 use Illuminate\Support\Facades\Artisan;
-use MadWeb\Initializer\Run;
 use Illuminate\Support\Facades\Bus;
+use MadWeb\Initializer\Run;
 use MadWeb\Initializer\Test\TestFixtures\TestJob;
 use MadWeb\Initializer\Test\TestFixtures\TestJobWithReturn;
 

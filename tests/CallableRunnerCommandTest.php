@@ -3,8 +3,8 @@
 namespace MadWeb\Initializer\Test;
 
 use Illuminate\Support\Facades\Artisan;
-use Mockery;
 use MadWeb\Initializer\Run;
+use Mockery;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 
 class CallableRunnerCommandTest extends RunnerCommandsTestCase

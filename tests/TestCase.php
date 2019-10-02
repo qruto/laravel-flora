@@ -2,15 +2,15 @@
 
 namespace MadWeb\Initializer\Test;
 
-use PHPUnit\Runner\Version;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
+use PHPUnit\Runner\Version;
 
 abstract class TestCase extends OrchestraTestCase
 {
     /**
      * Define environment setup.
      *
-     * @param  \Illuminate\Foundation\Application  $app
+     * @param \Illuminate\Foundation\Application $app
      * @return void
      */
     protected function getEnvironmentSetUp($app)

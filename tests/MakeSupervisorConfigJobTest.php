@@ -2,9 +2,9 @@
 
 namespace MadWeb\Initializer\Test;
 
-use MadWeb\Initializer\Run;
 use MadWeb\Initializer\Jobs\Supervisor\MakeQueueSupervisorConfig;
 use MadWeb\Initializer\Jobs\Supervisor\MakeSocketSupervisorConfig;
+use MadWeb\Initializer\Run;
 
 class MakeSupervisorConfigJobTest extends RunnerCommandsTestCase
 {

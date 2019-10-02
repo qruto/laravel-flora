@@ -3,8 +3,8 @@
 namespace MadWeb\Initializer\Actions;
 
 use Illuminate\Console\Command;
-use Symfony\Component\Process\Process;
 use RuntimeException;
+use Symfony\Component\Process\Process;
 
 class External extends Action
 {
@@ -61,6 +61,6 @@ class External extends Action
             throw new RuntimeException(trim($error));
         }
 
-        return !$exitCode;
+        return ! $exitCode;
     }
 }

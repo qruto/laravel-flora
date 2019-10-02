@@ -2,9 +2,9 @@
 
 namespace MadWeb\Initializer\Jobs\Supervisor;
 
-use Illuminate\Support\Str;
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Str;
 
 abstract class MakeSupervisorConfig
 {

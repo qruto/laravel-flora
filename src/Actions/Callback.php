@@ -33,7 +33,7 @@ class Callback extends Action
 
         $result = call_user_func($this->function, ...$this->arguments);
 
-        if (!is_bool($result) && $this->getArtisanCommnad()->getOutput()->isVerbose()) {
+        if (! is_bool($result) && $this->getArtisanCommnad()->getOutput()->isVerbose()) {
             $this->getArtisanCommnad()->line('<options=bold>Returned result:</>');
             $returnResult = var_export($result, true);
             $this->getArtisanCommnad()->line($returnResult);

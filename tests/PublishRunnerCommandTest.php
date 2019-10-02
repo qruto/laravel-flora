@@ -2,11 +2,11 @@
 
 namespace MadWeb\Initializer\Test;
 
-use MadWeb\Initializer\Run;
 use InvalidArgumentException;
+use MadWeb\Initializer\Run;
+use MadWeb\Initializer\Test\TestFixtures\TestServiceProviderMultipleTags;
 use MadWeb\Initializer\Test\TestFixtures\TestServiceProviderOne;
 use MadWeb\Initializer\Test\TestFixtures\TestServiceProviderTwo;
-use MadWeb\Initializer\Test\TestFixtures\TestServiceProviderMultipleTags;
 
 class PublishRunnerCommandTest extends RunnerCommandsTestCase
 {

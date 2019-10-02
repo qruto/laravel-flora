@@ -2,10 +2,10 @@
 
 namespace MadWeb\Initializer\Console\Commands;
 
-use MadWeb\Initializer\Run;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Container\Container;
 use MadWeb\Initializer\Contracts\Runner as ExecutorContract;
+use MadWeb\Initializer\Run;
 
 abstract class AbstractInitializeCommand extends Command
 {

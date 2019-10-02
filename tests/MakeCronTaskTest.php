@@ -2,8 +2,8 @@
 
 namespace MadWeb\Initializer\Test;
 
-use MadWeb\Initializer\Run;
 use MadWeb\Initializer\Jobs\MakeCronTask;
+use MadWeb\Initializer\Run;
 
 class MakeCronTaskTest extends RunnerCommandsTestCase
 {

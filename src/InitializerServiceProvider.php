@@ -3,10 +3,10 @@
 namespace MadWeb\Initializer;
 
 use Illuminate\Support\ServiceProvider;
-use MadWeb\Initializer\Contracts\Runner;
-use MadWeb\Initializer\Console\Commands\UpdateCommand;
-use MadWeb\Initializer\Console\Commands\InstallCommand;
 use MadWeb\Initializer\Console\Commands\InitializersMakeCommand;
+use MadWeb\Initializer\Console\Commands\InstallCommand;
+use MadWeb\Initializer\Console\Commands\UpdateCommand;
+use MadWeb\Initializer\Contracts\Runner;
 use NunoMaduro\LaravelConsoleTask\LaravelConsoleTaskServiceProvider;
 
 class InitializerServiceProvider extends ServiceProvider

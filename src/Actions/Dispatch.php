@@ -42,6 +42,6 @@ class Dispatch extends Action
             $artisanCommand->info($result);
         }
 
-        return !(is_int($result) and $result > 0);
+        return ! (is_int($result) and $result > 0);
     }
 }

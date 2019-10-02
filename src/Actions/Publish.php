@@ -2,8 +2,8 @@
 
 namespace MadWeb\Initializer\Actions;
 
-use InvalidArgumentException;
 use Illuminate\Console\Command;
+use InvalidArgumentException;
 
 class Publish extends Action
 {

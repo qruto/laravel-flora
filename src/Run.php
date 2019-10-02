@@ -5,10 +5,10 @@ namespace MadWeb\Initializer;
 use Illuminate\Console\Command;
 use MadWeb\Initializer\Actions\Action;
 use MadWeb\Initializer\Actions\Artisan;
-use MadWeb\Initializer\Actions\Publish;
 use MadWeb\Initializer\Actions\Callback;
 use MadWeb\Initializer\Actions\Dispatch;
 use MadWeb\Initializer\Actions\External;
+use MadWeb\Initializer\Actions\Publish;
 use MadWeb\Initializer\Contracts\Runner as RunnerContract;
 
 class Run implements RunnerContract
@@ -40,7 +40,7 @@ class Run implements RunnerContract
 
     public function doneWithErrors(): bool
     {
-        return !empty($this->errorMessages);
+        return ! empty($this->errorMessages);
     }
 
     public function artisan(string $command, array $arguments = []): RunnerContract
@@ -50,7 +50,6 @@ class Run implements RunnerContract
 
     public function publish($providers, bool $force = false): RunnerContract
     {
-
         return $this->run(new Publish($this->artisanCommand, $providers, $force));
     }
 

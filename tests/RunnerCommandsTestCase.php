@@ -3,8 +3,8 @@
 namespace MadWeb\Initializer\Test;
 
 use Closure;
-use MadWeb\Initializer\Run;
 use Illuminate\Support\Facades\Artisan;
+use MadWeb\Initializer\Run;
 
 abstract class RunnerCommandsTestCase extends TestCase
 {
@@ -30,7 +30,7 @@ abstract class RunnerCommandsTestCase extends TestCase
             $is_called = true;
         });
 
-        putenv('SHELL_VERBOSITY=' . ($verbose ? 1 : 0));
+        putenv('SHELL_VERBOSITY='.($verbose ? 1 : 0));
         Artisan::call($command);
     }
 

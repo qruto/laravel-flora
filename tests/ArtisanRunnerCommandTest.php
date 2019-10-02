@@ -2,8 +2,8 @@
 
 namespace MadWeb\Initializer\Test;
 
-use MadWeb\Initializer\Run;
 use Illuminate\Support\Facades\Artisan;
+use MadWeb\Initializer\Run;
 
 class ArtisanRunnerCommandTest extends RunnerCommandsTestCase
 {

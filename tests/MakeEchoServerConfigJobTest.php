@@ -2,8 +2,8 @@
 
 namespace MadWeb\Initializer\Test;
 
-use MadWeb\Initializer\Run;
 use MadWeb\Initializer\Jobs\MakeEchoServerConfig;
+use MadWeb\Initializer\Run;
 
 class MakeEchoServerConfigJobTest extends RunnerCommandsTestCase
 {
