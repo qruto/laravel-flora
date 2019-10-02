@@ -3,6 +3,7 @@
 namespace MadWeb\Initializer;
 
 use Illuminate\Console\Command;
+use MadWeb\Initializer\Actions\Action;
 use MadWeb\Initializer\Actions\Artisan;
 use MadWeb\Initializer\Actions\Publish;
 use MadWeb\Initializer\Actions\Callback;
@@ -14,23 +15,43 @@ class Run implements RunnerContract
 {
     protected $artisanCommand;
 
+    private $errorMessages = [];
+
     public function __construct(Command $artisanCommand)
     {
         $this->artisanCommand = $artisanCommand;
     }
 
-    public function artisan(string $command, array $arguments = []): RunnerContract
+    public function errorMessages(): array
     {
-        value(new Artisan($this->artisanCommand, $command, $arguments))();
+        return $this->errorMessages;
+    }
+
+    private function run(Action $action)
+    {
+        $action();
+
+        if ($action->failed()) {
+            $this->errorMessages[] = $action->errorMessage();
+        }
 
         return $this;
     }
 
+    public function doneWithErrors(): bool
+    {
+        return !empty($this->errorMessages);
+    }
+
+    public function artisan(string $command, array $arguments = []): RunnerContract
+    {
+        return $this->run(new Artisan($this->artisanCommand, $command, $arguments));
+    }
+
     public function publish($providers, bool $force = false): RunnerContract
     {
-        value(new Publish($this->artisanCommand, $providers, $force))();
 
-        return $this;
+        return $this->run(new Publish($this->artisanCommand, $providers, $force));
     }
 
     public function publishForce($providers): RunnerContract
@@ -40,29 +61,21 @@ class Run implements RunnerContract
 
     public function external(string $command, ...$arguments): RunnerContract
     {
-        value(new External($this->artisanCommand, $command, $arguments))();
-
-        return $this;
+        return $this->run(new External($this->artisanCommand, $command, $arguments));
     }
 
     public function callable(callable $function, ...$arguments): RunnerContract
     {
-        value(new Callback($this->artisanCommand, $function, $arguments))();
-
-        return $this;
+        return $this->run(new Callback($this->artisanCommand, $function, $arguments));
     }
 
     public function dispatch($job): RunnerContract
     {
-        value(new Dispatch($this->artisanCommand, $job))();
-
-        return $this;
+        return $this->run(new Dispatch($this->artisanCommand, $job));
     }
 
     public function dispatchNow($job): RunnerContract
     {
-        value(new Dispatch($this->artisanCommand, $job, true))();
-
-        return $this;
+        return $this->run(new Dispatch($this->artisanCommand, $job, true));
     }
 }

@@ -23,7 +23,26 @@ class ArtisanRunnerCommandTest extends RunnerCommandsTestCase
             $run->artisan('some:command');
         }, $command);
 
-        $this->assertEquals(Artisan::output(), $comment."\n");
+        self::assertStringContainsString('Running artisan command: some:command (): ✔', Artisan::output());
+    }
+
+    /**
+     * @test
+     * @dataProvider initCommandsSet
+     */
+    public function console_command_verbose($command)
+    {
+        $comment = 'Some comment';
+
+        Artisan::command('some:command', function () use ($comment) {
+            $this->comment($comment);
+        });
+
+        $this->declareCommands(function (Run $run) {
+            $run->artisan('some:command');
+        }, $command, true);
+
+        self::assertStringContainsString($comment, Artisan::output());
     }
 
     /**
@@ -32,10 +51,15 @@ class ArtisanRunnerCommandTest extends RunnerCommandsTestCase
      */
     public function error_command($command)
     {
-        $comment = 'Some comment';
+        config(['database.connections.testbench.database' => 'invalid_database']);
 
         $this->declareCommands(function (Run $run) {
             $run->artisan('migrate');
         }, $command);
+
+        $this->assertErrorAppeared(
+            'Database (invalid_database) does not exist',
+            \Illuminate\Database\QueryException::class
+        );
     }
 }

@@ -2,12 +2,17 @@
 
 namespace MadWeb\Initializer\Actions;
 
+use Exception;
 use Illuminate\Console\Command;
 
 abstract class Action
 {
     /** @var \Illuminate\Console\Command */
     private $artisanCommnad;
+
+    private $failed = false;
+
+    protected $errorMessage = null;
 
     public function __construct(Command $artisanCommnad)
     {
@@ -16,16 +21,34 @@ abstract class Action
 
     public function __invoke(): bool
     {
-        return $this->getArtisanCommnad()->task($this->title(), function () {
-            return $this->run();
+        $failed = !$this->getArtisanCommnad()->task($this->title(), function () {
+            try {
+                return $this->run();
+            } catch (Exception $e) {
+                $this->errorMessage = get_class($e).': '.$e->getMessage();
+
+                return false;
+            }
         });
+
+        $this->failed = $failed;
+
+        return !$failed;
+    }
+
+    public function failed(): bool
+    {
+        return $this->failed;
+    }
+
+    public function errorMessage(): string
+    {
+        return $this->errorMessage;
     }
 
     abstract public function title(): string;
 
     abstract public function run(): bool;
-
-    abstract public function message(): string;
 
     public function getArtisanCommnad(): Command
     {

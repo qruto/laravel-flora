@@ -20,55 +20,24 @@ class Artisan extends Action
 
     public function title(): string
     {
-        $title = '';
-
-        if ($this->command === 'vendor:publish') {
-            $title = '<comment>Publishing resource:</comment> ';
-
-            if (isset($this->arguments['--provider'])) {
-                $title .= "Provider [<fg=cyan>{$this->arguments['--provider']}</>]";
-            }
-
-            $tagStringCallback = function (string $tag) {
-                return " Tag[<fg=cyan>$tag</>]";
-            };
-
-            if (isset($this->arguments['--tag'])) {
-                if (is_string($this->arguments['--tag'])) {
-                    $title .= $tagStringCallback($this->arguments['--tag']);
-                } else {
-                    foreach ($this->arguments['--tag'] as $tag) {
-                        $title .= $tagStringCallback($tag);
-                    }
-                }
-            }
-        } else {
-            $title = "<comment>Running artisan command:</comment> $this->command (".
-                $this->getArtisanCommnad()
-                    ->getApplication()
-                    ->find($this->command)
-                    ->getDescription().
-                ')';
-        }
-
-        return $title;
-    }
-
-    public function message(): string
-    {
-        return '';
+        return "<comment>Running artisan command:</comment> $this->command (".
+            $this->getArtisanCommnad()
+                ->getApplication()
+                ->find($this->command)
+                ->getDescription().
+            ')';
     }
 
     public function run(): bool
     {
-        $artisanCommnad = $this->getArtisanCommnad();
+        $artisanCommand = $this->getArtisanCommnad();
 
-        if ($artisanCommnad->getOutput()->isVerbose()) {
-            $artisanCommnad->getOutput()->newLine();
+        if ($artisanCommand->getOutput()->isVerbose()) {
+            $artisanCommand->getOutput()->newLine();
 
-            return ! $artisanCommnad->call($this->command, $this->arguments);
+            return ! $artisanCommand->call($this->command, $this->arguments);
         }
 
-        return ! $artisanCommnad->callSilent($this->command, $this->arguments);
+        return ! $artisanCommand->callSilent($this->command, $this->arguments);
     }
 }

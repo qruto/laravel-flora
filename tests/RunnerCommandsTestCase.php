@@ -16,7 +16,7 @@ abstract class RunnerCommandsTestCase extends TestCase
         $this->app->bind('project.updater', \MadWeb\Initializer\Test\TestFixtures\TestInitializerClass::class);
     }
 
-    protected function declareCommands(Closure $callback, $command): void
+    protected function declareCommands(Closure $callback, $command, bool $verbose = false): void
     {
         $this->app->resolving(Run::class, function (Run $run) use ($callback) {
             /**
@@ -30,7 +30,19 @@ abstract class RunnerCommandsTestCase extends TestCase
             $is_called = true;
         });
 
+        putenv('SHELL_VERBOSITY=' . ($verbose ? 1 : 0));
         Artisan::call($command);
+    }
+
+    protected function assertErrorAppeared(string $message, ?string $exception = null)
+    {
+        $output = Artisan::output();
+
+        self::assertStringContainsString($message, $output);
+
+        if ($exception) {
+            self::assertStringContainsString($exception.':', $output);
+        }
     }
 
     public function initCommandsSet()

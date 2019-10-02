@@ -2,7 +2,9 @@
 
 namespace MadWeb\Initializer\Test;
 
+use Illuminate\Support\Facades\Artisan;
 use MadWeb\Initializer\Run;
+use RuntimeException;
 
 class ExternalRunnerCommandTest extends RunnerCommandsTestCase
 {
@@ -42,5 +44,18 @@ class ExternalRunnerCommandTest extends RunnerCommandsTestCase
         $this->assertFileExists($test_file_path);
 
         unlink($test_file_path);
+    }
+
+    /**
+     * @test
+     * @dataProvider initCommandsSet
+     */
+    public function external_error($command)
+    {
+        $this->declareCommands(function (Run $run) {
+            $run->external('invalid-command');
+        }, $command);
+
+        $this->assertErrorAppeared('invalid-command: command not found', RuntimeException::class);
     }
 }

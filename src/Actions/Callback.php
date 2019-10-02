@@ -25,17 +25,20 @@ class Callback extends Action
         return '<comment>Calling function:</comment> '.$name;
     }
 
-    public function message(): string
-    {
-        return '';
-    }
-
     public function run(): bool
     {
         if ($this->getArtisanCommnad()->getOutput()->isVerbose()) {
             $this->getArtisanCommnad()->getOutput()->newLine();
         }
 
-        return call_user_func($this->function, ...$this->arguments);
+        $result = call_user_func($this->function, ...$this->arguments);
+
+        if (!is_bool($result) && $this->getArtisanCommnad()->getOutput()->isVerbose()) {
+            $this->getArtisanCommnad()->line('<options=bold>Returned result:</>');
+            $returnResult = var_export($result, true);
+            $this->getArtisanCommnad()->line($returnResult);
+        }
+
+        return is_bool($result) ? $result : true;
     }
 }

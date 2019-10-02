@@ -31,13 +31,21 @@ abstract class AbstractInitializeCommand extends Command
         );
 
         $this->output->newLine();
-//
-//        if ($isDoneWithFailures) {
-//            $this->error($this->title().' done with errors');
-//            $this->error('You could rerun command with -v flag for see more details');
-//        } else {
-//            $this->info($this->title().' done!');
-//        }
+
+        if ($result->errorMessages()) {
+            $this->line('<fg=red>'.$this->title().' done with errors:</>');
+
+            $this->output->newLine();
+
+            foreach ($result->errorMessages() as $message) {
+                $this->error($message);
+                $this->output->newLine();
+            }
+
+            $this->line('<fg=red>You could run command with <fg=cyan>-v</> flag to see more details</>');
+        } else {
+            $this->info($this->title().' done!');
+        }
     }
 
     /**

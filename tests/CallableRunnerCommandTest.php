@@ -2,6 +2,7 @@
 
 namespace MadWeb\Initializer\Test;
 
+use Illuminate\Support\Facades\Artisan;
 use Mockery;
 use MadWeb\Initializer\Run;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
@@ -23,5 +24,20 @@ class CallableRunnerCommandTest extends RunnerCommandsTestCase
                 'someMethod',
             ]);
         }, $command);
+    }
+
+    /**
+     * @test
+     * @dataProvider initCommandsSet
+     */
+    public function callable_verbose($command)
+    {
+        $this->declareCommands(function (Run $run) {
+            $run->callable(function () {
+                return 'Some string';
+            });
+        }, $command, true);
+
+        self::assertStringContainsString("'Some string'", Artisan::output());
     }
 }

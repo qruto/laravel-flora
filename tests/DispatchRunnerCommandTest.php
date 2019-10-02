@@ -2,9 +2,11 @@
 
 namespace MadWeb\Initializer\Test;
 
+use Illuminate\Support\Facades\Artisan;
 use MadWeb\Initializer\Run;
 use Illuminate\Support\Facades\Bus;
 use MadWeb\Initializer\Test\TestFixtures\TestJob;
+use MadWeb\Initializer\Test\TestFixtures\TestJobWithReturn;
 
 class DispatchRunnerCommandTest extends RunnerCommandsTestCase
 {
@@ -63,5 +65,18 @@ class DispatchRunnerCommandTest extends RunnerCommandsTestCase
         }, $command);
 
         Bus::assertDispatched(TestJob::class, 2);
+    }
+
+    /**
+     * @test
+     * @dataProvider initCommandsSet
+     */
+    public function dispatch_job_verbose($command)
+    {
+        $this->declareCommands(function (Run $run) {
+            $run->dispatchNow(new TestJobWithReturn);
+        }, $command, true);
+
+        self::assertStringContainsString('Some string', Artisan::output());
     }
 }

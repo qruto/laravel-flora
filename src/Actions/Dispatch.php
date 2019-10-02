@@ -25,11 +25,6 @@ class Dispatch extends Action
         return '<comment>Dispatching job:</comment> '.get_class($this->job);
     }
 
-    public function message(): string
-    {
-        return '';
-    }
-
     public function run(): bool
     {
         $result = null;

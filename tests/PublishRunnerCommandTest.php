@@ -188,7 +188,7 @@ class PublishRunnerCommandTest extends RunnerCommandsTestCase
         // Need for changing last modified time of publishable file
         sleep(1);
         $this->declareCommands(function (Run $run) {
-            $run->publish(TestServiceProviderOne::class, true);
+            $run->publishForce(TestServiceProviderOne::class);
         }, $command);
 
         clearstatcache();

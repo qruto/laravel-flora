@@ -4,6 +4,7 @@ namespace MadWeb\Initializer\Actions;
 
 use Illuminate\Console\Command;
 use Symfony\Component\Process\Process;
+use RuntimeException;
 
 class External extends Action
 {
@@ -25,11 +26,6 @@ class External extends Action
         $argString = implode(' ', $this->arguments);
 
         return "<comment>Running external command:</comment> $this->command $argString";
-    }
-
-    public function message(): string
-    {
-        return '';
     }
 
     public function run(): bool
@@ -58,6 +54,13 @@ class External extends Action
             }
         } : null);
 
-        return ! $Process->getExitCode();
+        $error = $Process->getErrorOutput();
+        $exitCode = $Process->getExitCode();
+
+        if ($error and $exitCode > 0) {
+            throw new RuntimeException(trim($error));
+        }
+
+        return !$exitCode;
     }
 }

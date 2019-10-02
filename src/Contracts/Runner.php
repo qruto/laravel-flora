@@ -4,6 +4,10 @@ namespace MadWeb\Initializer\Contracts;
 
 interface Runner
 {
+    public function errorMessages(): array;
+
+    public function doneWithErrors(): bool;
+
     public function artisan(string $command, array $arguments = []): self;
 
     public function external(string $command, ...$arguments): self;

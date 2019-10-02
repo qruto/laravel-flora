@@ -18,6 +18,8 @@ class Publish extends Action
     /** @var array */
     private $arguments = [];
 
+    private $currentArgument = [];
+
     public function __construct(Command $artisanCommand, $providers, bool $force = false)
     {
         parent::__construct($artisanCommand);
@@ -26,17 +28,7 @@ class Publish extends Action
         $this->force = $force;
     }
 
-    public function title(): string
-    {
-        return '';
-    }
-
-    public function message(): string
-    {
-        return '';
-    }
-
-    public function run(): bool
+    public function __invoke(): bool
     {
         if (is_string($this->providers)) {
             $this->addProvider($this->providers);
@@ -46,12 +38,52 @@ class Publish extends Action
             throw new InvalidArgumentException('Invalid publishable argument.');
         }
 
-        $result = true;
         foreach ($this->arguments as $argument) {
-            $result = value(new Artisan($this->getArtisanCommnad(), self::COMMAND, $argument))();
+            $this->currentArgument = $argument;
+
+            $errors = [];
+            parent::__invoke();
+
+            if ($this->errorMessage) {
+                $errors[] = $this->errorMessage;
+            }
         }
 
-        return $result;
+        $this->errorMessage = implode(PHP_EOL, $errors);
+
+        return true;
+    }
+
+    public function title(): string
+    {
+        $title = '<comment>Publishing resource:</comment> ';
+
+        if (isset($this->currentArgument['--provider'])) {
+            $title .= "Provider [<fg=cyan>{$this->currentArgument['--provider']}</>]";
+        }
+
+        $tagStringCallback = function (string $tag) {
+            return " Tag[<fg=cyan>$tag</>]";
+        };
+
+        if (isset($this->currentArgument['--tag'])) {
+            if (is_string($this->currentArgument['--tag'])) {
+                $title .= $tagStringCallback($this->currentArgument['--tag']);
+            } else {
+                foreach ($this->currentArgument['--tag'] as $tag) {
+                    $title .= $tagStringCallback($tag);
+                }
+            }
+        }
+
+        return $title;
+    }
+
+    public function run(): bool
+    {
+        $action = new Artisan($this->getArtisanCommnad(), self::COMMAND, $this->currentArgument);
+
+        return $action->run();
     }
 
     private function addProvider(string $provider, $tag = null)
