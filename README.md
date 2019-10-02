@@ -132,7 +132,7 @@ $run
     ->artisan('command', ['argument' => 'argument_value', '-param' => 'param_value', '--option' => 'option_value', ...]) // Artisan command
     ->external('command', 'argument', '-param', 'param_value', '--option=option_value', ...) // Any external command by array
     ->external('command argument -param param_value --option=option_value') // Any external command by string
-    ->callable('command', 'argument', ...) // Callable function (like for call_user_func)
+    ->callable(function ($arg) {}, $arg) // Callable function (like for call_user_func)
     ->dispatch(new JobClass) // Dispatch job task
     ->dispatchNow(new JobClass) // Dispatch job task without queue
     ->publish(ServiceProvider::class) // Publish single service provider assets
@@ -140,7 +140,8 @@ $run
         ServiceProvider::class,
         AnotherServiceProvider::class,
     ]) // Publish multiple packages assets
-    ->publish([ServiceProvider::class => 'tag']) // Publish package assets with tag
+    ->publish([ServiceProvider::class => 'public']) // Publish package assets with tag
+    ->publish([ServiceProvider::class => ['public', 'config']]) // Publish package assets with multiple tags
     ->publish(ServiceProvider::class, true) // Force publish, works in any variations
 ```
 
