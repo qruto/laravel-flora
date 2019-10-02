@@ -9,6 +9,7 @@ use MadWeb\Initializer\Actions\Callback;
 use MadWeb\Initializer\Actions\Dispatch;
 use MadWeb\Initializer\Actions\External;
 use MadWeb\Initializer\Actions\Publish;
+use MadWeb\Initializer\Actions\PublishTag;
 use MadWeb\Initializer\Contracts\Runner as RunnerContract;
 
 class Run implements RunnerContract
@@ -56,6 +57,16 @@ class Run implements RunnerContract
     public function publishForce($providers): RunnerContract
     {
         return $this->publish($providers, true);
+    }
+
+    public function publishTag($tag, bool $force = false): RunnerContract
+    {
+        return $this->run(new PublishTag($this->artisanCommand, $tag, $force));
+    }
+
+    public function publishTagForce($tag): RunnerContract
+    {
+        return $this->publishTag($tag, true);
     }
 
     public function external(string $command, ...$arguments): RunnerContract

@@ -21,4 +21,8 @@ interface Runner
     public function publish($providers, bool $force = false): self;
 
     public function publishForce($providers): self;
+
+    public function publishTag($tag, bool $force = false): self;
+
+    public function publishTagForce($tag): self;
 }

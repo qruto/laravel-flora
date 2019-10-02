@@ -125,7 +125,7 @@ $this->app->bind('project.installer', \AnotherNameSpace\Install::class);
 $this->app->bind('project.updater', \AnotherNameSpace\Update::class);
 ```
 
-### List of commands available to run
+### Runner API (available actions to run)
 
 ```php
 $run
@@ -141,8 +141,11 @@ $run
         AnotherServiceProvider::class,
     ]) // Publish multiple packages assets
     ->publish([ServiceProvider::class => 'public']) // Publish package assets with tag
-    ->publish([ServiceProvider::class => ['public', 'config']]) // Publish package assets with multiple tags
-    ->publish(ServiceProvider::class, true) // Force publish, works in any variations
+    ->publish([ServiceProvider::class => ['public', 'assets']]) // Publish package assets with multiple tags
+    ->publishForce(ServiceProvider::class) // Force publish, works in any variations
+    ->publishTag('public') // Publish specific tag
+    ->publishTag(['public', 'assets']) // Publish multiple tags
+    ->publishTagForce('public') // Force publish tags
 ```
 
 ## Useful jobs
