@@ -28,10 +28,10 @@ Via Composer
 composer require mad-web/laravel-initializer
 ```
 
-then run:
+then publish initializer classes:
 
 ```
-php artisan make:initializers
+php artisan vendor:publish --tag=initializers
 ```
 
 It create `Install` and `Update` classes in `app` directory

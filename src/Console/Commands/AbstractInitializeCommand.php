@@ -2,6 +2,7 @@
 
 namespace MadWeb\Initializer\Console\Commands;
 
+use ErrorException;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Container\Container;
 use MadWeb\Initializer\Contracts\Runner as ExecutorContract;
@@ -16,19 +17,26 @@ abstract class AbstractInitializeCommand extends Command
      */
     public function handle(Container $container)
     {
+        $initializerInstance = null;
+
+        try {
+            $initializerInstance = $this->getInitializerInstance($container);
+        } catch (ErrorException $e) {
+            $this->error('Publish initializer classes:');
+            $this->error('$ php artisan vendor:publish --tag=initializers');
+
+            return;
+        }
+
         /** @var ExecutorContract $Executor */
         $config = $container->make('config');
         $env = $config->get($config->get('initializer.env_config_key'));
 
         $this->alert($this->title().' started');
 
-        $result = call_user_func(
-            [
-                $this->getInitializerInstance($container),
-                $this->option('root') ? $env.'Root' : $env,
-            ],
-            $container->makeWith(Run::class, ['artisanCommand' => $this])
-        );
+        $result = $initializerInstance
+            ->{$this->option('root') ? $env.'Root' : $env}
+            ($container->makeWith(Run::class, ['artisanCommand' => $this]));
 
         $this->output->newLine();
 
