@@ -11,6 +11,9 @@
     <a href="https://packagist.org/packages/mad-web/laravel-initializer"><img src="https://img.shields.io/packagist/dt/mad-web/laravel-initializer.svg" alt="Quality Score"></a>
     <a href="LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-brightgreen.svg" alt="Software License"></a>
 </p>
+<p align="center">
+    <img width="800" title="Laravel Initializer Demo" src="docs/demo.png" />
+</p>
 
 ## Introduction
 

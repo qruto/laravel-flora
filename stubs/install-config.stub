@@ -12,7 +12,7 @@ class Install
     {
         return $run
             ->external('composer', 'install', '--no-dev', '--prefer-dist', '--optimize-autoloader')
-            ->artisan('key:generate')
+            ->artisan('key:generate', ['--force' => true])
             ->artisan('migrate', ['--force' => true])
             ->artisan('storage:link')
 //            ->dispatch(new MakeCronTask)
