@@ -1,5 +1,5 @@
 <p align="center">
-    <img title="Laravel Initializer" height="100" src="docs/logo.png" />
+    <img title="Laravel Initializer" width="500" src="docs/logo.png" />
 </p>
 <p align="center">A convenient way to <strong>initialize</strong> your application.</p>
 <p align="center">
@@ -17,8 +17,24 @@
 
 ## Introduction
 
-This package adds `app:install` and `app:update` artisan commands, which runs predefined actions depending on the current environment to initialize your application.
-We all know that we have to document the installation process of the application in each project, and we also always write deploy scripts in Forge, Envoy.blade.php, ~~bash scripts~~ etc. With **Initializer** you have an ability to define these processes directly in application by simple commands chain and totally simplify your **_deploy script_**.
+We all know, that every application should contain **Installation** section with list of actions that you should to do for preparing an application to work.
+
+As usually:
+
+- install dependencies
+- run migrations
+- publish assets
+- compiling app assets
+- make cron job for scheduler
+- etc.
+
+Some of actions you should do on every application update (composer update, git pull...) or branch change (git checkout) for getting ready an application to work.
+
+**Laravel Initializer** gives you ability to declare these processes and run it by simple `app:install` and `app:update` artisan commands, which runs predefined actions chain depending on the current environment.
+
+Also `app:update` command could simplify your deploy script in Forge, Envoy.blade.php, laravel-deployer, ~~bash script~~ etc.
+
+> Put a knowledge of application initialization process into the right place
 
 ## Installation
 
