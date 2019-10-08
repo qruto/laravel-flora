@@ -349,6 +349,8 @@ If you discover any security related issues, please email madweb.dev@gmail.com i
 
 ## Credits
 
+Thanks [Nuno Maduro](https://github.com/nunomaduro) for [laravel-console-task](https://github.com/nunomaduro/laravel-console-task) package which gives pretty tasks outputs
+
 - [Mad Web](https://github.com/mad-web)
 - [All Contributors](../../contributors)
 
