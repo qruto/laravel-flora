@@ -135,11 +135,18 @@ Run it by passing "**root**" option:
 artisan app:install --root
 ```
 
+You can see details of running actions with verbosity mode:
+
+```bash
+php artisan app:update -v
+```
+
+
 If you want to move config classes from the `app` directory to a different place, just rebind `app.installer` and `app.updater` keys in the `AppServiceProvider`.
 
 ```php
-$this->app->bind('app.installer', \AnotherNameSpace\Install::class);
-$this->app->bind('app.updater', \AnotherNameSpace\Update::class);
+$this->app->bind('app.installer', \AnotherNamespace\Install::class);
+$this->app->bind('app.updater', \AnotherNamespace\Update::class);
 ```
 
 ### Runner API (available actions to run)
