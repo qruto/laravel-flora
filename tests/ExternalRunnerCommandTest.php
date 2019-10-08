@@ -2,7 +2,6 @@
 
 namespace MadWeb\Initializer\Test;
 
-use Illuminate\Support\Facades\Artisan;
 use MadWeb\Initializer\Run;
 use RuntimeException;
 
