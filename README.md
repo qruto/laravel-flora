@@ -319,12 +319,10 @@ Add `app-install` script into `scripts` section in `composer.json`.
 
 ```json
 "scripts": {
-    ...
     "app-install": [
         "@composer install",
         "@php artisan app:install"
     ],
-    ...
 }
 ```
 
@@ -357,12 +355,10 @@ at first, to simlify this process you are be able to define `app-update` script:
 
 ```json
 "scripts": {
-    ...
     "app-update": [
         "@composer install",
         "@php artisan app:update"
     ],
-    ...
 },
 ```
 

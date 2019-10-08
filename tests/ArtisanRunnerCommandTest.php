@@ -23,7 +23,7 @@ class ArtisanRunnerCommandTest extends RunnerCommandsTestCase
             $run->artisan('some:command');
         }, $command);
 
-        self::assertStringContainsString('Running artisan command: some:command (): ✔', Artisan::output());
+        self::assertStringContainsString('Run artisan command: some:command (): ✔', Artisan::output());
     }
 
     /**
