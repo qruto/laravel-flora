@@ -6,6 +6,8 @@ use Illuminate\Console\Command;
 
 class Callback extends Action
 {
+    protected const LOADING_TEXT = 'calling';
+
     private $function;
 
     private $arguments;
@@ -22,7 +24,7 @@ class Callback extends Action
     {
         is_callable($this->function, false, $name);
 
-        return '<comment>Calling function:</comment> '.$name;
+        return '<comment>Call function:</comment> '.$name;
     }
 
     public function run(): bool

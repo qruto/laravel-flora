@@ -7,6 +7,8 @@ use InvalidArgumentException;
 
 class PublishTag extends Action
 {
+    protected const LOADING_TEXT = 'publishing';
+
     private const COMMAND = 'vendor:publish';
 
     /** @var string|array */
@@ -56,7 +58,7 @@ class PublishTag extends Action
 
     public function title(): string
     {
-        $title = '<comment>Publishing resource:</comment> ';
+        $title = '<comment>Publish resource:</comment> ';
 
         $tagStringCallback = function (string $tag) {
             return " Tag [$tag]";

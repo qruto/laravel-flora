@@ -25,7 +25,7 @@ class External extends Action
     {
         $argString = implode(' ', $this->arguments);
 
-        return "<comment>Running external command:</comment> $this->command $argString";
+        return "<comment>Run external command:</comment> $this->command $argString";
     }
 
     public function run(): bool

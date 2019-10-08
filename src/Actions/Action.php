@@ -7,6 +7,8 @@ use Illuminate\Console\Command;
 
 abstract class Action
 {
+    protected const LOADING_TEXT = 'running';
+
     /** @var \Illuminate\Console\Command */
     private $artisanCommnad;
 
@@ -29,7 +31,7 @@ abstract class Action
 
                 return false;
             }
-        });
+        }, static::LOADING_TEXT.'...');
 
         $this->failed = $failed;
 

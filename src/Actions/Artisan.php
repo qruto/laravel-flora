@@ -20,7 +20,7 @@ class Artisan extends Action
 
     public function title(): string
     {
-        return "<comment>Running artisan command:</comment> $this->command (".
+        return "<comment>Run artisan command:</comment> $this->command (".
             $this->getArtisanCommnad()
                 ->getApplication()
                 ->find($this->command)

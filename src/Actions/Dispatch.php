@@ -8,6 +8,8 @@ use Illuminate\Contracts\Bus\Dispatcher;
 
 class Dispatch extends Action
 {
+    protected const LOADING_TEXT = 'dispatching...';
+
     private $job;
 
     private $runNow;
@@ -22,7 +24,7 @@ class Dispatch extends Action
 
     public function title(): string
     {
-        return '<comment>Dispatching job:</comment> '.get_class($this->job);
+        return '<comment>Dispatch job:</comment> '.get_class($this->job);
     }
 
     public function run(): bool
