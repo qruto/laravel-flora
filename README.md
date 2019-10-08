@@ -103,6 +103,41 @@ class Install
 }
 ```
 
+Update class contents:
+
+```php
+namespace App;
+
+use MadWeb\Initializer\Contracts\Runner;
+
+class Update
+{
+    public function production(Runner $run)
+    {
+        return $run
+            ->external('composer', 'install', '--no-dev', '--prefer-dist', '--optimize-autoloader')
+            ->external('npm', 'install', '--production')
+            ->external('npm', 'run', 'production')
+            ->artisan('route:cache')
+            ->artisan('config:cache')
+            ->artisan('event:cache')
+            ->artisan('migrate', ['--force' => true])
+            ->artisan('cache:clear')
+            ->artisan('queue:restart'); // ->artisan('horizon:terminate');
+    }
+
+    public function local(Runner $run)
+    {
+        return $run
+            ->external('composer', 'install')
+            ->external('npm', 'install')
+            ->external('npm', 'run', 'development')
+            ->artisan('migrate')
+            ->artisan('cache:clear');
+    }
+}
+```
+
 You can add any another method which should be called the same as your environment name, for example `staging`, and define different commands.
 
 If you need to run commands with root privileges separately, you can define a method according to the following convention.
@@ -170,6 +205,18 @@ $run
     ->publishTag('public') // Publish specific tag
     ->publishTag(['public', 'assets']) // Publish multiple tags
     ->publishTagForce('public') // Force publish tags
+```
+
+### Laravel Nova
+
+If you use [Laravel Nova](https://nova.laravel.com), don't forget to publish **Nova** assets on each update:
+
+```php
+// Update class
+...
+    ->artisan('nova:publish')
+    // or
+    ->publishTag('nova-assets')
 ```
 
 ## Useful jobs
