@@ -170,12 +170,24 @@ Run it by passing "**root**" option:
 artisan app:install --root
 ```
 
-You can see details of running actions with verbosity mode:
+To see details of running actions use verbosity mode:
 
 ```bash
 php artisan app:update -v
 ```
 
+You can inject any service from [service container](https://laravel.com/docs/6.x/container) in constructor:
+
+```php
+class Update
+{
+    public function __construct(Filesystem $storage)
+    {
+        $this->storage = $storage;
+    }
+    // ...
+}
+```
 
 If you want to move config classes from the `app` directory to a different place, just rebind `app.installer` and `app.updater` keys in the `AppServiceProvider`.
 
