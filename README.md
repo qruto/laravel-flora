@@ -34,6 +34,8 @@ Some of actions you should do on every application update (composer update, git 
 
 Also `app:update` command could simplify your deploy script in Forge, Envoy.blade.php, laravel-deployer, ~~bash script~~ etc.
 
+With Laravel Initializer you keep both of these processes in the source control.
+
 > Put a knowledge of application initialization process into the right place
 
 ## Installation
