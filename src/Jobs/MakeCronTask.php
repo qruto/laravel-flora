@@ -17,7 +17,7 @@ class MakeCronTask
     public function handle()
     {
         $base_path = base_path();
-        $task = '* * * * * php '.$base_path.'/artisan schedule:run >> /dev/null 2>&1';
+        $task = "* * * * * cd $base_path && php artisan schedule:run >> /dev/null 2>&1";
         exec('(crontab -l 2>/dev/null; echo "'.$task.'") | crontab -');
 
         return 'Base cron task for scheduling work created. Task: '.$task;

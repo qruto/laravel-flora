@@ -19,7 +19,7 @@ class MakeCronTaskTest extends RunnerCommandsTestCase
         }, $command);
 
         $base_path = base_path();
-        $task = '* * * * * php '.$base_path.'/artisan schedule:run >> /dev/null 2>&1';
+        $task = "* * * * * cd $base_path && php artisan schedule:run >> /dev/null 2>&1";
 
         $this->assertStringContainsString($task, exec('crontab -l'));
 
