@@ -17,9 +17,9 @@
 
 ## Introduction
 
-We all know, that every application should contain **Installation** section with list of actions that you should to do for preparing an application to work.
+We all know, that every application should contain readme file and **Installation** section with list of actions that you should to do for preparing an application to work.
 
-As usually:
+Typical instruction:
 
 - install dependencies
 - run migrations
@@ -48,11 +48,11 @@ composer require mad-web/laravel-initializer
 
 then publish initializer classes:
 
-```
+```bash
 php artisan vendor:publish --tag=initializers
 ```
 
-It create `Install` and `Update` classes in `app` directory
+It will create `Install` and `Update` classes in `app` directory
 which contains `local` and `production` methods according to different environments.
 This methods should return runner chain with specific to install or update actions.
 
@@ -140,9 +140,9 @@ class Update
 }
 ```
 
-You can add any another method which should be called the same as your environment name, for example `staging`, and define different commands.
+You can add any another method which should be called the same as your environment name, for example `staging`, and define different actions.
 
-If you need to run commands with root privileges separately, you can define a method according to the following convention.
+If you need to run actions with root privileges separately, you can define a method according to the following convention.
 
 ```php
 namespace App;
@@ -191,7 +191,7 @@ class Update
 }
 ```
 
-If you want to move config classes from the `app` directory to a different place, just rebind `app.installer` and `app.updater` keys in the `AppServiceProvider`.
+If you want to move config classes from the `app` directory to a different place, rebind `app.installer` and `app.updater` keys of service container in the `AppServiceProvider`.
 
 ```php
 $this->app->bind('app.installer', \AnotherNamespace\Install::class);
@@ -203,7 +203,7 @@ $this->app->bind('app.updater', \AnotherNamespace\Update::class);
 ```php
 $run
     ->artisan('command', ['argument' => 'argument_value', '-param' => 'param_value', '--option' => 'option_value', ...]) // Artisan command
-    ->external('command', 'argument', '-param', 'param_value', '--option=option_value', ...) // Any external command by array
+    ->external('command', 'argument', '-param', 'param_value', '--option=option_value', ...) // Any external command by arguments
     ->external('command argument -param param_value --option=option_value') // Any external command by string
     ->callable(function ($arg) {}, $arg) // Callable function (like for call_user_func)
     ->dispatch(new JobClass) // Dispatch job task
@@ -250,14 +250,14 @@ $run
 This job will add
 
 ```txt
-* * * * * php /path-to-your-app/artisan schedule:run >> /dev/null 2>&1
+* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
 ```
 
 to crontab list.
 
 ### Create laravel-echo-server.json config file
 
-If you use [Laravel Echo Server](https://github.com/tlaverdure/laravel-echo-server) for broadcasting events in your application, add dispatch `MakeEchoServerConfig` job to runner chain to create configuration file for laravel-echo-server.
+If you use [Laravel Echo Server](https://github.com/tlaverdure/laravel-echo-server) for broadcasting events in your application, add dispatch `MakeEchoServerConfig` job to runner chain to create configuration file.
 
 ```php
 $run
@@ -297,7 +297,7 @@ $run
 ### Create supervisor config file for queues
 
 This job creates supervisor config file for queue workers.
-Just add dispatch `MakeQueueSupervisorConfig` job to runner chain.
+Add dispatch `MakeQueueSupervisorConfig` job to runner chain.
 
 ```php
 $run
@@ -320,13 +320,14 @@ $run
 
 ### Create supervisor config file for laravel echo server
 
-On the same way as `MakeQueueSupervisorConfig` this job creates supervisor config file for launching laravel echo server.
-Add dispatch `MakeSocketSupervisorConfig` job to runner chain. The difference from `MakeQueueSupervisorConfig` is the command `node ./node_modules/.bin/laravel-echo-server start` and the config filename is `your-application-name-socket.conf`.
+On the same way as `MakeQueueSupervisorConfig` job, you can use `MakeSocketSupervisorConfig` to create supervisor config file for launching laravel echo server.
+The difference from `MakeQueueSupervisorConfig` is the command `node ./node_modules/.bin/laravel-echo-server start` and the config filename is `your-application-name-socket.conf`.
 
 Both config files save log files to `your-app-path/storage/logs`.
 
 ## Installation by one command
 
+For running `php artisan app:install` command, you should install composer dependencies at first.
 It would be nice to have ability to install an application by one command. We provide nice hack to implement this behavior.
 
 Add `app-install` script into `scripts` section in `composer.json`.
@@ -363,9 +364,9 @@ public function productionRoot(Runner $run) { ... }
 
 ## Safe Update
 
-In cases when latest changes has been pulled and some functionnality of currently not installed package
+In cases when latest changes has been pulled from source control and some functionality of currently not installed package
 uses in one of a _Service Provider_ you will get an error. To prevent this issue you should make `composer install`
-at first, to simlify this process you are be able to define `app-update` script:
+at first, to simplify this process you are be able to define `app-update` script:
 
 ```json
 "scripts": {

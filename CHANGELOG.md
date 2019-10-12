@@ -4,6 +4,19 @@ All Notable changes to `laravel-initializer` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## 2.0.0 - 2019-10-12
+
+It's massive update with code polishing, beautified output and several nice features.
+
+`app:install` and `app:update` commands output now much more expressive. You can check out new output in the [README](README.md) demo. Made with [nunomaduro/laravel-console-task](https://github.com/nunomaduro/laravel-console-task).
+
+- Commands output are hidden by default
+- Output details of execution could be viewed in verbosity mode
+- Ability to publish multiple tags for one provider
+- Ability to publish by tags only
+- Replaced `make:initializers` command by publishing `initializers` tag
+- Updated default initializer stubs
+
 ## 1.4.0 - 2019-09-06
 
 - Laravel 6.0 support
