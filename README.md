@@ -28,9 +28,9 @@ Typical instruction:
 - make cron job for scheduler
 - etc.
 
-Some of actions you should do on every application update (composer update, git pull...) or branch change (git checkout) for getting ready an application to work.
+Some of actions you should do on every application update (composer update, git pull...) or branch change (git checkout) for preparing an application to work.
 
-**Laravel Initializer** gives you ability to declare these processes and run it by simple `app:install` and `app:update` artisan commands, which runs predefined actions chain depending on the current environment.
+**Laravel Initializer** gives you the ability to declare these processes and run it by simple `app:install` and `app:update` artisan commands, which run predefined actions chain depending on the current environment.
 
 Also `app:update` command could simplify your deploy script in Forge, Envoy.blade.php, laravel-deployer, ~~bash script~~ etc.
 
@@ -54,7 +54,7 @@ php artisan vendor:publish --tag=initializers
 
 It will create `Install` and `Update` classes in `app` directory
 which contains `local` and `production` methods according to different environments.
-This methods should return runner chain with specific to install or update actions.
+This methods should return runner chain with specific actions to install or update processes.
 
 You can override config key which stores current environment value, publish config file and set `env_config_key` value.
 
@@ -140,9 +140,9 @@ class Update
 }
 ```
 
-You can add any another method which should be called the same as your environment name, for example `staging`, and define different actions.
+You can add any other method which should have the same name as your environment name, for example `staging`, and define different actions.
 
-If you need to run actions with root privileges separately, you can define a method according to the following convention.
+If you need to run actions with root privileges separately, you can define a method according to the following convention:
 
 ```php
 namespace App;
@@ -239,7 +239,7 @@ Laravel initializer provides some useful jobs to make initializing of your appli
 
 ### Create cron task for scheduling tasks
 
-To enable [Laravel Scheduling](https://laravel.com/docs/5.6/scheduling) add dispatch `MakeCronTask` job to runner chain to create cron task for your application.
+To enable [Laravel Scheduling](https://laravel.com/docs/6.x/scheduling) add dispatch `MakeCronTask` job to runner chain to create cron task for your application.
 
 ```php
 $run
@@ -328,7 +328,7 @@ Both config files save log files to `your-app-path/storage/logs`.
 ## Installation by one command
 
 For running `php artisan app:install` command, you should install composer dependencies at first.
-It would be nice to have ability to install an application by one command. We provide nice hack to implement this behavior.
+It would be nice to have the ability to install an application by one command. We provide nice hack to implement this behavior.
 
 Add `app-install` script into `scripts` section in `composer.json`.
 
@@ -349,7 +349,7 @@ composer app-install
 
 to initialize your application.
 
-If your application has commands that requires root privileges and you use Unix based system, add the following command into your runner chain:
+If your application has actions that require root privileges and you use Unix based system, add the following command into your runner chain:
 
 ```php
 public function production(Runner $run)
@@ -364,9 +364,8 @@ public function productionRoot(Runner $run) { ... }
 
 ## Safe Update
 
-In cases when latest changes has been pulled from source control and some functionality of currently not installed package
-uses in one of a _Service Provider_ you will get an error. To prevent this issue you should make `composer install`
-at first, to simplify this process you are be able to define `app-update` script:
+In cases when latest changes has been pulled from source control and some functionality of currently not installed package is used in one of a _Service Provider_ you will get an error. To prevent this issue you should make `composer install`
+at first, to simplify this process you can define `app-update` script:
 
 ```json
 "scripts": {
