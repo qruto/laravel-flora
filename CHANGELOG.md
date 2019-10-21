@@ -4,9 +4,9 @@ All Notable changes to `laravel-initializer` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
-## 2.0.0 - 2019-10-12
+## 2.0.0 - 2019-10-21
 
-It's massive update with code polishing, beautified output and several nice features.
+It's major release with code polishing, beautified output and several nice features.
 
 `app:install` and `app:update` commands output now much more expressive. You can check out new output in the [README](README.md) demo. Made with [nunomaduro/laravel-console-task](https://github.com/nunomaduro/laravel-console-task).
 
