@@ -4,6 +4,10 @@ All Notable changes to `laravel-initializer` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## 2.0.1 - 2019-10-21
+
+Fixed typo in commands title
+
 ## 2.0.0 - 2019-10-21
 
 It's major release with code polishing, beautified output and several nice features.
