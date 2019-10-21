@@ -33,6 +33,6 @@ class InstallCommand extends AbstractInitializeCommand
 
     protected function title(): string
     {
-        return 'Applicatoin installation';
+        return 'Application installation';
     }
 }

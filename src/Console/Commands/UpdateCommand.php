@@ -33,6 +33,6 @@ class UpdateCommand extends AbstractInitializeCommand
 
     protected function title(): string
     {
-        return 'Applicatoin update';
+        return 'Application update';
     }
 }
