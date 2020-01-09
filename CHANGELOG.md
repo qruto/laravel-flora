@@ -4,6 +4,10 @@ All Notable changes to `laravel-initializer` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## 2.0.2 - 2020-01-09
+
+Now Initializer returns appropriate exit codes
+
 ## 2.0.1 - 2019-10-21
 
 Fixed typo in commands title

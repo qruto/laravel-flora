@@ -25,7 +25,7 @@ abstract class AbstractInitializeCommand extends Command
             $this->error('Publish initializer classes:');
             $this->error('$ php artisan vendor:publish --tag=initializers');
 
-            return;
+            return 1;
         }
 
         /** @var ExecutorContract $Executor */
@@ -51,9 +51,13 @@ abstract class AbstractInitializeCommand extends Command
             }
 
             $this->line('<fg=red>You could run command with <fg=cyan>-v</> flag to see more details</>');
-        } else {
-            $this->info($this->title().' done!');
+
+            return 1;
         }
+
+        $this->info($this->title().' done!');
+
+        return 0;
     }
 
     /**
