@@ -4,6 +4,12 @@ All Notable changes to `laravel-initializer` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## 3.0.0 - 2020-03-04
+
+- Laravel 7 support
+- Dropped support for Laravel 5.5 and 5.8
+- Minimum required PHP version 7.2.5
+
 ## 2.0.2 - 2020-01-09
 
 Now Initializer returns appropriate exit codes
