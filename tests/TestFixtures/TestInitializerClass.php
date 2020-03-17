@@ -8,6 +8,5 @@ class TestInitializerClass
 {
     public function testing(Runner $run)
     {
-        return $run;
     }
 }
