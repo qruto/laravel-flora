@@ -40,14 +40,22 @@ abstract class AbstractInitializeCommand extends Command
 
         $this->output->newLine();
 
-        if ($runner->errorMessages()) {
-            $this->line('<fg=red>'.$this->title().' done with errors:</>');
+        if ($runner->doneWithErrors()) {
+            $errorMessages = $runner->errorMessages();
 
-            $this->output->newLine();
+            $this->line(
+                '<fg=red>'.$this->title().' done with errors'.
+                (! empty($errorMessages) ? ':' : '.').
+                '</>'
+            );
 
-            foreach ($runner->errorMessages() as $message) {
-                $this->error($message);
+            if (! empty($errorMessages)) {
                 $this->output->newLine();
+
+                foreach ($runner->errorMessages() as $message) {
+                    $this->error($message);
+                    $this->output->newLine();
+                }
             }
 
             $this->line('<fg=red>You could run command with <fg=cyan>-v</> flag to see more details</>');

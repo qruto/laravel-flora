@@ -62,4 +62,25 @@ class ArtisanRunnerCommandTest extends RunnerCommandsTestCase
             \Illuminate\Database\QueryException::class
         );
     }
+
+    /**
+     * @test
+     * @dataProvider initCommandsSet
+     */
+    public function error_without_message($command)
+    {
+        $comment = 'Some comment';
+
+        Artisan::command('some:command', function () use ($comment) {
+            $this->comment($comment);
+
+            return 1;
+        });
+
+        $this->declareCommands(function (Run $run) {
+            $run->artisan('some:command');
+        }, $command, true);
+
+        $this->assertErrorAppeared("done with errors.\nYou could run command with -v flag to see more details");
+    }
 }
