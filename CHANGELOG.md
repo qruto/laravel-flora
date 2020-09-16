@@ -4,6 +4,10 @@ All Notable changes to `laravel-initializer` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## 3.2.0 - 2020-09-16
+
+Laravel 8 support
+
 ## 3.1.1 - 2020-04-18
 
 Fixed commands crash, when failed action hasn't provide an error message
