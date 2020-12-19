@@ -6,7 +6,8 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ## 3.3.0 - 2020-12-19
 
-PHP 8 support
+- PHP 8 support
+- dropped PHP 7.2 support
 
 ## 3.2.0 - 2020-09-16
 
