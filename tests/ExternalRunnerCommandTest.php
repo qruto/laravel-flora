@@ -15,7 +15,7 @@ class ExternalRunnerCommandTest extends RunnerCommandsTestCase
     {
         $test_file_path = $this->app->basePath('test-external.txt');
 
-        $this->assertFileNotExists($test_file_path);
+        $this->assertFileDoesNotExist($test_file_path);
 
         $this->declareCommands(function (Run $run) use ($test_file_path) {
             $run->external('echo "test output" > '.$test_file_path);
@@ -34,7 +34,7 @@ class ExternalRunnerCommandTest extends RunnerCommandsTestCase
     {
         $test_file_path = $this->app->basePath('test-external.txt');
 
-        $this->assertFileNotExists($test_file_path);
+        $this->assertFileDoesNotExist($test_file_path);
 
         $this->declareCommands(function (Run $run) use ($test_file_path) {
             $run->external('touch', $test_file_path);

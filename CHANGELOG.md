@@ -4,6 +4,10 @@ All Notable changes to `laravel-initializer` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
+## 3.3.0 - 2020-12-19
+
+PHP 8 support
+
 ## 3.2.0 - 2020-09-16
 
 Laravel 8 support

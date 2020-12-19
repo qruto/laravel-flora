@@ -22,7 +22,7 @@ class MakeSupervisorConfigJobTest extends RunnerCommandsTestCase
 
         $file_path = base_path('test-queue.conf');
 
-        $this->assertRegExp(sprintf(self::PATTERN, 'queue'), file_get_contents($file_path));
+        $this->assertMatchesRegularExpression(sprintf(self::PATTERN, 'queue'), file_get_contents($file_path));
 
         unlink($file_path);
     }
@@ -63,7 +63,7 @@ class MakeSupervisorConfigJobTest extends RunnerCommandsTestCase
 
         $file_path = base_path('test-queue.conf');
 
-        $this->assertRegExp(sprintf(self::PATTERN, 'socket'), file_get_contents($file_path));
+        $this->assertMatchesRegularExpression(sprintf(self::PATTERN, 'socket'), file_get_contents($file_path));
 
         unlink($file_path);
     }

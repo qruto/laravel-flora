@@ -98,7 +98,7 @@ class PublishRunnerCommandTest extends RunnerCommandsTestCase
 
         $public_path_to_file = public_path('test-publishable-one.txt');
 
-        $this->assertFileNotExists($public_path_to_file);
+        $this->assertFileDoesNotExist($public_path_to_file);
     }
 
     /**
@@ -164,7 +164,7 @@ class PublishRunnerCommandTest extends RunnerCommandsTestCase
         $public_path_to_file_two = public_path('test-publishable-two.txt');
 
         $this->assertFileExists($public_path_to_file_one);
-        $this->assertFileNotExists($public_path_to_file_two);
+        $this->assertFileDoesNotExist($public_path_to_file_two);
 
         unlink($public_path_to_file_one);
     }
