@@ -4,7 +4,7 @@
 <p align="center">A convenient way to <strong>initialize</strong> your application.</p>
 <p align="center">
     <a href="https://packagist.org/packages/mad-web/laravel-initializer"><img src="https://img.shields.io/packagist/v/mad-web/laravel-initializer.svg" alt="Latest Stable Version"></a>
-    <a href="https://github.com/mad-web/laravl-initializer/actions"><img src="https://img.shields.io/github/workflow/status/mad-web/laravel-initializer/run-php-tests?label=tests" alt="Build Status"></a>
+    <a href="https://github.com/mad-web/laravel-initializer/actions"><img src="https://github.com/mad-web/laravel-initializer/workflows/tests/badge.svg" alt="Build Status"></a>
     <a href="https://styleci.io/repos/100302581"><img src="https://styleci.io/repos/100302581/shield?style=flat" alt="Code Style Status"></a>
     <a href="https://scrutinizer-ci.com/g/mad-web/laravel-initializer/code-structure"><img src="https://img.shields.io/scrutinizer/coverage/g/mad-web/laravel-initializer.svg" alt="Code Coverage Status"></a>
     <a href="https://scrutinizer-ci.com/g/mad-web/laravel-initializer"><img src="https://img.shields.io/scrutinizer/g/mad-web/laravel-initializer.svg" alt="Quality Score"></a>
