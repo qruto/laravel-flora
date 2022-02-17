@@ -4,7 +4,7 @@ All Notable changes to `laravel-initializer` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
-## 3.3.2 - Under Development
+## 3.4.0 - 2022-02-17
 
 Laravel 9 support
 
