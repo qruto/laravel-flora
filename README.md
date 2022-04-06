@@ -1,3 +1,5 @@
+[![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner-direct-single.svg)](https://stand-with-ukraine.pp.ua)
+
 <p align="center">
     <img title="Laravel Initializer" width="500" src="docs/logo.png" />
 </p>
