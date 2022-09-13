@@ -1,16 +1,18 @@
 <?php
 
-namespace MadWeb\Initializer;
+namespace Qruto\Initializer;
 
+use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
-use MadWeb\Initializer\Console\Commands\InstallCommand;
-use MadWeb\Initializer\Console\Commands\UpdateCommand;
-use MadWeb\Initializer\Contracts\Runner;
+use Qruto\Initializer\Console\Commands\InstallCommand;
+use Qruto\Initializer\Console\Commands\UpdateCommand;
+use Qruto\Initializer\Contracts\Runner;
 use NunoMaduro\LaravelConsoleTask\LaravelConsoleTaskServiceProvider;
 use Qruto\Initializer\Builder;
 use Qruto\Initializer\Chain;
 use Qruto\Initializer\Contracts\BuilderContract;
 use Qruto\Initializer\Contracts\ChainContract;
+use Qruto\Initializer\Contracts\ChainStoreContract;
 
 class InitializerServiceProvider extends ServiceProvider
 {
@@ -36,6 +38,11 @@ class InitializerServiceProvider extends ServiceProvider
                 UpdateCommand::class,
             ]);
         }
+
+        $builder = $this->app->make(BuilderContract::class);
+
+        Application::macro('install', fn () => $builder->install());
+        Application::macro('update', fn () => $builder->update());
     }
 
     /**
@@ -48,6 +55,7 @@ class InitializerServiceProvider extends ServiceProvider
         $this->app->bind(Runner::class, Run::class);
 
         $this->app->singleton(BuilderContract::class, Builder::class);
-        $this->app->bind(ChainContract::class, Chain::class);
+        $this->app->singleton(ChainStoreContract::class, ChainStore::class);
+        $this->app->singleton(ChainContract::class, Chain::class);
     }
 }

@@ -5,29 +5,26 @@ namespace Qruto\Initializer;
 use Illuminate\Contracts\Container\Container;
 use Qruto\Initializer\Contracts\BuilderContract;
 use Qruto\Initializer\Contracts\ChainContract;
+use Qruto\Initializer\Contracts\ChainStoreContract;
 
 class Builder implements BuilderContract
 {
-    protected $installChain;
-    protected $updateChain;
-
-    public function __construct(protected Container $container)
+    public function __construct(protected Container $container, public ChainStoreContract $store)
     {
-
     }
 
     public function install(): ChainContract
     {
-        $this->installChain = $this->createCommandChain();
+        $chain = $this->store->saveInstall($this->createCommandChain());
 
-        return $this->installChain;
+        return $chain;
     }
 
     public function update(): ChainContract
     {
-        $this->updateChain = $this->createCommandChain();
+        $chain = $this->store->saveUpdate($this->createCommandChain());
 
-        return $this->updateChain;
+        return $chain;
     }
 
     protected function createCommandChain()
