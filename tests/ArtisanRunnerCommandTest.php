@@ -1,9 +1,9 @@
 <?php
 
-namespace MadWeb\Initializer\Test;
+namespace Qruto\Initializer\Test;
 
 use Illuminate\Support\Facades\Artisan;
-use MadWeb\Initializer\Run;
+use Qruto\Initializer\Run;
 
 class ArtisanRunnerCommandTest extends RunnerCommandsTestCase
 {

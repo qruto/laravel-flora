@@ -1,6 +1,6 @@
 <?php
 
-namespace MadWeb\Initializer\Actions;
+namespace Qruto\Initializer\Actions;
 
 use Exception;
 use Illuminate\Console\Command;

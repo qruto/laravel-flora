@@ -42,12 +42,12 @@
     },
     "autoload": {
         "psr-4": {
-            "MadWeb\\Initializer\\": "src"
+            "Qruto\\Initializer\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "MadWeb\\Initializer\\Test\\": "tests"
+            "Qruto\\Initializer\\Test\\": "tests"
         }
     },
     "scripts": {
@@ -60,7 +60,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "MadWeb\\Initializer\\InitializerServiceProvider"
+                "Qruto\\Initializer\\InitializerServiceProvider"
             ]
         }
     },

@@ -1,6 +1,6 @@
 <?php
 
-namespace MadWeb\Initializer\Jobs;
+namespace Qruto\Initializer\Jobs;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;

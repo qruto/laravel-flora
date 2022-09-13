@@ -2,7 +2,7 @@
 
 namespace App;
 
-use MadWeb\Initializer\Contracts\Runner;
+use Qruto\Initializer\Contracts\Runner;
 
 class Install
 {

@@ -1,16 +1,16 @@
 <?php
 
-namespace MadWeb\Initializer;
+namespace Qruto\Initializer;
 
 use Illuminate\Console\Command;
-use MadWeb\Initializer\Actions\Action;
-use MadWeb\Initializer\Actions\Artisan;
-use MadWeb\Initializer\Actions\Callback;
-use MadWeb\Initializer\Actions\Dispatch;
-use MadWeb\Initializer\Actions\External;
-use MadWeb\Initializer\Actions\Publish;
-use MadWeb\Initializer\Actions\PublishTag;
-use MadWeb\Initializer\Contracts\Runner as RunnerContract;
+use Qruto\Initializer\Actions\Action;
+use Qruto\Initializer\Actions\Artisan;
+use Qruto\Initializer\Actions\Callback;
+use Qruto\Initializer\Actions\Dispatch;
+use Qruto\Initializer\Actions\External;
+use Qruto\Initializer\Actions\Publish;
+use Qruto\Initializer\Actions\PublishTag;
+use Qruto\Initializer\Contracts\Runner as RunnerContract;
 
 class Run implements RunnerContract
 {

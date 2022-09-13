@@ -1,12 +1,12 @@
 <?php
 
-namespace MadWeb\Initializer\Console\Commands;
+namespace Qruto\Initializer\Console\Commands;
 
 use ErrorException;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Container\Container;
-use MadWeb\Initializer\Contracts\Runner as ExecutorContract;
-use MadWeb\Initializer\Run;
+use Qruto\Initializer\Contracts\Runner as ExecutorContract;
+use Qruto\Initializer\Run;
 
 abstract class AbstractInitializeCommand extends Command
 {

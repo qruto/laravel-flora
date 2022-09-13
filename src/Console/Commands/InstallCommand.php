@@ -1,6 +1,6 @@
 <?php
 
-namespace MadWeb\Initializer\Console\Commands;
+namespace Qruto\Initializer\Console\Commands;
 
 use Illuminate\Contracts\Container\Container;
 

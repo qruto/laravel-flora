@@ -1,6 +1,6 @@
 <?php
 
-namespace MadWeb\Initializer\Contracts;
+namespace Qruto\Initializer\Contracts;
 
 interface Runner
 {

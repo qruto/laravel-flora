@@ -1,6 +1,6 @@
 <?php
 
-namespace MadWeb\Initializer\Jobs\Supervisor;
+namespace Qruto\Initializer\Jobs\Supervisor;
 
 class MakeQueueSupervisorConfig extends MakeSupervisorConfig
 {
