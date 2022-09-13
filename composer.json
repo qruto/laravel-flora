@@ -1,5 +1,5 @@
 {
-    "name": "mad-web/laravel-initializer",
+    "name": "qruto/laravel-initializer",
     "description": "A convenient way to initialize your application",
     "type": "library",
     "keywords": [

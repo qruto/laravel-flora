@@ -7,6 +7,10 @@ use MadWeb\Initializer\Console\Commands\InstallCommand;
 use MadWeb\Initializer\Console\Commands\UpdateCommand;
 use MadWeb\Initializer\Contracts\Runner;
 use NunoMaduro\LaravelConsoleTask\LaravelConsoleTaskServiceProvider;
+use Qruto\Initializer\Builder;
+use Qruto\Initializer\Chain;
+use Qruto\Initializer\Contracts\BuilderContract;
+use Qruto\Initializer\Contracts\ChainContract;
 
 class InitializerServiceProvider extends ServiceProvider
 {
@@ -41,9 +45,9 @@ class InitializerServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__.'/../config/initializer.php', 'initializer');
 
-        $this->app->bind('app.installer', \App\Install::class);
-        $this->app->bind('app.updater', \App\Update::class);
-
         $this->app->bind(Runner::class, Run::class);
+
+        $this->app->singleton(BuilderContract::class, Builder::class);
+        $this->app->bind(ChainContract::class, Chain::class);
     }
 }
