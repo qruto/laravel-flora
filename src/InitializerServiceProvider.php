@@ -8,11 +8,9 @@ use Qruto\Initializer\Console\Commands\InstallCommand;
 use Qruto\Initializer\Console\Commands\UpdateCommand;
 use Qruto\Initializer\Contracts\Runner;
 use NunoMaduro\LaravelConsoleTask\LaravelConsoleTaskServiceProvider;
-use Qruto\Initializer\Builder;
 use Qruto\Initializer\Chain;
-use Qruto\Initializer\Contracts\BuilderContract;
-use Qruto\Initializer\Contracts\ChainContract;
-use Qruto\Initializer\Contracts\ChainStoreContract;
+use Qruto\Initializer\Contracts\Chain as ChainContract;
+use Qruto\Initializer\Contracts\ChainVault as ChainVaultContract;
 
 class InitializerServiceProvider extends ServiceProvider
 {
@@ -39,10 +37,10 @@ class InitializerServiceProvider extends ServiceProvider
             ]);
         }
 
-        $builder = $this->app->make(BuilderContract::class);
+        $vault = $this->app->make(ChainVaultContract::class);
 
-        Application::macro('install', fn () => $builder->install());
-        Application::macro('update', fn () => $builder->update());
+        Application::macro('install', fn () => $vault->getInstall());
+        Application::macro('update', fn () => $vault->getUpdate());
     }
 
     /**
@@ -54,8 +52,7 @@ class InitializerServiceProvider extends ServiceProvider
 
         $this->app->bind(Runner::class, Run::class);
 
-        $this->app->singleton(BuilderContract::class, Builder::class);
-        $this->app->singleton(ChainStoreContract::class, ChainStore::class);
-        $this->app->singleton(ChainContract::class, Chain::class);
+        $this->app->bind(ChainContract::class, Chain::class);
+        $this->app->singleton(ChainVaultContract::class, ChainVault::class);
     }
 }

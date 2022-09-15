@@ -6,7 +6,7 @@ namespace Qruto\Initializer\Contracts;
  * @method self local(callable $callback)
  * @method self production(callable $callback)
  */
-interface ChainContract
+interface Chain
 {
-    public function run(string $environment);
+    public function getForEnvironment(string $env): callable;
 }

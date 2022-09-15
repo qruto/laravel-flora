@@ -3,7 +3,7 @@
 namespace Qruto\Initializer;
 
 use Illuminate\Contracts\Container\Container;
-use Qruto\Initializer\Contracts\ChainContract;
+use Qruto\Initializer\Contracts\Chain as ChainContract;
 
 /**
  * @method self local(callable $callback)
@@ -13,10 +13,6 @@ class Chain implements ChainContract
 {
     protected array $envCommands = [];
 
-    public function __construct(protected Container $container)
-    {
-    }
-
     public function __call($environment, $arguments)
     {
         $this->envCommands[$environment] = $arguments[0];
@@ -24,8 +20,8 @@ class Chain implements ChainContract
         return $this;
     }
 
-    public function run(string $environment)
+    public function getForEnvironment(string $env): callable
     {
-        $this->container->call($this->envCommands[$environment]);
+        return $this->envCommands[$env];
     }
 }

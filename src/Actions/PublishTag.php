@@ -1,6 +1,6 @@
 <?php
 
-namespace QrutoInitializer\Actions;
+namespace Qruto\Initializer\Actions;
 
 use Illuminate\Console\Command;
 use InvalidArgumentException;

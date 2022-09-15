@@ -3,6 +3,9 @@
 namespace Qruto\Initializer\Console\Commands;
 
 use Illuminate\Contracts\Container\Container;
+use Qruto\Initializer\Contracts\Builder;
+use Qruto\Initializer\Contracts\Chain;
+use Qruto\Initializer\Contracts\ChainVault;
 
 class UpdateCommand extends AbstractInitializeCommand
 {
@@ -26,13 +29,13 @@ class UpdateCommand extends AbstractInitializeCommand
      *
      * {@inheritdoc}
      */
-    protected function getInitializerInstance(Container $container)
+    protected function getInitializer(ChainVault $vault): Chain
     {
-        return $container->make('app.updater');
+        return $vault->getUpdate();
     }
 
     protected function title(): string
     {
-        return 'Application update';
+        return 'update';
     }
 }

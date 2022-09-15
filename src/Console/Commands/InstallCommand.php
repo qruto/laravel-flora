@@ -3,6 +3,9 @@
 namespace Qruto\Initializer\Console\Commands;
 
 use Illuminate\Contracts\Container\Container;
+use Qruto\Initializer\Contracts\Builder;
+use Qruto\Initializer\Contracts\Chain;
+use Qruto\Initializer\Contracts\ChainVault;
 
 class InstallCommand extends AbstractInitializeCommand
 {
@@ -26,13 +29,13 @@ class InstallCommand extends AbstractInitializeCommand
      *
      * {@inheritdoc}
      */
-    protected function getInitializerInstance(Container $container)
+    protected function getInitializer(ChainVault $vault): Chain
     {
-        return $container->make('app.installer');
+        return $vault->getInstall();
     }
 
     protected function title(): string
     {
-        return 'Application installation';
+        return 'install';
     }
 }
