@@ -4,8 +4,11 @@ namespace Qruto\Initializer\Console\Commands;
 
 use ErrorException;
 use Illuminate\Console\Command;
+use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Container\Container;
-use Qruto\Initializer\Contracts\Runner as ExecutorContract;
+use Illuminate\Contracts\Debug\ExceptionHandler;
+use Qruto\Initializer\Contracts\Chain;
+use Qruto\Initializer\Contracts\ChainVault;
 use Qruto\Initializer\Run;
 
 abstract class AbstractInitializeCommand extends Command
@@ -15,45 +18,35 @@ abstract class AbstractInitializeCommand extends Command
      *
      * @return void
      */
-    public function handle(Container $container)
+    public function handle(Container $container, Repository $config, ChainVault $vault, ExceptionHandler $exceptionHandler)
     {
-        $initializerInstance = null;
+        require base_path('routes/build.php');
 
-        try {
-            $initializerInstance = $this->getInitializerInstance($container);
-        } catch (ErrorException $e) {
-            $this->error('Publish initializer classes:');
-            $this->error('$ php artisan vendor:publish --tag=initializers');
+        $initializer = $this->getInitializer($vault);
 
-            return 1;
-        }
-
-        /** @var ExecutorContract $Executor */
-        $config = $container->make('config');
+        // TODO: respect env option
         $env = $config->get($config->get('initializer.env_config_key'));
 
-        $this->alert($this->title().' started');
+        $this->components->alert('Application ' . $this->title());
 
-        $runner = $container->makeWith(Run::class, ['artisanCommand' => $this]);
+        $runner = $container->make(Run::class, ['initializerCommand' => $this]);
 
-        $initializerInstance->{$this->option('root') ? $env.'Root' : $env}($runner);
+        $container->call($initializer->get($env), ['run' => $runner]);
+
+        // TODO: root options
 
         $this->output->newLine();
 
         if ($runner->doneWithErrors()) {
-            $errorMessages = $runner->errorMessages();
+            $exceptions = $runner->exceptions();
 
-            $this->line(
-                '<fg=red>'.$this->title().' done with errors'.
-                (! empty($errorMessages) ? ':' : '.').
-                '</>'
-            );
+            $this->components->error($this->title(). ' occur errors');
 
-            if (! empty($errorMessages)) {
+            if (! empty($exceptions)) {
                 $this->output->newLine();
 
-                foreach ($runner->errorMessages() as $message) {
-                    $this->error($message);
+                foreach ($exceptions as $exception) {
+                    $exceptionHandler->renderForConsole($this->getOutput(), $exception);
                     $this->output->newLine();
                 }
             }
@@ -63,7 +56,7 @@ abstract class AbstractInitializeCommand extends Command
             return 1;
         }
 
-        $this->info($this->title().' done!');
+        $this->components->info($this->title().' done!');
 
         return 0;
     }
@@ -73,7 +66,7 @@ abstract class AbstractInitializeCommand extends Command
      *
      * @return object
      */
-    abstract protected function getInitializerInstance(Container $container);
+    abstract protected function getInitializer(ChainVault $vault): Chain;
 
     abstract protected function title(): string;
 }

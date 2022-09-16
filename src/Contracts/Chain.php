@@ -8,5 +8,7 @@ namespace Qruto\Initializer\Contracts;
  */
 interface Chain
 {
-    public function getForEnvironment(string $env): callable;
+    public function set(string $environment, callable $callback);
+
+    public function get(string $environment);
 }

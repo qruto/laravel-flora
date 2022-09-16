@@ -29,16 +29,16 @@ class Callback extends Action
 
     public function run(): bool
     {
-        if ($this->getArtisanCommnad()->getOutput()->isVerbose()) {
-            $this->getArtisanCommnad()->getOutput()->newLine();
+        if ($this->getInitializerCommand()->getOutput()->isVerbose()) {
+            $this->getInitializerCommand()->getOutput()->newLine();
         }
 
         $result = call_user_func($this->function, ...$this->arguments);
 
-        if (! is_bool($result) && $this->getArtisanCommnad()->getOutput()->isVerbose()) {
-            $this->getArtisanCommnad()->line('<options=bold>Returned result:</>');
+        if (! is_bool($result) && $this->getInitializerCommand()->getOutput()->isVerbose()) {
+            $this->getInitializerCommand()->line('<options=bold>Returned result:</>');
             $returnResult = var_export($result, true);
-            $this->getArtisanCommnad()->line($returnResult);
+            $this->getInitializerCommand()->line($returnResult);
         }
 
         return is_bool($result) ? $result : true;

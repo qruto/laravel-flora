@@ -4,38 +4,43 @@ namespace Qruto\Initializer\Actions;
 
 use Exception;
 use Illuminate\Console\Command;
+use Illuminate\Console\View\Components\Factory;
+use Throwable;
 
 abstract class Action
 {
     protected const LOADING_TEXT = 'running';
 
-    /** @var \Illuminate\Console\Command */
-    private $artisanCommnad;
+    private Command $initializerCommand;
 
     private $failed = false;
 
-    protected $errorMessage = null;
+    protected Throwable $exception;
 
-    public function __construct(Command $artisanCommnad)
+    protected Factory $viewComponents;
+
+    public function __construct(Command $initializerCommand)
     {
-        $this->artisanCommnad = $artisanCommnad;
+        $this->initializerCommand = $initializerCommand;
+
+        $this->viewComponents = new Factory($this->initializerCommand->getOutput());
     }
 
     public function __invoke(): bool
     {
-        $failed = ! $this->getArtisanCommnad()->task($this->title(), function () {
+        $this->viewComponents->task($this->title(), function () {
             try {
-                return $this->run();
+                 return $this->run();
             } catch (Exception $e) {
-                $this->errorMessage = get_class($e).': '.$e->getMessage();
+                $this->exception = $e;
+
+                $this->failed = true;
 
                 return false;
             }
-        }, static::LOADING_TEXT.'...');
+        });
 
-        $this->failed = $failed;
-
-        return ! $failed;
+        return ! $this->failed;
     }
 
     public function failed(): bool
@@ -43,17 +48,17 @@ abstract class Action
         return $this->failed;
     }
 
-    public function errorMessage(): ?string
+    public function getException(): Throwable
     {
-        return $this->errorMessage;
+        return $this->exception;
     }
 
     abstract public function title(): string;
 
     abstract public function run(): bool;
 
-    public function getArtisanCommnad(): Command
+    public function getInitializerCommand(): Command
     {
-        return $this->artisanCommnad;
+        return $this->initializerCommand;
     }
 }

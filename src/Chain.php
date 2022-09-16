@@ -11,17 +11,15 @@ use Qruto\Initializer\Contracts\Chain as ChainContract;
  */
 class Chain implements ChainContract
 {
-    protected array $envCommands = [];
+    protected array $collection = [];
 
-    public function __call($environment, $arguments)
+    public function set(string $environment, callable $callback)
     {
-        $this->envCommands[$environment] = $arguments[0];
-
-        return $this;
+        $this->collection[$environment] = $callback;
     }
 
-    public function getForEnvironment(string $env): callable
+    public function get(string $environment): callable
     {
-        return $this->envCommands[$env];
+        return $this->collection[$environment];
     }
 }

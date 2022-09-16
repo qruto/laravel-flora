@@ -37,7 +37,7 @@ class Dispatch extends Action
             $result = Container::getInstance()->make(Dispatcher::class)->dispatch($this->job);
         }
 
-        $artisanCommand = $this->getArtisanCommnad();
+        $artisanCommand = $this->getInitializerCommand();
 
         if ($artisanCommand->getOutput()->isVerbose()) {
             $artisanCommand->getOutput()->newLine();

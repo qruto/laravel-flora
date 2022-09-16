@@ -4,7 +4,7 @@ namespace Qruto\Initializer\Contracts;
 
 interface Runner
 {
-    public function errorMessages(): array;
+    public function exceptions(): array;
 
     public function doneWithErrors(): bool;
 

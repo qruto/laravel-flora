@@ -21,7 +21,7 @@ class Artisan extends Action
     public function title(): string
     {
         return "<comment>Run artisan command:</comment> $this->command (".
-            $this->getArtisanCommnad()
+            $this->getInitializerCommand()
                 ->getApplication()
                 ->find($this->command)
                 ->getDescription().
@@ -30,14 +30,14 @@ class Artisan extends Action
 
     public function run(): bool
     {
-        $artisanCommand = $this->getArtisanCommnad();
+        $initializerCommand = $this->getInitializerCommand();
 
-        if ($artisanCommand->getOutput()->isVerbose()) {
-            $artisanCommand->getOutput()->newLine();
+        if ($initializerCommand->getOutput()->isVerbose()) {
+            $initializerCommand->getOutput()->newLine();
 
-            return ! $artisanCommand->call($this->command, $this->arguments);
+            return $initializerCommand->call($this->command, $this->arguments) === 0;
         }
 
-        return ! $artisanCommand->callSilent($this->command, $this->arguments);
+        return $initializerCommand->callSilent($this->command, $this->arguments) === 0;
     }
 }

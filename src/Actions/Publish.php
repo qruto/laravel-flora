@@ -46,12 +46,12 @@ class Publish extends Action
             $errors = [];
             parent::__invoke();
 
-            if ($this->errorMessage) {
-                $errors[] = $this->errorMessage;
+            if ($this->exception) {
+                $errors[] = $this->exception;
             }
         }
 
-        $this->errorMessage = implode(PHP_EOL, $errors);
+        $this->exception = implode(PHP_EOL, $errors);
 
         return true;
     }
@@ -83,7 +83,7 @@ class Publish extends Action
 
     public function run(): bool
     {
-        $action = new Artisan($this->getArtisanCommnad(), self::COMMAND, $this->currentArgument);
+        $action = new Artisan($this->getInitializerCommand(), self::COMMAND, $this->currentArgument);
 
         return $action->run();
     }

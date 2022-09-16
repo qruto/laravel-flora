@@ -14,20 +14,20 @@ use Qruto\Initializer\Contracts\Runner as RunnerContract;
 
 class Run implements RunnerContract
 {
-    protected $artisanCommand;
+    protected $initializerCommand;
 
-    private $errorMessages = [];
+    private $exceptions = [];
 
     private $doneWithErrors = false;
 
-    public function __construct(Command $artisanCommand)
+    public function __construct(Command $initializerCommand)
     {
-        $this->artisanCommand = $artisanCommand;
+        $this->initializerCommand = $initializerCommand;
     }
 
-    public function errorMessages(): array
+    public function exceptions(): array
     {
-        return $this->errorMessages;
+        return $this->exceptions;
     }
 
     private function run(Action $action)
@@ -39,8 +39,8 @@ class Run implements RunnerContract
                 $this->doneWithErrors = true;
             }
 
-            if ($message = $action->errorMessage()) {
-                $this->errorMessages[] = $message;
+            if ($exception = $action->getException()) {
+                $this->exceptions[] = $exception;
             }
         }
 
@@ -54,12 +54,12 @@ class Run implements RunnerContract
 
     public function artisan(string $command, array $arguments = []): RunnerContract
     {
-        return $this->run(new Artisan($this->artisanCommand, $command, $arguments));
+        return $this->run(new Artisan($this->initializerCommand, $command, $arguments));
     }
 
     public function publish($providers, bool $force = false): RunnerContract
     {
-        return $this->run(new Publish($this->artisanCommand, $providers, $force));
+        return $this->run(new Publish($this->initializerCommand, $providers, $force));
     }
 
     public function publishForce($providers): RunnerContract
@@ -69,7 +69,7 @@ class Run implements RunnerContract
 
     public function publishTag($tag, bool $force = false): RunnerContract
     {
-        return $this->run(new PublishTag($this->artisanCommand, $tag, $force));
+        return $this->run(new PublishTag($this->initializerCommand, $tag, $force));
     }
 
     public function publishTagForce($tag): RunnerContract
@@ -79,21 +79,21 @@ class Run implements RunnerContract
 
     public function external(string $command, ...$arguments): RunnerContract
     {
-        return $this->run(new External($this->artisanCommand, $command, $arguments));
+        return $this->run(new External($this->initializerCommand, $command, $arguments));
     }
 
     public function callable(callable $function, ...$arguments): RunnerContract
     {
-        return $this->run(new Callback($this->artisanCommand, $function, $arguments));
+        return $this->run(new Callback($this->initializerCommand, $function, $arguments));
     }
 
     public function dispatch($job): RunnerContract
     {
-        return $this->run(new Dispatch($this->artisanCommand, $job));
+        return $this->run(new Dispatch($this->initializerCommand, $job));
     }
 
     public function dispatchNow($job): RunnerContract
     {
-        return $this->run(new Dispatch($this->artisanCommand, $job, true));
+        return $this->run(new Dispatch($this->initializerCommand, $job, true));
     }
 }
