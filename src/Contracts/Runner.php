@@ -4,19 +4,18 @@ namespace Qruto\Initializer\Contracts;
 
 interface Runner
 {
+    //TODO: leave only actions
     public function exceptions(): array;
 
     public function doneWithErrors(): bool;
 
-    public function artisan(string $command, array $arguments = []): self;
+    public function command(string $command, array $arguments = []): self;
 
-    public function external(string $command, ...$arguments): self;
+    public function process(string $command, ...$arguments): self;
 
-    public function callable(callable $function, ...$arguments): self;
+    public function call(callable $function, ...$arguments): self;
 
-    public function dispatch($job): self;
-
-    public function dispatchNow($job): self;
+    public function job($job): self;
 
     public function publish($providers, bool $force = false): self;
 

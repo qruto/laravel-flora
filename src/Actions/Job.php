@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Bus\Dispatcher;
 
-class Dispatch extends Action
+class Job extends Action
 {
     protected const LOADING_TEXT = 'dispatching...';
 

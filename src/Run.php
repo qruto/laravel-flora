@@ -6,8 +6,8 @@ use Illuminate\Console\Command;
 use Qruto\Initializer\Actions\Action;
 use Qruto\Initializer\Actions\Artisan;
 use Qruto\Initializer\Actions\Callback;
-use Qruto\Initializer\Actions\Dispatch;
-use Qruto\Initializer\Actions\External;
+use Qruto\Initializer\Actions\Job;
+use Qruto\Initializer\Actions\Process;
 use Qruto\Initializer\Actions\Publish;
 use Qruto\Initializer\Actions\PublishTag;
 use Qruto\Initializer\Contracts\Runner as RunnerContract;
@@ -52,7 +52,7 @@ class Run implements RunnerContract
         return $this->doneWithErrors;
     }
 
-    public function artisan(string $command, array $arguments = []): RunnerContract
+    public function command(string $command, array $arguments = []): RunnerContract
     {
         return $this->run(new Artisan($this->initializerCommand, $command, $arguments));
     }
@@ -77,23 +77,18 @@ class Run implements RunnerContract
         return $this->publishTag($tag, true);
     }
 
-    public function external(string $command, ...$arguments): RunnerContract
+    public function process(string $command, ...$arguments): RunnerContract
     {
-        return $this->run(new External($this->initializerCommand, $command, $arguments));
+        return $this->run(new Process($this->initializerCommand, $command, $arguments));
     }
 
-    public function callable(callable $function, ...$arguments): RunnerContract
+    public function call(callable $function, ...$arguments): RunnerContract
     {
         return $this->run(new Callback($this->initializerCommand, $function, $arguments));
     }
 
-    public function dispatch($job): RunnerContract
+    public function job($job): RunnerContract
     {
-        return $this->run(new Dispatch($this->initializerCommand, $job));
-    }
-
-    public function dispatchNow($job): RunnerContract
-    {
-        return $this->run(new Dispatch($this->initializerCommand, $job, true));
+        return $this->run(new Job($this->initializerCommand, $job));
     }
 }

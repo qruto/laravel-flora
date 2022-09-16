@@ -4,9 +4,9 @@ namespace Qruto\Initializer\Actions;
 
 use Illuminate\Console\Command;
 use RuntimeException;
-use Symfony\Component\Process\Process;
+use Symfony\Component\Process\Process as ExternalProcess;
 
-class External extends Action
+class Process extends Action
 {
     private $command;
 
@@ -37,9 +37,9 @@ class External extends Action
 
         if ($isVerbose) {
             $this->artisanCommand->getOutput()->newLine();
-            if (Process::isTtySupported()) {
+            if (ExternalProcess::isTtySupported()) {
                 $Process->setTty(true);
-            } elseif (Process::isPtySupported()) {
+            } elseif (ExternalProcess::isPtySupported()) {
                 $Process->setPty(true);
             }
         }
@@ -62,12 +62,12 @@ class External extends Action
         return ! $exitCode;
     }
 
-    private function createProcess(): Process
+    private function createProcess(): ExternalProcess
     {
         if (empty($this->arguments)) {
-            return Process::fromShellCommandline($this->command);
+            return ExternalProcess::fromShellCommandline($this->command);
         }
 
-        return new Process(array_merge([$this->command], $this->arguments));
+        return new ExternalProcess(array_merge([$this->command], $this->arguments));
     }
 }

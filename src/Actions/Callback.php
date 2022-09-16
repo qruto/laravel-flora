@@ -6,15 +6,13 @@ use Illuminate\Console\Command;
 
 class Callback extends Action
 {
-    protected const LOADING_TEXT = 'calling';
-
     private $function;
 
     private $arguments;
 
-    public function __construct(Command $artisanCommand, callable $function, array $arguments = [])
+    public function __construct(Command $initializerCommand, callable $function, array $arguments = [])
     {
-        parent::__construct($artisanCommand);
+        parent::__construct($initializerCommand);
 
         $this->function = $function;
         $this->arguments = $arguments;
@@ -22,7 +20,7 @@ class Callback extends Action
 
     public function title(): string
     {
-        is_callable($this->function, false, $name);
+        is_callable($this->function, callable_name: $name);
 
         return '<comment>Call function:</comment> '.$name;
     }
@@ -37,8 +35,7 @@ class Callback extends Action
 
         if (! is_bool($result) && $this->getInitializerCommand()->getOutput()->isVerbose()) {
             $this->getInitializerCommand()->line('<options=bold>Returned result:</>');
-            $returnResult = var_export($result, true);
-            $this->getInitializerCommand()->line($returnResult);
+            $this->getInitializerCommand()->line(var_export($result, true));
         }
 
         return is_bool($result) ? $result : true;
