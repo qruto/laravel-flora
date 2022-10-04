@@ -40,7 +40,10 @@ class Run implements RunnerContract
             }
 
             if ($exception = $action->getException()) {
-                $this->exceptions[] = $exception;
+                $this->exceptions[] = [
+                    'title' => $action->title(),
+                    'e' => $exception,
+                ];
             }
         }
 

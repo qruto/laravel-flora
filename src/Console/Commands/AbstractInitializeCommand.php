@@ -28,6 +28,7 @@ abstract class AbstractInitializeCommand extends Command
         $env = $config->get($config->get('initializer.env_config_key'));
 
         $this->components->alert('Application ' . $this->title());
+        $this->output->newLine();
 
         $runner = $container->make(Run::class, ['initializerCommand' => $this]);
 
@@ -42,11 +43,11 @@ abstract class AbstractInitializeCommand extends Command
 
             $this->components->error($this->title(). ' occur errors');
 
-            if (! empty($exceptions)) {
-                $this->output->newLine();
-
+            if (! empty($exceptions) && $this->components->confirm('Show errors?')) {
                 foreach ($exceptions as $exception) {
-                    $exceptionHandler->renderForConsole($this->getOutput(), $exception);
+                    $this->components->twoColumnDetail($exception['title']);
+                    $exceptionHandler->renderForConsole($this->getOutput(), $exception['e']);
+                    $this->output->newLine();
                     $this->output->newLine();
                 }
             }

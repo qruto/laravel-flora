@@ -20,7 +20,7 @@ class ArtisanRunnerCommandTest extends RunnerCommandsTestCase
         });
 
         $this->declareCommands(function (Run $run) {
-            $run->artisan('some:command');
+            $run->command('some:command');
         }, $command);
 
         self::assertStringContainsString('Run artisan command: some:command (): ✔', Artisan::output());
@@ -39,7 +39,7 @@ class ArtisanRunnerCommandTest extends RunnerCommandsTestCase
         });
 
         $this->declareCommands(function (Run $run) {
-            $run->artisan('some:command');
+            $run->command('some:command');
         }, $command, true);
 
         self::assertStringContainsString($comment, Artisan::output());
@@ -54,7 +54,7 @@ class ArtisanRunnerCommandTest extends RunnerCommandsTestCase
         config(['database.connections.testbench.database' => 'invalid_database']);
 
         $this->declareCommands(function (Run $run) {
-            $run->artisan('migrate');
+            $run->command('migrate');
         }, $command);
 
         $this->assertErrorAppeared(
@@ -78,7 +78,7 @@ class ArtisanRunnerCommandTest extends RunnerCommandsTestCase
         });
 
         $this->declareCommands(function (Run $run) {
-            $run->artisan('some:command');
+            $run->command('some:command');
         }, $command, true);
 
         $this->assertErrorAppeared("done with errors.\nYou could run command with -v flag to see more details");

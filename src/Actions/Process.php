@@ -25,7 +25,7 @@ class Process extends Action
     {
         $argString = implode(' ', $this->arguments);
 
-        return "<comment>Run external command:</comment> $this->command $argString";
+        return "<fg=yellow>Processing</> $this->command $argString";
     }
 
     public function run(): bool

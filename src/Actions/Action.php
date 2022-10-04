@@ -9,8 +9,6 @@ use Throwable;
 
 abstract class Action
 {
-    protected const LOADING_TEXT = 'running';
-
     private Command $initializerCommand;
 
     private $failed = false;

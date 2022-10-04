@@ -58,7 +58,7 @@ class Publish extends Action
 
     public function title(): string
     {
-        $title = '<comment>Publish resource:</comment> ';
+        $title = '<fg=yellow>Publish resource:</> ';
 
         if (isset($this->currentArgument['--provider'])) {
             $title .= "Provider [{$this->currentArgument['--provider']}]";
