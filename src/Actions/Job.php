@@ -5,37 +5,43 @@ namespace Qruto\Initializer\Actions;
 use Illuminate\Console\Command;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Bus\Dispatcher;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 class Job extends Action
 {
-    protected const LOADING_TEXT = 'dispatching...';
-
-    private $job;
-
-    private $runNow;
-
-    public function __construct(Command $artisanCommand, $job, bool $runNow = false)
-    {
+    // TODO: compatible interface
+    public function __construct(
+        Command $artisanCommand,
+        protected object|string $job,
+        protected ?string $queue = null,
+        protected ?string $connection = null
+    ) {
         parent::__construct($artisanCommand);
-
-        $this->job = $job;
-        $this->runNow = $runNow;
     }
 
     public function title(): string
     {
-        return '<comment>Dispatch job:</comment> '.get_class($this->job);
+        return '<fg=yellow>Dispatching</> '.get_class($this->job);
     }
 
     public function run(): bool
     {
-        $result = null;
+        /** @var Dispatcher */
+        $dispatcher = Container::getInstance()->make(Dispatcher::class);
 
-        if ($this->runNow) {
-            $result = Container::getInstance()->make(Dispatcher::class)->dispatchNow($this->job);
+        $result = null;
+        $job = is_string($this->job) ? Container::getInstance()->make($this->job) : $this->job;
+
+        if ($job instanceof ShouldQueue) {
+            $dispatcher->dispatch(
+                $job->onConnection($this->connection ?? $job->connection)
+                    ->onQueue($this->queue ?? $job->queue)
+            );
         } else {
-            $result = Container::getInstance()->make(Dispatcher::class)->dispatch($this->job);
+            $dispatcher->dispatchNow($job);
         }
+
+        //TODO: unique jobs
 
         $artisanCommand = $this->getInitializerCommand();
 

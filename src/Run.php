@@ -90,8 +90,8 @@ class Run implements RunnerContract
         return $this->run(new Callback($this->initializerCommand, $function, $arguments));
     }
 
-    public function job($job): RunnerContract
+    public function job(object|string $job, ?string $queue = null, ?string $connection = null): RunnerContract
     {
-        return $this->run(new Job($this->initializerCommand, $job));
+        return $this->run(new Job($this->initializerCommand, $job, $queue, $connection));
     }
 }

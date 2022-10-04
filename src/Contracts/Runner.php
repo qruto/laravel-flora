@@ -15,7 +15,7 @@ interface Runner
 
     public function call(callable $function, ...$arguments): self;
 
-    public function job($job): self;
+    public function job(object|string $job, ?string $queue = null, ?string $connection = null): self;
 
     public function publish($providers, bool $force = false): self;
 
