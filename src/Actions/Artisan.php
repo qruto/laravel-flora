@@ -6,16 +6,12 @@ use Illuminate\Console\Command;
 
 class Artisan extends Action
 {
-    private $command;
-
-    private $arguments;
-
-    public function __construct(Command $artisanCommand, string $command, array $arguments = [])
-    {
+    public function __construct(
+        Command $artisanCommand,
+        protected string $command,
+        protected array $parameters = []
+    ) {
         parent::__construct($artisanCommand);
-
-        $this->command = $command;
-        $this->arguments = $arguments;
     }
 
     public function title(): string
@@ -35,9 +31,9 @@ class Artisan extends Action
         if ($initializerCommand->getOutput()->isVerbose()) {
             $initializerCommand->getOutput()->newLine();
 
-            return $initializerCommand->call($this->command, $this->arguments) === 0;
+            return $initializerCommand->call($this->command, $this->parameters) === 0;
         }
 
-        return $initializerCommand->callSilent($this->command, $this->arguments) === 0;
+        return $initializerCommand->callSilent($this->command, $this->parameters) === 0;
     }
 }

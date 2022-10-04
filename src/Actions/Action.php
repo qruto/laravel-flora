@@ -9,7 +9,7 @@ use Throwable;
 
 abstract class Action
 {
-    private Command $initializerCommand;
+    protected Command $initializerCommand;
 
     private $failed = false;
 

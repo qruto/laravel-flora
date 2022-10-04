@@ -8,22 +8,17 @@ use Symfony\Component\Process\Process as ExternalProcess;
 
 class Process extends Action
 {
-    private $command;
-
-    private $arguments;
-
-    public function __construct(Command $artisanCommand, string $command, array $arguments = [])
-    {
-        parent::__construct($artisanCommand);
-
-        $this->artisanCommand = $artisanCommand;
-        $this->command = $command;
-        $this->arguments = $arguments;
+    public function __construct(
+        Command $initializerCommand,
+        protected string $command,
+        protected array $parameters = []
+    ) {
+        parent::__construct($initializerCommand);
     }
 
     public function title(): string
     {
-        $argString = implode(' ', $this->arguments);
+        $argString = implode(' ', $this->parameters);
 
         return "<fg=yellow>Processing</> $this->command $argString";
     }
@@ -33,10 +28,10 @@ class Process extends Action
         $Process = $this->createProcess();
         $Process->setTimeout(null);
 
-        $isVerbose = $this->artisanCommand->getOutput()->isVerbose();
+        $isVerbose = $this->initializerCommand->getOutput()->isVerbose();
 
         if ($isVerbose) {
-            $this->artisanCommand->getOutput()->newLine();
+            $this->initializerCommand->getOutput()->newLine();
             if (ExternalProcess::isTtySupported()) {
                 $Process->setTty(true);
             } elseif (ExternalProcess::isPtySupported()) {
@@ -46,9 +41,9 @@ class Process extends Action
 
         $Process->run($isVerbose ? function ($type, $buffer) {
             if (Process::ERR === $type) {
-                $this->artisanCommand->error($buffer);
+                $this->initializerCommand->error($buffer);
             } else {
-                $this->artisanCommand->line($buffer);
+                $this->initializerCommand->line($buffer);
             }
         } : null);
 
@@ -64,10 +59,10 @@ class Process extends Action
 
     private function createProcess(): ExternalProcess
     {
-        if (empty($this->arguments)) {
+        if (empty($this->parameters)) {
             return ExternalProcess::fromShellCommandline($this->command);
         }
 
-        return new ExternalProcess(array_merge([$this->command], $this->arguments));
+        return new ExternalProcess(array_merge([$this->command], $this->parameters));
     }
 }

@@ -9,11 +9,11 @@ interface Runner
 
     public function doneWithErrors(): bool;
 
-    public function command(string $command, array $arguments = []): self;
+    public function command(string $command, array $parameters = []): self;
 
-    public function process(string $command, ...$arguments): self;
+    public function exec(string $command, array $parameters = []): self;
 
-    public function call(callable $function, ...$arguments): self;
+    public function call(callable $callback, array $parameters = []): self;
 
     public function job(object|string $job, ?string $queue = null, ?string $connection = null): self;
 

@@ -9,7 +9,7 @@ class Callback extends Action
     public function __construct(
         Command $initializerCommand,
         protected $callback,
-        protected array $arguments = []
+        protected array $parameters = []
     ) {
         parent::__construct($initializerCommand);
     }
@@ -27,7 +27,7 @@ class Callback extends Action
             $this->getInitializerCommand()->getOutput()->newLine();
         }
 
-        $result = call_user_func($this->callback, ...$this->arguments);
+        $result = call_user_func($this->callback, ...$this->parameters);
 
         if (! is_bool($result) && $this->getInitializerCommand()->getOutput()->isVerbose()) {
             $this->getInitializerCommand()->line('<options=bold>Returned result:</>');

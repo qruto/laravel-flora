@@ -55,9 +55,9 @@ class Run implements RunnerContract
         return $this->doneWithErrors;
     }
 
-    public function command(string $command, array $arguments = []): RunnerContract
+    public function command(string $command, array $parameters = []): RunnerContract
     {
-        return $this->run(new Artisan($this->initializerCommand, $command, $arguments));
+        return $this->run(new Artisan($this->initializerCommand, $command, $parameters));
     }
 
     public function publish($providers, bool $force = false): RunnerContract
@@ -80,14 +80,14 @@ class Run implements RunnerContract
         return $this->publishTag($tag, true);
     }
 
-    public function process(string $command, ...$arguments): RunnerContract
+    public function exec(string $command, array $parameters = []): RunnerContract
     {
-        return $this->run(new Process($this->initializerCommand, $command, $arguments));
+        return $this->run(new Process($this->initializerCommand, $command, $parameters));
     }
 
-    public function call(callable $function, ...$arguments): RunnerContract
+    public function call(callable $callback, array $parameters = []): RunnerContract
     {
-        return $this->run(new Callback($this->initializerCommand, $function, $arguments));
+        return $this->run(new Callback($this->initializerCommand, $callback, $parameters));
     }
 
     public function job(object|string $job, ?string $queue = null, ?string $connection = null): RunnerContract
