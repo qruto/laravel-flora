@@ -2,7 +2,10 @@
 
 namespace Qruto\Initializer;
 
-use Illuminate\Console\Command;
+use Illuminate\Console\Application;
+use Illuminate\Console\Concerns\InteractsWithSignals;
+use Illuminate\Console\OutputStyle;
+use Illuminate\Console\View\Components\Factory;
 use Qruto\Initializer\Actions\Action;
 use Qruto\Initializer\Actions\Artisan;
 use Qruto\Initializer\Actions\Callback;
@@ -14,15 +17,22 @@ use Qruto\Initializer\Contracts\Runner as RunnerContract;
 
 class Run implements RunnerContract
 {
-    protected $initializerCommand;
+    use InteractsWithSignals;
 
-    private $exceptions = [];
+    private array $exceptions = [];
 
-    private $doneWithErrors = false;
+    private bool $doneWithErrors = false;
 
-    public function __construct(Command $initializerCommand)
+    protected Factory $outputComponents;
+
+    public function __construct(protected Application $application, protected OutputStyle $output)
     {
-        $this->initializerCommand = $initializerCommand;
+        $this->outputComponents = new Factory($this->output);
+    }
+
+    protected function getApplication(): Application
+    {
+        return $this->application;
     }
 
     public function exceptions(): array
@@ -30,8 +40,12 @@ class Run implements RunnerContract
         return $this->exceptions;
     }
 
-    private function run(Action $action)
+    private function run(Action $action): static
     {
+        $this->trap([SIGTERM, SIGINT], function () {
+            $this->outputComponents->confirm('Installation stop confirm') ? exit : null;
+        });
+
         $action();
 
         if ($action->failed()) {
@@ -57,12 +71,12 @@ class Run implements RunnerContract
 
     public function command(string $command, array $parameters = []): RunnerContract
     {
-        return $this->run(new Artisan($this->initializerCommand, $command, $parameters));
+        return $this->run(new Artisan($this->outputComponents, $this->application, $command, $parameters));
     }
 
     public function publish($providers, bool $force = false): RunnerContract
     {
-        return $this->run(new Publish($this->initializerCommand, $providers, $force));
+        return $this->run(new Publish($this->outputComponents, $providers, $force));
     }
 
     public function publishForce($providers): RunnerContract
@@ -72,7 +86,7 @@ class Run implements RunnerContract
 
     public function publishTag($tag, bool $force = false): RunnerContract
     {
-        return $this->run(new PublishTag($this->initializerCommand, $tag, $force));
+        return $this->run(new PublishTag($this->outputComponents, $tag, $force));
     }
 
     public function publishTagForce($tag): RunnerContract
@@ -82,16 +96,16 @@ class Run implements RunnerContract
 
     public function exec(string $command, array $parameters = []): RunnerContract
     {
-        return $this->run(new Process($this->initializerCommand, $command, $parameters));
+        return $this->run(new Process($this->outputComponents, $command, $parameters));
     }
 
     public function call(callable $callback, array $parameters = []): RunnerContract
     {
-        return $this->run(new Callback($this->initializerCommand, $callback, $parameters));
+        return $this->run(new Callback($this->outputComponents, $callback, $parameters));
     }
 
     public function job(object|string $job, ?string $queue = null, ?string $connection = null): RunnerContract
     {
-        return $this->run(new Job($this->initializerCommand, $job, $queue, $connection));
+        return $this->run(new Job($this->outputComponents, $job, $queue, $connection));
     }
 }

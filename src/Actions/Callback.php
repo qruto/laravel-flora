@@ -3,15 +3,16 @@
 namespace Qruto\Initializer\Actions;
 
 use Illuminate\Console\Command;
+use Illuminate\Console\View\Components\Factory;
 
 class Callback extends Action
 {
     public function __construct(
-        Command $initializerCommand,
+        Factory $outputComponents,
         protected $callback,
         protected array $parameters = []
     ) {
-        parent::__construct($initializerCommand);
+        parent::__construct($outputComponents);
     }
 
     public function title(): string
@@ -23,16 +24,7 @@ class Callback extends Action
 
     public function run(): bool
     {
-        if ($this->getInitializerCommand()->getOutput()->isVerbose()) {
-            $this->getInitializerCommand()->getOutput()->newLine();
-        }
-
         $result = call_user_func($this->callback, ...$this->parameters);
-
-        if (! is_bool($result) && $this->getInitializerCommand()->getOutput()->isVerbose()) {
-            $this->getInitializerCommand()->line('<options=bold>Returned result:</>');
-            $this->getInitializerCommand()->line(var_export($result, true));
-        }
 
         return is_bool($result) ? $result : true;
     }

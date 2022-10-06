@@ -2,21 +2,20 @@
 
 namespace Qruto\Initializer\Actions;
 
-use Illuminate\Console\Command;
+use Illuminate\Console\View\Components\Factory;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
 class Job extends Action
 {
-    // TODO: compatible interface
     public function __construct(
-        Command $artisanCommand,
+        Factory $outputComponents,
         protected object|string $job,
         protected ?string $queue = null,
         protected ?string $connection = null
     ) {
-        parent::__construct($artisanCommand);
+        parent::__construct($outputComponents);
     }
 
     public function title(): string
@@ -42,13 +41,6 @@ class Job extends Action
         }
 
         //TODO: unique jobs
-
-        $artisanCommand = $this->getInitializerCommand();
-
-        if ($artisanCommand->getOutput()->isVerbose()) {
-            $artisanCommand->getOutput()->newLine();
-            $artisanCommand->info($result);
-        }
 
         return ! (is_int($result) and $result > 0);
     }

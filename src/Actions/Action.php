@@ -9,24 +9,17 @@ use Throwable;
 
 abstract class Action
 {
-    protected Command $initializerCommand;
-
     private $failed = false;
 
     protected Throwable $exception;
 
-    protected Factory $viewComponents;
-
-    public function __construct(Command $initializerCommand)
+    public function __construct(protected Factory $outputComponents)
     {
-        $this->initializerCommand = $initializerCommand;
-
-        $this->viewComponents = new Factory($this->initializerCommand->getOutput());
     }
 
     public function __invoke(): bool
     {
-        $this->viewComponents->task($this->title(), function () {
+        $this->outputComponents->task($this->title(), function () {
             try {
                  return $this->run();
             } catch (Exception $e) {
@@ -54,9 +47,4 @@ abstract class Action
     abstract public function title(): string;
 
     abstract public function run(): bool;
-
-    public function getInitializerCommand(): Command
-    {
-        return $this->initializerCommand;
-    }
 }

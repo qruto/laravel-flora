@@ -2,38 +2,30 @@
 
 namespace Qruto\Initializer\Actions;
 
+use Illuminate\Console\Application;
 use Illuminate\Console\Command;
+use Illuminate\Console\View\Components\Factory;
 
 class Artisan extends Action
 {
     public function __construct(
-        Command $artisanCommand,
+        Factory $outputComponents,
+        protected Application $application,
         protected string $command,
         protected array $parameters = []
     ) {
-        parent::__construct($artisanCommand);
+        parent::__construct($outputComponents);
     }
 
     public function title(): string
     {
         return "<fg=yellow>Running</> $this->command (".
-            $this->getInitializerCommand()
-                ->getApplication()
-                ->find($this->command)
-                ->getDescription().
-            ')';
+            $this->application->find($this->command)->getDescription().
+        ')';
     }
 
     public function run(): bool
     {
-        $initializerCommand = $this->getInitializerCommand();
-
-        if ($initializerCommand->getOutput()->isVerbose()) {
-            $initializerCommand->getOutput()->newLine();
-
-            return $initializerCommand->call($this->command, $this->parameters) === 0;
-        }
-
-        return $initializerCommand->callSilent($this->command, $this->parameters) === 0;
+        return $this->application->call($this->command, $this->parameters) === 0;
     }
 }
