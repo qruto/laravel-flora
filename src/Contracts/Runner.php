@@ -9,6 +9,8 @@ interface Runner
 
     public function doneWithErrors(): bool;
 
+    public function runLatestAction(): void;
+
     public function command(string $command, array $parameters = []): self;
 
     public function exec(string $command, array $parameters = []): self;

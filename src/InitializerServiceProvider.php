@@ -39,8 +39,16 @@ class InitializerServiceProvider extends ServiceProvider
 
         $vault = $this->app->make(ChainVaultContract::class);
 
-        Application::macro('install', fn () => $vault->getInstall());
-        Application::macro('update', fn () => $vault->getUpdate());
+        //TODO: refactor
+        Application::macro(
+            'install',
+            fn (string $environment, callable $callback) => $vault->getInstall()->set($environment, $callback)
+        );
+
+        Application::macro(
+            'update',
+            fn (string $environment, callable $callback) => $vault->getUpdate()->set($environment, $callback)
+        );
     }
 
     /**

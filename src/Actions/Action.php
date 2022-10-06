@@ -5,6 +5,7 @@ namespace Qruto\Initializer\Actions;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Console\View\Components\Factory;
+use Symfony\Component\Process\Exception\ProcessSignaledException;
 use Throwable;
 
 abstract class Action
@@ -23,6 +24,10 @@ abstract class Action
             try {
                  return $this->run();
             } catch (Exception $e) {
+                if ($e instanceof ProcessSignaledException) {
+                    return false;
+                }
+
                 $this->exception = $e;
 
                 $this->failed = true;

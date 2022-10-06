@@ -25,6 +25,10 @@ class Run implements RunnerContract
 
     protected Factory $outputComponents;
 
+    protected ?Action $latestAction;
+
+    protected bool $shouldClearLatestFail = false;
+
     public function __construct(protected Application $application, protected OutputStyle $output)
     {
         $this->outputComponents = new Factory($this->output);
@@ -42,9 +46,14 @@ class Run implements RunnerContract
 
     private function run(Action $action): static
     {
-        $this->trap([SIGTERM, SIGINT], function () {
-            $this->outputComponents->confirm('Installation stop confirm') ? exit : null;
-        });
+        $this->latestAction = $action;
+
+        if ($this->shouldClearLatestFail) {
+            $this->output->write("\x1B[1A");
+            $this->output->write("\x1B[2K");
+
+            $this->shouldClearLatestFail = false;
+        }
 
         $action();
 
@@ -62,6 +71,13 @@ class Run implements RunnerContract
         }
 
         return $this;
+    }
+
+    public function runLatestAction(): void
+    {
+        $this->run($this->latestAction);
+
+        $this->shouldClearLatestFail = true;
     }
 
     public function doneWithErrors(): bool

@@ -9,16 +9,13 @@ use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Qruto\Initializer\Contracts\Chain;
 use Qruto\Initializer\Contracts\ChainVault;
+use Qruto\Initializer\Contracts\Runner;
 use Qruto\Initializer\Run;
 
 abstract class AbstractInitializeCommand extends Command
 {
-    /**
-     * Execute the console command.
-     *
-     * @return void
-     */
-    public function handle(Container $container, Repository $config, ChainVault $vault, ExceptionHandler $exceptionHandler)
+
+    public function handle(Container $container, Repository $config, ChainVault $vault, ExceptionHandler $exceptionHandler): void
     {
         require base_path('routes/build.php');
 
@@ -28,9 +25,20 @@ abstract class AbstractInitializeCommand extends Command
         $env = $config->get($config->get('initializer.env_config_key'));
 
         $this->components->alert('Application ' . $this->title());
-        $this->output->newLine();
 
-        $runner = $container->make(Run::class, ['initializerCommand' => $this]);
+        $runner = $container->make(Runner::class, [
+            'application' => $this->getApplication(),
+            'output' => $this->getOutput(),
+        ]);
+
+        $this->trap([SIGTERM, SIGINT], function () use ($runner) {
+            if ($this->components->confirm('Installation stop confirm')) {
+                $this->components->warn(ucfirst($this->title()) . ' aborted without completion');
+                exit;
+            }
+
+            $runner->runLatestAction();
+        });
 
         $container->call($initializer->get($env), ['run' => $runner]);
 
@@ -46,20 +54,19 @@ abstract class AbstractInitializeCommand extends Command
             if (! empty($exceptions) && $this->components->confirm('Show errors?')) {
                 foreach ($exceptions as $exception) {
                     $this->components->twoColumnDetail($exception['title']);
+
                     $exceptionHandler->renderForConsole($this->getOutput(), $exception['e']);
+                    $exceptionHandler->report($exception['e']);
+
                     $this->output->newLine();
                     $this->output->newLine();
                 }
             }
 
             $this->line('<fg=red>You could run command with <fg=cyan>-v</> flag to see more details</>');
-
-            return 1;
         }
 
         $this->components->info($this->title().' done!');
-
-        return 0;
     }
 
     /**
