@@ -73,6 +73,57 @@ Usage of `app:install` and `app:update` command are the same except that `app:in
 Install class contents:
 
 ```php
+Runner::task('build', fn (Runner $run) =>
+    $run->exec('npm run install')
+        ->exec('npm run build')
+);
+
+Runner::task('cache', fn (Runner $run) =>
+    $run->command('route:cache')
+        ->command('config:cache')
+        ->command('event:cache')
+);
+
+Runner::publishAssets([
+    NovaServiceProvider::class,
+    HorizonServiceProvider::class => 'horizon-assets',
+    'telescope-assets'
+]);
+
+App::install(
+    // Application install commands chain
+)->local(fn (Runner $run) =>
+    $run->command('migrate')
+        ->command('storage:link')
+        ->build()
+)->production(fn (Runner $run) =>
+    $run->excludeAutoDiscover()
+        ->command('key:generate')
+        ->command('migrate', ['--force' => true])
+        ->command('storage:link')
+        ->exec('npm run install')
+        ->exec('npm run build')
+        ->cache()
+);
+
+App::install()->local(fn (Runner $run) =>
+    $run->command('migrate')
+        ->command('storage:link')
+        ->build()
+);
+
+App::install()->production(fn (Runner $run) =>
+    $run->excludeAutoDiscover()
+        ->command('key:generate')
+        ->command('migrate', ['--force' => true])
+        ->command('storage:link')
+        ->exec('npm run install')
+        ->exec('npm run build')
+        ->cache()
+);
+```
+
+```php
 namespace App;
 
 use MadWeb\Initializer\Contracts\Runner;
@@ -81,26 +132,24 @@ class Install
 {
     public function production(Runner $run)
     {
-        $run->external('composer', 'install', '--no-dev', '--prefer-dist', '--optimize-autoloader')
-            ->artisan('key:generate')
-            ->artisan('migrate', ['--force' => true])
-            ->artisan('storage:link')
-//            ->dispatch(new MakeCronTask)
-            ->external('npm', 'install', '--production')
-            ->external('npm', 'run', 'production')
-            ->artisan('route:cache')
-            ->artisan('config:cache')
-            ->artisan('event:cache');
+        $run->command('key:generate')
+            ->command('migrate', ['--force' => true])
+            ->command('storage:link')
+            ->exec('npm', 'install', '--production')
+            ->exec('npm', 'run', 'production')
+            ->command('route:cache')
+            ->command('config:cache')
+            ->command('event:cache');
     }
 
     public function local(Runner $run)
     {
-        $run->external('composer', 'install')
-            ->artisan('key:generate')
-            ->artisan('migrate')
-            ->artisan('storage:link')
-            ->external('npm', 'install')
-            ->external('npm', 'run', 'development');
+        $run->exec('composer', 'install')
+            ->command('key:generate')
+            ->command('migrate')
+            ->command('storage:link')
+            ->exec('npm', 'install')
+            ->exec('npm', 'run', 'development');
     }
 }
 ```
@@ -199,12 +248,12 @@ $this->app->bind('app.updater', \AnotherNamespace\Update::class);
 
 ```php
 $run
-    ->artisan('command', ['argument' => 'argument_value', '-param' => 'param_value', '--option' => 'option_value', ...]) // Artisan command
-    ->external('command', 'argument', '-param', 'param_value', '--option=option_value', ...) // Any external command by arguments
-    ->external('command argument -param param_value --option=option_value') // Any external command by string
-    ->callable(function ($arg) {}, $arg) // Callable function (like for call_user_func)
-    ->dispatch(new JobClass) // Dispatch job task
-    ->dispatchNow(new JobClass) // Dispatch job task without queue
+    ->command('command', ['argument' => 'argument_value', '-param' => 'param_value', '--option' => 'option_value', ...]) // Artisan command
+    ->exec('command', 'argument', '-param', 'param_value', '--option=option_value', ...) // Any external command by arguments
+    ->exec('command argument -param param_value --option=option_value') // Any external command by string
+    ->call(function ($arg) {}, $arg) // Callable function (like for call_user_func)
+    ->job(new JobClass) // Dispatch job task
+    ->jobNow(new JobClass) // Dispatch job task without queue
     ->publish(ServiceProvider::class) // Publish single service provider assets
     ->publish([
         ServiceProvider::class,

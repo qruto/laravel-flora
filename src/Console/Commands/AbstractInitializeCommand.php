@@ -17,7 +17,12 @@ abstract class AbstractInitializeCommand extends Command
 
     public function handle(Container $container, Repository $config, ChainVault $vault, ExceptionHandler $exceptionHandler): void
     {
-        require base_path('routes/build.php');
+        if ($customBuildExists = file_exists($build = base_path('routes/build.php'))) {
+            require $build;
+        } else {
+            // TODO: base path from package config
+            require __DIR__ . '/../../build.php';
+        }
 
         $initializer = $this->getInitializer($vault);
 
