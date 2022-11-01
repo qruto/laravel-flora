@@ -10,14 +10,24 @@ use Illuminate\Contracts\Debug\ExceptionHandler;
 use Qruto\Initializer\Contracts\Chain;
 use Qruto\Initializer\Contracts\ChainVault;
 use Qruto\Initializer\Contracts\Runner;
-use Qruto\Initializer\Run;
+use Qruto\Initializer\Discovers\HorizonDiscover;
+use Qruto\Initializer\Discovers\IdeHelperDiscover;
+use Qruto\Initializer\Discovers\TelescopeDiscover;
+use Qruto\Initializer\Enums\Environment;
+use Qruto\Initializer\Enums\InitializerType;
+use Qruto\Initializer\UndefinedInstructionException;
 
 abstract class AbstractInitializeCommand extends Command
 {
+    protected InitializerType $type;
 
     public function handle(Container $container, Repository $config, ChainVault $vault, ExceptionHandler $exceptionHandler): void
     {
+        $autoInstruction = true;
+
         if ($customBuildExists = file_exists($build = base_path('routes/build.php'))) {
+            $autoInstruction = false;
+
             require $build;
         } else {
             // TODO: base path from package config
@@ -28,8 +38,6 @@ abstract class AbstractInitializeCommand extends Command
 
         // TODO: respect env option
         $env = $config->get($config->get('initializer.env_config_key'));
-
-        $this->components->alert('Application ' . $this->title());
 
         $runner = $container->make(Runner::class, [
             'application' => $this->getApplication(),
@@ -45,7 +53,21 @@ abstract class AbstractInitializeCommand extends Command
             $runner->runLatestAction();
         });
 
-        $container->call($initializer->get($env), ['run' => $runner]);
+        try {
+            $container->call($initializer->get($env), ['run' => $runner]);
+        } catch (UndefinedInstructionException $e) {
+            $this->components->error($e->getMessage());
+
+            return;
+        }
+
+        if ($autoInstruction) {
+            $this->packageDiscovers($this->type, $env, $runner);
+        }
+
+        $this->components->alert('Application ' . $this->title());
+
+        $runner->start();
 
         // TODO: root options
 
@@ -72,6 +94,24 @@ abstract class AbstractInitializeCommand extends Command
         }
 
         $this->components->info($this->title().' done!');
+    }
+
+    protected function packageDiscovers(InitializerType $type, string $environment, Runner $runner)
+    {
+        // TODO: build assets in production config value
+
+        $discovers = [
+            new HorizonDiscover(),
+            new TelescopeDiscover(),
+            new IdeHelperDiscover(),
+        ];
+
+        foreach ($discovers as $discover) {
+            if ($discover->exists()) {
+                $discover->instruction()
+                    ->get($type, Environment::tryFrom($environment))($runner);
+            }
+        }
     }
 
     /**

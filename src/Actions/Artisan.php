@@ -3,7 +3,6 @@
 namespace Qruto\Initializer\Actions;
 
 use Illuminate\Console\Application;
-use Illuminate\Console\Command;
 use Illuminate\Console\View\Components\Factory;
 
 class Artisan extends Action
@@ -22,6 +21,11 @@ class Artisan extends Action
         return "<fg=yellow>Running</> $this->command (".
             $this->application->find($this->command)->getDescription().
         ')';
+    }
+
+    public function getCommand(): string
+    {
+        return $this->command;
     }
 
     public function run(): bool

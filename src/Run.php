@@ -6,6 +6,7 @@ use Illuminate\Console\Application;
 use Illuminate\Console\Concerns\InteractsWithSignals;
 use Illuminate\Console\OutputStyle;
 use Illuminate\Console\View\Components\Factory;
+use Illuminate\Support\Traits\ReflectsClosures;
 use Qruto\Initializer\Actions\Action;
 use Qruto\Initializer\Actions\Artisan;
 use Qruto\Initializer\Actions\Callback;
@@ -18,6 +19,9 @@ use Qruto\Initializer\Contracts\Runner as RunnerContract;
 class Run implements RunnerContract
 {
     use InteractsWithSignals;
+    use ReflectsClosures;
+
+    private array $collection = [];
 
     private array $exceptions = [];
 
@@ -80,19 +84,44 @@ class Run implements RunnerContract
         $this->shouldClearLatestFail = true;
     }
 
+    public function start()
+    {
+        foreach ($this->collection as $action) {
+            $this->run($action);
+        }
+    }
+
     public function doneWithErrors(): bool
     {
         return $this->doneWithErrors;
     }
 
+    public function filter(callable $callback): self
+    {
+        $actionType = $this->firstClosureParameterType($callback);
+
+        $this->collection = collect($this->collection)->filter(
+            fn ($action) => !collect($this->collection)
+                ->filter(fn ($action) => $action instanceof $actionType)
+                ->filter($callback)
+                ->contains(fn ($value) => $action === $value)
+        )->values()->all();
+
+        return $this;
+    }
+
     public function command(string $command, array $parameters = []): RunnerContract
     {
-        return $this->run(new Artisan($this->outputComponents, $this->application, $command, $parameters));
+        $this->collection[] = new Artisan($this->outputComponents, $this->application, $command, $parameters);
+
+        return $this;
     }
 
     public function publish($providers, bool $force = false): RunnerContract
     {
-        return $this->run(new Publish($this->outputComponents, $providers, $force));
+        $this->collection[] = new Publish($this->outputComponents, $providers, $force);
+
+        return $this;
     }
 
     public function publishForce($providers): RunnerContract
@@ -112,7 +141,9 @@ class Run implements RunnerContract
 
     public function exec(string $command, array $parameters = []): RunnerContract
     {
-        return $this->run(new Process($this->outputComponents, $command, $parameters));
+        $this->collection[] = new Process($this->outputComponents, $command, $parameters);
+
+        return $this;
     }
 
     public function call(callable $callback, array $parameters = []): RunnerContract

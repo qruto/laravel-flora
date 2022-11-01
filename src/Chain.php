@@ -2,7 +2,6 @@
 
 namespace Qruto\Initializer;
 
-use Illuminate\Contracts\Container\Container;
 use Qruto\Initializer\Contracts\Chain as ChainContract;
 
 class Chain implements ChainContract
@@ -16,6 +15,10 @@ class Chain implements ChainContract
 
     public function get(string $environment): callable
     {
+        if (!array_key_exists($environment, $this->collection)) {
+            throw new UndefinedInstructionException($environment);
+        }
+
         return $this->collection[$environment];
     }
 }

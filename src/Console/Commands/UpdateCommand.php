@@ -2,13 +2,14 @@
 
 namespace Qruto\Initializer\Console\Commands;
 
-use Illuminate\Contracts\Container\Container;
-use Qruto\Initializer\Contracts\Builder;
 use Qruto\Initializer\Contracts\Chain;
 use Qruto\Initializer\Contracts\ChainVault;
+use Qruto\Initializer\Enums\InitializerType;
 
 class UpdateCommand extends AbstractInitializeCommand
 {
+    protected InitializerType $type = InitializerType::Update;
+
     /**
      * The name and signature of the console command.
      *

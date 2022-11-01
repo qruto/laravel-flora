@@ -27,8 +27,6 @@ App::install('production', fn (Runner $run) => $run
     ->command('key:generate', ['--force' => true])
     ->command('migrate', ['--force' => true])
     ->command('storage:link')
-    ->exec('npm install --production')
-    ->exec('npm run build')
     ->command('route:cache')
     ->command('config:cache')
     ->command('event:cache')
@@ -42,8 +40,6 @@ App::update('local', fn (Runner $run) => $run
 );
 
 App::update('production', fn (Runner $run) => $run
-    ->exec('npm install --production')
-    ->exec('npm run build')
     ->command('route:cache')
     ->command('config:cache')
     ->command('event:cache')

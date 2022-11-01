@@ -7,8 +7,6 @@ use Illuminate\Support\ServiceProvider;
 use Qruto\Initializer\Console\Commands\InstallCommand;
 use Qruto\Initializer\Console\Commands\UpdateCommand;
 use Qruto\Initializer\Contracts\Runner;
-use NunoMaduro\LaravelConsoleTask\LaravelConsoleTaskServiceProvider;
-use Qruto\Initializer\Chain;
 use Qruto\Initializer\Contracts\Chain as ChainContract;
 use Qruto\Initializer\Contracts\ChainVault as ChainVaultContract;
 
@@ -27,8 +25,6 @@ class InitializerServiceProvider extends ServiceProvider
             __DIR__.'/../stubs/install-class.stub' => app_path('Install.php'),
             __DIR__.'/../stubs/update-class.stub' => app_path('Update.php'),
         ], 'initializers');
-
-        $this->app->register(LaravelConsoleTaskServiceProvider::class);
 
         if ($this->app->runningInConsole()) {
             $this->commands([
