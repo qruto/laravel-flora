@@ -21,7 +21,7 @@ abstract class AbstractInitializeCommand extends Command
 {
     protected InitializerType $type;
 
-    public function handle(Container $container, Repository $config, ChainVault $vault, ExceptionHandler $exceptionHandler): void
+    public function handle(Container $container, Repository $config, ChainVault $vault, ExceptionHandler $exceptionHandler)
     {
         $autoInstruction = true;
 
@@ -58,7 +58,7 @@ abstract class AbstractInitializeCommand extends Command
         } catch (UndefinedInstructionException $e) {
             $this->components->error($e->getMessage());
 
-            return;
+            return self::FAILURE;
         }
 
         if ($autoInstruction) {
@@ -94,6 +94,8 @@ abstract class AbstractInitializeCommand extends Command
         }
 
         $this->components->info($this->title().' done!');
+
+        return self::SUCCESS;
     }
 
     protected function packageDiscovers(InitializerType $type, string $environment, Runner $runner)
