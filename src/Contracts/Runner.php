@@ -7,6 +7,8 @@ interface Runner
     //TODO: leave only actions
     public function exceptions(): array;
 
+    public function getCollection(): array;
+
     public function doneWithErrors(): bool;
 
     public function runLatestAction(): void;

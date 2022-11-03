@@ -27,7 +27,6 @@ class Job extends Action
     {
         $dispatcher = Container::getInstance()->make(Dispatcher::class);
 
-        $result = null;
         $job = is_string($this->job) ? Container::getInstance()->make($this->job) : $this->job;
 
         if ($job instanceof ShouldQueue) {
@@ -41,6 +40,6 @@ class Job extends Action
 
         //TODO: unique jobs
 
-        return ! (is_int($result) && $result > 0);
+        return true;
     }
 }

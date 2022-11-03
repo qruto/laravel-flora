@@ -11,7 +11,7 @@ abstract class Action
 {
     private bool $failed = false;
 
-    protected Throwable $exception;
+    protected ?Throwable $exception = null;
 
     public function __construct(protected Factory $outputComponents)
     {
@@ -43,7 +43,7 @@ abstract class Action
         return $this->failed;
     }
 
-    public function getException(): Throwable
+    public function getException(): ?Throwable
     {
         return $this->exception;
     }

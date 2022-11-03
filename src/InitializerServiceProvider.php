@@ -37,12 +37,12 @@ class InitializerServiceProvider extends PackageServiceProvider
         //TODO: refactor
         Application::macro(
             'install',
-            static fn(string $environment, callable $callback) => $vault->get(InitializerType::Install)->set($environment, $callback)
+            fn(string $environment, callable $callback) => $vault->get(InitializerType::Install)->set($environment, $callback)
         );
 
         Application::macro(
             'update',
-            static fn(string $environment, callable $callback) => $vault->get(InitializerType::Update)->set($environment, $callback)
+            fn(string $environment, callable $callback) => $vault->get(InitializerType::Update)->set($environment, $callback)
         );
     }
 
