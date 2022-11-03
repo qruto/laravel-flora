@@ -19,7 +19,7 @@ abstract class Action
 
     public function __invoke(): bool
     {
-        $this->outputComponents->task($this->title(), function () {
+        $this->outputComponents->task($this->title(), function (): bool {
             try {
                 return $this->run();
             } catch (Exception $e) {

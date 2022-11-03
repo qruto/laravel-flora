@@ -87,7 +87,7 @@ class Publish extends Action
         return $action->run();
     }
 
-    private function addProvider(string $provider, $tag = null)
+    private function addProvider(string $provider, $tag = null): void
     {
         $arguments = [];
         $arguments['--provider'] = $provider;

@@ -18,7 +18,7 @@ abstract class MakeSupervisorConfig
     /**
      * Name of the supervisor process.
      */
-    protected $processName = '';
+    protected string $processName = '';
 
     /**
      * Create a new job instance.

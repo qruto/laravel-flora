@@ -20,10 +20,8 @@ class MakeEchoServerConfig
 
     /**
      * Execute the job.
-     *
-     * @return string
      */
-    public function handle()
+    public function handle(): string
     {
         $path = base_path('laravel-echo-server.json');
         file_put_contents(

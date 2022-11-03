@@ -82,7 +82,7 @@ class PublishTag extends Action
         return $action->run();
     }
 
-    private function addTag(string $tag)
+    private function addTag(string $tag): void
     {
         $arguments = [];
         $arguments['--tag'] = $tag;

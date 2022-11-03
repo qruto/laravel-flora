@@ -90,7 +90,7 @@ class Run implements RunnerContract
         $this->shouldClearLatestFail = true;
     }
 
-    public function start()
+    public function start(): void
     {
         foreach ($this->collection as $action) {
             $this->run($action);
@@ -116,12 +116,12 @@ class Run implements RunnerContract
         return $this;
     }
 
-    public function getCollection()
+    public function getCollection(): array
     {
         return $this->collection;
     }
 
-    protected function packageDiscovers(InitializerType $type, string $environment, Runner $runner)
+    protected function packageDiscovers(InitializerType $type, string $environment, Runner $runner): void
     {
         // TODO: build assets in production config value
 

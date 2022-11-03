@@ -11,10 +11,8 @@ class MakeCronTask
     use Queueable;
     /**
      * Execute the job.
-     *
-     * @return string
      */
-    public function handle()
+    public function handle(): string
     {
         $base_path = base_path();
         $task = "* * * * * cd $base_path && php artisan schedule:run >> /dev/null 2>&1";

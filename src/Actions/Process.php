@@ -32,7 +32,10 @@ class Process extends Action
 
         $error = $Process->getErrorOutput();
         $exitCode = $Process->getExitCode();
-        if (!$error) {
+        if ($error === '') {
+            return ! $exitCode;
+        }
+        if ($error === '0') {
             return ! $exitCode;
         }
         if ($exitCode <= 0) {

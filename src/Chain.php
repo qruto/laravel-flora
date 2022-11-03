@@ -8,7 +8,7 @@ class Chain implements ChainContract
 {
     protected array $collection = [];
 
-    public function set(string $environment, callable $callback)
+    public function set(string $environment, callable $callback): void
     {
         $this->collection[$environment] = $callback;
     }

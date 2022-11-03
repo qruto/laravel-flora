@@ -4,7 +4,7 @@ namespace Qruto\Initializer\Jobs\Supervisor;
 
 class MakeQueueSupervisorConfig extends MakeSupervisorConfig
 {
-    protected $processName = 'queue';
+    protected string $processName = 'queue';
 
     public function __construct(array $params = [], string $fileName = '', string $path = '/etc/supervisor/conf.d/')
     {
