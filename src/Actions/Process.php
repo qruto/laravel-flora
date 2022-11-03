@@ -33,7 +33,7 @@ class Process extends Action
         $error = $Process->getErrorOutput();
         $exitCode = $Process->getExitCode();
 
-        if ($error and $exitCode > 0) {
+        if ($error && $exitCode > 0) {
             throw new RuntimeException(trim($error));
         }
 

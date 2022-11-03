@@ -42,6 +42,6 @@ class Job extends Action
 
         //TODO: unique jobs
 
-        return ! (is_int($result) and $result > 0);
+        return ! (is_int($result) && $result > 0);
     }
 }

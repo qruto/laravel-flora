@@ -68,9 +68,9 @@ class PublishCommand extends Command
                 $command = $item->getCommand();
                 $parameters = $item->getParameters();
 
-                $code .= "    ->command('$command'".(! empty($parameters)
-                    ? ', '.str(var_export($parameters, true))->replace(PHP_EOL, '')->replace('array (  ', '[')->replace(',)', ']').')'
-                    : ')');
+                $code .= "    ->command('$command'".(empty($parameters)
+                    ? ')'
+                    : ', '.str(var_export($parameters, true))->replace(PHP_EOL, '')->replace('array (  ', '[')->replace(',)', ']').')');
             } elseif ($item instanceof Process) {
                 $command = $item->getCommand();
 
@@ -80,8 +80,6 @@ class PublishCommand extends Command
             $code .= PHP_EOL;
         }
 
-        $code .= ');';
-
-        return $code;
+        return $code . ');';
     }
 }
