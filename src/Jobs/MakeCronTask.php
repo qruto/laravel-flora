@@ -7,8 +7,8 @@ use Illuminate\Foundation\Bus\Dispatchable;
 
 class MakeCronTask
 {
-    use Dispatchable, Queueable;
-
+    use Dispatchable;
+    use Queueable;
     /**
      * Execute the job.
      *

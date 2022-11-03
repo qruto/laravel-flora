@@ -7,8 +7,14 @@ use InvalidArgumentException;
 
 class Publish extends Action
 {
+    /**
+     * @var string
+     */
     protected const LOADING_TEXT = 'publishing';
 
+    /**
+     * @var string
+     */
     private const COMMAND = 'vendor:publish';
 
     private array $arguments = [];
@@ -59,7 +65,7 @@ class Publish extends Action
             $title .= "Provider [{$this->currentArgument['--provider']}]";
         }
 
-        $tagStringCallback = fn(string $tag) => " Tag [$tag]";
+        $tagStringCallback = static fn(string $tag) => " Tag [$tag]";
 
         if (isset($this->currentArgument['--tag'])) {
             if (is_string($this->currentArgument['--tag'])) {

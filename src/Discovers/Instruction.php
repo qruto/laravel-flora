@@ -23,7 +23,7 @@ class Instruction
         $typeValue = $type->value;
 
         if (is_null($this->$typeValue)) {
-            return fn () => null;
+            return static fn() => null;
         }
 
         if (is_array($this->$typeValue)) {
@@ -31,7 +31,7 @@ class Instruction
                 return $this->$typeValue[$environment->value];
             }
 
-            return fn () => null;
+            return static fn() => null;
         }
 
         return $this->$typeValue;

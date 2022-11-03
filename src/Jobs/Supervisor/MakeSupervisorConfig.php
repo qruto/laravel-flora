@@ -8,8 +8,8 @@ use Illuminate\Support\Str;
 
 abstract class MakeSupervisorConfig
 {
-    use Dispatchable, Queueable;
-
+    use Dispatchable;
+    use Queueable;
     /**
      * Supervisor configuration name.
      */
@@ -59,7 +59,7 @@ abstract class MakeSupervisorConfig
             'user' => get_current_user(),
             'numprocs' => 1,
             'redirect_stderr' => true,
-            'stdout_logfile' => "{$this->getLogsPath()}/{$this->configName()}.log",
+            'stdout_logfile' => sprintf('%s/%s.log', $this->getLogsPath(), $this->configName()),
         ];
         $data = array_merge($default_config, $data);
 
@@ -72,6 +72,7 @@ abstract class MakeSupervisorConfig
             } else {
                 $value = (string) $value;
             }
+
             $config .= "$key=$value".PHP_EOL;
         }
 

@@ -7,8 +7,14 @@ use InvalidArgumentException;
 
 class PublishTag extends Action
 {
+    /**
+     * @var string
+     */
     protected const LOADING_TEXT = 'publishing';
 
+    /**
+     * @var string
+     */
     private const COMMAND = 'vendor:publish';
 
     private array $arguments = [];
@@ -54,7 +60,7 @@ class PublishTag extends Action
     {
         $title = '<comment>Publish resource:</comment> ';
 
-        $tagStringCallback = fn(string $tag) => " Tag [$tag]";
+        $tagStringCallback = static fn(string $tag) => " Tag [$tag]";
 
         if (isset($this->currentArgument['--tag'])) {
             if (is_string($this->currentArgument['--tag'])) {

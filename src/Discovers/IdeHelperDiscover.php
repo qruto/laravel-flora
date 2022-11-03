@@ -24,13 +24,13 @@ class IdeHelperDiscover implements PackageDiscover
     {
         return new Instruction(
             [
-                'local' => fn (Runner $run) => $run
+                'local' => static fn(Runner $run) => $run
                         ->command('ide-helper:generate')
                         ->command('ide-helper:meta')
                         ->command('ide-helper:models', ['--nowrite' => true]),
             ],
             [
-                'local' => fn (Runner $run) => $run
+                'local' => static fn(Runner $run) => $run
                         ->command('ide-helper:generate')
                         ->command('ide-helper:meta')
                         ->command('ide-helper:models', ['--nowrite' => true]),
