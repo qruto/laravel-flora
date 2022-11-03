@@ -22,9 +22,9 @@ class PublishCommand extends Command
 
     public function handle(Container $container, ChainVault $vault): int
     {
-        require __DIR__ . '/../../build.php';
+        require __DIR__.'/../../build.php';
 
-        $code = Str::before(file_get_contents(__DIR__ . '/../../build.php'), 'App::install');
+        $code = Str::before(file_get_contents(__DIR__.'/../../build.php'), 'App::install');
 
         $runner = $this->makeRunner($container);
 
@@ -34,7 +34,7 @@ class PublishCommand extends Command
 
                 $this->packageDiscovers($type, $env->value, $runner);
 
-                $code .= $this->generateInitializerCode($type, $env, $runner) . PHP_EOL . PHP_EOL;
+                $code .= $this->generateInitializerCode($type, $env, $runner).PHP_EOL.PHP_EOL;
 
                 $runner = $this->makeRunner($container);
             }
@@ -60,7 +60,7 @@ class PublishCommand extends Command
         Environment $environment,
         Runner $runner
     ): string {
-        $code = sprintf("App::%s('%s', fn (Runner \$run) => \$run", $type->value, $environment->value) . PHP_EOL;
+        $code = sprintf("App::%s('%s', fn (Runner \$run) => \$run", $type->value, $environment->value).PHP_EOL;
         $collection = $runner->getCollection();
 
         foreach ($collection as $item) {
@@ -68,8 +68,8 @@ class PublishCommand extends Command
                 $command = $item->getCommand();
                 $parameters = $item->getParameters();
 
-                $code .= "    ->command('$command'" . (!empty($parameters)
-                    ? ', ' . str(var_export($parameters, true))->replace(PHP_EOL, '')->replace('array (  ', '[')->replace(',)', ']') . ')'
+                $code .= "    ->command('$command'".(! empty($parameters)
+                    ? ', '.str(var_export($parameters, true))->replace(PHP_EOL, '')->replace('array (  ', '[')->replace(',)', ']').')'
                     : ')');
             } elseif ($item instanceof Process) {
                 $command = $item->getCommand();

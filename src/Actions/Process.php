@@ -2,7 +2,6 @@
 
 namespace Qruto\Initializer\Actions;
 
-use Illuminate\Console\Command;
 use Illuminate\Console\View\Components\Factory;
 use RuntimeException;
 use Symfony\Component\Process\Process as ExternalProcess;

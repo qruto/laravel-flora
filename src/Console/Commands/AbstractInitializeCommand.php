@@ -2,7 +2,6 @@
 
 namespace Qruto\Initializer\Console\Commands;
 
-use ErrorException;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Container\Container;
@@ -10,10 +9,6 @@ use Illuminate\Contracts\Debug\ExceptionHandler;
 use Qruto\Initializer\Contracts\Chain;
 use Qruto\Initializer\Contracts\ChainVault;
 use Qruto\Initializer\Contracts\Runner;
-use Qruto\Initializer\Discovers\HorizonDiscover;
-use Qruto\Initializer\Discovers\IdeHelperDiscover;
-use Qruto\Initializer\Discovers\TelescopeDiscover;
-use Qruto\Initializer\Enums\Environment;
 use Qruto\Initializer\Enums\InitializerType;
 use Qruto\Initializer\UndefinedInstructionException;
 
@@ -33,7 +28,7 @@ abstract class AbstractInitializeCommand extends Command
             require $build;
         } else {
             // TODO: base path from package config
-            require __DIR__ . '/../../build.php';
+            require __DIR__.'/../../build.php';
         }
 
         $initializer = $this->getInitializer($vault);
@@ -48,7 +43,7 @@ abstract class AbstractInitializeCommand extends Command
 
         $this->trap([SIGTERM, SIGINT], function () use ($runner) {
             if ($this->components->confirm('Installation stop confirm')) {
-                $this->components->warn(ucfirst($this->title()) . ' aborted without completion');
+                $this->components->warn(ucfirst($this->title()).' aborted without completion');
                 exit;
             }
 
@@ -67,7 +62,7 @@ abstract class AbstractInitializeCommand extends Command
             $this->packageDiscovers($this->type, $env, $runner);
         }
 
-        $this->components->alert('Application ' . $this->title());
+        $this->components->alert('Application '.$this->title());
 
         $runner->start();
 
@@ -78,7 +73,7 @@ abstract class AbstractInitializeCommand extends Command
         if ($runner->doneWithErrors()) {
             $exceptions = $runner->exceptions();
 
-            $this->components->error($this->title(). ' occur errors');
+            $this->components->error($this->title().' occur errors');
 
             if (! empty($exceptions) && $this->components->confirm('Show errors?')) {
                 foreach ($exceptions as $exception) {

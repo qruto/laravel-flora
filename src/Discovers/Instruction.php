@@ -11,7 +11,8 @@ class Instruction
     public function __construct(
         protected array|Closure|null $install = null,
         protected array|Closure|null $update = null,
-    ) {}
+    ) {
+    }
 
     public function get(InitializerType $type, ?Environment $environment): Closure
     {
@@ -35,5 +36,4 @@ class Instruction
 
         return $this->$typeValue;
     }
-
 }

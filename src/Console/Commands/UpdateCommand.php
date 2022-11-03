@@ -2,8 +2,6 @@
 
 namespace Qruto\Initializer\Console\Commands;
 
-use Qruto\Initializer\Contracts\Chain;
-use Qruto\Initializer\Contracts\ChainVault;
 use Qruto\Initializer\Enums\InitializerType;
 
 class UpdateCommand extends AbstractInitializeCommand

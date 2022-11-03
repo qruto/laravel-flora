@@ -21,6 +21,7 @@ abstract class RunnerCommandsTestCase extends TestCase
         $this->app->resolving(Run::class, function (Run $run) use ($callback) {
             /**
              * @todo Remove this after resolving issue
+             *
              * @see https://github.com/laravel/framework/pull/23290
              */
             static $is_called = false;

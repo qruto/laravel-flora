@@ -107,7 +107,7 @@ class Run implements RunnerContract
         $actionType = $this->firstClosureParameterType($callback);
 
         $this->collection = collect($this->collection)->filter(
-            fn ($action) => !collect($this->collection)
+            fn ($action) => ! collect($this->collection)
                 ->filter(fn ($action) => $action instanceof $actionType)
                 ->filter($callback)
                 ->contains(fn ($value) => $action === $value)

@@ -2,7 +2,6 @@
 
 namespace Qruto\Initializer\Actions;
 
-use Illuminate\Console\Command;
 use Illuminate\Console\View\Components\Factory;
 
 class Callback extends Action
