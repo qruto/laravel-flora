@@ -11,19 +11,9 @@ abstract class MakeSupervisorConfig
     use Dispatchable, Queueable;
 
     /**
-     * Supervisor config folder path.
-     */
-    protected $path;
-
-    /**
      * Supervisor configuration name.
      */
     protected $fileName;
-
-    /**
-     * Supervisor config parameters.
-     */
-    protected $params;
 
     /**
      * Name of the supervisor process.
@@ -33,11 +23,15 @@ abstract class MakeSupervisorConfig
     /**
      * Create a new job instance.
      */
-    public function __construct(array $params = [], string $fileName = '', string $path = '/etc/supervisor/conf.d/')
+    public function __construct(/**
+     * Supervisor config parameters.
+     */
+    protected array $params = [], string $fileName = '', /**
+     * Supervisor config folder path.
+     */
+    protected string $path = '/etc/supervisor/conf.d/')
     {
-        $this->path = $path;
         $this->fileName = $fileName ?: $this->configName().'.conf';
-        $this->params = $params;
     }
 
     /**

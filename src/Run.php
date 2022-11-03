@@ -35,7 +35,7 @@ class Run implements RunnerContract
 
     protected Factory $outputComponents;
 
-    protected ?Action $latestAction;
+    protected ?Action $latestAction = null;
 
     protected bool $shouldClearLatestFail = false;
 

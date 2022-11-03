@@ -11,23 +11,16 @@ class Publish extends Action
 
     private const COMMAND = 'vendor:publish';
 
-    /** @var string|array */
-    private $providers;
-
-    /** @var bool */
-    private $force;
-
-    /** @var array */
-    private $arguments = [];
+    private array $arguments = [];
 
     private $currentArgument = [];
 
-    public function __construct(Command $artisanCommand, $providers, bool $force = false)
+    /**
+     * @param string|mixed[] $providers
+     */
+    public function __construct(Command $artisanCommand, private $providers, private readonly bool $force = false)
     {
         parent::__construct($artisanCommand);
-
-        $this->providers = $providers;
-        $this->force = $force;
     }
 
     public function __invoke(): bool
@@ -39,6 +32,8 @@ class Publish extends Action
         } else {
             throw new InvalidArgumentException('Invalid publishable argument.');
         }
+
+        $errors = [];
 
         foreach ($this->arguments as $argument) {
             $this->currentArgument = $argument;
@@ -64,9 +59,7 @@ class Publish extends Action
             $title .= "Provider [{$this->currentArgument['--provider']}]";
         }
 
-        $tagStringCallback = function (string $tag) {
-            return " Tag [$tag]";
-        };
+        $tagStringCallback = fn(string $tag) => " Tag [$tag]";
 
         if (isset($this->currentArgument['--tag'])) {
             if (is_string($this->currentArgument['--tag'])) {
@@ -90,6 +83,7 @@ class Publish extends Action
 
     private function addProvider(string $provider, $tag = null)
     {
+        $arguments = [];
         $arguments['--provider'] = $provider;
 
         if ($tag !== null) {

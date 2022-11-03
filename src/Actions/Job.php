@@ -20,7 +20,7 @@ class Job extends Action
 
     public function title(): string
     {
-        return '<fg=yellow>Dispatching</> '.get_class($this->job);
+        return '<fg=yellow>Dispatching</> '.$this->job::class;
     }
 
     public function run(): bool

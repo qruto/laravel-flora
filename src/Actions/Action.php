@@ -9,7 +9,7 @@ use Throwable;
 
 abstract class Action
 {
-    private $failed = false;
+    private bool $failed = false;
 
     protected Throwable $exception;
 

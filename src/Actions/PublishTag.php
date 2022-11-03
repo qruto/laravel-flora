@@ -11,27 +11,21 @@ class PublishTag extends Action
 
     private const COMMAND = 'vendor:publish';
 
-    /** @var string|array */
-    private $tags;
-
-    /** @var bool */
-    private $force;
-
-    /** @var array */
-    private $arguments = [];
+    private array $arguments = [];
 
     private $currentArgument = [];
 
-    public function __construct(Command $artisanCommand, $tags, bool $force = false)
+    /**
+     * @param string|mixed[] $tags
+     */
+    public function __construct(Command $artisanCommand, private $tags, private readonly bool $force = false)
     {
         parent::__construct($artisanCommand);
-
-        $this->tags = $tags;
-        $this->force = $force;
     }
 
     public function __invoke(): bool
     {
+        $errors = [];
         if (is_string($this->tags)) {
             $this->addTag($this->tags);
         } elseif (is_array($this->tags)) {
@@ -60,9 +54,7 @@ class PublishTag extends Action
     {
         $title = '<comment>Publish resource:</comment> ';
 
-        $tagStringCallback = function (string $tag) {
-            return " Tag [$tag]";
-        };
+        $tagStringCallback = fn(string $tag) => " Tag [$tag]";
 
         if (isset($this->currentArgument['--tag'])) {
             if (is_string($this->currentArgument['--tag'])) {
@@ -86,6 +78,7 @@ class PublishTag extends Action
 
     private function addTag(string $tag)
     {
+        $arguments = [];
         $arguments['--tag'] = $tag;
 
         if ($this->force) {
