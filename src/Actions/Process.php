@@ -32,12 +32,13 @@ class Process extends Action
 
         $error = $Process->getErrorOutput();
         $exitCode = $Process->getExitCode();
-
-        if ($error && $exitCode > 0) {
-            throw new RuntimeException(trim($error));
+        if (!$error) {
+            return ! $exitCode;
         }
-
-        return ! $exitCode;
+        if ($exitCode <= 0) {
+            return ! $exitCode;
+        }
+        throw new RuntimeException(trim($error));
     }
 
     private function createProcess(): ExternalProcess
