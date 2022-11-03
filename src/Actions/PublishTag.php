@@ -22,7 +22,7 @@ class PublishTag extends Action
     private $currentArgument = [];
 
     /**
-     * @param string|mixed[] $tags
+     * @param  string|mixed[]  $tags
      */
     public function __construct(Command $artisanCommand, private $tags, private readonly bool $force = false)
     {
@@ -60,7 +60,7 @@ class PublishTag extends Action
     {
         $title = '<comment>Publish resource:</comment> ';
 
-        $tagStringCallback = static fn(string $tag) => " Tag [$tag]";
+        $tagStringCallback = static fn (string $tag) => " Tag [$tag]";
 
         if (isset($this->currentArgument['--tag'])) {
             if (is_string($this->currentArgument['--tag'])) {

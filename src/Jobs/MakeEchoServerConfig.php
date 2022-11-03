@@ -9,13 +9,13 @@ class MakeEchoServerConfig
 {
     use Dispatchable;
     use Queueable;
+
     public function __construct(
         /**
          * Config for overriding default echo server values.
          */
         protected array $config = []
-    )
-    {
+    ) {
     }
 
     /**

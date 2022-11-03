@@ -108,9 +108,9 @@ class Run implements RunnerContract
 
         $this->collection = collect($this->collection)->filter(
             fn ($action) => ! collect($this->collection)
-                ->filter(static fn($action) => $action instanceof $actionType)
+                ->filter(static fn ($action) => $action instanceof $actionType)
                 ->filter($callback)
-                ->contains(static fn($value) => $action === $value)
+                ->contains(static fn ($value) => $action === $value)
         )->values()->all();
 
         return $this;

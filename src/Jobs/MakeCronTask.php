@@ -9,6 +9,7 @@ class MakeCronTask
 {
     use Dispatchable;
     use Queueable;
+
     /**
      * Execute the job.
      */

@@ -10,6 +10,7 @@ abstract class MakeSupervisorConfig
 {
     use Dispatchable;
     use Queueable;
+
     /**
      * Supervisor configuration name.
      */
