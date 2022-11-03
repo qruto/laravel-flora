@@ -83,9 +83,6 @@ abstract class MakeSupervisorConfig
         return storage_path('logs');
     }
 
-    /**
-     * @return string
-     */
     protected function configName(): string
     {
         return Str::slug($this->getApplicationName().'-'.$this->processName);

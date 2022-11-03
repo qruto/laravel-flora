@@ -25,7 +25,6 @@ class Job extends Action
 
     public function run(): bool
     {
-        /** @var Dispatcher */
         $dispatcher = Container::getInstance()->make(Dispatcher::class);
 
         $result = null;
