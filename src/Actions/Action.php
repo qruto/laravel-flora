@@ -9,8 +9,6 @@ use Throwable;
 
 abstract class Action
 {
-    private bool $failed = false;
-
     protected ?Throwable $exception = null;
 
     public function __construct(protected Factory $outputComponents)
@@ -29,18 +27,16 @@ abstract class Action
 
                 $this->exception = $e;
 
-                $this->failed = true;
-
                 return false;
             }
         });
 
-        return ! $this->failed;
+        return $this->failed();
     }
 
     public function failed(): bool
     {
-        return $this->failed;
+        return ! is_null($this->exception);
     }
 
     public function getException(): ?Throwable

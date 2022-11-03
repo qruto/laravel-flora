@@ -35,6 +35,6 @@ class Artisan extends Action
 
     public function run(): bool
     {
-        return $this->application->call($this->command, $this->parameters) === 0;
+        return $this->application->call($this->command, $this->parameters + ['--no-interaction' => true]) === 0;
     }
 }

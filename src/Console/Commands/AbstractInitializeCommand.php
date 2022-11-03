@@ -75,6 +75,7 @@ abstract class AbstractInitializeCommand extends Command
             $this->components->error($this->title().' occur errors');
 
             if (! empty($exceptions) && $this->components->confirm('Show errors?')) {
+                //TODO: make scrollable
                 foreach ($exceptions as $exception) {
                     $this->components->twoColumnDetail($exception['title']);
 
@@ -86,7 +87,11 @@ abstract class AbstractInitializeCommand extends Command
                 }
             }
 
+            // TODO: log errors
+
             $this->line('<fg=red>You could run command with <fg=cyan>-v</> flag to see more details</>');
+
+            return self::FAILURE;
         }
 
         $this->components->info($this->title().' done!');

@@ -14,13 +14,7 @@ use Qruto\Initializer\Actions\Job;
 use Qruto\Initializer\Actions\Process;
 use Qruto\Initializer\Actions\Publish;
 use Qruto\Initializer\Actions\PublishTag;
-use Qruto\Initializer\Contracts\Runner;
 use Qruto\Initializer\Contracts\Runner as RunnerContract;
-use Qruto\Initializer\Discovers\HorizonDiscover;
-use Qruto\Initializer\Discovers\IdeHelperDiscover;
-use Qruto\Initializer\Discovers\TelescopeDiscover;
-use Qruto\Initializer\Enums\Environment;
-use Qruto\Initializer\Enums\InitializerType;
 
 class Run implements RunnerContract
 {
@@ -30,8 +24,6 @@ class Run implements RunnerContract
     private array $collection = [];
 
     private array $exceptions = [];
-
-    private bool $doneWithErrors = false;
 
     protected Factory $outputComponents;
 
@@ -49,38 +41,11 @@ class Run implements RunnerContract
         return $this->application;
     }
 
-    public function exceptions(): array
+    public function start(): void
     {
-        return $this->exceptions;
-    }
-
-    private function run(Action $action): static
-    {
-        $this->latestAction = $action;
-
-        if ($this->shouldClearLatestFail) {
-            $this->output->write("\x1B[1A");
-            $this->output->write("\x1B[2K");
-
-            $this->shouldClearLatestFail = false;
+        foreach ($this->collection as $action) {
+            $this->run($action);
         }
-
-        $action();
-
-        if ($action->failed()) {
-            if (! $this->doneWithErrors) {
-                $this->doneWithErrors = true;
-            }
-
-            if ($exception = $action->getException()) {
-                $this->exceptions[] = [
-                    'title' => $action->title(),
-                    'e' => $exception,
-                ];
-            }
-        }
-
-        return $this;
     }
 
     public function runLatestAction(): void
@@ -90,16 +55,9 @@ class Run implements RunnerContract
         $this->shouldClearLatestFail = true;
     }
 
-    public function start(): void
+    public function getCollection(): array
     {
-        foreach ($this->collection as $action) {
-            $this->run($action);
-        }
-    }
-
-    public function doneWithErrors(): bool
-    {
-        return $this->doneWithErrors;
+        return $this->collection;
     }
 
     public function filter(callable $callback): self
@@ -116,9 +74,37 @@ class Run implements RunnerContract
         return $this;
     }
 
-    public function getCollection(): array
+    public function exceptions(): array
     {
-        return $this->collection;
+        return $this->exceptions;
+    }
+
+    public function doneWithErrors(): bool
+    {
+        return ! empty($this->exceptions());
+    }
+
+    private function run(Action $action): static
+    {
+        $this->latestAction = $action;
+
+        if ($this->shouldClearLatestFail) {
+            $this->output->write("\x1B[1A");
+            $this->output->write("\x1B[2K");
+
+            $this->shouldClearLatestFail = false;
+        }
+
+        $action();
+
+        if ($action->failed()) {
+            $this->exceptions[] = [
+                'title' => $action->title(),
+                'e' => $action->getException(),
+            ];
+        }
+
+        return $this;
     }
 
     public function command(string $command, array $parameters = []): RunnerContract
@@ -159,7 +145,9 @@ class Run implements RunnerContract
 
     public function call(callable $callback, array $parameters = []): RunnerContract
     {
-        return $this->run(new Callback($this->outputComponents, $callback, $parameters));
+        $this->collection[] = new Callback($this->outputComponents, $callback, $parameters);
+
+        return $this;
     }
 
     public function job(object|string $job, ?string $queue = null, ?string $connection = null): RunnerContract
