@@ -27,7 +27,6 @@ abstract class AbstractInitializeCommand extends Command
 
             require $build;
         } else {
-            // TODO: base path from package config
             require __DIR__.'/../../build.php';
         }
 

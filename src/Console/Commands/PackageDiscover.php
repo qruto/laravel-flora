@@ -13,8 +13,6 @@ trait PackageDiscover
 {
     protected function packageDiscovers(InitializerType $type, string $environment, Runner $runner)
     {
-        // TODO: build assets in production config value
-
         $discovers = [
             new HorizonDiscover(),
             new TelescopeDiscover(),

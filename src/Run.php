@@ -121,24 +121,6 @@ class Run implements RunnerContract
         return $this->collection;
     }
 
-    protected function packageDiscovers(InitializerType $type, string $environment, Runner $runner): void
-    {
-        // TODO: build assets in production config value
-
-        $discovers = [
-            new HorizonDiscover(),
-            new TelescopeDiscover(),
-            new IdeHelperDiscover(),
-        ];
-
-        foreach ($discovers as $discover) {
-            if ($discover->exists()) {
-                $discover->instruction()
-                    ->get($type, Environment::tryFrom($environment))($runner);
-            }
-        }
-    }
-
     public function command(string $command, array $parameters = []): RunnerContract
     {
         $this->collection[] = new Artisan($this->outputComponents, $this->application, $command, $parameters);
