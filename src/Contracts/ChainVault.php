@@ -2,9 +2,9 @@
 
 namespace Qruto\Initializer\Contracts;
 
+use Qruto\Initializer\Enums\InitializerType;
+
 interface ChainVault
 {
-    public function getInstall(): Chain;
-
-    public function getUpdate(): Chain;
+    public function get(InitializerType $type): Chain;
 }

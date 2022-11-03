@@ -19,9 +19,11 @@ use Qruto\Initializer\UndefinedInstructionException;
 
 abstract class AbstractInitializeCommand extends Command
 {
+    use PackageDiscover;
+
     protected InitializerType $type;
 
-    public function handle(Container $container, Repository $config, ChainVault $vault, ExceptionHandler $exceptionHandler)
+    public function handle(Container $container, Repository $config, ChainVault $vault, ExceptionHandler $exceptionHandler): int
     {
         $autoInstruction = true;
 
@@ -98,30 +100,13 @@ abstract class AbstractInitializeCommand extends Command
         return self::SUCCESS;
     }
 
-    protected function packageDiscovers(InitializerType $type, string $environment, Runner $runner)
-    {
-        // TODO: build assets in production config value
-
-        $discovers = [
-            new HorizonDiscover(),
-            new TelescopeDiscover(),
-            new IdeHelperDiscover(),
-        ];
-
-        foreach ($discovers as $discover) {
-            if ($discover->exists()) {
-                $discover->instruction()
-                    ->get($type, Environment::tryFrom($environment))($runner);
-            }
-        }
-    }
-
     /**
      * Returns initializer instance for current command.
-     *
-     * @return object
      */
-    abstract protected function getInitializer(ChainVault $vault): Chain;
+    protected function getInitializer(ChainVault $vault): Chain
+    {
+        return $vault->get($this->type);
+    }
 
     abstract protected function title(): string;
 }

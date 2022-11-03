@@ -25,16 +25,6 @@ class InstallCommand extends AbstractInitializeCommand
      */
     protected $description = 'Install the application according to current environment';
 
-    /**
-     * Returns instance of Install class which defines initializing runner chain.
-     *
-     * {@inheritdoc}
-     */
-    protected function getInitializer(ChainVault $vault): Chain
-    {
-        return $vault->getInstall();
-    }
-
     protected function title(): string
     {
         return 'install';

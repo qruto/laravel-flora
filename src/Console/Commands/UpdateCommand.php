@@ -25,16 +25,6 @@ class UpdateCommand extends AbstractInitializeCommand
      */
     protected $description = 'Update the application according to current environment';
 
-    /**
-     * Returns instance of Update class which defines initializing runner chain.
-     *
-     * {@inheritdoc}
-     */
-    protected function getInitializer(ChainVault $vault): Chain
-    {
-        return $vault->getUpdate();
-    }
-
     protected function title(): string
     {
         return 'update';

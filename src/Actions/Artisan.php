@@ -28,6 +28,11 @@ class Artisan extends Action
         return $this->command;
     }
 
+    public function getParameters(): array
+    {
+        return $this->parameters;
+    }
+
     public function run(): bool
     {
         return $this->application->call($this->command, $this->parameters) === 0;

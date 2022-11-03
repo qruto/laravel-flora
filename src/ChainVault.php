@@ -4,20 +4,20 @@ namespace Qruto\Initializer;
 
 use Qruto\Initializer\Contracts\Chain;
 use Qruto\Initializer\Contracts\ChainVault as ChainVaultContract;
+use Qruto\Initializer\Enums\InitializerType;
 
 class ChainVault implements ChainVaultContract
 {
-    public function __construct(protected Chain $install, protected Chain $update)
+    protected array $chains;
+
+    public function __construct(Chain $install, Chain $update)
     {
+        $this->chains[InitializerType::Install->value] = $install;
+        $this->chains[InitializerType::Update->value] = $update;
     }
 
-    public function getInstall(): Chain
+    public function get(InitializerType $type): Chain
     {
-        return $this->install;
-    }
-
-    public function getUpdate(): Chain
-    {
-        return $this->update;
+        return $this->chains[$type->value];
     }
 }

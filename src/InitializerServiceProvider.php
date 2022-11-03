@@ -3,54 +3,53 @@
 namespace Qruto\Initializer;
 
 use Illuminate\Foundation\Application;
-use Illuminate\Support\ServiceProvider;
 use Qruto\Initializer\Console\Commands\InstallCommand;
+use Qruto\Initializer\Console\Commands\PublishCommand;
 use Qruto\Initializer\Console\Commands\UpdateCommand;
 use Qruto\Initializer\Contracts\Runner;
 use Qruto\Initializer\Contracts\Chain as ChainContract;
 use Qruto\Initializer\Contracts\ChainVault as ChainVaultContract;
+use Qruto\Initializer\Enums\InitializerType;
+use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class InitializerServiceProvider extends ServiceProvider
+class InitializerServiceProvider extends PackageServiceProvider
 {
+    public function configurePackage(Package $package): void
+    {
+        $package
+            ->name('initializer')
+            ->hasConfigFile()
+            ->hasCommands(
+                InstallCommand::class,
+                UpdateCommand::class,
+                PublishCommand::class
+            );
+    }
+
     /**
      * Bootstrap the application services.
      */
-    public function boot()
+    public function bootingPackage()
     {
-        $this->publishes([
-            __DIR__.'/../config/initializer.php' => config_path('initializer.php'),
-        ], 'config');
-
-        $this->publishes([
-            __DIR__.'/../stubs/install-class.stub' => app_path('Install.php'),
-            __DIR__.'/../stubs/update-class.stub' => app_path('Update.php'),
-        ], 'initializers');
-
-        if ($this->app->runningInConsole()) {
-            $this->commands([
-                InstallCommand::class,
-                UpdateCommand::class,
-            ]);
-        }
-
         $vault = $this->app->make(ChainVaultContract::class);
 
         //TODO: refactor
         Application::macro(
             'install',
-            fn (string $environment, callable $callback) => $vault->getInstall()->set($environment, $callback)
+            fn (string $environment, callable $callback) => $vault->get(InitializerType::Install)->set($environment, $callback)
         );
 
         Application::macro(
             'update',
-            fn (string $environment, callable $callback) => $vault->getUpdate()->set($environment, $callback)
+            fn (string $environment, callable $callback) => $vault->get(InitializerType::Update)->set($environment, $callback)
         );
     }
 
     /**
      * Register the application services.
      */
-    public function register()
+    public function registeringPackage()
     {
         $this->mergeConfigFrom(__DIR__.'/../config/initializer.php', 'initializer');
 

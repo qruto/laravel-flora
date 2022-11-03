@@ -14,7 +14,13 @@ use Qruto\Initializer\Actions\Job;
 use Qruto\Initializer\Actions\Process;
 use Qruto\Initializer\Actions\Publish;
 use Qruto\Initializer\Actions\PublishTag;
+use Qruto\Initializer\Contracts\Runner;
 use Qruto\Initializer\Contracts\Runner as RunnerContract;
+use Qruto\Initializer\Discovers\HorizonDiscover;
+use Qruto\Initializer\Discovers\IdeHelperDiscover;
+use Qruto\Initializer\Discovers\TelescopeDiscover;
+use Qruto\Initializer\Enums\Environment;
+use Qruto\Initializer\Enums\InitializerType;
 
 class Run implements RunnerContract
 {
@@ -108,6 +114,29 @@ class Run implements RunnerContract
         )->values()->all();
 
         return $this;
+    }
+
+    public function getCollection()
+    {
+        return $this->collection;
+    }
+
+    protected function packageDiscovers(InitializerType $type, string $environment, Runner $runner)
+    {
+        // TODO: build assets in production config value
+
+        $discovers = [
+            new HorizonDiscover(),
+            new TelescopeDiscover(),
+            new IdeHelperDiscover(),
+        ];
+
+        foreach ($discovers as $discover) {
+            if ($discover->exists()) {
+                $discover->instruction()
+                    ->get($type, Environment::tryFrom($environment))($runner);
+            }
+        }
     }
 
     public function command(string $command, array $parameters = []): RunnerContract

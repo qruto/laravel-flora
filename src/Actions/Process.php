@@ -49,4 +49,9 @@ class Process extends Action
 
         return new ExternalProcess(array_merge([$this->command], $this->parameters));
     }
+
+    public function getCommand(): string
+    {
+        return $this->command;
+    }
 }
