@@ -80,6 +80,6 @@ class PublishCommand extends Command
             $code .= PHP_EOL;
         }
 
-        return $code . ');';
+        return $code.');';
     }
 }

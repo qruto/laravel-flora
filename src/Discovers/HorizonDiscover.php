@@ -19,7 +19,7 @@ class HorizonDiscover implements PackageDiscover
                 'local' => fn (Runner $run) => $run->command('horizon:publish'),
 
                 'production' => function (Runner $run) {
-                    $run->filter(fn(Artisan $action) => $action->getCommand() === 'queue:restart')->command('horizon:terminate');
+                    $run->filter(fn (Artisan $action) => $action->getCommand() === 'queue:restart')->command('horizon:terminate');
                 },
             ],
         );

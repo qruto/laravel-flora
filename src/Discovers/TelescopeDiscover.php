@@ -14,7 +14,7 @@ class TelescopeDiscover implements PackageDiscover
     public function instruction(): Instruction
     {
         return new Instruction(
-            update: ['local' => static fn(Runner $run) => $run->command('telescope:publish')],
+            update: ['local' => static fn (Runner $run) => $run->command('telescope:publish')],
         );
     }
 }

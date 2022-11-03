@@ -22,7 +22,7 @@ class Publish extends Action
     private $currentArgument = [];
 
     /**
-     * @param string|mixed[] $providers
+     * @param  string|mixed[]  $providers
      */
     public function __construct(Command $artisanCommand, private $providers, private readonly bool $force = false)
     {
@@ -65,7 +65,7 @@ class Publish extends Action
             $title .= "Provider [{$this->currentArgument['--provider']}]";
         }
 
-        $tagStringCallback = static fn(string $tag) => " Tag [$tag]";
+        $tagStringCallback = static fn (string $tag) => " Tag [$tag]";
 
         if (isset($this->currentArgument['--tag'])) {
             if (is_string($this->currentArgument['--tag'])) {
