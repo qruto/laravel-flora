@@ -10,11 +10,9 @@ return [
     */
     'env_config_key' => 'app.env',
 
+    'production_build' => false,
+
     'assets' => [
-        'production_build' => false,
-        'published' => [
-            'laravel-assets',
-            \Laravel\Telescope\TelescopeServiceProvider::class,
-        ],
-    ]
+        'laravel-assets',
+    ],
 ];

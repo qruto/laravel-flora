@@ -43,6 +43,5 @@ App::update('production', fn (Runner $run) => $run
     ->command('config:cache')
     ->command('event:cache')
     ->command('migrate', ['--force' => true])
-    ->command('cache:clear')
     ->command('queue:restart')
 );

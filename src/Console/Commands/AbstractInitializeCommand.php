@@ -7,6 +7,7 @@ use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\Events\VendorTagPublished;
+use Qruto\Initializer\AssetsVersion;
 use Qruto\Initializer\Contracts\Chain;
 use Qruto\Initializer\Contracts\ChainVault;
 use Qruto\Initializer\Contracts\Runner;
@@ -19,8 +20,13 @@ abstract class AbstractInitializeCommand extends Command
 
     protected InitializerType $type;
 
-    public function handle(Container $container, Repository $config, ChainVault $vault, ExceptionHandler $exceptionHandler): int
-    {
+    public function handle(
+        Container $container,
+        AssetsVersion $assetsVersion,
+        Repository $config,
+        ChainVault $vault,
+        ExceptionHandler $exceptionHandler
+    ): int {
         $autoInstruction = true;
 
         if ($customBuildExists = file_exists($build = base_path('routes/build.php'))) {
@@ -62,6 +68,8 @@ abstract class AbstractInitializeCommand extends Command
             $this->packageDiscovers($this->type, $env, $runner);
         }
 
+        $latestAssetsHash = cache()->get('assets_hash');
+
         $this->components->alert('Application '.$this->title());
 
         $this->output->newLine();
@@ -70,7 +78,10 @@ abstract class AbstractInitializeCommand extends Command
 
         // TODO: root options
 
-        $this->publishAssets($config->get('initializer.assets.published'));
+        if ($assetsVersion->outdated($latestAssetsHash)) {
+            $this->publishAssets($config->get('initializer.assets'), $config->get('initializer.production_build'));
+            $assetsVersion->stampUpdate();
+        }
 
         $this->output->newLine();
 
@@ -113,9 +124,13 @@ abstract class AbstractInitializeCommand extends Command
 
     abstract protected function title(): string;
 
-    private function publishAssets(array $assets): void
+    private function publishAssets(array $assets, bool $buildInProduction): void
     {
         if (empty($assets)) {
+            return;
+        }
+
+        if ($this->type === InitializerType::Install && !$buildInProduction) {
             return;
         }
 
