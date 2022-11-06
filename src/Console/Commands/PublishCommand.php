@@ -61,7 +61,7 @@ class PublishCommand extends Command
         Runner $runner
     ): string {
         $code = sprintf("App::%s('%s', fn (Runner \$run) => \$run", $type->value, $environment->value).PHP_EOL;
-        $collection = $runner->getCollection();
+        $collection = $runner->internal->getCollection();
 
         foreach ($collection as $item) {
             if ($item instanceof Artisan) {

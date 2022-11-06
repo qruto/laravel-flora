@@ -46,7 +46,7 @@ abstract class AbstractInitializeCommand extends Command
                 exit;
             }
 
-            $runner->runLatestAction();
+            $runner->internal->runLatestAction();
         });
 
         try {
@@ -63,14 +63,14 @@ abstract class AbstractInitializeCommand extends Command
 
         $this->components->alert('Application '.$this->title());
 
-        $runner->start();
+        $runner->internal->start();
 
         // TODO: root options
 
         $this->output->newLine();
 
-        if ($runner->doneWithErrors()) {
-            $exceptions = $runner->exceptions();
+        if ($runner->internal->doneWithErrors()) {
+            $exceptions = $runner->internal->exceptions();
 
             $this->components->error($this->title().' occur errors');
 
