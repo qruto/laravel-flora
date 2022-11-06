@@ -30,7 +30,7 @@ class InitializerServiceProvider extends PackageServiceProvider
     /**
      * Bootstrap the application services.
      */
-    public function bootingPackage(): void
+    public function packageBooted(): void
     {
         $vault = $this->app->make(ChainVaultContract::class);
 
@@ -49,10 +49,8 @@ class InitializerServiceProvider extends PackageServiceProvider
     /**
      * Register the application services.
      */
-    public function registeringPackage(): void
+    public function packageRegistered(): void
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/initializer.php', 'initializer');
-
         $this->app->bind(Runner::class, Run::class);
 
         $this->app->bind(ChainContract::class, Chain::class);

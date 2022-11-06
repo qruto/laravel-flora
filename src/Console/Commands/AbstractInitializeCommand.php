@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Debug\ExceptionHandler;
+use Illuminate\Foundation\Events\VendorTagPublished;
 use Qruto\Initializer\Contracts\Chain;
 use Qruto\Initializer\Contracts\ChainVault;
 use Qruto\Initializer\Contracts\Runner;
@@ -63,16 +64,18 @@ abstract class AbstractInitializeCommand extends Command
 
         $this->components->alert('Application '.$this->title());
 
+        $this->output->newLine();
+
         $runner->internal->start();
 
         // TODO: root options
+
+        $this->publishAssets($config->get('initializer.assets.published'));
 
         $this->output->newLine();
 
         if ($runner->internal->doneWithErrors()) {
             $exceptions = $runner->internal->exceptions();
-
-            $this->components->error($this->title().' occur errors');
 
             if (! empty($exceptions) && $this->components->confirm('Show errors?')) {
                 //TODO: make scrollable
@@ -88,6 +91,7 @@ abstract class AbstractInitializeCommand extends Command
             }
 
             // TODO: log errors
+            $this->components->error($this->title().' occur errors');
 
             $this->line('<fg=red>You could run command with <fg=cyan>-v</> flag to see more details</>');
 
@@ -108,4 +112,50 @@ abstract class AbstractInitializeCommand extends Command
     }
 
     abstract protected function title(): string;
+
+    private function publishAssets(array $assets): void
+    {
+        if (empty($assets)) {
+            return;
+        }
+
+        $this->output->newLine();
+
+        $this->components->twoColumnDetail('<fg=yellow>Publishing assets</> <fg=gray>' . implode(', ', $assets) . '</>');
+
+        $this->laravel['events']->listen(function (VendorTagPublished $event) {
+            foreach ($event->paths as $from => $to) {
+                $type = null;
+
+                if (is_file($from)) {
+                    $type = 'file';
+                } elseif (is_dir($from)) {
+                    $type = 'directory';
+                }
+
+                $type ? $this->components->task(sprintf(
+                    'Copying %s [%s] to [%s]',
+                    $type,
+                    realpath($from),
+                    realpath($to),
+                )) : $this->components->error("Can't locate path: <{$from}>");
+            }
+        });
+
+        $parameters = [];
+
+        foreach ($assets as $key => $value) {
+            if (is_string($key)) {
+                $parameters = ['--provider' => $key, '--tag' => $value];
+            } else {
+                if (class_exists($value)) {
+                    $parameters = ['--provider' => $value];
+                } else {
+                    $parameters = ['--tag' => $value];
+                }
+            }
+        }
+
+        $this->callSilent('vendor:publish', $parameters + ['--force' => true]);
+    }
 }
