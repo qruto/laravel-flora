@@ -11,13 +11,9 @@ abstract class Action
 {
     protected ?Throwable $exception = null;
 
-    public function __construct(protected Factory $outputComponents)
+    public function __invoke(Factory $outputComponents): bool
     {
-    }
-
-    public function __invoke(): bool
-    {
-        $this->outputComponents->task($this->title(), function (): bool {
+        $outputComponents->task($this->title(), function (): bool {
             try {
                 return $this->run();
             } catch (Exception $e) {

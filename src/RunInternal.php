@@ -4,12 +4,18 @@ namespace Qruto\Initializer;
 
 use Illuminate\Console\Application;
 use Illuminate\Console\OutputStyle;
+use Illuminate\Console\View\Components\Factory;
+use Illuminate\Support\Traits\Macroable;
 use Illuminate\Support\Traits\ReflectsClosures;
 use Qruto\Initializer\Actions\Action;
+use Qruto\Initializer\Contracts\Runner;
 
 class RunInternal
 {
+    use Macroable;
     use ReflectsClosures;
+
+    protected Factory $outputComponents;
 
     private array $collection = [];
 
@@ -21,6 +27,15 @@ class RunInternal
 
     public function __construct(protected Application $application, protected OutputStyle $output)
     {
+        $this->outputComponents = new Factory($output);
+    }
+
+    public function newRunner()
+    {
+        return $this->application->getLaravel()->make(Runner::class, [
+            'application' => $this->application,
+            'output' => $this->output,
+        ]);
     }
 
     public function getApplication(): Application
@@ -87,7 +102,7 @@ class RunInternal
             $this->shouldClearLatestFail = false;
         }
 
-        $action();
+        $action($this->outputComponents);
 
         if ($action->failed()) {
             $this->exceptions[] = [

@@ -7,12 +7,9 @@ use Illuminate\Console\View\Components\Factory;
 class Callback extends Action
 {
     public function __construct(
-        Factory $outputComponents,
         protected $callback,
         protected array $parameters = []
-    ) {
-        parent::__construct($outputComponents);
-    }
+    ) {}
 
     public function title(): string
     {

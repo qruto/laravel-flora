@@ -9,12 +9,9 @@ use Symfony\Component\Process\Process as ExternalProcess;
 class Process extends Action
 {
     public function __construct(
-        Factory $outputComponents,
         protected string $command,
         protected array $parameters = []
-    ) {
-        parent::__construct($outputComponents);
-    }
+    ) {}
 
     public function title(): string
     {

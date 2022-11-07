@@ -10,13 +10,10 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 class Job extends Action
 {
     public function __construct(
-        Factory $outputComponents,
         protected object|string $job,
         protected ?string $queue = null,
         protected ?string $connection = null
-    ) {
-        parent::__construct($outputComponents);
-    }
+    ) {}
 
     public function title(): string
     {

@@ -68,8 +68,6 @@ abstract class AbstractInitializeCommand extends Command
             $this->packageDiscovers($this->type, $env, $runner);
         }
 
-        $latestAssetsHash = cache()->get('assets_hash');
-
         $this->components->alert('Application '.$this->title());
 
         $this->output->newLine();
@@ -78,7 +76,7 @@ abstract class AbstractInitializeCommand extends Command
 
         // TODO: root options
 
-        if ($assetsVersion->outdated($latestAssetsHash)) {
+        if ($assetsVersion->outdated()) {
             $this->publishAssets($config->get('initializer.assets'), $config->get('initializer.production_build'));
             $assetsVersion->stampUpdate();
         }
