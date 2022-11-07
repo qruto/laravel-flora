@@ -54,28 +54,6 @@ class Run implements RunnerContract
         return $this;
     }
 
-    public function publish($providers, bool $force = false): RunnerContract
-    {
-        $this->internal->push(new Publish($providers, $force));
-
-        return $this;
-    }
-
-    public function publishForce($providers): RunnerContract
-    {
-        return $this->publish($providers, true);
-    }
-
-    public function publishTag($tag, bool $force = false): RunnerContract
-    {
-        return $this->run(new PublishTag($tag, $force));
-    }
-
-    public function publishTagForce($tag): RunnerContract
-    {
-        return $this->publishTag($tag, true);
-    }
-
     public function exec(string $command, array $parameters = []): RunnerContract
     {
         $this->internal->push(new Process($command, $parameters));
