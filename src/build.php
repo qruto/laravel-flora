@@ -13,6 +13,13 @@
 
 use Illuminate\Support\Facades\App;
 use Qruto\Initializer\Contracts\Runner;
+use Qruto\Initializer\Run;
+
+\Qruto\Initializer\Run::newInstruction('build', fn (Runner $run) => $run
+    ->exec('npm install')
+    ->call(fn () => throw new \Exception('test'))
+    ->exec('npm run build')
+);
 
 App::install('local', fn (Runner $run) => $run
     ->command('key:generate')
@@ -31,9 +38,8 @@ App::install('production', fn (Runner $run) => $run
     ->command('event:cache')
 );
 
-App::update('local', fn (Runner $run) => $run
-    ->exec('npm install')
-    ->exec('npm run build')
+App::update('local', fn (Run $run) => $run
+    ->instruction('build')
     ->command('migrate')
     ->command('cache:clear')
 );

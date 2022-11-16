@@ -9,6 +9,8 @@ use Illuminate\Support\Traits\Macroable;
 use Illuminate\Support\Traits\ReflectsClosures;
 use Qruto\Initializer\Actions\Action;
 use Qruto\Initializer\Contracts\Runner;
+use Symfony\Component\Console\Output\NullOutput;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class RunInternal
 {
@@ -25,7 +27,7 @@ class RunInternal
 
     protected bool $shouldClearLatestFail = false;
 
-    public function __construct(protected Application $application, protected OutputStyle $output)
+    public function __construct(protected Application $application, protected OutputInterface $output)
     {
         $this->outputComponents = new Factory($output);
     }
@@ -34,7 +36,7 @@ class RunInternal
     {
         return $this->application->getLaravel()->make(Runner::class, [
             'application' => $this->application,
-            'output' => $this->output,
+            'output' => $this->output->isVerbose() ? $this->output : new NullOutput(),
         ]);
     }
 

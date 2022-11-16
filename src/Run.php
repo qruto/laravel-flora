@@ -5,15 +5,13 @@ namespace Qruto\Initializer;
 use Illuminate\Console\Application;
 use Illuminate\Console\OutputStyle;
 use Illuminate\Console\View\Components\Factory;
-use Illuminate\Support\Traits\Macroable;
 use Qruto\Initializer\Actions\Artisan;
 use Qruto\Initializer\Actions\Callback;
 use Qruto\Initializer\Actions\Instruction;
 use Qruto\Initializer\Actions\Job;
 use Qruto\Initializer\Actions\Process;
-use Qruto\Initializer\Actions\Publish;
-use Qruto\Initializer\Actions\PublishTag;
 use Qruto\Initializer\Contracts\Runner as RunnerContract;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class Run implements RunnerContract
 {
@@ -22,29 +20,33 @@ class Run implements RunnerContract
      */
     public RunInternal $internal;
 
-
-    public function __construct(protected Application $application, OutputStyle $output)
+    public function __construct(protected Application $application, protected OutputInterface $output)
     {
+        // TODO: up and down
         $this->internal = new RunInternal($this->application, $output);
     }
 
-    public static function instruction(string $name, callable $callback)
+    public static function newInstruction(string $name, callable $callback)
     {
         RunInternal::macro($name, $callback);
     }
 
-    public function __call(string $name, array $arguments)
+    public function instruction(string $name, ...$arguments)
     {
-        if (!RunInternal::hasMacro($name)) {
+        if (! RunInternal::hasMacro($name)) {
             return;
         }
 
         $this->internal->push(new Instruction(
             $this->internal->newRunner(),
+            new Factory($this->output),
             $name,
             $this->internal->$name(...),
-            $arguments
+            $arguments,
+            $this->output->isVerbose(),
         ));
+
+        return $this;
     }
 
     public function command(string $command, array $parameters = []): RunnerContract

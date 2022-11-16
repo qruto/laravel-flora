@@ -13,7 +13,7 @@ abstract class Action
 
     public function __invoke(Factory $outputComponents): bool
     {
-        $outputComponents->task($this->title(), function (): bool {
+        $callback = function (): bool {
             try {
                 return $this->run();
             } catch (Exception $e) {
@@ -25,7 +25,9 @@ abstract class Action
 
                 return false;
             }
-        });
+        };
+
+        $outputComponents->task($this->title(), $callback);
 
         return $this->failed();
     }
