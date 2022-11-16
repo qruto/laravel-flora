@@ -2,14 +2,13 @@
 
 namespace Qruto\Initializer\Actions;
 
-use Illuminate\Console\View\Components\Factory;
-
 class Callback extends Action
 {
     public function __construct(
         protected $callback,
         protected array $parameters = []
-    ) {}
+    ) {
+    }
 
     public function title(): string
     {

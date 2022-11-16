@@ -12,7 +12,7 @@ class AssetsVersion
 
     public function outdated(): bool
     {
-        if (!file_exists(base_path('composer.lock'))) {
+        if (! file_exists(base_path('composer.lock'))) {
             return true;
         }
 

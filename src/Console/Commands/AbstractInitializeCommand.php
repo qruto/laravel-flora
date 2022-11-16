@@ -128,13 +128,13 @@ abstract class AbstractInitializeCommand extends Command
             return;
         }
 
-        if ($this->type === InitializerType::Install && !$buildInProduction) {
+        if ($this->type === InitializerType::Install && ! $buildInProduction) {
             return;
         }
 
         $this->output->newLine();
 
-        $this->components->twoColumnDetail('<fg=yellow>Publishing assets</> <fg=gray>' . implode(', ', $assets) . '</>');
+        $this->components->twoColumnDetail('<fg=yellow>Publishing assets</> <fg=gray>'.implode(', ', $assets).'</>');
 
         $this->laravel['events']->listen(function (VendorTagPublished $event) {
             foreach ($event->paths as $from => $to) {

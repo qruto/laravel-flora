@@ -10,7 +10,8 @@ class Artisan extends Action
         protected Application $application,
         protected string $command,
         protected array $parameters = []
-    ) {}
+    ) {
+    }
 
     public function title(): string
     {

@@ -2,7 +2,6 @@
 
 namespace Qruto\Initializer\Actions;
 
-use Illuminate\Console\View\Components\Factory;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -13,7 +12,8 @@ class Job extends Action
         protected object|string $job,
         protected ?string $queue = null,
         protected ?string $connection = null
-    ) {}
+    ) {
+    }
 
     public function title(): string
     {

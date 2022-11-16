@@ -2,7 +2,6 @@
 
 namespace Qruto\Initializer\Actions;
 
-use Illuminate\Console\View\Components\Factory;
 use RuntimeException;
 use Symfony\Component\Process\Process as ExternalProcess;
 
@@ -11,7 +10,8 @@ class Process extends Action
     public function __construct(
         protected string $command,
         protected array $parameters = []
-    ) {}
+    ) {
+    }
 
     public function title(): string
     {
