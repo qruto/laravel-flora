@@ -51,7 +51,7 @@ class Run implements RunnerContract
 
     public function command(string $command, array $parameters = []): RunnerContract
     {
-        $this->internal->push(new Artisan($this->application, $command, $parameters));
+        $this->internal->push(new Artisan($this->application, $command, $parameters, $this->output->isVerbose()));
 
         return $this;
     }

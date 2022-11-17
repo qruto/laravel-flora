@@ -140,7 +140,10 @@ abstract class AbstractInitializeCommand extends Command
 
         $this->output->newLine();
 
-        $this->components->twoColumnDetail('<fg=yellow>Publishing assets</> <fg=gray>'.implode(', ', $assets).'</>');
+        $this->components->twoColumnDetail(
+            '<fg=yellow>Publishing assets</>'
+            . ($this->output->isVerbose() ? ' <fg=gray>'.implode(', ', $assets).'</>' : '')
+        );
 
         $this->laravel['events']->listen(function (VendorTagPublished $event) {
             foreach ($event->paths as $from => $to) {

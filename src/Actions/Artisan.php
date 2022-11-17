@@ -9,15 +9,17 @@ class Artisan extends Action
     public function __construct(
         protected Application $application,
         protected string $command,
-        protected array $parameters = []
+        protected array $parameters = [],
+        protected bool $detailed = false,
     ) {
     }
 
     public function title(): string
     {
-        return "<fg=yellow>Running</> $this->command <fg=gray>(".
+        return "<fg=yellow>Running</> $this->command"
+        . ($this->detailed ? " <fg=gray>(".
             $this->application->find($this->command)->getDescription().
-        ')</>';
+        ')</>' : '');
     }
 
     public function getCommand(): string
