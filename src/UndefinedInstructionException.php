@@ -6,8 +6,13 @@ use Exception;
 
 class UndefinedInstructionException extends Exception
 {
-    public function __construct(string $environment)
+    public static function forCustom(string $name)
     {
-        parent::__construct("No instructions found for [$environment] environment");
+        return new static("No custom instruction registered with name [$name], please register it using Run::newInstruction().");
+    }
+
+    public static function forEnvironment(string $environment): static
+    {
+        return new static("No instructions found for [$environment] environment");
     }
 }

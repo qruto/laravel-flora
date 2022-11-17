@@ -16,7 +16,7 @@ class Chain implements ChainContract
     public function get(string $environment): callable
     {
         if (! array_key_exists($environment, $this->collection)) {
-            throw new UndefinedInstructionException($environment);
+            throw UndefinedInstructionException::forEnvironment($environment);
         }
 
         return $this->collection[$environment];

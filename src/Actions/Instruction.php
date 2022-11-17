@@ -3,15 +3,18 @@
 namespace Qruto\Initializer\Actions;
 
 use Illuminate\Console\View\Components\Factory;
+use Illuminate\Contracts\Container\Container;
+use Illuminate\Support\Traits\ReflectsClosures;
 use Qruto\Initializer\Contracts\Runner;
-use Symfony\Component\Process\Exception\ProcessSignaledException;
 use function Termwind\render;
 
 class Instruction extends Action
 {
+    use ReflectsClosures;
+
     public function __construct(
+        protected Container $container,
         protected Runner $runner,
-        protected Factory $outputComponents,
         protected string $name,
         protected $callback,
         protected array $arguments,
@@ -21,7 +24,9 @@ class Instruction extends Action
 
     public function title(): string
     {
-        return "<fg=yellow>Performing [$this->name]</>";
+        $color = $this->detailed ? 'green' : 'yellow';
+
+        return "<fg=$color>Performing</> $this->name";
     }
 
     public function __invoke(Factory $outputComponents): bool
@@ -44,8 +49,7 @@ class Instruction extends Action
 
     public function run(): bool
     {
-        // TODO: arguments to callback DI and Custom
-        call_user_func($this->callback, $this->runner, ...$this->arguments);
+        $this->container->call($this->callback, ['run' => $this->runner, ...$this->arguments]);
 
         $this->runner->internal->start();
 

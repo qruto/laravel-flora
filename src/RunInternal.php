@@ -14,8 +14,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class RunInternal
 {
-    use Macroable;
     use ReflectsClosures;
+
+    /**
+     * The registered string instruction.
+     */
+    protected static array $instructions = [];
 
     protected Factory $outputComponents;
 
@@ -38,6 +42,24 @@ class RunInternal
             'application' => $this->application,
             'output' => $this->output->isVerbose() ? $this->output : new NullOutput(),
         ]);
+    }
+
+    /**
+     * Register a custom instruction.
+     */
+    public static function instruction(string $name, callable $instruction): void
+    {
+        static::$instructions[$name] = $instruction;
+    }
+
+    public static function hasInstruction(string $name): bool
+    {
+        return isset(static::$instructions[$name]);
+    }
+
+    public function getInstruction(string $name)
+    {
+        return static::$instructions[$name];
     }
 
     public function getApplication(): Application

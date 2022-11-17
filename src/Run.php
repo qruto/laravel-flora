@@ -28,20 +28,20 @@ class Run implements RunnerContract
 
     public static function newInstruction(string $name, callable $callback)
     {
-        RunInternal::macro($name, $callback);
+        RunInternal::instruction($name, $callback);
     }
 
-    public function instruction(string $name, ...$arguments)
+    public function instruction(string $name, array $arguments)
     {
-        if (! RunInternal::hasMacro($name)) {
-            return;
+        if (! RunInternal::hasInstruction($name)) {
+            throw UndefinedInstructionException::forCustom($name);
         }
 
         $this->internal->push(new Instruction(
+            $this->application->getLaravel(),
             $this->internal->newRunner(),
-            new Factory($this->output),
             $name,
-            $this->internal->$name(...),
+            $this->internal->getInstruction($name),
             $arguments,
             $this->output->isVerbose(),
         ));
