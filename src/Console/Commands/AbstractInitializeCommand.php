@@ -65,7 +65,7 @@ abstract class AbstractInitializeCommand extends Command
         }
 
         if ($autoInstruction) {
-            $this->packageDiscovers($this->type, $env, $runner);
+            $this->discoverPackages($this->type, $env, $runner);
         }
 
         $this->components->alert('Application '.$this->title());
@@ -132,6 +132,12 @@ abstract class AbstractInitializeCommand extends Command
             return;
         }
 
+        foreach (self::packagesToDiscover() as $package) {
+            if ($package->exists() && $tag = $package->instruction()->assetsTag) {
+                $assets[] = $tag;
+            }
+        }
+
         $this->output->newLine();
 
         $this->components->twoColumnDetail('<fg=yellow>Publishing assets</> <fg=gray>'.implode(', ', $assets).'</>');
@@ -155,16 +161,17 @@ abstract class AbstractInitializeCommand extends Command
             }
         });
 
-        $parameters = [];
+        $parameters = ['--provider' => [], '--tag' => []];
 
         foreach ($assets as $key => $value) {
             if (is_string($key)) {
-                $parameters = ['--provider' => $key, '--tag' => $value];
+                $parameters['--provider'][] = $key;
+                $parameters['--tag'][] = $value;
             } else {
                 if (class_exists($value)) {
-                    $parameters = ['--provider' => $value];
+                    $parameters['--provider'][] = $value;
                 } else {
-                    $parameters = ['--tag' => $value];
+                    $parameters['--tag'][] = $value;
                 }
             }
         }

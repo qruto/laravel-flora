@@ -4,6 +4,7 @@ namespace Qruto\Initializer;
 
 use Illuminate\Contracts\Cache\Repository;
 
+// TODO: get hash with cache:clear command
 class AssetsVersion
 {
     public function __construct(protected Repository $cache)
@@ -32,12 +33,16 @@ class AssetsVersion
 
     public function stampUpdate(): void
     {
-        cache()->put('assets_hash', $this->currentHash());
+        $this->cache->put('assets_hash', $this->currentHash());
     }
 
     protected function currentHash()
     {
-        return json_decode(file_get_contents(base_path('composer.lock')), true)['content-hash'];
+        $composerLockPath = base_path('composer.lock');
+
+        return file_exists($composerLockPath)
+            ? json_decode(file_get_contents($composerLockPath), true)['content-hash']
+            : null;
     }
 
     protected function latestHash(): ?string

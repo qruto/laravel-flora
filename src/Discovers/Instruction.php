@@ -11,6 +11,7 @@ class Instruction
     public function __construct(
         protected array|Closure|null $install = null,
         protected array|Closure|null $update = null,
+        public string|null $assetsTag = null,
     ) {
     }
 

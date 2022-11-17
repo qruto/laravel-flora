@@ -32,7 +32,7 @@ class PublishCommand extends Command
             foreach (Environment::cases() as $env) {
                 $vault->get($type)->get($env->value)($runner);
 
-                $this->packageDiscovers($type, $env->value, $runner);
+                $this->discoverPackages($type, $env->value, $runner);
 
                 $code .= $this->generateInitializerCode($type, $env, $runner).PHP_EOL.PHP_EOL;
 
