@@ -74,10 +74,8 @@ abstract class AbstractInitializeCommand extends Command
 
         $runner->internal->start();
 
-        // TODO: root options
-
         if ($assetsVersion->outdated()) {
-            $this->publishAssets($config->get('initializer.assets'), $config->get('initializer.production_build'));
+            $this->publishAssets($config->get('initializer.assets'));
         } else {
             $this->output->newLine();
             $this->components->twoColumnDetail('<fg=green>No assets for publishing</>');
@@ -126,13 +124,9 @@ abstract class AbstractInitializeCommand extends Command
 
     abstract protected function title(): string;
 
-    private function publishAssets(array $assets, bool $buildInProduction): void
+    private function publishAssets(array $assets): void
     {
         if (empty($assets)) {
-            return;
-        }
-
-        if ($this->type === InitializerType::Install && ! $buildInProduction) {
             return;
         }
 

@@ -19,6 +19,8 @@
 
 ## Introduction
 
+Main purpose is to run command and have a ready to run application.
+
 We all know, that every application should contain readme file and **Installation** section with list of actions that you should to do for preparing an application to work.
 
 Typical instruction:
