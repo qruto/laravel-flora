@@ -13,8 +13,7 @@ class UpdateCommand extends AbstractInitializeCommand
      *
      * @var string
      */
-    protected $signature = 'app:update
-                            {--root : Run commands which requires root privileges}';
+    protected $signature = 'update';
 
     /**
      * The console command description.

@@ -31,7 +31,7 @@ class Run implements RunnerContract
         RunInternal::instruction($name, $callback);
     }
 
-    public function instruction(string $name, array $arguments)
+    public function instruction(string $name, array $arguments = [])
     {
         if (! RunInternal::hasInstruction($name)) {
             throw UndefinedInstructionException::forCustom($name);

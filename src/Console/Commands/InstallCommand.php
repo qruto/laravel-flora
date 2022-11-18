@@ -13,8 +13,7 @@ class InstallCommand extends AbstractInitializeCommand
      *
      * @var string
      */
-    protected $signature = 'app:install
-                            {--root : Run commands which requires root privileges}';
+    protected $signature = 'install';
 
     /**
      * The console command description.

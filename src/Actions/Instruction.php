@@ -63,4 +63,9 @@ class Instruction extends Action
 
         return ! $this->runner->internal->doneWithErrors();
     }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
 }

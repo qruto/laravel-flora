@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Str;
 use Qruto\Initializer\Actions\Artisan;
+use Qruto\Initializer\Actions\Instruction;
 use Qruto\Initializer\Actions\Process;
 use Qruto\Initializer\Contracts\ChainVault;
 use Qruto\Initializer\Contracts\Runner;
@@ -75,6 +76,10 @@ class PublishCommand extends Command
                 $command = $item->getCommand();
 
                 $code .= "    ->exec('$command')";
+            } elseif ($item instanceof Instruction) {
+                $name = $item->getName();
+
+                $code .= "    ->instruction('$name')";
             }
 
             $code .= PHP_EOL;

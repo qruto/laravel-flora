@@ -7,8 +7,11 @@ use Illuminate\Contracts\Cache\Repository;
 // TODO: get hash with cache:clear command
 class AssetsVersion
 {
+    protected ?string $latestHash;
+
     public function __construct(protected Repository $cache)
     {
+        $this->latestHash = $this->cache->get('assets_hash');
     }
 
     public function outdated(): bool
@@ -47,6 +50,6 @@ class AssetsVersion
 
     protected function latestHash(): ?string
     {
-        return $this->cache->get('assets_hash');
+        return $this->latestHash;
     }
 }

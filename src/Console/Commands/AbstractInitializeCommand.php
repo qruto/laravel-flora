@@ -78,8 +78,12 @@ abstract class AbstractInitializeCommand extends Command
 
         if ($assetsVersion->outdated()) {
             $this->publishAssets($config->get('initializer.assets'), $config->get('initializer.production_build'));
-            $assetsVersion->stampUpdate();
+        } else {
+            $this->output->newLine();
+            $this->components->twoColumnDetail('<fg=green>No assets for publishing</>');
         }
+
+        $assetsVersion->stampUpdate();
 
         $this->output->newLine();
 
