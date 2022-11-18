@@ -3,9 +3,7 @@
 namespace Qruto\Initializer;
 
 use Illuminate\Console\Application;
-use Illuminate\Console\OutputStyle;
 use Illuminate\Console\View\Components\Factory;
-use Illuminate\Support\Traits\Macroable;
 use Illuminate\Support\Traits\ReflectsClosures;
 use Qruto\Initializer\Actions\Action;
 use Qruto\Initializer\Contracts\Runner;

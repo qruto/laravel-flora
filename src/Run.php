@@ -3,8 +3,6 @@
 namespace Qruto\Initializer;
 
 use Illuminate\Console\Application;
-use Illuminate\Console\OutputStyle;
-use Illuminate\Console\View\Components\Factory;
 use Qruto\Initializer\Actions\Artisan;
 use Qruto\Initializer\Actions\Callback;
 use Qruto\Initializer\Actions\Instruction;
