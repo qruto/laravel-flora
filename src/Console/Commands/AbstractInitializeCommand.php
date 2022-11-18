@@ -10,8 +10,8 @@ use Illuminate\Foundation\Events\VendorTagPublished;
 use Qruto\Initializer\AssetsVersion;
 use Qruto\Initializer\Contracts\Chain;
 use Qruto\Initializer\Contracts\ChainVault;
-use Qruto\Initializer\Contracts\Runner;
 use Qruto\Initializer\Enums\InitializerType;
+use Qruto\Initializer\Run;
 use Qruto\Initializer\UndefinedInstructionException;
 
 abstract class AbstractInitializeCommand extends Command
@@ -42,7 +42,7 @@ abstract class AbstractInitializeCommand extends Command
         // TODO: respect env option
         $env = $config->get($config->get('initializer.env_config_key'));
 
-        $runner = $container->make(Runner::class, [
+        $runner = $container->make(Run::class, [
             'application' => $this->getApplication(),
             'output' => $this->getOutput(),
         ]);

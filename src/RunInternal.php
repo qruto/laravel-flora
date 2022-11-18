@@ -6,7 +6,6 @@ use Illuminate\Console\Application;
 use Illuminate\Console\View\Components\Factory;
 use Illuminate\Support\Traits\ReflectsClosures;
 use Qruto\Initializer\Actions\Action;
-use Qruto\Initializer\Contracts\Runner;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -36,7 +35,7 @@ class RunInternal
 
     public function newRunner()
     {
-        return $this->application->getLaravel()->make(Runner::class, [
+        return $this->application->getLaravel()->make(Run::class, [
             'application' => $this->application,
             'output' => $this->output->isVerbose() ? $this->output : new NullOutput(),
         ]);

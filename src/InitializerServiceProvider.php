@@ -8,7 +8,6 @@ use Qruto\Initializer\Console\Commands\PublishCommand;
 use Qruto\Initializer\Console\Commands\UpdateCommand;
 use Qruto\Initializer\Contracts\Chain as ChainContract;
 use Qruto\Initializer\Contracts\ChainVault as ChainVaultContract;
-use Qruto\Initializer\Contracts\Runner;
 use Qruto\Initializer\Enums\InitializerType;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -45,12 +44,12 @@ class InitializerServiceProvider extends PackageServiceProvider
             fn (string $environment, callable $callback) => $vault->get(InitializerType::Update)->set($environment, $callback)
         );
 
-        Run::newInstruction('build', fn (Runner $run) => $run
+        Run::newInstruction('build', fn (Run $run) => $run
             ->exec('npm install')
             ->exec('npm run build')
         );
 
-        Run::newInstruction('cache', fn (Runner $run) => $run
+        Run::newInstruction('cache', fn (Run $run) => $run
             ->command('route:cache')
             ->command('config:cache')
             ->command('event:cache')
@@ -62,8 +61,6 @@ class InitializerServiceProvider extends PackageServiceProvider
      */
     public function packageRegistered(): void
     {
-        $this->app->bind(Runner::class, Run::class);
-
         $this->app->bind(ChainContract::class, Chain::class);
         $this->app->singleton(ChainVaultContract::class, ChainVault::class);
     }

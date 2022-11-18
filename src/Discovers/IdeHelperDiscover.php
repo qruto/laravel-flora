@@ -3,7 +3,7 @@
 namespace Qruto\Initializer\Discovers;
 
 use Illuminate\Container\Container;
-use Qruto\Initializer\Contracts\Runner;
+use Qruto\Initializer\Run;
 
 class IdeHelperDiscover implements PackageDiscover
 {
@@ -12,7 +12,7 @@ class IdeHelperDiscover implements PackageDiscover
         return Container::getInstance()->has('command.ide-helper.generate');
     }
 
-    public function action(Runner $run): Runner
+    public function action(Run $run): Run
     {
         return $run
             ->command('ide-helper:generate')
@@ -24,13 +24,13 @@ class IdeHelperDiscover implements PackageDiscover
     {
         return new Instruction(
             [
-                'local' => static fn (Runner $run) => $run
+                'local' => static fn (Run $run) => $run
                         ->command('ide-helper:generate')
                         ->command('ide-helper:meta')
                         ->command('ide-helper:models', ['--nowrite' => true]),
             ],
             [
-                'local' => static fn (Runner $run) => $run
+                'local' => static fn (Run $run) => $run
                         ->command('ide-helper:generate')
                         ->command('ide-helper:meta')
                         ->command('ide-helper:models', ['--nowrite' => true]),

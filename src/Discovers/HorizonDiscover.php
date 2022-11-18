@@ -3,7 +3,7 @@
 namespace Qruto\Initializer\Discovers;
 
 use Qruto\Initializer\Actions\Artisan;
-use Qruto\Initializer\Contracts\Runner;
+use Qruto\Initializer\Run;
 
 class HorizonDiscover implements PackageDiscover
 {
@@ -16,7 +16,7 @@ class HorizonDiscover implements PackageDiscover
     {
         return new Instruction(
             update: [
-                'production' => function (Runner $run) {
+                'production' => function (Run $run) {
                     $run->internal->filter(fn (Artisan $action) => $action->getCommand() === 'queue:restart');
 
                     $run->command('horizon:terminate');

@@ -9,9 +9,9 @@ use Qruto\Initializer\Actions\Artisan;
 use Qruto\Initializer\Actions\Instruction;
 use Qruto\Initializer\Actions\Process;
 use Qruto\Initializer\Contracts\ChainVault;
-use Qruto\Initializer\Contracts\Runner;
 use Qruto\Initializer\Enums\Environment;
 use Qruto\Initializer\Enums\InitializerType;
+use Qruto\Initializer\Run;
 
 class PublishCommand extends Command
 {
@@ -50,7 +50,7 @@ class PublishCommand extends Command
 
     private function makeRunner(Container $container): mixed
     {
-        return $container->make(Runner::class, [
+        return $container->make(Run::class, [
             'application' => $this->getApplication(),
             'output' => $this->getOutput(),
         ]);
@@ -59,7 +59,7 @@ class PublishCommand extends Command
     protected function generateInitializerCode(
         InitializerType $type,
         Environment $environment,
-        Runner $runner
+        Run $runner
     ): string {
         $code = sprintf("App::%s('%s', fn (Runner \$run) => \$run", $type->value, $environment->value).PHP_EOL;
         $collection = $runner->internal->getCollection();

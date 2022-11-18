@@ -27,10 +27,11 @@ class Job extends Action
         $job = is_string($this->job) ? Container::getInstance()->make($this->job) : $this->job;
 
         if ($job instanceof ShouldQueue) {
-            $dispatcher->dispatch(
-                $job->onConnection($this->connection ?? $job->connection)
-                    ->onQueue($this->queue ?? $job->queue)
-            );
+            // TODO: job dispatching investigation
+            $dispatcher
+                ->dispatch($job)
+                ->onConnection($this->connection ?? $job->connection)
+                ->onQueue($this->queue ?? $job->queue);
         } else {
             $dispatcher->dispatchNow($job);
         }

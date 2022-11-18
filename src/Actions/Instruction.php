@@ -5,7 +5,7 @@ namespace Qruto\Initializer\Actions;
 use Illuminate\Console\View\Components\Factory;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Traits\ReflectsClosures;
-use Qruto\Initializer\Contracts\Runner;
+use Qruto\Initializer\Run;
 use function Termwind\render;
 
 class Instruction extends Action
@@ -14,7 +14,7 @@ class Instruction extends Action
 
     public function __construct(
         protected Container $container,
-        protected Runner $runner,
+        protected Run $runner,
         protected string $name,
         protected $callback,
         protected array $arguments,

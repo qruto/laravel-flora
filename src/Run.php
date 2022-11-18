@@ -8,10 +8,9 @@ use Qruto\Initializer\Actions\Callback;
 use Qruto\Initializer\Actions\Instruction;
 use Qruto\Initializer\Actions\Job;
 use Qruto\Initializer\Actions\Process;
-use Qruto\Initializer\Contracts\Runner as RunnerContract;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class Run implements RunnerContract
+class Run
 {
     /**
      * @internal
@@ -29,7 +28,7 @@ class Run implements RunnerContract
         RunInternal::instruction($name, $callback);
     }
 
-    public function instruction(string $name, array $arguments = [])
+    public function instruction(string $name, array $arguments = []): static
     {
         if (! RunInternal::hasInstruction($name)) {
             throw UndefinedInstructionException::forCustom($name);
@@ -47,28 +46,28 @@ class Run implements RunnerContract
         return $this;
     }
 
-    public function command(string $command, array $parameters = []): RunnerContract
+    public function command(string $command, array $parameters = []): static
     {
         $this->internal->push(new Artisan($this->application, $command, $parameters, $this->output->isVerbose()));
 
         return $this;
     }
 
-    public function exec(string $command, array $parameters = []): RunnerContract
+    public function exec(string $command, array $parameters = []): static
     {
         $this->internal->push(new Process($command, $parameters));
 
         return $this;
     }
 
-    public function call(callable $callback, array $parameters = []): RunnerContract
+    public function call(callable $callback, array $parameters = []): static
     {
         $this->internal->push(new Callback($callback, $parameters));
 
         return $this;
     }
 
-    public function job(object|string $job, ?string $queue = null, ?string $connection = null): RunnerContract
+    public function job(object|string $job, ?string $queue = null, ?string $connection = null): static
     {
         $this->internal->push(new Job($job, $queue, $connection));
 

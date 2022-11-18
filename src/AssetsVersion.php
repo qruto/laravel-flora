@@ -4,7 +4,6 @@ namespace Qruto\Initializer;
 
 use Illuminate\Contracts\Cache\Repository;
 
-// TODO: get hash with cache:clear command
 class AssetsVersion
 {
     protected ?string $latestHash;

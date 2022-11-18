@@ -12,17 +12,16 @@
 */
 
 use Illuminate\Support\Facades\App;
-use Qruto\Initializer\Contracts\Runner;
 use Qruto\Initializer\Run;
 
-App::install('local', fn (Runner $run) => $run
+App::install('local', fn (Run $run) => $run
     ->command('key:generate')
     ->command('migrate')
     ->command('storage:link')
     ->instruction('build')
 );
 
-App::install('production', fn (Runner $run) => $run
+App::install('production', fn (Run $run) => $run
     ->command('key:generate', ['--force' => true])
     ->command('migrate', ['--force' => true])
     ->command('storage:link')
@@ -36,7 +35,7 @@ App::update('local', fn (Run $run) => $run
     ->instruction('build')
 );
 
-App::update('production', fn (Runner $run) => $run
+App::update('production', fn (Run $run) => $run
     ->instruction('cache')
     ->command('migrate', ['--force' => true])
     ->command('cache:clear')
