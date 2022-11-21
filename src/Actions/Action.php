@@ -11,19 +11,21 @@ abstract class Action
 {
     protected ?Throwable $exception = null;
 
+    protected bool $successful = false;
+
     public function __invoke(Factory $outputComponents): bool
     {
         $callback = function (): bool {
             try {
-                return $this->run();
+                return $this->successful = $this->run();
             } catch (Exception $e) {
                 if ($e instanceof ProcessSignaledException) {
-                    return false;
+                    return $this->successful = true;
                 }
 
                 $this->exception = $e;
 
-                return false;
+                return $this->successful = false;
             }
         };
 
@@ -34,7 +36,7 @@ abstract class Action
 
     public function failed(): bool
     {
-        return ! is_null($this->exception);
+        return ! $this->successful;
     }
 
     public function getException(): ?Throwable

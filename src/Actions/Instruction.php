@@ -40,7 +40,7 @@ class Instruction extends Action
             $outputComponents->task($this->title(), $callback);
         }
 
-        if ($this->runner->internal->doneWithErrors()) {
+        if ($this->runner->internal->doneWithFailures()) {
             $this->exception = $this->runner->internal->exceptions()[0]['e'];
         }
 
@@ -61,7 +61,7 @@ class Instruction extends Action
             ');
         }
 
-        return ! $this->runner->internal->doneWithErrors();
+        return ! $this->runner->internal->doneWithFailures();
     }
 
     public function getName(): string

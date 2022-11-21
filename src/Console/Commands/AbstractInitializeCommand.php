@@ -88,7 +88,7 @@ abstract class AbstractInitializeCommand extends Command
 
         $this->output->newLine();
 
-        if ($runner->internal->doneWithErrors()) {
+        if ($runner->internal->doneWithFailures()) {
             $exceptions = $runner->internal->exceptions();
 
             if (! empty($exceptions) && $this->components->confirm('Show errors?')) {

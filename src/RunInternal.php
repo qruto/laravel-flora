@@ -28,6 +28,8 @@ class RunInternal
 
     protected bool $shouldClearLatestFail = false;
 
+    protected bool $finishedWithFailures = false;
+
     public function __construct(protected Application $application, protected OutputInterface $output)
     {
         $this->outputComponents = new Factory($output);
@@ -107,9 +109,9 @@ class RunInternal
         return $this->exceptions;
     }
 
-    public function doneWithErrors(): bool
+    public function doneWithFailures(): bool
     {
-        return ! empty($this->exceptions());
+        return $this->finishedWithFailures;
     }
 
     private function run(Action $action): self
@@ -126,10 +128,14 @@ class RunInternal
         $action($this->outputComponents);
 
         if ($action->failed()) {
-            $this->exceptions[] = [
-                'title' => $action->title(),
-                'e' => $action->getException(),
-            ];
+            $this->finishedWithFailures = true;
+
+            if ($e = $action->getException()) {
+                $this->exceptions[] = [
+                    'title' => $action->title(),
+                    'e' => $e,
+                ];
+            }
         }
 
         return $this;
