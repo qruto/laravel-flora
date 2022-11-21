@@ -4,7 +4,6 @@ namespace Qruto\Initializer\Actions;
 
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Bus\Dispatcher;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
 class Job extends Action
 {
@@ -26,18 +25,6 @@ class Job extends Action
 
         $job = is_string($this->job) ? Container::getInstance()->make($this->job) : $this->job;
 
-        if ($job instanceof ShouldQueue) {
-            // TODO: job dispatching investigation
-            $dispatcher
-                ->dispatch($job)
-                ->onConnection($this->connection ?? $job->connection)
-                ->onQueue($this->queue ?? $job->queue);
-        } else {
-            $dispatcher->dispatchNow($job);
-        }
-
-        //TODO: unique jobs
-
-        return true;
+        return $dispatcher->dispatch($job);
     }
 }

@@ -7,6 +7,7 @@ use Qruto\Initializer\Actions\Artisan;
 use Qruto\Initializer\Actions\Callback;
 use Qruto\Initializer\Actions\Instruction;
 use Qruto\Initializer\Actions\Job;
+use Qruto\Initializer\Actions\Notification;
 use Qruto\Initializer\Actions\Process;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -17,8 +18,10 @@ class Run
      */
     public RunInternal $internal;
 
-    public function __construct(protected Application $application, protected OutputInterface $output)
-    {
+    public function __construct(
+            protected Application $application,
+            protected OutputInterface $output,
+    ) {
         // TODO: up and down
         $this->internal = new RunInternal($this->application, $output);
     }
@@ -70,6 +73,13 @@ class Run
     public function job(object|string $job, ?string $queue = null, ?string $connection = null): static
     {
         $this->internal->push(new Job($job, $queue, $connection));
+
+        return $this;
+    }
+
+    public function notify(string $text, string $body, $icon = null): self
+    {
+        $this->internal->push(new Notification($this->application->getLaravel(), $text, $body, $icon));
 
         return $this;
     }

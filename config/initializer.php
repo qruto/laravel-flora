@@ -10,6 +10,8 @@ return [
     */
     'env_config_key' => 'app.env',
 
+    'always_publish' => false,
+
     'assets' => [
         'laravel-assets',
     ],

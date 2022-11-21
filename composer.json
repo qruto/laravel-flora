@@ -32,6 +32,7 @@
         "illuminate/container": "^6.0 || ^7.0 || ^8.0 || ^9.0",
         "illuminate/contracts": "^6.0 || ^7.0 || ^8.0 || ^9.0",
         "illuminate/support": "^6.0 || ^7.0 || ^8.0 || ^9.0",
+        "nunomaduro/laravel-desktop-notifier": "^2.6",
         "spatie/laravel-package-tools": "^1.13",
         "symfony/process": "^4.4.11 || ^5.0.9 || ^6.0.3"
     },
