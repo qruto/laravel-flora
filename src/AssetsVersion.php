@@ -22,15 +22,15 @@ class AssetsVersion
         $currentHash = $this->currentHash();
         $latestHash = $this->latestHash();
 
-        if ($latestHash === null || $currentHash === null) {
+        if ($latestHash === null) {
             return true;
         }
 
-        if ($latestHash !== $currentHash) {
+        if ($currentHash === null) {
             return true;
         }
 
-        return false;
+        return $latestHash !== $currentHash;
     }
 
     public function stampUpdate(): void
@@ -43,7 +43,7 @@ class AssetsVersion
         $composerLockPath = base_path('composer.lock');
 
         return file_exists($composerLockPath)
-            ? json_decode(file_get_contents($composerLockPath), true)['content-hash']
+            ? json_decode(file_get_contents($composerLockPath), true, 512, JSON_THROW_ON_ERROR)['content-hash']
             : null;
     }
 

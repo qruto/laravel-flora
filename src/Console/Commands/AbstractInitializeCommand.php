@@ -175,12 +175,10 @@ abstract class AbstractInitializeCommand extends Command
             if (is_string($key)) {
                 $parameters['--provider'][] = $key;
                 $parameters['--tag'][] = $value;
+            } elseif (class_exists($value)) {
+                $parameters['--provider'][] = $value;
             } else {
-                if (class_exists($value)) {
-                    $parameters['--provider'][] = $value;
-                } else {
-                    $parameters['--tag'][] = $value;
-                }
+                $parameters['--tag'][] = $value;
             }
         }
 
