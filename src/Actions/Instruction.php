@@ -31,7 +31,7 @@ class Instruction extends Action
 
     public function __invoke(Factory $outputComponents): bool
     {
-        $callback = fn (): bool => $this->run();
+        $callback = fn (): bool => $this->successful = $this->run();
 
         if ($this->detailed) {
             $outputComponents->twoColumnDetail($this->title());
@@ -40,7 +40,7 @@ class Instruction extends Action
             $outputComponents->task($this->title(), $callback);
         }
 
-        if ($this->runner->internal->doneWithFailures()) {
+        if ($this->runner->internal->doneWithFailures() && ! empty($this->runner->internal->exceptions())) {
             $this->exception = $this->runner->internal->exceptions()[0]['e'];
         }
 
