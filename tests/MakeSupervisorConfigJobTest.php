@@ -1,10 +1,10 @@
 <?php
 
-namespace MadWeb\Initializer\Test;
+namespace Qruto\Initializer\Test;
 
-use MadWeb\Initializer\Jobs\Supervisor\MakeQueueSupervisorConfig;
-use MadWeb\Initializer\Jobs\Supervisor\MakeSocketSupervisorConfig;
-use MadWeb\Initializer\Run;
+use Qruto\Initializer\Jobs\Supervisor\MakeQueueSupervisorConfig;
+use Qruto\Initializer\Jobs\Supervisor\MakeSocketSupervisorConfig;
+use Qruto\Initializer\Run;
 
 class MakeSupervisorConfigJobTest extends RunnerCommandsTestCase
 {

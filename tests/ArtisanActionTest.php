@@ -8,9 +8,10 @@ use Symfony\Component\Console\Command\Command;
 it('successfully running artisan commands', function () {
     Artisan::command('some:command', fn () => Command::SUCCESS);
 
-    App::update('testing', fn (Run $run) => $run->command('some:command'));
+    chain(fn (Run $run) => $run->command('some:command'));
 
-    $this->artisan('update')
+    chain()
+        ->run()
         ->expectsOutputToContain('Running some:command')
         ->assertSuccessful();
 });
@@ -18,9 +19,10 @@ it('successfully running artisan commands', function () {
 it('fails when one of artisan command was failed', function () {
     Artisan::command('some:command', fn () => Command::FAILURE);
 
-    App::update('testing', fn (Run $run) => $run->command('some:command'));
+    chain(fn (Run $run) => $run->command('some:command'));
 
-    $this->artisan('update')
+    chain()
+        ->run()
         ->expectsOutputToContain('Running some:command')
         ->assertFailed();
 });
@@ -29,7 +31,7 @@ it('displays artisan command description in verbose mode', function () {
     Artisan::command('some:command', fn () => Command::SUCCESS)
         ->describe('Some description');
 
-    App::update('testing', fn (Run $run) => $run->command('some:command'));
+    chain(fn (Run $run) => $run->command('some:command'));
 
     $this->artisan('update', ['--verbose' => true])
         ->expectsOutputToContain('Running some:command (Some description)')
@@ -40,9 +42,9 @@ it('doesn\'t display artisan command description in verbose mode', function () {
     Artisan::command('some:command', fn () => Command::SUCCESS)
         ->describe('Some description');
 
-    App::update('testing', fn (Run $run) => $run->command('some:command'));
+    chain(fn (Run $run) => $run->command('some:command'));
 
-    $this->artisan('update')
+    chain()->run()
         ->expectsOutputToContain('Running some:command')
         ->doesntExpectOutputToContain('Running some:command (Some description)')
         ->assertSuccessful();
@@ -51,9 +53,9 @@ it('doesn\'t display artisan command description in verbose mode', function () {
 it('asks for showing errors when artisan command was failed', function () {
     Artisan::command('some:command', fn () => throw new \Exception('Some exception'));
 
-    App::update('testing', fn (Run $run) => $run->command('some:command'));
+    chain(fn (Run $run) => $run->command('some:command'));
 
-    $this->artisan('update')
+    chain()->run()
         ->expectsConfirmation('Show errors?', 'yes')
         ->expectsOutputToContain('Some exception')
         ->assertFailed();
@@ -62,9 +64,9 @@ it('asks for showing errors when artisan command was failed', function () {
 it('doesn\'t show errors when artisan command was failed and you answer "no" for showing errors', function () {
     Artisan::command('some:command', fn () => throw new \Exception('Some exception'));
 
-    App::update('testing', fn (Run $run) => $run->command('some:command'));
+    chain(fn (Run $run) => $run->command('some:command'));
 
-    $this->artisan('update')
+    chain()->run()
         ->expectsConfirmation('Show errors?', 'no')
         ->doesntExpectOutputToContain('Some exception')
         ->assertFailed();

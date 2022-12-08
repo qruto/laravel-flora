@@ -1,6 +1,6 @@
 <?php
 
-namespace MadWeb\Initializer\Test\TestFixtures;
+namespace Qruto\Initializer\Tests\TestFixtures;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -12,23 +12,10 @@ class TestJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public $testValue;
-
-    /**
-     * Create a new job instance.
-     *
-     * @return void
-     */
-    public function __construct($testValue)
+    public function __construct(public $data)
     {
-        $this->testValue = $testValue;
     }
 
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
     public function handle()
     {
         //

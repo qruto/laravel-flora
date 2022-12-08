@@ -1,43 +1,43 @@
 <?php
 
-namespace MadWeb\Initializer\Test;
+use Illuminate\Support\Facades\App;
+use Qruto\Initializer\Run;
 
-use Illuminate\Support\Facades\Artisan;
-use MadWeb\Initializer\Run;
-use Mockery;
-use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
-
-class CallableRunnerCommandTest extends RunnerCommandsTestCase
+class InjectableService
 {
-    use MockeryPHPUnitIntegration;
-
-    /**
-     * @test
-     * @dataProvider initCommandsSet
-     */
-    public function callable($command)
-    {
-        $mock = Mockery::mock()->shouldReceive('someMethod')->once()->getMock();
-        $this->declareCommands(function (Run $run) use ($mock) {
-            $run->callable([
-                $mock,
-                'someMethod',
-            ]);
-        }, $command);
-    }
-
-    /**
-     * @test
-     * @dataProvider initCommandsSet
-     */
-    public function callable_verbose($command)
-    {
-        $this->declareCommands(function (Run $run) {
-            $run->callable(function () {
-                return 'Some string';
-            });
-        }, $command, true);
-
-        self::assertStringContainsString("'Some string'", Artisan::output());
-    }
 }
+
+it('successfully running artisan commands', function () {
+    $called = false;
+    $service = null;
+
+    $callable = function (InjectableService $s) use (&$service, &$called) {
+        $called = true;
+        $service = $s;
+
+        return true;
+    };
+
+    chain(fn (Run $run) => $run->call($callable));
+
+    chain()
+        ->run()
+        ->expectsOutputToContain('Calling Closure::__invoke')
+        ->assertSuccessful();
+
+    $this->assertTrue($called);
+    $this->assertInstanceOf(InjectableService::class, $service);
+});
+
+it('displays custom callable name if passed', function () {
+    $callable = function () {
+        return true;
+    };
+
+    chain(fn (Run $run) => $run->call($callable, name: 'Custom Callable Name'));
+
+    chain()
+        ->run()
+        ->expectsOutputToContain('Calling Custom Callable Name')
+        ->assertSuccessful();
+});

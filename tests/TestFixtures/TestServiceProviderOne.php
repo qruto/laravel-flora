@@ -1,6 +1,6 @@
 <?php
 
-namespace MadWeb\Initializer\Test\TestFixtures;
+namespace Qruto\Initializer\Tests\TestFixtures;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -14,7 +14,7 @@ class TestServiceProviderOne extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__.'/test-publishable-one.txt' => public_path('test-publishable-one.txt'),
+            __DIR__ . '/asset-one.txt' => public_path('asset-one.txt'),
         ], 'public');
     }
 

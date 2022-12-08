@@ -1,8 +1,8 @@
 <?php
 
-namespace MadWeb\Initializer\Test\TestFixtures;
+namespace Qruto\Initializer\Tests\TestFixtures;
 
-use MadWeb\Initializer\Contracts\Runner;
+use Qruto\Initializer\Contracts\Runner;
 
 class TestInitializerClass
 {

@@ -63,9 +63,9 @@ class Run
         return $this;
     }
 
-    public function call(callable $callback, array $parameters = []): static
+    public function call(callable $callback, array $parameters = [], ?string $name = null): static
     {
-        $this->internal->push(new Callback($callback, $parameters));
+        $this->internal->push(new Callback($this->application->getLaravel(), $callback, $parameters, $name));
 
         return $this;
     }

@@ -25,6 +25,12 @@ class Job extends Action
 
         $job = is_string($this->job) ? Container::getInstance()->make($this->job) : $this->job;
 
-        return $dispatcher->dispatch($job);
+        try {
+            $dispatcher->dispatch($job);
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        return true;
     }
 }

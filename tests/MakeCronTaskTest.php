@@ -1,9 +1,9 @@
 <?php
 
-namespace MadWeb\Initializer\Test;
+namespace Qruto\Initializer\Tests;
 
-use MadWeb\Initializer\Jobs\MakeCronTask;
-use MadWeb\Initializer\Run;
+use Qruto\Initializer\Jobs\MakeCronTask;
+use Qruto\Initializer\Run;
 
 class MakeCronTaskTest extends RunnerCommandsTestCase
 {

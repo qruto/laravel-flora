@@ -169,19 +169,29 @@ abstract class AbstractInitializeCommand extends Command
             }
         });
 
-        $parameters = ['--provider' => [], '--tag' => []];
+        $tags = [];
 
         foreach ($assets as $key => $value) {
+            $parameters = ['--provider' => '', '--tag' => []];
+
             if (is_string($key)) {
-                $parameters['--provider'][] = $key;
-                $parameters['--tag'][] = $value;
+                $parameters['--provider'] = $key;
+                $parameters['--tag'] = is_string($value) ? [$value] : $value;
             } elseif (class_exists($value)) {
-                $parameters['--provider'][] = $value;
+                $parameters['--provider'] = $value;
+                unset($parameters['--tag']);
             } else {
-                $parameters['--tag'][] = $value;
+                $tags[] = $value;
+            }
+
+            if (! empty($parameters['--provider'])) {
+                $this->callSilent('vendor:publish', $parameters + ['--force' => true, '--no-interaction' => true]);
             }
         }
 
-        $this->callSilent('vendor:publish', $parameters + ['--force' => true]);
+
+        if (! empty($tags)) {
+            $this->callSilent('vendor:publish', ['--tag' => $tags, '--force' => true]);
+        }
     }
 }
