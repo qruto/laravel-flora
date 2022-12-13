@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
 use Qruto\Initializer\Run;
 use Symfony\Component\Console\Command\Command;

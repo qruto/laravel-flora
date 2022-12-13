@@ -189,7 +189,6 @@ abstract class AbstractInitializeCommand extends Command
             }
         }
 
-
         if (! empty($tags)) {
             $this->callSilent('vendor:publish', ['--tag' => $tags, '--force' => true]);
         }

@@ -5,7 +5,7 @@ namespace Qruto\Initializer\Tests;
 use Qruto\Initializer\Jobs\MakeCronTask;
 use Qruto\Initializer\Run;
 
-class MakeCronTaskTest extends RunnerCommandsTestCase
+class MakeCronTaskTestWip extends RunnerCommandsTestCase
 {
     /**
      * @test

@@ -11,7 +11,8 @@ function chain(?callable $callback = null): object
         App::update('testing', $callback);
     }
 
-    return new class {
+    return new class
+    {
         public function run()
         {
             return test()->artisan('update');

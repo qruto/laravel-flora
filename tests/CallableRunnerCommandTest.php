@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\App;
 use Qruto\Initializer\Run;
 
 class InjectableService

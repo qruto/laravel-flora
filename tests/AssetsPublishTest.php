@@ -2,9 +2,7 @@
 
 namespace Qruto\Initializer\Test;
 
-use InvalidArgumentException;
 use Qruto\Initializer\Run;
-use Qruto\Initializer\Tests\ProvidersTestCase;
 use Qruto\Initializer\Tests\TestFixtures\TestServiceProviderMultipleTags;
 use Qruto\Initializer\Tests\TestFixtures\TestServiceProviderOne;
 use Qruto\Initializer\Tests\TestFixtures\TestServiceProviderTwo;
@@ -25,11 +23,12 @@ function prepare(array $assets): object
 {
     config()->set('initializer.assets', $assets);
 
-    return new class(
-        chain(fn (Run $run) => $run->call(fn () => true))->run()
-    ) {
+    return new class(chain(fn (Run $run) => $run->call(fn () => true))->run())
+    {
         public string $assetOnePath;
+
         public string $assetTwoPath;
+
         public function __construct(
             protected $test,
         ) {
@@ -84,7 +83,7 @@ it('successfully publishes a single service provider')
 it('successfully publishes two service provider')
     ->expect(fn () => prepare([
         TestServiceProviderOne::class => 'public',
-        TestServiceProviderTwo::class => 'public'
+        TestServiceProviderTwo::class => 'public',
     ]))->assertAssetOnePublished()->assertAssetTwoPublished();
 
 it('successfully publishes a single tag')

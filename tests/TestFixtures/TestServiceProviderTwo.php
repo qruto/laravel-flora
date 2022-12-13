@@ -14,7 +14,7 @@ class TestServiceProviderTwo extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/asset-two.txt' => public_path('asset-two.txt'),
+            __DIR__.'/asset-two.txt' => public_path('asset-two.txt'),
         ], 'public');
     }
 

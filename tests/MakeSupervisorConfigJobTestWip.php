@@ -6,7 +6,7 @@ use Qruto\Initializer\Jobs\Supervisor\MakeQueueSupervisorConfig;
 use Qruto\Initializer\Jobs\Supervisor\MakeSocketSupervisorConfig;
 use Qruto\Initializer\Run;
 
-class MakeSupervisorConfigJobTest extends RunnerCommandsTestCase
+class MakeSupervisorConfigJobTestWip extends RunnerCommandsTestCase
 {
     protected const PATTERN = '/\[program:\w+-%s\]\n(\w+=.*\n)+/';
 
