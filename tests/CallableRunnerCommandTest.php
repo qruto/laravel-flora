@@ -6,7 +6,7 @@ class InjectableService
 {
 }
 
-it('successfully running artisan commands', function () {
+it('successfully calling a callback', function () {
     $called = false;
     $service = null;
 
