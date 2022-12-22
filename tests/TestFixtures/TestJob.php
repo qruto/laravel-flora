@@ -12,7 +12,7 @@ class TestJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    public function __construct(public $data)
+    public function __construct(public $data = null)
     {
     }
 
