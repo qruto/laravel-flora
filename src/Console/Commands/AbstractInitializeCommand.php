@@ -39,8 +39,7 @@ abstract class AbstractInitializeCommand extends Command
 
         $initializer = $this->getInitializer($vault);
 
-        // TODO: respect env option
-        $env = $config->get($config->get('initializer.env_config_key'));
+        $env = $this->getLaravel()->environment();
 
         $runner = $container->make(Run::class, [
             'application' => $this->getApplication(),
@@ -145,9 +144,20 @@ abstract class AbstractInitializeCommand extends Command
 
         $this->output->newLine();
 
+        $assetsString = '';
+
+        foreach ($assets as $key => $value) {
+            if (is_string($key)) {
+                $assetsString .= $key.': '.(is_array($value) ? implode(', ',$value) : $value);
+            } else {
+                $assetsString .= $value;
+            }
+
+            $assetsString .= ', ';
+        }
         $this->components->twoColumnDetail(
             '<fg=yellow>Publishing assets</>'
-            .($this->output->isVerbose() ? ' <fg=gray>'.implode(', ', $assets).'</>' : '')
+            .($this->output->isVerbose() ? ' <fg=gray>'.$assetsString.'</>' : '')
         );
 
         $this->laravel['events']->listen(function (VendorTagPublished $event) {
