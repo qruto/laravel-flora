@@ -76,19 +76,14 @@ function prepare(array $assets): object
     };
 }
 
-it('successfully publishes a single service provider')
-    ->expect(fn () => prepare([TestServiceProviderOne::class]))
-    ->assertAssetOnePublished();
+it('successfully publishes a single service provider', fn () => prepare([TestServiceProviderOne::class])->assertAssetOnePublished());
 
-it('successfully publishes two service provider')
-    ->expect(fn () => prepare([
-        TestServiceProviderOne::class => 'public',
-        TestServiceProviderTwo::class => 'public',
-    ]))->assertAssetOnePublished()->assertAssetTwoPublished();
+it('successfully publishes two service provider', fn () => prepare([
+    TestServiceProviderOne::class => 'public',
+    TestServiceProviderTwo::class => 'public',
+])->assertAssetOnePublished()->assertAssetTwoPublished());
 
-it('successfully publishes a single tag')
-    ->expect(fn () => prepare(['one']))
-    ->assertAssetOnePublished();
+it('successfully publishes a single tag', fn () => prepare(['one'])->assertAssetOnePublished());
 
 it('successfully publishes single service provider with tag string', function () {
     $core = prepare([
@@ -98,11 +93,12 @@ it('successfully publishes single service provider with tag string', function ()
     $this->assertFileDoesNotExist($core->assetTwoPath);
 });
 
-it('successfully publishes single service provider with tags array')
-->expect(fn () => prepare([
-    TestServiceProviderMultipleTags::class => ['one', 'two'],
-]))->assertAllAssetsPublished();
+it('successfully publishes single service provider with tags array', fn () =>
+    prepare([
+        TestServiceProviderMultipleTags::class => ['one', 'two'],
+    ])->assertAllAssetsPublished()
+);
 
-it('throws exception when service provider does not exist')
-    ->expect(fn () => prepare(['NonExistingServiceProvider']))
-    ->assertNoAssetsPublished();
+it('throws exception when service provider does not exist', fn () =>
+    prepare(['NonExistingServiceProvider'])->assertNoAssetsPublished()
+);

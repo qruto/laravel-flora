@@ -8,8 +8,6 @@ return [
     |
     | Config path, where current environment value stored
     */
-    'env_config_key' => 'app.env',
-
     'always_publish' => false,
 
     'assets' => [
