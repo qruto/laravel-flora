@@ -1,13 +1,10 @@
 <?php
 
-use Qruto\Initializer\Actions\Artisan;
-use Qruto\Initializer\Actions\Instruction;
-use Qruto\Initializer\Contracts\ChainVault;
 use Qruto\Initializer\Enums\Environment;
 use Qruto\Initializer\Enums\InitializerType;
 
 beforeEach(function () {
-    require __DIR__ . '/../src/build.php';
+    require __DIR__.'/../src/build.php';
 });
 
 test('update production instruction', function () {

@@ -93,12 +93,10 @@ it('successfully publishes single service provider with tag string', function ()
     $this->assertFileDoesNotExist($core->assetTwoPath);
 });
 
-it('successfully publishes single service provider with tags array', fn () =>
-    prepare([
-        TestServiceProviderMultipleTags::class => ['one', 'two'],
-    ])->assertAllAssetsPublished()
+it('successfully publishes single service provider with tags array', fn () => prepare([
+    TestServiceProviderMultipleTags::class => ['one', 'two'],
+])->assertAllAssetsPublished()
 );
 
-it('throws exception when service provider does not exist', fn () =>
-    prepare(['NonExistingServiceProvider'])->assertNoAssetsPublished()
+it('throws exception when service provider does not exist', fn () => prepare(['NonExistingServiceProvider'])->assertNoAssetsPublished()
 );

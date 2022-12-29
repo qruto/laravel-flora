@@ -1,11 +1,7 @@
 <?php
 
-
 use Illuminate\Support\Facades\Route;
-use Qruto\Initializer\Actions\Artisan;
-use Qruto\Initializer\Actions\Instruction;
 use Qruto\Initializer\Console\Commands\PackageDiscover;
-use Qruto\Initializer\Contracts\ChainVault;
 use Qruto\Initializer\Discovers\HorizonDiscover;
 use Qruto\Initializer\Enums\Environment;
 use Qruto\Initializer\Enums\InitializerType;
@@ -15,7 +11,7 @@ uses(PackageDiscover::class);
 beforeEach(function () {
     Route::name('horizon.index')->get('/horizon', fn () => 'Horizon');
 
-    require __DIR__ . '/../../src/build.php';
+    require __DIR__.'/../../src/build.php';
 });
 
 it('can discover horizon', function () {
@@ -48,4 +44,3 @@ it('has no instructions for install process', function () {
 
     $this->assertCount(0, $runner->internal->getCollection());
 });
-

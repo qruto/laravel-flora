@@ -8,7 +8,6 @@ use Qruto\Initializer\Enums\InitializerType;
 
 uses(PackageDiscover::class);
 
-
 beforeEach(function () {
     app()->bind('command.ide-helper.generate', fn () => new stdClass());
 });

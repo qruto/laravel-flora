@@ -72,7 +72,7 @@ it('returns empty function if no instruction found for the environment', functio
 });
 
 it('returns one instruction for all environments', function () {
-    $callback = fn() => null;
+    $callback = fn () => null;
 
     $instruction = new Instruction(
         install: $callback

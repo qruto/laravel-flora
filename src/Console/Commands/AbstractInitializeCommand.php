@@ -148,7 +148,7 @@ abstract class AbstractInitializeCommand extends Command
 
         foreach ($assets as $key => $value) {
             if (is_string($key)) {
-                $assetsString .= $key.': '.(is_array($value) ? implode(', ',$value) : $value);
+                $assetsString .= $key.': '.(is_array($value) ? implode(', ', $value) : $value);
             } else {
                 $assetsString .= $value;
             }

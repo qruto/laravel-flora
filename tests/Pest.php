@@ -25,9 +25,10 @@ function chain(?callable $callback = null, $verbose = false): object
         public function __construct(protected bool $verbose)
         {
         }
+
         public function run($options = [])
         {
-            if (!$this->verbose) {
+            if (! $this->verbose) {
                 putenv('SHELL_VERBOSITY=0');
             }
 
@@ -64,4 +65,3 @@ function runnerActionNames(Run $runner): array
         })
         ->toArray();
 }
-

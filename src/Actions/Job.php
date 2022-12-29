@@ -16,7 +16,7 @@ class Job extends Action
 
     public function title(): string
     {
-        return '<fg=yellow>Dispatching</> '. (is_string($this->job) ? $this->job : $this->job::class);
+        return '<fg=yellow>Dispatching</> '.(is_string($this->job) ? $this->job : $this->job::class);
     }
 
     public function run(): bool
