@@ -73,7 +73,7 @@ class RunInternal
         }
     }
 
-    public function runLatestAction(): void
+    public function rerunLatestAction(): void
     {
         $this->run($this->latestAction);
 

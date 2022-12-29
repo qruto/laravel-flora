@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Console\Application;
-use Illuminate\Console\BufferedConsoleOutput;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Support\Facades\App;
 use Qruto\Initializer\Actions\Artisan;
@@ -11,6 +10,8 @@ use Qruto\Initializer\Enums\Environment;
 use Qruto\Initializer\Enums\InitializerType;
 use Qruto\Initializer\Run;
 use Qruto\Initializer\Tests\TestCase;
+use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\Console\Output\OutputInterface;
 
 uses(TestCase::class)->in(__DIR__);
 
@@ -37,9 +38,9 @@ function chain(?callable $callback = null, $verbose = false): object
     };
 }
 
-function makeRunner(): Run
+function makeRunner(?OutputInterface $output = null): Run
 {
-    return new Run(new Application(app(), app()->make(Dispatcher::class), 'unknown'), new BufferedConsoleOutput());
+    return new Run(new Application(app(), app()->make(Dispatcher::class), 'unknown'), $output ?? new BufferedOutput());
 }
 
 function actionNamesForEnvironment(InitializerType $type, Environment $env, ?Run $runner = null): array

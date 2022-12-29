@@ -52,7 +52,7 @@ abstract class AbstractInitializeCommand extends Command
                 exit;
             }
 
-            $runner->internal->runLatestAction();
+            $runner->internal->rerunLatestAction();
         });
 
         try {
