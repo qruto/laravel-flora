@@ -1,13 +1,12 @@
 <?php
 
 use Illuminate\Contracts\Cache\Repository;
-use Illuminate\Support\Facades\Cache;
 use Qruto\Initializer\AssetsVersion;
 
 beforeEach(fn () => file_put_contents(
     base_path('composer.lock'),
     json_encode(['content-hash' => 'random-hash']
-)));
+    )));
 
 afterEach(fn () => unlink(base_path('composer.lock')));
 
@@ -32,5 +31,5 @@ test('assets marked as new when current and latest hashes are same', function ()
 
     app()->instance(Repository::class, $cache);
 
-    $this->assertTrue(!$this->app->make(AssetsVersion::class)->outdated());
+    $this->assertTrue(! $this->app->make(AssetsVersion::class)->outdated());
 });
