@@ -12,6 +12,7 @@ class MakeSupervisorConfigJobTestWip extends RunnerCommandsTestCase
 
     /**
      * @test
+     *
      * @dataProvider initCommandsSet
      */
     public function dispatch_queue_job($command)
@@ -29,6 +30,7 @@ class MakeSupervisorConfigJobTestWip extends RunnerCommandsTestCase
 
     /**
      * @test
+     *
      * @dataProvider initCommandsSet
      */
     public function dispatch_queue_job_with_override_config($command)
@@ -53,6 +55,7 @@ class MakeSupervisorConfigJobTestWip extends RunnerCommandsTestCase
 
     /**
      * @test
+     *
      * @dataProvider initCommandsSet
      */
     public function dispatch_socket_job($command)
@@ -70,6 +73,7 @@ class MakeSupervisorConfigJobTestWip extends RunnerCommandsTestCase
 
     /**
      * @test
+     *
      * @dataProvider initCommandsSet
      */
     public function dispatch_socket_job_with_override_config($command)

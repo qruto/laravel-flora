@@ -9,7 +9,9 @@ class MakeCronTaskTestWip extends RunnerCommandsTestCase
 {
     /**
      * @test
+     *
      * @group cron-task
+     *
      * @dataProvider initCommandsSet
      */
     public function dispatch_job($command)
