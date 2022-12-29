@@ -15,7 +15,7 @@ class Instruction
     ) {
     }
 
-    public function get(InitializerType $type, ?Environment $environment): Closure
+    public function get(InitializerType $type, ?Environment $environment = null): Closure
     {
         if (is_null($environment)) {
             $environment = Environment::Production;

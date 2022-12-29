@@ -12,24 +12,16 @@ class IdeHelperDiscover implements PackageDiscover
         return Container::getInstance()->has('command.ide-helper.generate');
     }
 
-    public function action(Run $run): Run
-    {
-        return $run
-            ->command('ide-helper:generate')
-            ->command('ide-helper:meta')
-            ->command('ide-helper:models', ['--nowrite' => true]);
-    }
-
     public function instruction(): Instruction
     {
         return new Instruction(
-            [
+            install: [
                 'local' => static fn (Run $run) => $run
                         ->command('ide-helper:generate')
                         ->command('ide-helper:meta')
                         ->command('ide-helper:models', ['--nowrite' => true]),
             ],
-            [
+            update: [
                 'local' => static fn (Run $run) => $run
                         ->command('ide-helper:generate')
                         ->command('ide-helper:meta')

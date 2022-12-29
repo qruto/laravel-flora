@@ -2,6 +2,7 @@
 
 namespace Qruto\Initializer\Discovers;
 
+use Illuminate\Support\Facades\Route;
 use Qruto\Initializer\Actions\Artisan;
 use Qruto\Initializer\Run;
 
@@ -9,7 +10,7 @@ class HorizonDiscover implements PackageDiscover
 {
     public function exists(): bool
     {
-        return defined('HORIZON_PATH');
+        return Route::has('horizon.index');
     }
 
     public function instruction(): Instruction
