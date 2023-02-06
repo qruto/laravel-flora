@@ -43,7 +43,7 @@ class Process extends Action
 
     private function createProcess(): ExternalProcess
     {
-        if (empty($this->parameters)) {
+        if ($this->parameters === []) {
             return ExternalProcess::fromShellCommandline($this->command);
         }
 

@@ -130,7 +130,7 @@ class RunInternal
         if ($action->failed()) {
             $this->finishedWithFailures = true;
 
-            if ($e = $action->getException()) {
+            if (($e = $action->getException()) !== null) {
                 $this->exceptions[] = [
                     'title' => $action->title(),
                     'e' => $e,

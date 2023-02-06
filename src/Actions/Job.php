@@ -27,7 +27,7 @@ class Job extends Action
 
         try {
             $dispatcher->dispatch($job);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
             return false;
         }
 

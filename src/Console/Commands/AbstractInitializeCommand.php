@@ -128,7 +128,7 @@ abstract class AbstractInitializeCommand extends Command
 
     private function publishAssets(array $assets, bool $alwaysPublish): void
     {
-        if (empty($assets)) {
+        if ($assets === []) {
             return;
         }
 
@@ -199,7 +199,7 @@ abstract class AbstractInitializeCommand extends Command
             }
         }
 
-        if (! empty($tags)) {
+        if ($tags !== []) {
             $this->callSilent('vendor:publish', ['--tag' => $tags, '--force' => true]);
         }
     }
