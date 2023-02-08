@@ -2,10 +2,12 @@
 
 namespace Qruto\Initializer\Test;
 
+use Illuminate\Contracts\Cache\Repository;
 use Qruto\Initializer\Run;
 use Qruto\Initializer\Tests\TestFixtures\TestServiceProviderMultipleTags;
 use Qruto\Initializer\Tests\TestFixtures\TestServiceProviderOne;
 use Qruto\Initializer\Tests\TestFixtures\TestServiceProviderTwo;
+use function unlink;
 
 afterEach(function () {
     $assetPathOne = public_path('asset-one.txt');
@@ -73,6 +75,11 @@ function prepare(array $assets): object
 
             return $this;
         }
+
+        public function test()
+        {
+            return $this->test;
+        }
     };
 }
 
@@ -93,10 +100,42 @@ it('successfully publishes single service provider with tag string', function ()
     $this->assertFileDoesNotExist($core->assetTwoPath);
 });
 
-it('successfully publishes single service provider with tags array', fn () => prepare([
-    TestServiceProviderMultipleTags::class => ['one', 'two'],
-])->assertAllAssetsPublished()
+it(
+    'successfully publishes single service provider with tags array',
+    fn () => prepare([
+        TestServiceProviderMultipleTags::class => ['one', 'two'],
+    ])->assertAllAssetsPublished()
 );
 
-it('throws exception when service provider does not exist', fn () => prepare(['NonExistingServiceProvider'])->assertNoAssetsPublished()
+it(
+    'throws exception when service provider does not exist',
+    fn () => prepare(['NonExistingServiceProvider'])->assertNoAssetsPublished()
 );
+
+it('don\'t publish assets when latest present', function () {
+    $composerLockPath = base_path('composer.lock');
+
+    file_put_contents(
+        $composerLockPath,
+        json_encode(['content-hash' => 'random-hash']
+    ));
+
+    $cache = mock(Repository::class)
+        ->shouldReceive('get')
+        ->with('assets_hash')
+        ->andReturn('random-hash')
+        ->getMock();
+
+    $cache->shouldReceive('put')->withAnyArgs();
+
+    app()->instance(Repository::class, $cache);
+
+    $chain = prepare([
+        TestServiceProviderMultipleTags::class => ['one', 'two'],
+    ]);
+
+    $chain->test()->expectsOutputToContain('No assets for publishing');
+    $chain->assertNoAssetsPublished();
+
+    unlink($composerLockPath);
+});

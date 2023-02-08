@@ -2,35 +2,29 @@
 
 namespace Qruto\Initializer\Test;
 
+use Illuminate\Support\Facades\Process;
 use Qruto\Initializer\Run;
 
-it('can run external command', function () {
-//    App::update('testing', fn (Run $run) => $run->exec('php -v'));
+it('can run process', function () {
+    Process::fake(['php -v' => 'always latest PHP version']);
 
-//    $this->assertStringContainsString('PHP', $this->output->fetch());
+    chain(fn (Run $run) => $run->exec('php -v'))
+        ->run()
+        ->expectsOutputToContain('Processing php -v')
+        ->assertSuccessful();
 });
 
-//class ExternalRunnerCommandTest extends RunnerCommandsTestCase
-//{
-//    /**
-//     * @test
-//     * @dataProvider initCommandsSet
-//     */
-//    public function external_by_string($command)
-//    {
-//        $test_file_path = $this->app->basePath('test-external.txt');
-//
-//        $this->assertFileDoesNotExist($test_file_path);
-//
-//        $this->declareCommands(function (Run $run) use ($test_file_path) {
-//            $run->external('echo "test output" > '.$test_file_path);
-//        }, $command);
-//
-//        $this->assertFileExists($test_file_path);
-//
-//        unlink($test_file_path);
-//    }
-//
+it('show errors if process failed', function () {
+    Process::fake(['php -v' => Process::result(errorOutput: 'PHP is not installed', exitCode: 1)]);
+
+    chain(fn (Run $run) => $run->exec('php -v'))
+        ->run()
+        ->expectsOutputToContain('Processing php -v')
+        ->expectsConfirmation('Show errors?', 'yes')
+        ->expectsOutputToContain('PHP is not installed')
+        ->assertFailed();
+});
+
 //    /**
 //     * @test
 //     * @dataProvider initCommandsSet

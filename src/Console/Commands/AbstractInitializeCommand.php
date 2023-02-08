@@ -13,6 +13,7 @@ use Qruto\Initializer\Contracts\ChainVault;
 use Qruto\Initializer\Enums\InitializerType;
 use Qruto\Initializer\Run;
 use Qruto\Initializer\UndefinedInstructionException;
+use function rtrim;
 
 abstract class AbstractInitializeCommand extends Command
 {
@@ -93,7 +94,7 @@ abstract class AbstractInitializeCommand extends Command
             if (! empty($exceptions) && $this->components->confirm('Show errors?')) {
                 //TODO: make scrollable
                 foreach ($exceptions as $exception) {
-                    $this->components->twoColumnDetail($exception['title']);
+                    $this->components->twoColumnDetail($exception['title'], '<fg=red;options=bold>FAIL</>');
 
                     $exceptionHandler->renderForConsole($this->getOutput(), $exception['e']);
                     $exceptionHandler->report($exception['e']);
@@ -103,7 +104,6 @@ abstract class AbstractInitializeCommand extends Command
                 }
             }
 
-            // TODO: log errors
             $this->components->error($this->title().' occur errors');
 
             $this->line('<fg=red>You could run command with <fg=cyan>-v</> flag to see more details</>');
@@ -155,6 +155,9 @@ abstract class AbstractInitializeCommand extends Command
 
             $assetsString .= ', ';
         }
+
+        $assetsString = rtrim($assetsString, ', ');
+
         $this->components->twoColumnDetail(
             '<fg=yellow>Publishing assets</>'
             .($this->output->isVerbose() ? ' <fg=gray>'.$assetsString.'</>' : '')
