@@ -2,6 +2,7 @@
 
 namespace Qruto\Initializer\Actions;
 
+use Exception;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Bus\Dispatcher;
 
@@ -16,7 +17,7 @@ class Job extends Action
 
     public function title(): string
     {
-        return '<fg=yellow>Dispatching</> '.(is_string($this->job) ? $this->job : $this->job::class);
+        return '<fg=magenta;options=bold>job    </> '.(is_string($this->job) ? $this->job : $this->job::class);
     }
 
     public function run(): bool
@@ -27,7 +28,7 @@ class Job extends Action
 
         try {
             $dispatcher->dispatch($job);
-        } catch (\Exception) {
+        } catch (Exception) {
             return false;
         }
 

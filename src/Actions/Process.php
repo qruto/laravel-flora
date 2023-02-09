@@ -2,8 +2,9 @@
 
 namespace Qruto\Initializer\Actions;
 
+use Illuminate\Contracts\Console\Process\ProcessResult;
 use RuntimeException;
-use Symfony\Component\Process\Process as ExternalProcess;
+use Illuminate\Support\Facades\Process as ProcessFacade;
 
 class Process extends Action
 {
@@ -17,37 +18,27 @@ class Process extends Action
     {
         $argumentsString = implode(' ', $this->parameters);
 
-        return "<fg=yellow>Processing</> $this->command $argumentsString";
+        return "<fg=blue;options=bold>exec   </> $this->command $argumentsString";
     }
 
     public function run(): bool
     {
-        $Process = $this->createProcess();
-        $Process->setTimeout(null);
+        $result = $this->runProcess();
 
-        $Process->run();
+        if ($result->successful()) {
+            return true;
+        }
 
-        $error = $Process->getErrorOutput();
-        $exitCode = $Process->getExitCode();
-        if ($error === '') {
-            return ! $exitCode;
-        }
-        if ($error === '0') {
-            return ! $exitCode;
-        }
-        if ($exitCode <= 0) {
-            return ! $exitCode;
-        }
-        throw new RuntimeException(trim($error));
+        throw new RuntimeException(trim($result->errorOutput()), $result->exitCode() ?? 1);
     }
 
-    private function createProcess(): ExternalProcess
+    private function runProcess(): ProcessResult
     {
         if ($this->parameters === []) {
-            return ExternalProcess::fromShellCommandline($this->command);
+            return ProcessFacade::forever()->run($this->command);
         }
 
-        return new ExternalProcess(array_merge([$this->command], $this->parameters));
+        return ProcessFacade::forever()->run(array_merge([$this->command], $this->parameters));
     }
 
     public function getCommand(): string

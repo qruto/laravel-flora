@@ -24,9 +24,7 @@ class Instruction extends Action
 
     public function title(): string
     {
-        $color = $this->detailed ? 'green' : 'yellow';
-
-        return "<fg=$color>Performing</> $this->name";
+        return "<fg=#f97316;options=bold>script </> $this->name";
     }
 
     public function __invoke(Factory $outputComponents): bool

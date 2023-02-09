@@ -104,14 +104,12 @@ abstract class AbstractInitializeCommand extends Command
                 }
             }
 
-            $this->components->error($this->title().' occur errors');
-
-            $this->line('<fg=red>You could run command with <fg=cyan>-v</> flag to see more details</>');
+            $this->components->error(ucfirst($this->title()).' occur errors. You could run command with <fg=cyan>-v</> flag to see more details');
 
             return self::FAILURE;
         }
 
-        $this->components->info($this->title().' done!');
+        $this->components->info(ucfirst($this->title()).' done!');
 
         return self::SUCCESS;
     }

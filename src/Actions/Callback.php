@@ -16,13 +16,15 @@ class Callback extends Action
 
     public function title(): string
     {
+        $name = '';
+
         if ($this->name) {
             $name = $this->name;
         } else {
             is_callable($this->callback, callable_name: $name);
         }
 
-        return "<fg=yellow>Calling</> $name";
+        return "<fg=cyan;options=bold>call   </> $name";
     }
 
     public function run(): bool
