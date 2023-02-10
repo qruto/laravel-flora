@@ -4,6 +4,7 @@ namespace Qruto\Initializer;
 
 use Illuminate\Console\Application;
 use Illuminate\Console\View\Components\Factory;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Traits\ReflectsClosures;
 use Qruto\Initializer\Actions\Action;
 use Symfony\Component\Console\Output\NullOutput;
@@ -66,10 +67,10 @@ class RunInternal
         return $this->application;
     }
 
-    public function start(): void
+    public function start(int $labelWidth = 0): void
     {
         foreach ($this->collection as $action) {
-            $this->run($action);
+            $this->run($action, $labelWidth);
         }
     }
 
@@ -114,7 +115,7 @@ class RunInternal
         return $this->finishedWithFailures;
     }
 
-    private function run(Action $action): self
+    private function run(Action $action, int $labelWidth = 0): self
     {
         $this->latestAction = $action;
 
@@ -125,7 +126,14 @@ class RunInternal
             $this->shouldClearLatestFail = false;
         }
 
-        $action($this->outputComponents);
+        $internalLabelWidth = collect($this->collection)
+            ->map(fn($action) => $action::$label)
+            ->reduce(fn($carry, $label) => max($carry, strlen((string)$label)));
+
+        $action(
+            $this->outputComponents,
+            $labelWidth && $labelWidth > $internalLabelWidth ? $labelWidth : $internalLabelWidth
+        );
 
         if ($action->failed()) {
             $this->finishedWithFailures = true;

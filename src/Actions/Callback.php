@@ -6,7 +6,7 @@ use Illuminate\Contracts\Container\Container;
 
 class Callback extends Action
 {
-    protected static string $label = 'call';
+    public static string $label = 'call';
 
     protected string $color = 'cyan';
 

@@ -2,13 +2,13 @@
 
 namespace Qruto\Initializer\Actions;
 
-use Illuminate\Contracts\Console\Process\ProcessResult;
+use Illuminate\Contracts\Process\ProcessResult;
 use Illuminate\Support\Facades\Process as ProcessFacade;
 use RuntimeException;
 
 class Process extends Action
 {
-    protected static string $label = 'exec';
+    public static string $label = 'exec';
 
     protected string $color = 'blue';
 

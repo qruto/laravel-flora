@@ -8,7 +8,7 @@ use Illuminate\Contracts\Bus\Dispatcher;
 
 class Job extends Action
 {
-    protected static string $label = 'job';
+    public static string $label = 'job';
 
     protected string $color = 'magenta';
 

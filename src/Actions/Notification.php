@@ -8,7 +8,7 @@ use NunoMaduro\LaravelDesktopNotifier\Contracts\Notifier;
 
 class Notification extends Action
 {
-    protected static string $label = 'notification';
+    public static string $label = 'notification';
 
     public function __construct(
         protected Container $container,

@@ -12,7 +12,7 @@ abstract class Action
 {
     protected ?Throwable $exception = null;
 
-    protected static string $label;
+    public static string $label;
 
     protected string $color = 'white';
 
@@ -20,7 +20,7 @@ abstract class Action
 
     protected bool $successful = false;
 
-    public function __invoke(Factory $outputComponents): bool
+    public function __invoke(Factory $outputComponents, int $labelWidth): bool
     {
         $callback = function (): bool {
             try {
@@ -36,7 +36,7 @@ abstract class Action
             }
         };
 
-        $outputComponents->task($this->title(), $callback);
+        $outputComponents->task($this->title($labelWidth), $callback);
 
         return $this->failed();
     }
@@ -51,32 +51,23 @@ abstract class Action
         return $this->exception;
     }
 
-    private function spaces(string $title): string
+    private function spaces(string $title, int $width): string
     {
-        $actions = [
-            Artisan::class,
-            Callback::class,
-            Job::class,
-            Process::class,
-            Script::class,
-        ];
-
-        $maxTitle = '';
-
-        foreach ($actions as $action) {
-            $maxTitle = strlen((string) $maxTitle) < strlen((string) $action::$label) ? $action::$label : $maxTitle;
+        if ($width === 0) {
+            return '';
         }
 
-        return str_repeat(' ', strlen((string) $maxTitle) - strlen($title));
+        return str_repeat(" ", $width - strlen($title));
     }
 
-    public function title(): string
+    public function title(int $width = 0): string
     {
         $name = $this->name();
         $title = static::$label;
         $description = $this->description();
 
-        $title = "<fg={$this->color};options=bold>$title".$this->spaces($title).' </>'.$name;
+        $spaces = $this->spaces($title, $width);
+        $title = "<fg={$this->color};options=bold>$title</>$spaces $name";
 
         if ($description !== '' && $description !== '0') {
             $title .= " <fg=gray>$description</>";

@@ -43,7 +43,7 @@ class Run
             $name,
             $this->internal->getScript($name),
             $arguments,
-            $this->output->isVerbose(),
+            $this->output,
         ));
 
         return $this;

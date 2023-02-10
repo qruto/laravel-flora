@@ -6,7 +6,7 @@ use Illuminate\Console\Application;
 
 class Artisan extends Action
 {
-    protected static string $label = 'command';
+    public static string $label = 'command';
 
     protected string $color = 'yellow';
 
