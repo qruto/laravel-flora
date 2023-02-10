@@ -4,9 +4,9 @@ namespace Qruto\Initializer\Actions;
 
 use Exception;
 use Illuminate\Console\View\Components\Factory;
+use function strlen;
 use Symfony\Component\Process\Exception\ProcessSignaledException;
 use Throwable;
-use function strlen;
 
 abstract class Action
 {

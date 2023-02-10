@@ -3,8 +3,8 @@
 namespace Qruto\Initializer\Actions;
 
 use Illuminate\Contracts\Console\Process\ProcessResult;
-use RuntimeException;
 use Illuminate\Support\Facades\Process as ProcessFacade;
+use RuntimeException;
 
 class Process extends Action
 {

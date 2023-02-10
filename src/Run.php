@@ -5,10 +5,10 @@ namespace Qruto\Initializer;
 use Illuminate\Console\Application;
 use Qruto\Initializer\Actions\Artisan;
 use Qruto\Initializer\Actions\Callback;
-use Qruto\Initializer\Actions\Script;
 use Qruto\Initializer\Actions\Job;
 use Qruto\Initializer\Actions\Notification;
 use Qruto\Initializer\Actions\Process;
+use Qruto\Initializer\Actions\Script;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Run
