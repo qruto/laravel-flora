@@ -65,9 +65,4 @@ class Script extends Action
 
         return ! $this->runner->internal->doneWithFailures();
     }
-
-    public function getName(): string
-    {
-        return $this->name;
-    }
 }

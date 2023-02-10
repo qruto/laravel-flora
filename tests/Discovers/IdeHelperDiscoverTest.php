@@ -30,7 +30,7 @@ it('can get ide helper instruction', function () {
             'ide-helper:models',
         ],
         collect($runner->internal->getCollection())
-            ->map(fn ($action) => $action->getCommand())
+            ->map(fn ($action) => $action->name())
             ->toArray()
     );
 });

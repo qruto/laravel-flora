@@ -21,9 +21,8 @@ class Process extends Action
     public function name(): string
     {
         $argumentsString = implode(' ', $this->parameters);
-        \ray($argumentsString);
 
-        return "$this->command $argumentsString";
+        return "$this->command".($argumentsString !== '' ? ' '.$argumentsString : '');
     }
 
     public function run(): bool
@@ -34,7 +33,7 @@ class Process extends Action
             return true;
         }
 
-        throw new RuntimeException(trim($result->errorOutput()), $result->exitCode() ?? 1);
+        throw new RuntimeException(trim($result->errorOutput()), $result->exitCode());
     }
 
     private function runProcess(): ProcessResult

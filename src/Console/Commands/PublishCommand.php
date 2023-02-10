@@ -66,18 +66,18 @@ class PublishCommand extends Command
 
         foreach ($collection as $item) {
             if ($item instanceof Artisan) {
-                $command = $item->getCommand();
+                $name = $item->name();
                 $parameters = $item->getParameters();
 
-                $code .= "    ->command('$command'".($parameters === []
+                $code .= "    ->command('$name'".($parameters === []
                     ? ')'
                     : ', '.str(var_export($parameters, true))->replace(PHP_EOL, '')->replace('array (  ', '[')->replace(',)', ']').')');
             } elseif ($item instanceof Process) {
-                $command = $item->getCommand();
+                $name = $item->name();
 
-                $code .= "    ->exec('$command')";
+                $code .= "    ->exec('$name')";
             } elseif ($item instanceof Script) {
-                $name = $item->getName();
+                $name = $item->name();
 
                 $code .= "    ->script('$name')";
             }

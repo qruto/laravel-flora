@@ -3,8 +3,6 @@
 use Illuminate\Console\Application;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Support\Facades\App;
-use Qruto\Initializer\Actions\Artisan;
-use Qruto\Initializer\Actions\Script;
 use Qruto\Initializer\Contracts\ChainVault;
 use Qruto\Initializer\Enums\Environment;
 use Qruto\Initializer\Enums\InitializerType;
@@ -57,12 +55,6 @@ function actionNamesForEnvironment(InitializerType $type, Environment $env, ?Run
 function runnerActionNames(Run $runner): array
 {
     return collect($runner->internal->getCollection())
-        ->map(function ($action) {
-            if ($action instanceof Artisan) {
-                return $action->getCommand();
-            } elseif ($action instanceof Script) {
-                return $action->getName();
-            }
-        })
+        ->map(fn ($action) => $action->name())
         ->toArray();
 }

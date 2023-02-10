@@ -64,10 +64,10 @@ abstract class Action
         $maxTitle = '';
 
         foreach ($actions as $action) {
-            $maxTitle = strlen($maxTitle) < strlen($action::$label) ? $action::$label : $maxTitle;
+            $maxTitle = strlen((string) $maxTitle) < strlen((string) $action::$label) ? $action::$label : $maxTitle;
         }
 
-        return str_repeat(' ', strlen($maxTitle) - strlen($title));
+        return str_repeat(' ', strlen((string) $maxTitle) - strlen($title));
     }
 
     public function title(): string
@@ -76,9 +76,9 @@ abstract class Action
         $title = static::$label;
         $description = $this->description();
 
-        $title = "<fg={$this->color};options=bold>$title</> ".$this->spaces($title).$name;
+        $title = "<fg={$this->color};options=bold>$title".$this->spaces($title).' </>'.$name;
 
-        if ($description) {
+        if ($description !== '' && $description !== '0') {
             $title .= " <fg=gray>$description</>";
         }
 

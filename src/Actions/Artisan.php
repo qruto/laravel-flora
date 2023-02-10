@@ -14,6 +14,7 @@ class Artisan extends Action
         protected Application $application,
         protected string $command,
         protected array $parameters = [],
+        protected bool $detailed = false,
     ) {
     }
 
@@ -24,12 +25,11 @@ class Artisan extends Action
 
     public function description(): string
     {
-        return $this->application->find($this->command)->getDescription();
-    }
+        if (! $this->detailed) {
+            return '';
+        }
 
-    public function getCommand(): string
-    {
-        return $this->command;
+        return $this->application->find($this->command)->getDescription();
     }
 
     public function getParameters(): array

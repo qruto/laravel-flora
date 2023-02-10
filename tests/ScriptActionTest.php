@@ -34,7 +34,7 @@ test('it successfully running script', function () {
 test('it verbose successfully running script', function () {
     chain(fn (Run $run) => $run->script('test'), true)
         ->run()
-        ->expectsOutputToContain('script  test')
+        ->expectsOutputToContain('script test')
         ->expectsOutputToContain('job     Qruto\Initializer\Tests\TestFixtures\TestJob')
         ->assertSuccessful();
 

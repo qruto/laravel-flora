@@ -8,6 +8,8 @@ use NunoMaduro\LaravelDesktopNotifier\Contracts\Notifier;
 
 class Notification extends Action
 {
+    protected static string $label = 'notification';
+
     public function __construct(
         protected Container $container,
         protected string $string,
@@ -16,9 +18,9 @@ class Notification extends Action
     ) {
     }
 
-    public function title(): string
+    public function name(): string
     {
-        return '<fg=yellow>Notify</>';
+        return $this->string;
     }
 
     public function run(): bool
