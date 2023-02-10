@@ -4,7 +4,6 @@ namespace Qruto\Initializer;
 
 use Illuminate\Console\Application;
 use Illuminate\Console\View\Components\Factory;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Traits\ReflectsClosures;
 use Qruto\Initializer\Actions\Action;
 use Symfony\Component\Console\Output\NullOutput;
@@ -127,8 +126,8 @@ class RunInternal
         }
 
         $internalLabelWidth = collect($this->collection)
-            ->map(fn($action) => $action::$label)
-            ->reduce(fn($carry, $label) => max($carry, strlen((string)$label)));
+            ->map(fn ($action) => $action::$label)
+            ->reduce(fn ($carry, $label) => max($carry, strlen((string) $label)));
 
         $action(
             $this->outputComponents,

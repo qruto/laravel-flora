@@ -57,7 +57,7 @@ abstract class Action
             return '';
         }
 
-        return str_repeat(" ", $width - strlen($title));
+        return str_repeat(' ', $width - strlen($title));
     }
 
     public function title(int $width = 0): string

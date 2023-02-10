@@ -7,7 +7,6 @@ use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Traits\ReflectsClosures;
 use Qruto\Initializer\Run;
 use Symfony\Component\Console\Output\OutputInterface;
-use function Termwind\render;
 use function Termwind\terminal;
 
 class Script extends Action
