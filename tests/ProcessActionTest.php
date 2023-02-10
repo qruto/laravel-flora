@@ -10,7 +10,7 @@ it('can run process', function () {
 
     chain(fn (Run $run) => $run->exec('php -v'))
         ->run()
-        ->expectsOutputToContain('Processing php -v')
+        ->expectsOutputToContain('exec    php -v')
         ->assertSuccessful();
 });
 
@@ -19,7 +19,7 @@ it('show errors if process failed', function () {
 
     chain(fn (Run $run) => $run->exec('php -v'))
         ->run()
-        ->expectsOutputToContain('Processing php -v')
+        ->expectsOutputToContain('exec    php -v')
         ->expectsConfirmation('Show errors?', 'yes')
         ->expectsOutputToContain('PHP is not installed')
         ->assertFailed();

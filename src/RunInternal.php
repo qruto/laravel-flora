@@ -16,7 +16,7 @@ class RunInternal
     /**
      * The registered string instruction.
      */
-    protected static array $instructions = [];
+    protected static array $scripts = [];
 
     protected Factory $outputComponents;
 
@@ -46,19 +46,19 @@ class RunInternal
     /**
      * Register a custom instruction.
      */
-    public static function instruction(string $name, callable $instruction): void
+    public static function script(string $name, callable $script): void
     {
-        static::$instructions[$name] = $instruction;
+        static::$scripts[$name] = $script;
     }
 
-    public static function hasInstruction(string $name): bool
+    public static function hasScript(string $name): bool
     {
-        return isset(static::$instructions[$name]);
+        return isset(static::$scripts[$name]);
     }
 
-    public function getInstruction(string $name)
+    public function getScript(string $name)
     {
-        return static::$instructions[$name];
+        return static::$scripts[$name];
     }
 
     public function getApplication(): Application

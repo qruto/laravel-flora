@@ -5,6 +5,7 @@ namespace Qruto\Initializer\Actions;
 use Exception;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Bus\Dispatcher;
+use Illuminate\Support\Str;
 
 class Job extends Action
 {

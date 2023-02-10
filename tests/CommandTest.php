@@ -1,12 +1,12 @@
 <?php
 
-use Qruto\Initializer\UndefinedInstructionException;
+use Qruto\Initializer\UndefinedScriptException;
 
 it('throws exception when no instructions found for current test environment',
     function () {
         chain()
             ->run()
             ->assertFailed()
-            ->expectsOutputToContain(UndefinedInstructionException::forEnvironment('testing')->getMessage());
+            ->expectsOutputToContain(UndefinedScriptException::forEnvironment('testing')->getMessage());
     }
 );

@@ -5,7 +5,7 @@ namespace Qruto\Initializer;
 use Illuminate\Console\Application;
 use Qruto\Initializer\Actions\Artisan;
 use Qruto\Initializer\Actions\Callback;
-use Qruto\Initializer\Actions\Instruction;
+use Qruto\Initializer\Actions\Script;
 use Qruto\Initializer\Actions\Job;
 use Qruto\Initializer\Actions\Notification;
 use Qruto\Initializer\Actions\Process;
@@ -26,22 +26,22 @@ class Run
         $this->internal = new RunInternal($this->application, $output);
     }
 
-    public static function newInstruction(string $name, callable $callback)
+    public static function newScript(string $name, callable $callback)
     {
-        RunInternal::instruction($name, $callback);
+        RunInternal::script($name, $callback);
     }
 
-    public function instruction(string $name, array $arguments = []): static
+    public function script(string $name, array $arguments = []): static
     {
-        if (! RunInternal::hasInstruction($name)) {
-            throw UndefinedInstructionException::forCustom($name);
+        if (! RunInternal::hasScript($name)) {
+            throw UndefinedScriptException::forCustom($name);
         }
 
-        $this->internal->push(new Instruction(
+        $this->internal->push(new Script(
             $this->application->getLaravel(),
             $this->internal->newRunner(),
             $name,
-            $this->internal->getInstruction($name),
+            $this->internal->getScript($name),
             $arguments,
             $this->output->isVerbose(),
         ));

@@ -8,7 +8,7 @@ use Illuminate\Support\Traits\ReflectsClosures;
 use Qruto\Initializer\Run;
 use function Termwind\render;
 
-class Instruction extends Action
+class Script extends Action
 {
     use ReflectsClosures;
 

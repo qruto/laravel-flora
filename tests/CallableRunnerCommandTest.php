@@ -21,7 +21,7 @@ it('successfully calling a callback', function () {
 
     chain()
         ->run()
-        ->expectsOutputToContain('Calling Closure::__invoke')
+        ->expectsOutputToContain('call    Closure::__invoke')
         ->assertSuccessful();
 
     $this->assertTrue($called);
@@ -37,6 +37,6 @@ it('displays custom callable name if passed', function () {
 
     chain()
         ->run()
-        ->expectsOutputToContain('Calling Custom Callable Name')
+        ->expectsOutputToContain('call    Custom Callable Name')
         ->assertSuccessful();
 });

@@ -17,9 +17,9 @@ class Artisan extends Action
     public function title(): string
     {
         return "<fg=yellow;options=bold>command</> $this->command"
-        .($this->detailed ? ' <fg=gray>('.
+        .($this->detailed ? ' <fg=gray>'.
             $this->application->find($this->command)->getDescription().
-        ')</>' : '');
+        '</>' : '');
     }
 
     public function getCommand(): string

@@ -44,12 +44,12 @@ class InitializerServiceProvider extends PackageServiceProvider
             fn (string $environment, callable $callback) => $vault->get(InitializerType::Update)->set($environment, $callback)
         );
 
-        Run::newInstruction('build', fn (Run $run) => $run
+        Run::newScript('build', fn (Run $run) => $run
             ->exec('npm install')
             ->exec('npm run build')
         );
 
-        Run::newInstruction('cache', fn (Run $run) => $run
+        Run::newScript('cache', fn (Run $run) => $run
             ->command('route:cache')
             ->command('config:cache')
             ->command('event:cache')

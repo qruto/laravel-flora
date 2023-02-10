@@ -18,27 +18,27 @@ App::install('local', fn (Run $run) => $run
     ->command('key:generate')
     ->command('migrate')
     ->command('storage:link')
-    ->instruction('build')
+    ->script('build')
 );
 
 App::install('production', fn (Run $run) => $run
     ->command('key:generate', ['--force' => true])
     ->command('migrate', ['--force' => true])
     ->command('storage:link')
-    ->instruction('cache')
-    ->instruction('build')
+    ->script('cache')
+    ->script('build')
 );
 
 App::update('local', fn (Run $run) => $run
     ->command('migrate')
     ->command('cache:clear')
-    ->instruction('build')
+    ->script('build')
 );
 
 App::update('production', fn (Run $run) => $run
-    ->instruction('cache')
+    ->script('cache')
     ->command('migrate', ['--force' => true])
     ->command('cache:clear')
     ->command('queue:restart')
-    ->instruction('build')
+    ->script('build')
 );

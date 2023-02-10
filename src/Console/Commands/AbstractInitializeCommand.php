@@ -12,7 +12,7 @@ use Qruto\Initializer\Contracts\Chain;
 use Qruto\Initializer\Contracts\ChainVault;
 use Qruto\Initializer\Enums\InitializerType;
 use Qruto\Initializer\Run;
-use Qruto\Initializer\UndefinedInstructionException;
+use Qruto\Initializer\UndefinedScriptException;
 use function rtrim;
 
 abstract class AbstractInitializeCommand extends Command
@@ -58,7 +58,7 @@ abstract class AbstractInitializeCommand extends Command
 
         try {
             $container->call($initializer->get($env), ['run' => $runner]);
-        } catch (UndefinedInstructionException $e) {
+        } catch (UndefinedScriptException $e) {
             $this->components->error($e->getMessage());
 
             return self::FAILURE;

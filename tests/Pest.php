@@ -4,7 +4,7 @@ use Illuminate\Console\Application;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Support\Facades\App;
 use Qruto\Initializer\Actions\Artisan;
-use Qruto\Initializer\Actions\Instruction;
+use Qruto\Initializer\Actions\Script;
 use Qruto\Initializer\Contracts\ChainVault;
 use Qruto\Initializer\Enums\Environment;
 use Qruto\Initializer\Enums\InitializerType;
@@ -60,7 +60,7 @@ function runnerActionNames(Run $runner): array
         ->map(function ($action) {
             if ($action instanceof Artisan) {
                 return $action->getCommand();
-            } elseif ($action instanceof Instruction) {
+            } elseif ($action instanceof Script) {
                 return $action->getName();
             }
         })

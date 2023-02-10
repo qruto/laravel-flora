@@ -4,14 +4,14 @@ use Illuminate\Support\Facades\Artisan;
 use Qruto\Initializer\Run;
 use Symfony\Component\Console\Command\Command;
 
-it('successfully running artisan commands', function () {
+it('successfully command artisan commands', function () {
     Artisan::command('some:command', fn () => Command::SUCCESS);
 
     chain(fn (Run $run) => $run->command('some:command'));
 
     chain()
         ->run()
-        ->expectsOutputToContain('Running some:command')
+        ->expectsOutputToContain('command some:command')
         ->assertSuccessful();
 });
 
@@ -22,7 +22,7 @@ it('fails when one of artisan command was failed', function () {
 
     chain()
         ->run()
-        ->expectsOutputToContain('Running some:command')
+        ->expectsOutputToContain('command some:command')
         ->assertFailed();
 });
 
@@ -33,7 +33,7 @@ it('displays artisan command description in verbose mode', function () {
     chain(fn (Run $run) => $run->command('some:command'));
 
     $this->artisan('update', ['--verbose' => true])
-        ->expectsOutputToContain('Running some:command (Some description)')
+        ->expectsOutputToContain('command some:command Some description')
         ->assertSuccessful();
 });
 
@@ -44,8 +44,8 @@ it('doesn\'t display artisan command description in verbose mode', function () {
     chain(fn (Run $run) => $run->command('some:command'));
 
     chain()->run()
-        ->expectsOutputToContain('Running some:command')
-        ->doesntExpectOutputToContain('Running some:command (Some description)')
+        ->expectsOutputToContain('command some:command')
+        ->doesntExpectOutputToContain('command some:command (Some description)')
         ->assertSuccessful();
 });
 
