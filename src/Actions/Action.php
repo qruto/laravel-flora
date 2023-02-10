@@ -6,10 +6,17 @@ use Exception;
 use Illuminate\Console\View\Components\Factory;
 use Symfony\Component\Process\Exception\ProcessSignaledException;
 use Throwable;
+use function strlen;
 
 abstract class Action
 {
     protected ?Throwable $exception = null;
+
+    protected static string $label;
+
+    protected string $color = 'white';
+
+    protected string $description;
 
     protected bool $successful = false;
 
@@ -44,7 +51,46 @@ abstract class Action
         return $this->exception;
     }
 
-    abstract public function title(): string;
+    private function spaces(string $title): string
+    {
+        $actions = [
+            Artisan::class,
+            Callback::class,
+            Job::class,
+            Process::class,
+            Script::class,
+        ];
+
+        $maxTitle = '';
+
+        foreach ($actions as $action) {
+            $maxTitle = strlen($maxTitle) < strlen($action::$label) ? $action::$label : $maxTitle;
+        }
+
+        return str_repeat(' ', strlen($maxTitle) - strlen($title));
+    }
+
+    public function title(): string
+    {
+        $name = $this->name();
+        $title = static::$label;
+        $description = $this->description();
+
+        $title = "<fg={$this->color};options=bold>$title</> ".$this->spaces($title).$name;
+
+        if ($description) {
+            $title .= " <fg=gray>$description</>";
+        }
+
+        return $title;
+    }
+
+    abstract protected function name(): string;
+
+    protected function description(): string
+    {
+        return '';
+    }
 
     abstract public function run(): bool;
 }

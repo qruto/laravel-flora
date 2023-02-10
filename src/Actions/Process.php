@@ -8,17 +8,22 @@ use Illuminate\Support\Facades\Process as ProcessFacade;
 
 class Process extends Action
 {
+    protected static string $label = 'exec';
+
+    protected string $color = 'blue';
+
     public function __construct(
         protected string $command,
         protected array $parameters = []
     ) {
     }
 
-    public function title(): string
+    public function name(): string
     {
         $argumentsString = implode(' ', $this->parameters);
+        \ray($argumentsString);
 
-        return "<fg=blue;options=bold>exec   </> $this->command $argumentsString";
+        return "$this->command $argumentsString";
     }
 
     public function run(): bool

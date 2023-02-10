@@ -6,20 +6,25 @@ use Illuminate\Console\Application;
 
 class Artisan extends Action
 {
+    protected static string $label = 'command';
+
+    protected string $color = 'yellow';
+
     public function __construct(
         protected Application $application,
         protected string $command,
         protected array $parameters = [],
-        protected bool $detailed = false,
     ) {
     }
 
-    public function title(): string
+    public function name(): string
     {
-        return "<fg=yellow;options=bold>command</> $this->command"
-        .($this->detailed ? ' <fg=gray>'.
-            $this->application->find($this->command)->getDescription().
-        '</>' : '');
+        return $this->command;
+    }
+
+    public function description(): string
+    {
+        return $this->application->find($this->command)->getDescription();
     }
 
     public function getCommand(): string

@@ -9,6 +9,10 @@ use Illuminate\Support\Str;
 
 class Job extends Action
 {
+    protected static string $label = 'job';
+
+    protected string $color = 'magenta';
+
     public function __construct(
         protected object|string $job,
         protected ?string $queue = null,
@@ -16,9 +20,9 @@ class Job extends Action
     ) {
     }
 
-    public function title(): string
+    public function name(): string
     {
-        return '<fg=magenta;options=bold>job    </> '.(is_string($this->job) ? $this->job : $this->job::class);
+        return is_string($this->job) ? $this->job : $this->job::class;
     }
 
     public function run(): bool

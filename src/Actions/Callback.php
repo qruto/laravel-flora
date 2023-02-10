@@ -6,6 +6,10 @@ use Illuminate\Contracts\Container\Container;
 
 class Callback extends Action
 {
+    protected static string $label = 'call';
+
+    protected string $color = 'cyan';
+
     public function __construct(
         protected Container $container,
         protected $callback,
@@ -14,7 +18,7 @@ class Callback extends Action
     ) {
     }
 
-    public function title(): string
+    protected function name(): string
     {
         $name = '';
 
@@ -24,7 +28,7 @@ class Callback extends Action
             is_callable($this->callback, callable_name: $name);
         }
 
-        return "<fg=cyan;options=bold>call   </> $name";
+        return $name;
     }
 
     public function run(): bool

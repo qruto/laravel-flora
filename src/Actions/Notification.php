@@ -10,7 +10,7 @@ class Notification extends Action
 {
     public function __construct(
         protected Container $container,
-        protected string $title,
+        protected string $string,
         protected string $body,
         protected ?string $icon = null,
     ) {
@@ -26,7 +26,7 @@ class Notification extends Action
         $notifier = $this->container[Notifier::class];
 
         $notification = $this->container[NotificationAlias::class]
-            ->setTitle($this->title)
+            ->setTitle($this->string)
             ->setBody($this->body);
 
         $notification->setIcon(empty($this->icon) ? realpath(__DIR__.'/../../laravel-logo.png') : $this->icon);

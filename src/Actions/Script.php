@@ -12,6 +12,10 @@ class Script extends Action
 {
     use ReflectsClosures;
 
+    protected static string $label = 'script';
+
+    protected string $color = '#f97316';
+
     public function __construct(
         protected Container $container,
         protected Run $runner,
@@ -22,9 +26,9 @@ class Script extends Action
     ) {
     }
 
-    public function title(): string
+    public function name(): string
     {
-        return "<fg=#f97316;options=bold>script </> $this->name";
+        return $this->name;
     }
 
     public function __invoke(Factory $outputComponents): bool
