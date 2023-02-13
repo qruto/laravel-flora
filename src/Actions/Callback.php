@@ -18,7 +18,7 @@ class Callback extends Action
     ) {
     }
 
-    protected function name(): string
+    public function name(): string
     {
         $name = '';
 

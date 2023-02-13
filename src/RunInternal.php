@@ -28,6 +28,10 @@ class RunInternal
 
     protected bool $shouldClearLatestFail = false;
 
+    protected bool $breakOnTerminate = false;
+
+    protected bool $terminated = false;
+
     protected bool $finishedWithFailures = false;
 
     public function __construct(protected Application $application, protected OutputInterface $output)
@@ -70,6 +74,11 @@ class RunInternal
     {
         foreach ($this->collection as $action) {
             $this->run($action, $labelWidth);
+
+            if ($this->breakOnTerminate && $action->stopped()) {
+                $this->terminated = true;
+                break;
+            }
         }
     }
 
@@ -87,6 +96,8 @@ class RunInternal
 
     public function push(Action $action): void
     {
+        $action->withOutput($this->output);
+
         $this->collection[] = $action;
     }
 
@@ -114,16 +125,21 @@ class RunInternal
         return $this->finishedWithFailures;
     }
 
+    public function terminated(): bool
+    {
+        return $this->terminated;
+    }
+
+    public function breakOnTerminate(): self
+    {
+        $this->breakOnTerminate = true;
+
+        return $this;
+    }
+
     private function run(Action $action, int $labelWidth = 0): self
     {
         $this->latestAction = $action;
-
-        if ($this->shouldClearLatestFail) {
-            $this->output->write("\x1B[1A");
-            $this->output->write("\x1B[2K");
-
-            $this->shouldClearLatestFail = false;
-        }
 
         $internalLabelWidth = collect($this->collection)
             ->map(fn ($action) => $action::$label)
@@ -146,5 +162,10 @@ class RunInternal
         }
 
         return $this;
+    }
+
+    public function getLatestAction(): ?Action
+    {
+        return $this->latestAction;
     }
 }

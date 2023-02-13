@@ -7,6 +7,7 @@ use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\Events\VendorTagPublished;
+use Qruto\Initializer\Actions\ActionTerminatedException;
 use Qruto\Initializer\AssetsVersion;
 use Qruto\Initializer\Contracts\Chain;
 use Qruto\Initializer\Contracts\ChainVault;
@@ -47,13 +48,15 @@ abstract class AbstractInitializeCommand extends Command
             'output' => $this->getOutput(),
         ]);
 
-        $this->trap([SIGTERM, SIGINT], function () use ($runner) {
+        $this->trap([SIGTERM, SIGINT], function ($signal) use ($runner) {
             if ($this->components->confirm('Installation stop confirm')) {
                 $this->components->warn(ucfirst($this->title()).' aborted without completion');
                 exit;
             }
 
             $runner->internal->rerunLatestAction();
+
+            throw new ActionTerminatedException($runner->internal->getLatestAction(), $signal);
         });
 
         try {

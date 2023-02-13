@@ -6,7 +6,6 @@ use Illuminate\Console\View\Components\Factory;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Traits\ReflectsClosures;
 use Qruto\Initializer\Run;
-use Symfony\Component\Console\Output\OutputInterface;
 use function Termwind\terminal;
 
 class Script extends Action
@@ -23,8 +22,8 @@ class Script extends Action
         protected string $name,
         protected $callback,
         protected array $arguments,
-        protected OutputInterface $output,
     ) {
+        $this->container->call($this->callback, ['run' => $this->runner, ...$this->arguments]);
     }
 
     public function name(): string
@@ -47,6 +46,11 @@ class Script extends Action
             $outputComponents->task($title, $callback);
         }
 
+        if ($this->runner->internal->terminated()) {
+            $this->output->write("\x1B[1A");
+            $this->output->write("\x1B[2K");
+        }
+
         if ($this->runner->internal->doneWithFailures() && ! empty($this->runner->internal->exceptions())) {
             $this->exception = $this->runner->internal->exceptions()[0]['e'];
         }
@@ -56,9 +60,7 @@ class Script extends Action
 
     public function run(int $labelWidth = 0): bool
     {
-        $this->container->call($this->callback, ['run' => $this->runner, ...$this->arguments]);
-
-        $this->runner->internal->start($labelWidth);
+        $this->runner->internal->breakOnTerminate()->start($labelWidth);
 
         if ($this->output->isVerbose()) {
             $this->writeDotsLine();

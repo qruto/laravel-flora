@@ -5,7 +5,7 @@ namespace Qruto\Initializer\Actions;
 use Exception;
 use Illuminate\Console\View\Components\Factory;
 use function strlen;
-use Symfony\Component\Process\Exception\ProcessSignaledException;
+use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
 
 abstract class Action
@@ -18,7 +18,11 @@ abstract class Action
 
     protected string $description;
 
+    protected bool $terminated = false;
+
     protected bool $successful = false;
+
+    protected OutputInterface $output;
 
     public function __invoke(Factory $outputComponents, int $labelWidth): bool
     {
@@ -26,7 +30,9 @@ abstract class Action
             try {
                 return $this->successful = $this->run();
             } catch (Exception $e) {
-                if ($e instanceof ProcessSignaledException) {
+                if ($e instanceof ActionTerminatedException) {
+                    $this->terminated = true;
+
                     return $this->successful = true;
                 }
 
@@ -38,6 +44,11 @@ abstract class Action
 
         $outputComponents->task($this->title($labelWidth), $callback);
 
+        if ($this->terminated) {
+            $this->output->write("\x1B[1A");
+            $this->output->write("\x1B[2K");
+        }
+
         return $this->failed();
     }
 
@@ -46,9 +57,21 @@ abstract class Action
         return ! $this->successful;
     }
 
+    public function terminated(): bool
+    {
+        return $this->terminated;
+    }
+
     public function getException(): ?Throwable
     {
         return $this->exception;
+    }
+
+    public function withOutput(OutputInterface $output): static
+    {
+        $this->output = $output;
+
+        return $this;
     }
 
     private function spaces(string $title, int $width): string
@@ -76,7 +99,7 @@ abstract class Action
         return $title;
     }
 
-    abstract protected function name(): string;
+    abstract public function name(): string;
 
     protected function description(): string
     {

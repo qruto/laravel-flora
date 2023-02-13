@@ -2,7 +2,6 @@
 
 namespace Qruto\Initializer\Actions;
 
-use Exception;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Bus\Dispatcher;
 
@@ -30,11 +29,7 @@ class Job extends Action
 
         $job = is_string($this->job) ? Container::getInstance()->make($this->job) : $this->job;
 
-        try {
-            $dispatcher->dispatch($job);
-        } catch (Exception) {
-            return false;
-        }
+        $dispatcher->dispatchNow($job);
 
         return true;
     }

@@ -24,8 +24,8 @@ it('throws exception when no scripts found', function () {
 test('it successfully running script', function () {
     chain(fn (Run $run) => $run->script('test'))
         ->run()
-        ->expectsOutputToContain('script  test')
-        ->doesntExpectOutputToContain('job      Qruto\Initializer\Tests\TestFixtures\TestJob')
+        ->expectsOutputToContain('script test')
+        ->doesntExpectOutputToContain('job     Qruto\Initializer\Tests\TestFixtures\TestJob')
         ->assertSuccessful();
 
     Bus::assertDispatched(TestJob::class, 2);
@@ -35,7 +35,7 @@ test('it verbose successfully running script', function () {
     chain(fn (Run $run) => $run->script('test'), true)
         ->run()
         ->expectsOutputToContain('script test')
-        ->expectsOutputToContain('job     Qruto\Initializer\Tests\TestFixtures\TestJob')
+        ->expectsOutputToContain('job    Qruto\Initializer\Tests\TestFixtures\TestJob')
         ->assertSuccessful();
 
     Bus::assertDispatched(TestJob::class, 2);

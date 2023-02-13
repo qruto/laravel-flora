@@ -43,7 +43,6 @@ class Run
             $name,
             $this->internal->getScript($name),
             $arguments,
-            $this->output,
         ));
 
         return $this;
@@ -51,7 +50,7 @@ class Run
 
     public function command(string $command, array $parameters = []): static
     {
-        $this->internal->push(new Artisan($this->application, $command, $parameters, $this->output->isVerbose()));
+        $this->internal->push(new Artisan($this->application, $command, $parameters));
 
         return $this;
     }

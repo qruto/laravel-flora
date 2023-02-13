@@ -14,7 +14,6 @@ class Artisan extends Action
         protected Application $application,
         protected string $command,
         protected array $parameters = [],
-        protected bool $detailed = false,
     ) {
     }
 
@@ -25,7 +24,7 @@ class Artisan extends Action
 
     public function description(): string
     {
-        if (! $this->detailed) {
+        if (! $this->output->isVerbose()) {
             return '';
         }
 
