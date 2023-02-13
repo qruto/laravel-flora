@@ -26,8 +26,6 @@ class RunInternal
 
     protected ?Action $latestAction = null;
 
-    protected bool $shouldClearLatestFail = false;
-
     protected bool $breakOnTerminate = false;
 
     protected bool $terminated = false;
@@ -75,7 +73,7 @@ class RunInternal
         foreach ($this->collection as $action) {
             $this->run($action, $labelWidth);
 
-            if ($this->breakOnTerminate && $action->stopped()) {
+            if ($this->breakOnTerminate && $action->terminated()) {
                 $this->terminated = true;
                 break;
             }
@@ -85,8 +83,6 @@ class RunInternal
     public function rerunLatestAction(): void
     {
         $this->run($this->latestAction);
-
-        $this->shouldClearLatestFail = true;
     }
 
     public function getCollection(): array

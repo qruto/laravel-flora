@@ -1,7 +1,0 @@
-parameters:
-    ignoreErrors:
-        -
-            message: "#^Call to an undefined static method Illuminate\\\\Support\\\\Facades\\\\Process\\:\\:forever\\(\\)\\.$#"
-            count: 2
-            path: src/Actions/Process.php
-
