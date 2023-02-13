@@ -10,6 +10,8 @@ class Notification extends Action
 {
     public static string $label = 'notification';
 
+    protected bool $silent = true;
+
     public function __construct(
         protected Container $container,
         protected string $string,
@@ -31,7 +33,7 @@ class Notification extends Action
             ->setTitle($this->string)
             ->setBody($this->body);
 
-        $notification->setIcon(empty($this->icon) ? realpath(__DIR__.'/../../laravel-logo.png') : $this->icon);
+        $notification->setIcon(empty($this->icon) ? __DIR__.'/../../laravel-logo.png' : $this->icon);
 
         return $notifier->send($notification);
     }

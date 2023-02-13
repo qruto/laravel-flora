@@ -138,7 +138,7 @@ class RunInternal
         $this->latestAction = $action;
 
         $internalLabelWidth = collect($this->collection)
-            ->map(fn ($action) => $action::$label)
+            ->map(fn (Action $action) => $action->isSilent() ? '' : $action::$label)
             ->reduce(fn ($carry, $label) => max($carry, strlen((string) $label)));
 
         $action(

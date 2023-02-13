@@ -22,6 +22,8 @@ abstract class Action
 
     protected bool $successful = false;
 
+    protected bool $silent = false;
+
     protected OutputInterface $output;
 
     public function __invoke(Factory $outputComponents, int $labelWidth): bool
@@ -42,7 +44,11 @@ abstract class Action
             }
         };
 
-        $outputComponents->task($this->title($labelWidth), $callback);
+        if ($this->silent) {
+            return $callback();
+        } else {
+            $outputComponents->task($this->title($labelWidth), $callback);
+        }
 
         if ($this->terminated) {
             $this->output->write("\x1B[1A");
@@ -107,4 +113,9 @@ abstract class Action
     }
 
     abstract public function run(): bool;
+
+    public function isSilent(): bool
+    {
+        return $this->silent;
+    }
 }
