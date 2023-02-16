@@ -1,17 +1,17 @@
-[![Stand With Ukraine](https://raw.githubusercontent.com/vshymanskyy/StandWithUkraine/main/banner-direct-single.svg)](https://stand-with-ukraine.pp.ua)
-
 <p align="center">
-    <img title="Laravel Initializer" width="500" src="docs/logo.png" />
+    <picture>
+        <source media="(prefers-color-scheme: dark)" srcset="https://github.com/qruto/laravel-initializer/raw/HEAD/art/logo-dark.svg">
+        <source media="(prefers-color-scheme: light)" srcset="https://github.com/qruto/laravel-initializer/raw/HEAD/art/logo-light.svg">
+        <img alt="Laravel Wave Logo" src="https://github.com/qruto/laravel-initializer/raw/HEAD/art/logo-light.svg" width="400">
+    </picture>
 </p>
-<p align="center">A convenient way to <strong>initialize</strong> your application.</p>
+<p align="center">A convenient way to automate <strong>setup</strong> of your application.</p>
 <p align="center">
-    <a href="https://packagist.org/packages/mad-web/laravel-initializer"><img src="https://img.shields.io/packagist/v/mad-web/laravel-initializer.svg" alt="Latest Stable Version"></a>
-    <a href="https://github.com/mad-web/laravel-initializer/actions"><img src="https://github.com/mad-web/laravel-initializer/workflows/tests/badge.svg" alt="Build Status"></a>
-    <a href="https://styleci.io/repos/100302581"><img src="https://styleci.io/repos/100302581/shield?style=flat" alt="Code Style Status"></a>
-    <a href="https://scrutinizer-ci.com/g/mad-web/laravel-initializer/code-structure"><img src="https://img.shields.io/scrutinizer/coverage/g/mad-web/laravel-initializer.svg" alt="Code Coverage Status"></a>
-    <a href="https://scrutinizer-ci.com/g/mad-web/laravel-initializer"><img src="https://img.shields.io/scrutinizer/g/mad-web/laravel-initializer.svg" alt="Quality Score"></a>
-    <a href="https://packagist.org/packages/mad-web/laravel-initializer"><img src="https://img.shields.io/packagist/dt/mad-web/laravel-initializer.svg" alt="Quality Score"></a>
-    <a href="LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-brightgreen.svg" alt="Software License"></a>
+    <a href="https://github.com/qruto/laravel-initializer/actions/workflows/tests.yml"><img src="https://github.com/qruto/laravel-initializer/actions/workflows/tests.yml/badge.svg" alt="Build Status"></a>
+    <a href="https://github.com/qruto/laravel-initializer/actions/workflows/code-style.yml"><img src="https://github.com/qruto/laravel-initializer/actions/workflows/code-style.yml/badge.svg" alt="Code Style"></a>
+    <a href="https://github.com/qruto/laravel-initializer/actions/workflows/static-analyze.yml"><img src="https://github.com/qruto/laravel-initializer/actions/workflows/static-analyze.yml/badge.svg" alt="Static Analyze"></a>
+    <a href="https://packagist.org/packages/qruto/laravel-initializer"><img src="https://img.shields.io/packagist/dt/qruto/laravel-initializer" alt="Total Downloads"></a>
+    <a href="https://packagist.org/packages/qruto/laravel-initializer"><img src="https://img.shields.io/packagist/v/qruto/laravel-initializer" alt="Latest Stable Version"></a>
 </p>
 <p align="center">
     <img width="800" title="Laravel Initializer Demo" src="docs/demo.png" />
