@@ -195,8 +195,6 @@ abstract class AbstractInitializeCommand extends Command
                 $tags[] = $value;
             }
 
-
-
             if (! empty($parameters['--provider'])) {
                 $publishCallback = fn () => $this->callSilent('vendor:publish', $parameters + ['--force' => true, '--no-interaction' => true]) === 0;
             }
