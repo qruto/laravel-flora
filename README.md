@@ -2,7 +2,7 @@
     <picture>
         <source media="(prefers-color-scheme: dark)" srcset="https://github.com/qruto/laravel-initializer/raw/HEAD/art/logo-dark.svg">
         <source media="(prefers-color-scheme: light)" srcset="https://github.com/qruto/laravel-initializer/raw/HEAD/art/logo-light.svg">
-        <img alt="Laravel Wave Logo" src="https://github.com/qruto/laravel-initializer/raw/HEAD/art/logo-light.svg" width="400">
+        <img alt="Laravel Wave Logo" src="https://github.com/qruto/laravel-initializer/raw/HEAD/art/logo-light.svg">
     </picture>
 </p>
 <p align="center">A convenient way to automate <strong>setup</strong> of your application.</p>
