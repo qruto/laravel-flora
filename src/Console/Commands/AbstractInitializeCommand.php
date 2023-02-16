@@ -159,11 +159,6 @@ abstract class AbstractInitializeCommand extends Command
 
         $assetsString = rtrim($assetsString, ', ');
 
-        $this->components->twoColumnDetail(
-            '<fg=yellow>Publishing assets</>'
-            .($this->output->isVerbose() ? ' <fg=gray>'.$assetsString.'</>' : '')
-        );
-
         $this->laravel['events']->listen(function (VendorTagPublished $event) {
             foreach ($event->paths as $from => $to) {
                 $type = null;
@@ -185,6 +180,8 @@ abstract class AbstractInitializeCommand extends Command
 
         $tags = [];
 
+        $publishCallback = null;
+
         foreach ($assets as $key => $value) {
             $parameters = ['--provider' => '', '--tag' => []];
 
@@ -198,13 +195,21 @@ abstract class AbstractInitializeCommand extends Command
                 $tags[] = $value;
             }
 
+
+
             if (! empty($parameters['--provider'])) {
-                $this->callSilent('vendor:publish', $parameters + ['--force' => true, '--no-interaction' => true]);
+                $publishCallback = fn () => $this->callSilent('vendor:publish', $parameters + ['--force' => true, '--no-interaction' => true]) === 0;
             }
         }
 
         if ($tags !== []) {
-            $this->callSilent('vendor:publish', ['--tag' => $tags, '--force' => true]);
+            $publishCallback = fn () => $this->callSilent('vendor:publish', ['--tag' => $tags, '--force' => true]) === 0;
         }
+
+        $this->components->task(
+            '<fg=yellow>Publishing assets</>'
+            .($this->output->isVerbose() ? ' <fg=gray>'.$assetsString.'</>' : ''),
+            $publishCallback
+        );
     }
 }
