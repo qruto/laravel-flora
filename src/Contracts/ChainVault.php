@@ -1,10 +1,10 @@
 <?php
 
-namespace Qruto\Initializer\Contracts;
+namespace Qruto\Formula\Contracts;
 
-use Qruto\Initializer\Enums\InitializerType;
+use Qruto\Formula\Enums\FormulaType;
 
 interface ChainVault
 {
-    public function get(InitializerType $type): Chain;
+    public function get(FormulaType $type): Chain;
 }

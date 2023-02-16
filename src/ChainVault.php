@@ -1,10 +1,10 @@
 <?php
 
-namespace Qruto\Initializer;
+namespace Qruto\Formula;
 
-use Qruto\Initializer\Contracts\Chain;
-use Qruto\Initializer\Contracts\ChainVault as ChainVaultContract;
-use Qruto\Initializer\Enums\InitializerType;
+use Qruto\Formula\Contracts\Chain;
+use Qruto\Formula\Contracts\ChainVault as ChainVaultContract;
+use Qruto\Formula\Enums\FormulaType;
 
 class ChainVault implements ChainVaultContract
 {
@@ -12,11 +12,11 @@ class ChainVault implements ChainVaultContract
 
     public function __construct(Chain $install, Chain $update)
     {
-        $this->chains[InitializerType::Install->value] = $install;
-        $this->chains[InitializerType::Update->value] = $update;
+        $this->chains[FormulaType::Install->value] = $install;
+        $this->chains[FormulaType::Update->value] = $update;
     }
 
-    public function get(InitializerType $type): Chain
+    public function get(FormulaType $type): Chain
     {
         return $this->chains[$type->value];
     }

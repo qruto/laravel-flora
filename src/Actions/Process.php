@@ -1,6 +1,6 @@
 <?php
 
-namespace Qruto\Initializer\Actions;
+namespace Qruto\Formula\Actions;
 
 use Illuminate\Contracts\Process\ProcessResult;
 use Illuminate\Support\Facades\Process as ProcessFacade;

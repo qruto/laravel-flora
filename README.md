@@ -1,20 +1,20 @@
 <p align="center">
     <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="https://github.com/qruto/laravel-initializer/raw/HEAD/art/logo-dark.svg">
-        <source media="(prefers-color-scheme: light)" srcset="https://github.com/qruto/laravel-initializer/raw/HEAD/art/logo-light.svg">
-        <img alt="Laravel Wave Logo" src="https://github.com/qruto/laravel-initializer/raw/HEAD/art/logo-light.svg">
+        <source media="(prefers-color-scheme: dark)" srcset="https://github.com/qruto/laravel-formula/raw/HEAD/art/logo-dark.svg">
+        <source media="(prefers-color-scheme: light)" srcset="https://github.com/qruto/laravel-formula/raw/HEAD/art/logo-light.svg">
+        <img alt="Laravel Wave Logo" src="https://github.com/qruto/laravel-formula/raw/HEAD/art/logo-light.svg">
     </picture>
 </p>
 <p align="center">A convenient way to automate <strong>setup</strong> of your application.</p>
 <p align="center">
-    <a href="https://github.com/qruto/laravel-initializer/actions/workflows/tests.yml"><img src="https://github.com/qruto/laravel-initializer/actions/workflows/tests.yml/badge.svg" alt="Build Status"></a>
-    <a href="https://github.com/qruto/laravel-initializer/actions/workflows/code-style.yml"><img src="https://github.com/qruto/laravel-initializer/actions/workflows/code-style.yml/badge.svg" alt="Code Style"></a>
-    <a href="https://github.com/qruto/laravel-initializer/actions/workflows/static-analyze.yml"><img src="https://github.com/qruto/laravel-initializer/actions/workflows/static-analyze.yml/badge.svg" alt="Static Analyze"></a>
-    <a href="https://packagist.org/packages/qruto/laravel-initializer"><img src="https://img.shields.io/packagist/dt/qruto/laravel-initializer" alt="Total Downloads"></a>
-    <a href="https://packagist.org/packages/qruto/laravel-initializer"><img src="https://img.shields.io/packagist/v/qruto/laravel-initializer" alt="Latest Stable Version"></a>
+    <a href="https://github.com/qruto/laravel-formula/actions/workflows/tests.yml"><img src="https://github.com/qruto/laravel-formula/actions/workflows/tests.yml/badge.svg" alt="Build Status"></a>
+    <a href="https://github.com/qruto/laravel-formula/actions/workflows/code-style.yml"><img src="https://github.com/qruto/laravel-formula/actions/workflows/code-style.yml/badge.svg" alt="Code Style"></a>
+    <a href="https://github.com/qruto/laravel-formula/actions/workflows/static-analyze.yml"><img src="https://github.com/qruto/laravel-formula/actions/workflows/static-analyze.yml/badge.svg" alt="Static Analyze"></a>
+    <a href="https://packagist.org/packages/qruto/laravel-formula"><img src="https://img.shields.io/packagist/dt/qruto/laravel-formula" alt="Total Downloads"></a>
+    <a href="https://packagist.org/packages/qruto/laravel-formula"><img src="https://img.shields.io/packagist/v/qruto/laravel-formula" alt="Latest Stable Version"></a>
 </p>
 <p align="center">
-    <img width="800" title="Laravel Initializer Demo" src="docs/demo.png" />
+    <img width="800" title="Laravel Formula Demo" src="docs/demo.png" />
 </p>
 
 ## Introduction
@@ -34,26 +34,26 @@ Typical instruction:
 
 Some of actions you should do on every application update (composer update, git pull...) or branch change (git checkout) for preparing an application to work.
 
-**Laravel Initializer** gives you the ability to declare these processes and run it by simple `app:install` and `app:update` artisan commands, which run predefined actions chain depending on the current environment.
+**Laravel Formula** gives you the ability to declare these processes and run it by simple `app:install` and `app:update` artisan commands, which run predefined actions chain depending on the current environment.
 
 Also `app:update` command could simplify your deploy script in Forge, Envoy.blade.php, laravel-deployer, ~~bash script~~ etc.
 
-With Laravel Initializer you keep both of these processes in the source control.
+With Laravel Formula you keep both of these processes in the source control.
 
-> Put a knowledge of application initialization process into the right place
+> Put a knowledge of application setup process into the right place
 
 ## Installation
 
 Via Composer
 
 ``` bash
-composer require mad-web/laravel-initializer
+composer require mad-web/laravel-formula
 ```
 
-then publish initializer classes:
+then publish formula classes:
 
 ```bash
-php artisan vendor:publish --tag=initializers
+php artisan vendor:publish --tag=formulas
 ```
 
 It will create `Install` and `Update` classes in `app` directory
@@ -63,7 +63,7 @@ This methods should return runner chain with specific actions to install or upda
 You can override config key which stores current environment value, publish config file and set `env_config_key` value.
 
 ```bash
-php artisan vendor:publish --provider="MadWeb\Initializer\InitializerServiceProvider" --tag=config
+php artisan vendor:publish --provider="MadWeb\Formula\FormulaServiceProvider" --tag=config
 ```
 
 _by default value is set to `app.env` for laravel, in most cases you don't need to override this value._
@@ -128,7 +128,7 @@ App::install()->production(fn (Runner $run) =>
 ```php
 namespace App;
 
-use MadWeb\Initializer\Contracts\Runner;
+use MadWeb\Formula\Contracts\Runner;
 
 class Install
 {
@@ -161,7 +161,7 @@ Update class contents:
 ```php
 namespace App;
 
-use MadWeb\Initializer\Contracts\Runner;
+use MadWeb\Formula\Contracts\Runner;
 
 class Update
 {
@@ -196,9 +196,9 @@ If you need to run actions with root privileges separately, you can define a met
 ```php
 namespace App;
 
-use MadWeb\Initializer\Contracts\Runner;
-use MadWeb\Initializer\Jobs\Supervisor\MakeQueueSupervisorConfig;
-use MadWeb\Initializer\Jobs\Supervisor\MakeSocketSupervisorConfig;
+use MadWeb\Formula\Contracts\Runner;
+use MadWeb\Formula\Jobs\Supervisor\MakeQueueSupervisorConfig;
+use MadWeb\Formula\Jobs\Supervisor\MakeSocketSupervisorConfig;
 
 class Install
 {
@@ -284,7 +284,7 @@ $run
 
 ## Useful jobs
 
-Laravel initializer provides some useful jobs to make initializing of your application much easier.
+Laravel formula provides some useful jobs to make setup of your application much easier.
 
 ### Create cron task for scheduling tasks
 
@@ -293,7 +293,7 @@ To enable [Laravel Scheduling](https://laravel.com/docs/6.x/scheduling) add disp
 ```php
 $run
     ...
-    ->dispatch(new \MadWeb\Initializer\Jobs\MakeCronTask)
+    ->dispatch(new \MadWeb\Formula\Jobs\MakeCronTask)
 ```
 
 This job will add
@@ -311,7 +311,7 @@ If you use [Laravel Echo Server](https://github.com/tlaverdure/laravel-echo-serv
 ```php
 $run
     ...
-    ->dispatch(new \MadWeb\Initializer\Jobs\MakeEchoServerConfig);
+    ->dispatch(new \MadWeb\Formula\Jobs\MakeEchoServerConfig);
 ```
 
 It will create configuration file with default options of [laravel-echo-server](https://github.com/tlaverdure/laravel-echo-server) and prefilled values from your laravel application configuration.
@@ -340,7 +340,7 @@ And pass these values to `MakeEchoServerConfig` job constructor.
 ```php
 $run
     ...
-    ->dispatch(new \MadWeb\Initializer\Jobs\MakeEchoServerConfig(config('broadcasting.server')));
+    ->dispatch(new \MadWeb\Formula\Jobs\MakeEchoServerConfig(config('broadcasting.server')));
 ```
 
 ### Create supervisor config file for queues
@@ -351,7 +351,7 @@ Add dispatch `MakeQueueSupervisorConfig` job to runner chain.
 ```php
 $run
     ...
-    ->dispatch(new \MadWeb\Initializer\Jobs\Supervisor\MakeQueueSupervisorConfig);
+    ->dispatch(new \MadWeb\Formula\Jobs\Supervisor\MakeQueueSupervisorConfig);
 ```
 
 This job creates configuration file with the command `php artisan queue:work --sleep=3 --tries=3` in `/etc/supervisor/conf.d/` folder by default, with a filename according to this convention `your-application-name-queue.conf`.
@@ -362,7 +362,7 @@ For example if you want to use [Laravel Horizon](https://laravel.com/docs/5.6/ho
 ```php
 $run
     ...
-    ->dispatch(new \MadWeb\Initializer\Jobs\Supervisor\MakeQueueSupervisorConfig([
+    ->dispatch(new \MadWeb\Formula\Jobs\Supervisor\MakeQueueSupervisorConfig([
         'command' => 'php artisan horizon',
     ]));
 ```
@@ -396,7 +396,7 @@ Then you can run just
 composer app-install
 ```
 
-to initialize your application.
+to setup your application.
 
 If your application has actions that require root privileges and you use Unix based system, add the following command into your runner chain:
 

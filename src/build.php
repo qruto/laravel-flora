@@ -12,7 +12,7 @@
 */
 
 use Illuminate\Support\Facades\App;
-use Qruto\Initializer\Run;
+use Qruto\Formula\Run;
 
 App::install('local', fn (Run $run) => $run
     ->command('key:generate')

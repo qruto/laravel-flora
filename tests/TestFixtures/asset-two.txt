@@ -1,1 +1,1 @@
-Laravel Initializer is Pretty awesome isn't it? :)
+Laravel Formula is Pretty awesome isn't it? :)

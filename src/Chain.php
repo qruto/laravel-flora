@@ -1,8 +1,8 @@
 <?php
 
-namespace Qruto\Initializer;
+namespace Qruto\Formula;
 
-use Qruto\Initializer\Contracts\Chain as ChainContract;
+use Qruto\Formula\Contracts\Chain as ChainContract;
 
 class Chain implements ChainContract
 {

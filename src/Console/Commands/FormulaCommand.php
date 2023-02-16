@@ -1,26 +1,26 @@
 <?php
 
-namespace Qruto\Initializer\Console\Commands;
+namespace Qruto\Formula\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Foundation\Events\VendorTagPublished;
-use Qruto\Initializer\Actions\ActionTerminatedException;
-use Qruto\Initializer\AssetsVersion;
-use Qruto\Initializer\Contracts\Chain;
-use Qruto\Initializer\Contracts\ChainVault;
-use Qruto\Initializer\Enums\InitializerType;
-use Qruto\Initializer\Run;
-use Qruto\Initializer\UndefinedScriptException;
+use Qruto\Formula\Actions\ActionTerminatedException;
+use Qruto\Formula\AssetsVersion;
+use Qruto\Formula\Contracts\Chain;
+use Qruto\Formula\Contracts\ChainVault;
+use Qruto\Formula\Enums\FormulaType;
+use Qruto\Formula\Run;
+use Qruto\Formula\UndefinedScriptException;
 use function rtrim;
 
-abstract class AbstractInitializeCommand extends Command
+abstract class FormulaCommand extends Command
 {
     use PackageDiscover;
 
-    protected InitializerType $type;
+    protected FormulaType $type;
 
     public function handle(
         Container $container,
@@ -39,28 +39,28 @@ abstract class AbstractInitializeCommand extends Command
             require __DIR__.'/../../build.php';
         }
 
-        $initializer = $this->getInitializer($vault);
+        $formula = $this->getFormula($vault);
 
         $env = $this->getLaravel()->environment();
 
-        $runner = $container->make(Run::class, [
+        $run = $container->make(Run::class, [
             'application' => $this->getApplication(),
             'output' => $this->getOutput(),
         ]);
 
-        $this->trap([SIGTERM, SIGINT], function ($signal) use ($runner) {
+        $this->trap([SIGTERM, SIGINT], function ($signal) use ($run) {
             if ($this->components->confirm('Installation stop confirm')) {
                 $this->components->warn(ucfirst($this->title()).' aborted without completion');
                 exit;
             }
 
-            $runner->internal->rerunLatestAction();
+            $run->internal->rerunLatestAction();
 
-            throw new ActionTerminatedException($runner->internal->getLatestAction(), $signal);
+            throw new ActionTerminatedException($run->internal->getLatestAction(), $signal);
         });
 
         try {
-            $container->call($initializer->get($env), ['run' => $runner]);
+            $container->call($formula->get($env), ['run' => $run]);
         } catch (UndefinedScriptException $e) {
             $this->components->error($e->getMessage());
 
@@ -68,19 +68,19 @@ abstract class AbstractInitializeCommand extends Command
         }
 
         if ($autoInstruction) {
-            $this->discoverPackages($this->type, $env, $runner);
+            $this->discoverPackages($this->type, $env, $run);
         }
 
         $this->components->alert('Application '.$this->title());
 
         $this->output->newLine();
 
-        $runner->internal->start();
+        $run->internal->start();
 
         if ($assetsVersion->outdated()) {
             $this->publishAssets(
-                $config->get('initializer.assets'),
-                $config->get('initializer.always_publish')
+                $config->get('formula.assets'),
+                $config->get('formula.always_publish')
             );
         } else {
             $this->output->newLine();
@@ -91,8 +91,8 @@ abstract class AbstractInitializeCommand extends Command
 
         $this->output->newLine();
 
-        if ($runner->internal->doneWithFailures()) {
-            $exceptions = $runner->internal->exceptions();
+        if ($run->internal->doneWithFailures()) {
+            $exceptions = $run->internal->exceptions();
 
             if (! empty($exceptions) && $this->components->confirm('Show errors?')) {
                 //TODO: make scrollable
@@ -118,9 +118,9 @@ abstract class AbstractInitializeCommand extends Command
     }
 
     /**
-     * Returns initializer instance for current command.
+     * Returns formula instance for current command.
      */
-    protected function getInitializer(ChainVault $vault): Chain
+    protected function getFormula(ChainVault $vault): Chain
     {
         return $vault->get($this->type);
     }
@@ -133,7 +133,7 @@ abstract class AbstractInitializeCommand extends Command
             return;
         }
 
-        if ($this->type === InitializerType::Install && ! $alwaysPublish) {
+        if ($this->type === FormulaType::Install && ! $alwaysPublish) {
             return;
         }
 

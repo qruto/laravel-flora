@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Qruto\Initializer\Console\Commands\PackageDiscover;
-use Qruto\Initializer\Discovers\HorizonDiscover;
-use Qruto\Initializer\Enums\Environment;
-use Qruto\Initializer\Enums\InitializerType;
+use Qruto\Formula\Console\Commands\PackageDiscover;
+use Qruto\Formula\Discovers\HorizonDiscover;
+use Qruto\Formula\Enums\Environment;
+use Qruto\Formula\Enums\FormulaType;
 
 uses(PackageDiscover::class);
 
@@ -19,11 +19,11 @@ it('can discover horizon', function () {
 });
 
 it('can get horizon instruction', function () {
-    $runner = makeRunner();
+    $run = makeRunner();
 
-    actionNamesForEnvironment(InitializerType::Update, Environment::Production, $runner);
+    actionNamesForEnvironment(FormulaType::Update, Environment::Production, $run);
 
-    $this->discoverPackages(InitializerType::Update, Environment::Production->value, $runner);
+    $this->discoverPackages(FormulaType::Update, Environment::Production->value, $run);
 
     $this->assertEquals(
         [
@@ -33,14 +33,14 @@ it('can get horizon instruction', function () {
             'build',
             'horizon:terminate',
         ],
-        runnerActionNames($runner),
+        runnerActionNames($run),
     );
 });
 
 it('has no instructions for install process', function () {
-    $runner = makeRunner();
+    $run = makeRunner();
 
-    $this->discoverPackages(InitializerType::Install, Environment::Production->value, $runner);
+    $this->discoverPackages(FormulaType::Install, Environment::Production->value, $run);
 
-    $this->assertCount(0, $runner->internal->getCollection());
+    $this->assertCount(0, $run->internal->getCollection());
 });

@@ -3,11 +3,11 @@
 use Illuminate\Console\Application;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Support\Facades\App;
-use Qruto\Initializer\Contracts\ChainVault;
-use Qruto\Initializer\Enums\Environment;
-use Qruto\Initializer\Enums\InitializerType;
-use Qruto\Initializer\Run;
-use Qruto\Initializer\Tests\TestCase;
+use Qruto\Formula\Contracts\ChainVault;
+use Qruto\Formula\Enums\Environment;
+use Qruto\Formula\Enums\FormulaType;
+use Qruto\Formula\Run;
+use Qruto\Formula\Tests\TestCase;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -41,20 +41,20 @@ function makeRunner(?OutputInterface $output = null): Run
     return new Run(new Application(app(), app()->make(Dispatcher::class), 'unknown'), $output ?? new BufferedOutput());
 }
 
-function actionNamesForEnvironment(InitializerType $type, Environment $env, ?Run $runner = null): array
+function actionNamesForEnvironment(FormulaType $type, Environment $env, ?Run $run = null): array
 {
-    $runner = $runner ?? makeRunner();
+    $run = $run ?? makeRunner();
 
     $vault = app(ChainVault::class);
 
-    $vault->get($type)->get($env->value)($runner);
+    $vault->get($type)->get($env->value)($run);
 
-    return runnerActionNames($runner);
+    return runnerActionNames($run);
 }
 
-function runnerActionNames(Run $runner): array
+function runnerActionNames(Run $run): array
 {
-    return collect($runner->internal->getCollection())
+    return collect($run->internal->getCollection())
         ->map(fn ($action) => $action->name())
         ->toArray();
 }

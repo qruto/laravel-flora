@@ -1,25 +1,25 @@
 <?php
 
-namespace Qruto\Initializer\Console\Commands;
+namespace Qruto\Formula\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Str;
-use Qruto\Initializer\Actions\Artisan;
-use Qruto\Initializer\Actions\Process;
-use Qruto\Initializer\Actions\Script;
-use Qruto\Initializer\Contracts\ChainVault;
-use Qruto\Initializer\Enums\Environment;
-use Qruto\Initializer\Enums\InitializerType;
-use Qruto\Initializer\Run;
+use Qruto\Formula\Actions\Artisan;
+use Qruto\Formula\Actions\Process;
+use Qruto\Formula\Actions\Script;
+use Qruto\Formula\Contracts\ChainVault;
+use Qruto\Formula\Enums\Environment;
+use Qruto\Formula\Enums\FormulaType;
+use Qruto\Formula\Run;
 
 class PublishCommand extends Command
 {
     use PackageDiscover;
 
-    public $signature = 'initializer:publish';
+    public $signature = 'formula:publish';
 
-    public $description = 'Publish initialization instructions.';
+    public $description = 'Publish setup instructions.';
 
     public function handle(Container $container, ChainVault $vault): int
     {
@@ -27,17 +27,17 @@ class PublishCommand extends Command
 
         $code = Str::before(file_get_contents(__DIR__.'/../../build.php'), 'App::install');
 
-        $runner = $this->makeRunner($container);
+        $run = $this->makeRunner($container);
 
-        foreach (InitializerType::cases() as $type) {
+        foreach (FormulaType::cases() as $type) {
             foreach (Environment::cases() as $env) {
-                $vault->get($type)->get($env->value)($runner);
+                $vault->get($type)->get($env->value)($run);
 
-                $this->discoverPackages($type, $env->value, $runner);
+                $this->discoverPackages($type, $env->value, $run);
 
-                $code .= $this->generateInitializerCode($type, $env, $runner).PHP_EOL.PHP_EOL;
+                $code .= $this->generateFormulaCode($type, $env, $run).PHP_EOL.PHP_EOL;
 
-                $runner = $this->makeRunner($container);
+                $run = $this->makeRunner($container);
             }
         }
 
@@ -56,13 +56,13 @@ class PublishCommand extends Command
         ]);
     }
 
-    protected function generateInitializerCode(
-        InitializerType $type,
+    protected function generateFormulaCode(
+        FormulaType $type,
         Environment $environment,
-        Run $runner
+        Run $run
     ): string {
         $code = sprintf("App::%s('%s', fn (Run \$run) => \$run", $type->value, $environment->value).PHP_EOL;
-        $collection = $runner->internal->getCollection();
+        $collection = $run->internal->getCollection();
 
         foreach ($collection as $item) {
             if ($item instanceof Artisan) {

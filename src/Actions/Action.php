@@ -1,6 +1,6 @@
 <?php
 
-namespace Qruto\Initializer\Actions;
+namespace Qruto\Formula\Actions;
 
 use Exception;
 use Illuminate\Console\View\Components\Factory;
@@ -46,9 +46,9 @@ abstract class Action
 
         if ($this->silent) {
             return $callback();
-        } else {
-            $outputComponents->task($this->title($labelWidth), $callback);
         }
+
+        $outputComponents->task($this->title($labelWidth), $callback);
 
         if ($this->terminated) {
             $this->output->write("\x1B[1A");

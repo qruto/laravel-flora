@@ -1,11 +1,11 @@
 <?php
 
-namespace Qruto\Initializer;
+namespace Qruto\Formula;
 
 use Illuminate\Console\Application;
 use Illuminate\Console\View\Components\Factory;
 use Illuminate\Support\Traits\ReflectsClosures;
-use Qruto\Initializer\Actions\Action;
+use Qruto\Formula\Actions\Action;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -139,7 +139,7 @@ class RunInternal
 
         $internalLabelWidth = collect($this->collection)
             ->map(fn (Action $action) => $action->isSilent() ? '' : $action::$label)
-            ->reduce(fn ($carry, $label) => max($carry, strlen((string) $label)));
+            ->reduce(fn ($carry, $label) => max($carry, strlen($label)));
 
         $action(
             $this->outputComponents,

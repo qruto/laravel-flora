@@ -1,10 +1,10 @@
 <?php
 
-namespace Qruto\Initializer\Discovers;
+namespace Qruto\Formula\Discovers;
 
 use Closure;
-use Qruto\Initializer\Enums\Environment;
-use Qruto\Initializer\Enums\InitializerType;
+use Qruto\Formula\Enums\Environment;
+use Qruto\Formula\Enums\FormulaType;
 
 class Instruction
 {
@@ -15,7 +15,7 @@ class Instruction
     ) {
     }
 
-    public function get(InitializerType $type, ?Environment $environment = null): Closure
+    public function get(FormulaType $type, ?Environment $environment = null): Closure
     {
         if (is_null($environment)) {
             $environment = Environment::Production;

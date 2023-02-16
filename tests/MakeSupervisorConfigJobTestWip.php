@@ -1,10 +1,10 @@
 <?php
 
-namespace Qruto\Initializer\Test;
+namespace Qruto\Formula\Test;
 
-use Qruto\Initializer\Jobs\Supervisor\MakeQueueSupervisorConfig;
-use Qruto\Initializer\Jobs\Supervisor\MakeSocketSupervisorConfig;
-use Qruto\Initializer\Run;
+use Qruto\Formula\Jobs\Supervisor\MakeQueueSupervisorConfig;
+use Qruto\Formula\Jobs\Supervisor\MakeSocketSupervisorConfig;
+use Qruto\Formula\Run;
 
 class MakeSupervisorConfigJobTestWip extends RunnerCommandsTestCase
 {

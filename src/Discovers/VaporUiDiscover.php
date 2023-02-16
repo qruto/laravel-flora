@@ -1,6 +1,6 @@
 <?php
 
-namespace Qruto\Initializer\Discovers;
+namespace Qruto\Formula\Discovers;
 
 use Illuminate\Support\Facades\Route;
 

@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Contracts\Cache\Repository;
-use Qruto\Initializer\AssetsVersion;
+use Qruto\Formula\AssetsVersion;
 
 beforeEach(fn () => file_put_contents(
     base_path('composer.lock'),

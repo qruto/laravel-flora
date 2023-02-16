@@ -1,8 +1,8 @@
 <?php
 
-use Qruto\Initializer\Discovers\Instruction;
-use Qruto\Initializer\Enums\Environment;
-use Qruto\Initializer\Enums\InitializerType;
+use Qruto\Formula\Discovers\Instruction;
+use Qruto\Formula\Enums\Environment;
+use Qruto\Formula\Enums\FormulaType;
 
 it('saves install instruction for one environment', function () {
     $callback = fn () => null;
@@ -13,7 +13,7 @@ it('saves install instruction for one environment', function () {
         ]
     );
 
-    $this->assertEquals($callback, $instruction->get(InitializerType::Install, Environment::Production));
+    $this->assertEquals($callback, $instruction->get(FormulaType::Install, Environment::Production));
 });
 
 it('saves install instruction for two environments', function () {
@@ -27,8 +27,8 @@ it('saves install instruction for two environments', function () {
         ]
     );
 
-    $this->assertEquals($callback, $instruction->get(InitializerType::Install));
-    $this->assertEquals($callback2, $instruction->get(InitializerType::Install, Environment::Local));
+    $this->assertEquals($callback, $instruction->get(FormulaType::Install));
+    $this->assertEquals($callback2, $instruction->get(FormulaType::Install, Environment::Local));
 });
 
 it('saves install and update instruction for two environments', function () {
@@ -48,17 +48,17 @@ it('saves install and update instruction for two environments', function () {
         ]
     );
 
-    $this->assertEquals($installCallback, $instruction->get(InitializerType::Install, Environment::Production));
-    $this->assertEquals($installCallback2, $instruction->get(InitializerType::Install, Environment::Local));
+    $this->assertEquals($installCallback, $instruction->get(FormulaType::Install, Environment::Production));
+    $this->assertEquals($installCallback2, $instruction->get(FormulaType::Install, Environment::Local));
 
-    $this->assertEquals($updateCallback, $instruction->get(InitializerType::Update, Environment::Production));
-    $this->assertEquals($updateCallback2, $instruction->get(InitializerType::Update, Environment::Local));
+    $this->assertEquals($updateCallback, $instruction->get(FormulaType::Update, Environment::Production));
+    $this->assertEquals($updateCallback2, $instruction->get(FormulaType::Update, Environment::Local));
 });
 
 it('returns empty function if no instruction found', function () {
     $instruction = new Instruction();
 
-    $this->assertEquals(null, $instruction->get(InitializerType::Install)());
+    $this->assertEquals(null, $instruction->get(FormulaType::Install)());
 });
 
 it('returns empty function if no instruction found for the environment', function () {
@@ -68,7 +68,7 @@ it('returns empty function if no instruction found for the environment', functio
         ]
     );
 
-    $this->assertEquals(null, $instruction->get(InitializerType::Install, Environment::Local)());
+    $this->assertEquals(null, $instruction->get(FormulaType::Install, Environment::Local)());
 });
 
 it('returns one instruction for all environments', function () {
@@ -78,5 +78,5 @@ it('returns one instruction for all environments', function () {
         install: $callback
     );
 
-    $this->assertEquals($callback, $instruction->get(InitializerType::Install));
+    $this->assertEquals($callback, $instruction->get(FormulaType::Install));
 });

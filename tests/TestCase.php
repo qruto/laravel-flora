@@ -1,19 +1,19 @@
 <?php
 
-namespace Qruto\Initializer\Tests;
+namespace Qruto\Formula\Tests;
 
 use Orchestra\Testbench\TestCase as Orchestra;
-use Qruto\Initializer\InitializerServiceProvider;
-use Qruto\Initializer\Tests\TestFixtures\TestServiceProviderMultipleTags;
-use Qruto\Initializer\Tests\TestFixtures\TestServiceProviderOne;
-use Qruto\Initializer\Tests\TestFixtures\TestServiceProviderTwo;
+use Qruto\Formula\FormulaServiceProvider;
+use Qruto\Formula\Tests\TestFixtures\TestServiceProviderMultipleTags;
+use Qruto\Formula\Tests\TestFixtures\TestServiceProviderOne;
+use Qruto\Formula\Tests\TestFixtures\TestServiceProviderTwo;
 
 class TestCase extends Orchestra
 {
     protected function getPackageProviders($app): array
     {
         return [
-            InitializerServiceProvider::class,
+            FormulaServiceProvider::class,
             TestServiceProviderOne::class,
             TestServiceProviderTwo::class,
             TestServiceProviderMultipleTags::class,

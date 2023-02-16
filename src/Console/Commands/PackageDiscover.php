@@ -1,30 +1,30 @@
 <?php
 
-namespace Qruto\Initializer\Console\Commands;
+namespace Qruto\Formula\Console\Commands;
 
-use Qruto\Initializer\Discovers\HorizonDiscover;
-use Qruto\Initializer\Discovers\IdeHelperDiscover;
-use Qruto\Initializer\Discovers\VaporUiDiscover;
-use Qruto\Initializer\Enums\Environment;
-use Qruto\Initializer\Enums\InitializerType;
-use Qruto\Initializer\Run;
+use Qruto\Formula\Discovers\HorizonDiscover;
+use Qruto\Formula\Discovers\IdeHelperDiscover;
+use Qruto\Formula\Discovers\VaporUiDiscover;
+use Qruto\Formula\Enums\Environment;
+use Qruto\Formula\Enums\FormulaType;
+use Qruto\Formula\Run;
 
 trait PackageDiscover
 {
-    protected function discoverPackages(InitializerType $type, string $environment, Run $runner): void
+    protected function discoverPackages(FormulaType $type, string $environment, Run $run): void
     {
         $discovers = self::packagesToDiscover();
 
         foreach ($discovers as $discover) {
             if ($discover->exists()) {
                 $discover->instruction()
-                    ->get($type, Environment::tryFrom($environment))($runner);
+                    ->get($type, Environment::tryFrom($environment))($run);
             }
         }
     }
 
     /**
-     * @return \Qruto\Initializer\Discovers\PackageDiscover[]
+     * @return \Qruto\Formula\Discovers\PackageDiscover[]
      */
     protected static function packagesToDiscover(): array
     {

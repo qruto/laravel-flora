@@ -1,12 +1,12 @@
 <?php
 
-namespace Qruto\Initializer\Test;
+namespace Qruto\Formula\Test;
 
 use Illuminate\Contracts\Cache\Repository;
-use Qruto\Initializer\Run;
-use Qruto\Initializer\Tests\TestFixtures\TestServiceProviderMultipleTags;
-use Qruto\Initializer\Tests\TestFixtures\TestServiceProviderOne;
-use Qruto\Initializer\Tests\TestFixtures\TestServiceProviderTwo;
+use Qruto\Formula\Run;
+use Qruto\Formula\Tests\TestFixtures\TestServiceProviderMultipleTags;
+use Qruto\Formula\Tests\TestFixtures\TestServiceProviderOne;
+use Qruto\Formula\Tests\TestFixtures\TestServiceProviderTwo;
 use function unlink;
 
 afterEach(function () {
@@ -23,7 +23,7 @@ afterEach(function () {
 });
 function prepare(array $assets): object
 {
-    config()->set('initializer.assets', $assets);
+    config()->set('formula.assets', $assets);
 
     return new class(chain(fn (Run $run) => $run->call(fn () => true))->run())
     {
@@ -70,8 +70,8 @@ function prepare(array $assets): object
         {
             unset($this->test);
 
-            test()->assertFileDoesNotExist($this->assetOnePath);
             test()->assertFileDoesNotExist($this->assetTwoPath);
+            test()->assertFileDoesNotExist($this->assetOnePath);
 
             return $this;
         }
@@ -88,7 +88,7 @@ it('successfully publishes a single service provider', fn () => prepare([TestSer
 it('successfully publishes two service provider', fn () => prepare([
     TestServiceProviderOne::class => 'public',
     TestServiceProviderTwo::class => 'public',
-])->assertAssetOnePublished()->assertAssetTwoPublished());
+])->assertAllAssetsPublished());
 
 it('successfully publishes a single tag', fn () => prepare(['one'])->assertAssetOnePublished());
 

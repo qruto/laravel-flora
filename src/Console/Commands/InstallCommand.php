@@ -1,12 +1,12 @@
 <?php
 
-namespace Qruto\Initializer\Console\Commands;
+namespace Qruto\Formula\Console\Commands;
 
-use Qruto\Initializer\Enums\InitializerType;
+use Qruto\Formula\Enums\FormulaType;
 
-class InstallCommand extends AbstractInitializeCommand
+class InstallCommand extends FormulaCommand
 {
-    protected InitializerType $type = InitializerType::Install;
+    protected FormulaType $type = FormulaType::Install;
 
     /**
      * The name and signature of the console command.

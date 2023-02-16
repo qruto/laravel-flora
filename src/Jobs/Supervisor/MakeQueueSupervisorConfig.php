@@ -1,6 +1,6 @@
 <?php
 
-namespace Qruto\Initializer\Jobs\Supervisor;
+namespace Qruto\Formula\Jobs\Supervisor;
 
 class MakeQueueSupervisorConfig extends MakeSupervisorConfig
 {

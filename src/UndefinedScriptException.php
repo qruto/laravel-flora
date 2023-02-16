@@ -1,6 +1,6 @@
 <?php
 
-namespace Qruto\Initializer;
+namespace Qruto\Formula;
 
 use Exception;
 

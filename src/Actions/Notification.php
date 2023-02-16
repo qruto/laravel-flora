@@ -1,6 +1,6 @@
 <?php
 
-namespace Qruto\Initializer\Actions;
+namespace Qruto\Formula\Actions;
 
 use Illuminate\Contracts\Container\Container;
 use NunoMaduro\LaravelDesktopNotifier\Contracts\Notification as NotificationAlias;

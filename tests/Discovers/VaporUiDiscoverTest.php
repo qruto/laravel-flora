@@ -1,10 +1,10 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Qruto\Initializer\Console\Commands\PackageDiscover;
-use Qruto\Initializer\Discovers\VaporUiDiscover;
-use Qruto\Initializer\Enums\Environment;
-use Qruto\Initializer\Enums\InitializerType;
+use Qruto\Formula\Console\Commands\PackageDiscover;
+use Qruto\Formula\Discovers\VaporUiDiscover;
+use Qruto\Formula\Enums\Environment;
+use Qruto\Formula\Enums\FormulaType;
 
 uses(PackageDiscover::class);
 
@@ -17,14 +17,14 @@ it('can discover vapor ui', function () {
 });
 
 it('no actions defined for any environment', function () {
-    $runner = makeRunner();
+    $run = makeRunner();
 
-    $this->discoverPackages(InitializerType::Install, Environment::Local->value, $runner);
-    $this->discoverPackages(InitializerType::Install, Environment::Production->value, $runner);
-    $this->discoverPackages(InitializerType::Update, Environment::Local->value, $runner);
-    $this->discoverPackages(InitializerType::Update, Environment::Production->value, $runner);
+    $this->discoverPackages(FormulaType::Install, Environment::Local->value, $run);
+    $this->discoverPackages(FormulaType::Install, Environment::Production->value, $run);
+    $this->discoverPackages(FormulaType::Update, Environment::Local->value, $run);
+    $this->discoverPackages(FormulaType::Update, Environment::Production->value, $run);
 
-    $this->assertCount(0, $runner->internal->getCollection());
+    $this->assertCount(0, $run->internal->getCollection());
 });
 
 it('defines publishable asset', function () {

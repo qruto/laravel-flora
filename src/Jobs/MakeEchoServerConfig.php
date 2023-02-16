@@ -1,6 +1,6 @@
 <?php
 
-namespace Qruto\Initializer\Jobs;
+namespace Qruto\Formula\Jobs;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;

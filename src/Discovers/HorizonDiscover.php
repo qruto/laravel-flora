@@ -1,10 +1,10 @@
 <?php
 
-namespace Qruto\Initializer\Discovers;
+namespace Qruto\Formula\Discovers;
 
 use Illuminate\Support\Facades\Route;
-use Qruto\Initializer\Actions\Artisan;
-use Qruto\Initializer\Run;
+use Qruto\Formula\Actions\Artisan;
+use Qruto\Formula\Run;
 
 class HorizonDiscover implements PackageDiscover
 {

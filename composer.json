@@ -1,20 +1,22 @@
 {
-    "name": "qruto/laravel-initializer",
-    "description": "A convenient way to initialize your application",
+    "name": "qruto/laravel-formula",
+    "description": "A convenient way to setup your application",
     "keywords": [
         "qruto",
-        "laravel-initializer",
+        "laravel-formula",
         "install",
         "update",
         "deploy",
         "init",
         "initialize",
+        "setup",
         "exec",
         "command",
-        "tasks",
-        "process"
+        "process",
+        "job",
+        "tasks"
     ],
-    "homepage": "https://github.com/qruto/laravel-initializer",
+    "homepage": "https://github.com/qruto/laravel-formula",
     "license": "MIT",
     "authors": [
         {
@@ -53,12 +55,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Qruto\\Initializer\\": "src"
+            "Qruto\\Formula\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Qruto\\Initializer\\Tests\\": "tests"
+            "Qruto\\Formula\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -87,7 +89,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Qruto\\Initializer\\InitializerServiceProvider"
+                "Qruto\\Formula\\FormulaServiceProvider"
             ]
         }
     },

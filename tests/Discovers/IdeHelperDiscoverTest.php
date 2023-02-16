@@ -1,10 +1,10 @@
 <?php
 
-use Qruto\Initializer\Actions\Artisan;
-use Qruto\Initializer\Console\Commands\PackageDiscover;
-use Qruto\Initializer\Discovers\IdeHelperDiscover;
-use Qruto\Initializer\Enums\Environment;
-use Qruto\Initializer\Enums\InitializerType;
+use Qruto\Formula\Actions\Artisan;
+use Qruto\Formula\Console\Commands\PackageDiscover;
+use Qruto\Formula\Discovers\IdeHelperDiscover;
+use Qruto\Formula\Enums\Environment;
+use Qruto\Formula\Enums\FormulaType;
 
 uses(PackageDiscover::class);
 
@@ -17,28 +17,28 @@ it('can discover ide helper', function () {
 });
 
 it('can get ide helper instruction', function () {
-    $runner = makeRunner();
+    $run = makeRunner();
 
-    $this->discoverPackages(InitializerType::Install, Environment::Local->value, $runner);
+    $this->discoverPackages(FormulaType::Install, Environment::Local->value, $run);
 
-    $this->assertCount(3, $runner->internal->getCollection());
-    $this->assertContainsOnlyInstancesOf(Artisan::class, $runner->internal->getCollection());
+    $this->assertCount(3, $run->internal->getCollection());
+    $this->assertContainsOnlyInstancesOf(Artisan::class, $run->internal->getCollection());
     $this->assertEquals(
         [
             'ide-helper:generate',
             'ide-helper:meta',
             'ide-helper:models',
         ],
-        collect($runner->internal->getCollection())
+        collect($run->internal->getCollection())
             ->map(fn ($action) => $action->name())
             ->toArray()
     );
 });
 
 it('has no instructions for production environment', function () {
-    $runner = makeRunner();
+    $run = makeRunner();
 
-    $this->discoverPackages(InitializerType::Install, Environment::Production->value, $runner);
+    $this->discoverPackages(FormulaType::Install, Environment::Production->value, $run);
 
-    $this->assertCount(0, $runner->internal->getCollection());
+    $this->assertCount(0, $run->internal->getCollection());
 });

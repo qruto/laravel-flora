@@ -1,9 +1,9 @@
 <?php
 
-namespace Qruto\Initializer\Discovers;
+namespace Qruto\Formula\Discovers;
 
 use Illuminate\Container\Container;
-use Qruto\Initializer\Run;
+use Qruto\Formula\Run;
 
 class IdeHelperDiscover implements PackageDiscover
 {

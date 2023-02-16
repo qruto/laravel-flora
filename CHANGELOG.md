@@ -1,6 +1,6 @@
 # Changelog
 
-All Notable changes to `laravel-initializer` will be documented in this file.
+All Notable changes to `laravel-formula` will be documented in this file.
 
 Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) principles.
 
@@ -37,7 +37,7 @@ No longer required to return `Runner` class instance
 
 ## 2.0.2 - 2020-01-09
 
-Now Initializer returns appropriate exit codes
+Now Formula returns appropriate exit codes
 
 ## 2.0.1 - 2019-10-21
 
@@ -53,8 +53,8 @@ It's major release with code polishing, beautified output and several nice featu
 - Output details of execution could be viewed in verbosity mode
 - Ability to publish multiple tags for one provider
 - Ability to publish by tags only
-- Replaced `make:initializers` command by publishing `initializers` tag
-- Updated default initializer stubs
+- Replaced `make:formulas` command by publishing `formulas` tag
+- Updated default formula stubs
 
 ## 1.4.0 - 2019-09-06
 
@@ -119,7 +119,7 @@ This version contains two breaking changes, please see [UPGRADING](UPGRADING.md)
 
 ### Fixed
 
-- conflict for Laravel 5.5 and `symfony/process:~4.0`, Laravel 5.5 uses `~3.0` version. Laravel Initializer now support `symfony/process:~3.0|~4.0`
+- conflict for Laravel 5.5 and `symfony/process:~4.0`, Laravel 5.5 uses `~3.0` version. Laravel Formula now support `symfony/process:~3.0|~4.0`
 - Fixed overriding default config for `MakeEchoServerConfig`, now it uses `array_replace_recursive()` function
 
 ### Removed

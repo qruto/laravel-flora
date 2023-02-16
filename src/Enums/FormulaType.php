@@ -1,8 +1,8 @@
 <?php
 
-namespace Qruto\Initializer\Enums;
+namespace Qruto\Formula\Enums;
 
-enum InitializerType: string
+enum FormulaType: string
 {
     case Install = 'install';
     case Update = 'update';

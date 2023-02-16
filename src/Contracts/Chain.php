@@ -1,6 +1,6 @@
 <?php
 
-namespace Qruto\Initializer\Contracts;
+namespace Qruto\Formula\Contracts;
 
 interface Chain
 {

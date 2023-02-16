@@ -5,7 +5,7 @@ about: 'Report a general library issue.'
 
 - PHP Version: #.#.#
 - Laravel Version: #.#.#
-- Laravel Initializer Version: #.#.#
+- Laravel Formula Version: #.#.#
 
 ### Description:
 

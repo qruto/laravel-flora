@@ -1,23 +1,23 @@
 <?php
 
-namespace Qruto\Initializer;
+namespace Qruto\Formula;
 
 use Illuminate\Foundation\Application;
-use Qruto\Initializer\Console\Commands\InstallCommand;
-use Qruto\Initializer\Console\Commands\PublishCommand;
-use Qruto\Initializer\Console\Commands\UpdateCommand;
-use Qruto\Initializer\Contracts\Chain as ChainContract;
-use Qruto\Initializer\Contracts\ChainVault as ChainVaultContract;
-use Qruto\Initializer\Enums\InitializerType;
+use Qruto\Formula\Console\Commands\InstallCommand;
+use Qruto\Formula\Console\Commands\PublishCommand;
+use Qruto\Formula\Console\Commands\UpdateCommand;
+use Qruto\Formula\Contracts\Chain as ChainContract;
+use Qruto\Formula\Contracts\ChainVault as ChainVaultContract;
+use Qruto\Formula\Enums\FormulaType;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class InitializerServiceProvider extends PackageServiceProvider
+class FormulaServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
         $package
-            ->name('initializer')
+            ->name('formula')
             ->hasConfigFile()
             ->hasCommands(
                 InstallCommand::class,
@@ -36,12 +36,12 @@ class InitializerServiceProvider extends PackageServiceProvider
         //TODO: refactor
         Application::macro(
             'install',
-            fn (string $environment, callable $callback) => $vault->get(InitializerType::Install)->set($environment, $callback)
+            fn (string $environment, callable $callback) => $vault->get(FormulaType::Install)->set($environment, $callback)
         );
 
         Application::macro(
             'update',
-            fn (string $environment, callable $callback) => $vault->get(InitializerType::Update)->set($environment, $callback)
+            fn (string $environment, callable $callback) => $vault->get(FormulaType::Update)->set($environment, $callback)
         );
 
         Run::newScript('build', fn (Run $run) => $run

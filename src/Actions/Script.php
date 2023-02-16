@@ -1,11 +1,11 @@
 <?php
 
-namespace Qruto\Initializer\Actions;
+namespace Qruto\Formula\Actions;
 
 use Illuminate\Console\View\Components\Factory;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Traits\ReflectsClosures;
-use Qruto\Initializer\Run;
+use Qruto\Formula\Run;
 use function Termwind\terminal;
 
 class Script extends Action
@@ -18,12 +18,12 @@ class Script extends Action
 
     public function __construct(
         protected Container $container,
-        protected Run $runner,
-        protected string $name,
-        protected $callback,
-        protected array $arguments,
+        protected Run       $run,
+        protected string    $name,
+        protected           $callback,
+        protected array     $arguments,
     ) {
-        $this->container->call($this->callback, ['run' => $this->runner, ...$this->arguments]);
+        $this->container->call($this->callback, ['run' => $this->run, ...$this->arguments]);
     }
 
     public function name(): string
@@ -46,13 +46,13 @@ class Script extends Action
             $outputComponents->task($title, $callback);
         }
 
-        if ($this->runner->internal->terminated()) {
+        if ($this->run->internal->terminated()) {
             $this->output->write("\x1B[1A");
             $this->output->write("\x1B[2K");
         }
 
-        if ($this->runner->internal->doneWithFailures() && ! empty($this->runner->internal->exceptions())) {
-            $this->exception = $this->runner->internal->exceptions()[0]['e'];
+        if ($this->run->internal->doneWithFailures() && ! empty($this->run->internal->exceptions())) {
+            $this->exception = $this->run->internal->exceptions()[0]['e'];
         }
 
         return $this->failed();
@@ -60,13 +60,13 @@ class Script extends Action
 
     public function run(int $labelWidth = 0): bool
     {
-        $this->runner->internal->breakOnTerminate()->start($labelWidth);
+        $this->run->internal->breakOnTerminate()->start($labelWidth);
 
         if ($this->output->isVerbose()) {
             $this->writeDotsLine();
         }
 
-        return ! $this->runner->internal->doneWithFailures();
+        return ! $this->run->internal->doneWithFailures();
     }
 
     private function writeDotsLine(int $offset = 0): void

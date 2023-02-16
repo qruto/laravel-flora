@@ -1,6 +1,6 @@
 <?php
 
-namespace Qruto\Initializer\Actions;
+namespace Qruto\Formula\Actions;
 
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Bus\Dispatcher;
