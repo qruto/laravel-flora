@@ -18,10 +18,10 @@ class Script extends Action
 
     public function __construct(
         protected Container $container,
-        protected Run       $run,
-        protected string    $name,
+        protected Run $run,
+        protected string $name,
         protected           $callback,
-        protected array     $arguments,
+        protected array $arguments,
     ) {
         $this->container->call($this->callback, ['run' => $this->run, ...$this->arguments]);
     }
