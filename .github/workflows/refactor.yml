@@ -1,5 +1,5 @@
 on: [push, pull_request]
-name: Refactor code
+name: refactor
 jobs:
   rector:
     name: Rector

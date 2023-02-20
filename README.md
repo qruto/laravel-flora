@@ -8,8 +8,9 @@
 <p align="center">A convenient way to automate <strong>setup</strong> of your application.</p>
 <p align="center">
     <a href="https://github.com/qruto/laravel-formula/actions/workflows/tests.yml"><img src="https://github.com/qruto/laravel-formula/actions/workflows/tests.yml/badge.svg" alt="Build Status"></a>
-    <a href="https://github.com/qruto/laravel-formula/actions/workflows/code-style.yml"><img src="https://github.com/qruto/laravel-formula/actions/workflows/code-style.yml/badge.svg" alt="Code Style"></a>
-    <a href="https://github.com/qruto/laravel-formula/actions/workflows/static-analyze.yml"><img src="https://github.com/qruto/laravel-formula/actions/workflows/static-analyze.yml/badge.svg" alt="Static Analyze"></a>
+    <a href="https://github.com/qruto/laravel-formula/actions/workflows/styles.yml"><img src="https://github.com/qruto/laravel-formula/actions/workflows/styles.yml/badge.svg" alt="Styles check"></a>
+    <a href="https://github.com/qruto/laravel-formula/actions/workflows/types.yml"><img src="https://github.com/qruto/laravel-formula/actions/workflows/types.yml/badge.svg" alt="Types check"></a>
+    <a href="https://github.com/qruto/laravel-formula/actions/workflows/refactor.yml"><img src="https://github.com/qruto/laravel-formula/actions/workflows/refactor.yml/badge.svg" alt="Refactor code"></a>
     <a href="https://packagist.org/packages/qruto/laravel-formula"><img src="https://img.shields.io/packagist/dt/qruto/laravel-formula" alt="Total Downloads"></a>
     <a href="https://packagist.org/packages/qruto/laravel-formula"><img src="https://img.shields.io/packagist/v/qruto/laravel-formula" alt="Latest Stable Version"></a>
 </p>
