@@ -1,0 +1,12 @@
+on: [push, pull_request]
+name: Refactor code
+jobs:
+  rector:
+    name: Rector
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Rector
+        uses: zingimmick/rector-action@0.0.2
+        with:
+          args: --dry-run

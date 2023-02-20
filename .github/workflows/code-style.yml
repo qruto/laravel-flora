@@ -6,7 +6,7 @@ on:
       - '**.php'
 
 jobs:
-  php-code-styling:
+  php-code-style:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,4 +21,4 @@ jobs:
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: Fix styling
+          commit_message: Fix styles
