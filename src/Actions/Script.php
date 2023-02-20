@@ -20,7 +20,7 @@ class Script extends Action
         protected Container $container,
         protected Run $run,
         protected string $name,
-        protected           $callback,
+        protected $callback,
         protected array $arguments,
     ) {
         $this->container->call($this->callback, ['run' => $this->run, ...$this->arguments]);

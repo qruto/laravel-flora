@@ -180,7 +180,7 @@ abstract class FormulaCommand extends Command
 
         $tags = [];
 
-        $publishCallback = null;
+        $publishCallbacks = [];
 
         foreach ($assets as $key => $value) {
             $parameters = ['--provider' => '', '--tag' => []];
@@ -196,18 +196,18 @@ abstract class FormulaCommand extends Command
             }
 
             if (! empty($parameters['--provider'])) {
-                $publishCallback = fn () => $this->callSilent('vendor:publish', $parameters + ['--force' => true, '--no-interaction' => true]) === 0;
+                $publishCallbacks[] = fn () => $this->callSilent('vendor:publish', $parameters + ['--force' => true, '--no-interaction' => true]) === 0;
             }
         }
 
         if ($tags !== []) {
-            $publishCallback = fn () => $this->callSilent('vendor:publish', ['--tag' => $tags, '--force' => true]) === 0;
+            $publishCallbacks[] = fn () => $this->callSilent('vendor:publish', ['--tag' => $tags, '--force' => true]) === 0;
         }
 
         $this->components->task(
             '<fg=yellow>Publishing assets</>'
             .($this->output->isVerbose() ? ' <fg=gray>'.$assetsString.'</>' : ''),
-            $publishCallback
+            fn () => collect($publishCallbacks)->each(fn (callable $callback) => $callback()),
         );
     }
 }
