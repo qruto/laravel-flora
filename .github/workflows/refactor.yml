@@ -1,12 +1,29 @@
-on: [push, pull_request]
 name: refactor
+
+on:
+  push:
+    paths:
+      - '**.php'
+
 jobs:
   rector:
     name: Rector
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Rector
-        uses: zingimmick/rector-action@0.1.0
+      - uses: actions/checkout@v3
         with:
-          args: --dry-run
+          ref: ${{ github.head_ref }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          coverage: none
+
+      - name: Run Rector
+        run: ./vendor/bin/rector --debug
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: Refactor code
