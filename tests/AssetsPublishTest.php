@@ -118,7 +118,7 @@ it('don\'t publish assets when latest present', function () {
     file_put_contents(
         $composerLockPath,
         json_encode(['content-hash' => 'random-hash']
-        ));
+    ));
 
     $cache = mock(Repository::class)
         ->shouldReceive('get')

@@ -25,7 +25,7 @@ test('assets marked as outdated when current and latest hashes are different', f
         ->andReturn('old-hash')
         ->getMock();
 
-    app()->instance(Repository::class, $cache);
+    $this->app->instance(Repository::class, $cache);
 
     $this->assertTrue($this->app->make(AssetsVersion::class)->outdated());
 });
