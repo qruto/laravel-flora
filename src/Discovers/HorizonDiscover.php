@@ -2,7 +2,8 @@
 
 namespace Qruto\Formula\Discovers;
 
-use Illuminate\Support\Facades\Route;
+use Illuminate\Container\Container;
+use Laravel\Horizon\Console\WorkCommand;
 use Qruto\Formula\Actions\Artisan;
 use Qruto\Formula\Run;
 
@@ -10,7 +11,7 @@ class HorizonDiscover implements PackageDiscover
 {
     public function exists(): bool
     {
-        return Route::has('horizon.index');
+        return Container::getInstance()->has(WorkCommand::class);
     }
 
     public function instruction(): Instruction

@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use Laravel\VaporUi\Console\PublishCommand;
 use Qruto\Formula\Console\Commands\PackageDiscover;
 use Qruto\Formula\Discovers\VaporUiDiscover;
 use Qruto\Formula\Enums\Environment;
@@ -9,7 +9,7 @@ use Qruto\Formula\Enums\FormulaType;
 uses(PackageDiscover::class);
 
 beforeEach(function () {
-    Route::name('vapor-ui')->get('/vapor-ui', fn () => 'Vapor UI');
+    app()->bind(PublishCommand::class, fn () => new stdClass());
 });
 
 it('can discover vapor ui', function () {
@@ -30,7 +30,7 @@ it('no actions defined for any environment', function () {
 it('defines publishable asset', function () {
     $assets = [];
 
-    foreach ($this->packagesToDiscover() as $package) {
+    foreach ($this->app['formula.packages'] as $package) {
         if ($package->exists() && $tag = $package->instruction()->assetsTag) {
             $assets[] = $tag;
         }

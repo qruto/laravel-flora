@@ -8,6 +8,9 @@ use Qruto\Formula\Console\Commands\PublishCommand;
 use Qruto\Formula\Console\Commands\UpdateCommand;
 use Qruto\Formula\Contracts\Chain as ChainContract;
 use Qruto\Formula\Contracts\ChainVault as ChainVaultContract;
+use Qruto\Formula\Discovers\HorizonDiscover;
+use Qruto\Formula\Discovers\IdeHelperDiscover;
+use Qruto\Formula\Discovers\VaporUiDiscover;
 use Qruto\Formula\Enums\FormulaType;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -63,5 +66,13 @@ class FormulaServiceProvider extends PackageServiceProvider
     {
         $this->app->bind(ChainContract::class, Chain::class);
         $this->app->singleton(ChainVaultContract::class, ChainVault::class);
+
+        $this->app->singleton('formula.packages', function () {
+            return [
+                new VaporUiDiscover(),
+                new HorizonDiscover(),
+                new IdeHelperDiscover(),
+            ];
+        });
     }
 }

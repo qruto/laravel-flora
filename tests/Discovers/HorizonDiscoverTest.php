@@ -1,6 +1,6 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use Laravel\Horizon\Console\WorkCommand;
 use Qruto\Formula\Console\Commands\PackageDiscover;
 use Qruto\Formula\Discovers\HorizonDiscover;
 use Qruto\Formula\Enums\Environment;
@@ -9,7 +9,7 @@ use Qruto\Formula\Enums\FormulaType;
 uses(PackageDiscover::class);
 
 beforeEach(function () {
-    Route::name('horizon.index')->get('/horizon', fn () => 'Horizon');
+    app()->bind(WorkCommand::class, fn () => new stdClass());
 
     require __DIR__.'/../../src/build.php';
 });

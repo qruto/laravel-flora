@@ -2,13 +2,14 @@
 
 namespace Qruto\Formula\Discovers;
 
-use Illuminate\Support\Facades\Route;
+use Illuminate\Container\Container;
+use Laravel\VaporUi\Console\PublishCommand;
 
 class VaporUiDiscover implements PackageDiscover
 {
     public function exists(): bool
     {
-        return Route::has('vapor-ui');
+        return Container::getInstance()->has(PublishCommand::class);
     }
 
     public function instruction(): Instruction
