@@ -2,6 +2,7 @@
 
 namespace Qruto\Formula\Console;
 
+use Closure;
 use Illuminate\Console\View\Components\Factory;
 use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Console\Kernel;
@@ -13,6 +14,8 @@ use function throw_if;
 
 class Assets
 {
+    private static string $title = '<fg=yellow>Publishing assets</>';
+
     public function __construct(protected Dispatcher $events, protected Kernel $artisan, protected Repository $config)
     {
     }
@@ -25,7 +28,7 @@ class Assets
             return true;
         }
 
-        if ($type === FormulaType::Install && ! $this->config['formula.always_publish']) {
+        if ($this->publishOnInstallDisabled($type)) {
             return true;
         }
 
@@ -35,6 +38,61 @@ class Assets
             }
         }
 
+        $result = true;
+
+        try {
+            if ($verbose) {
+                $this->runVerbose($assets, $components);
+            } else {
+                $this->run($assets, $components);
+            }
+        } catch (AssetPublishException) {
+            $result = false;
+        }
+
+        return $result;
+    }
+
+    private function run(array $assets, Factory $components): void
+    {
+        $components->task(self::$title, $this->makePublishCallback($assets));
+    }
+
+    private function runVerbose(array $assets, Factory $components): void
+    {
+        $this->events->listen(function (VendorTagPublished $event) use ($components) {
+            foreach ($event->paths as $from => $to) {
+                $assetType = null;
+
+                if (is_file($from)) {
+                    $assetType = 'file';
+                } elseif (is_dir($from)) {
+                    $assetType = 'directory';
+                }
+
+                $assetType ? $components->task(sprintf(
+                    'Copying %s [%s] to [%s]',
+                    $assetType,
+                    realpath($from),
+                    realpath($to),
+                )) : $components->error("Can't locate path: <{$from}>");
+            }
+        });
+
+        $components->twoColumnDetail(
+            sprintf('%s <fg=gray>%s</>', self::$title, $this->assetsString($assets))
+        );
+
+        $this->makePublishCallback($assets)();
+    }
+
+    private function publishOnInstallDisabled(FormulaType $type): bool
+    {
+        return $type === FormulaType::Install && ! $this->config['formula.always_publish'];
+    }
+
+    private function assetsString(array $assets): string
+    {
         $assetsString = '';
 
         foreach ($assets as $key => $value) {
@@ -47,10 +105,12 @@ class Assets
             $assetsString .= ', ';
         }
 
-        $assetsString = rtrim($assetsString, ', ');
+        return rtrim($assetsString, ', ');
+    }
 
+    private function makePublishCallback(array $assets): Closure
+    {
         $tags = [];
-
         $publishCallbacks = [];
 
         foreach ($assets as $key => $value) {
@@ -75,46 +135,8 @@ class Assets
             $publishCallbacks[] = fn () => $this->artisan->call('vendor:publish', ['--tag' => $tags, '--force' => true]) === 0;
         }
 
-        $title = '<fg=yellow>Publishing assets</>';
-
-        $publishCallback = fn () => collect($publishCallbacks)
+        return fn () => collect($publishCallbacks)
             ->map(fn (callable $callback) => $callback())
             ->each(fn ($value) => throw_if(! $value, AssetPublishException::class));
-
-        $result = true;
-
-        if ($verbose) {
-            $this->events->listen(function (VendorTagPublished $event) use ($components) {
-                foreach ($event->paths as $from => $to) {
-                    $assetType = null;
-
-                    if (is_file($from)) {
-                        $assetType = 'file';
-                    } elseif (is_dir($from)) {
-                        $assetType = 'directory';
-                    }
-
-                    $assetType ? $components->task(sprintf(
-                        'Copying %s [%s] to [%s]',
-                        $assetType,
-                        realpath($from),
-                        realpath($to),
-                    )) : $components->error("Can't locate path: <{$from}>");
-                }
-            });
-        }
-
-        try {
-            if ($verbose) {
-                $components->twoColumnDetail("$title <fg=gray>$assetsString</>");
-                $publishCallback();
-            } else {
-                $components->task($title, $publishCallback);
-            }
-        } catch (AssetPublishException) {
-            $result = false;
-        }
-
-        return $result;
     }
 }
