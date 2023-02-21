@@ -15,40 +15,55 @@
     <a href="https://packagist.org/packages/qruto/laravel-formula"><img src="https://img.shields.io/packagist/v/qruto/laravel-formula" alt="Latest Stable Version"></a>
 </p>
 <p align="center">
-    <img alt="Laravel Formula Demo" src="https://github.com/qruto/laravel-formula/raw/HEAD/art/demo.png" />
+    <img width="600" alt="Laravel Formula Demo" src="https://github.com/qruto/laravel-formula/raw/HEAD/art/demo.png" />
 </p>
 
 ## Introduction
 
-Main purpose is to run command and have a ready to run application.
+Bring application to live by one command.
+It will run chain of required commands to install or update application.
 
-We all know, that every application should contain readme file and **Installation** section with list of actions that you should to do for preparing an application to work.
+Replace ~~**installation**~~ section in readme file with:
+```bash
+php artisan install
+```
 
-Typical instruction:
+Refresh application state.
 
-- install dependencies
-- run migrations
-- publish assets
-- compiling app assets
-- make cron job for scheduler
-- etc.
+- after `composer update`
+- after `git pull/checkout/megre/...`
+- in deploy script
 
-Some of actions you should do on every application update (composer update, git pull...) or branch change (git checkout) for preparing an application to work.
+Run:
+```bash
+php artisan update
+```
+
+it will take care of the rest of the work.
+
+Add `update` command to your application `composer.json` script section:
+
+```diff
+"scripts": {
+    "post-update-cmd": [
+-        "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
++        "@php artisan update"
+    ]
+}
+```
+
+Define everything required to update application in one place.
 
 **Laravel Formula** gives you the ability to declare these processes and run it by simple `app:install` and `app:update` artisan commands, which run predefined actions chain depending on the current environment.
 
-Also `app:update` command could simplify your deploy script in Forge, Envoy.blade.php, laravel-deployer, ~~bash script~~ etc.
-
-With Laravel Formula you keep both of these processes in the source control.
-
-> Put a knowledge of application setup process into the right place
+> Put knowledge of the setup instructions at the application level
 
 ## Installation
 
 Via Composer
 
 ``` bash
-composer require mad-web/laravel-formula
+composer require qruto/laravel-formula
 ```
 
 then publish formula classes:
@@ -67,8 +82,6 @@ You can override config key which stores current environment value, publish conf
 php artisan vendor:publish --provider="MadWeb\Formula\FormulaServiceProvider" --tag=config
 ```
 
-_by default value is set to `app.env` for laravel, in most cases you don't need to override this value._
-
 ## Usage
 
 Usage of `app:install` and `app:update` command are the same except that `app:install` uses `Install` class and `app:update` uses `Update` class.
@@ -86,140 +99,9 @@ Runner::task('cache', fn (Runner $run) =>
         ->command('config:cache')
         ->command('event:cache')
 );
-
-Runner::publishAssets([
-    NovaServiceProvider::class,
-    HorizonServiceProvider::class => 'horizon-assets',
-    'telescope-assets'
-]);
-
-App::install(
-    // Application install commands chain
-)->local(fn (Runner $run) =>
-    $run->command('migrate')
-        ->command('storage:link')
-        ->build()
-)->production(fn (Runner $run) =>
-    $run->excludeAutoDiscover()
-        ->command('key:generate')
-        ->command('migrate', ['--force' => true])
-        ->command('storage:link')
-        ->exec('npm run install')
-        ->exec('npm run build')
-        ->cache()
-);
-
-App::install()->local(fn (Runner $run) =>
-    $run->command('migrate')
-        ->command('storage:link')
-        ->build()
-);
-
-App::install()->production(fn (Runner $run) =>
-    $run->excludeAutoDiscover()
-        ->command('key:generate')
-        ->command('migrate', ['--force' => true])
-        ->command('storage:link')
-        ->exec('npm run install')
-        ->exec('npm run build')
-        ->cache()
-);
-```
-
-```php
-namespace App;
-
-use MadWeb\Formula\Contracts\Runner;
-
-class Install
-{
-    public function production(Runner $run)
-    {
-        $run->command('key:generate')
-            ->command('migrate', ['--force' => true])
-            ->command('storage:link')
-            ->exec('npm', 'install', '--production')
-            ->exec('npm', 'run', 'production')
-            ->command('route:cache')
-            ->command('config:cache')
-            ->command('event:cache');
-    }
-
-    public function local(Runner $run)
-    {
-        $run->exec('composer', 'install')
-            ->command('key:generate')
-            ->command('migrate')
-            ->command('storage:link')
-            ->exec('npm', 'install')
-            ->exec('npm', 'run', 'development');
-    }
-}
-```
-
-Update class contents:
-
-```php
-namespace App;
-
-use MadWeb\Formula\Contracts\Runner;
-
-class Update
-{
-    public function production(Runner $run)
-    {
-        $run->external('composer', 'install', '--no-dev', '--prefer-dist', '--optimize-autoloader')
-            ->external('npm', 'install', '--production')
-            ->external('npm', 'run', 'production')
-            ->artisan('route:cache')
-            ->artisan('config:cache')
-            ->artisan('event:cache')
-            ->artisan('migrate', ['--force' => true])
-            ->artisan('cache:clear')
-            ->artisan('queue:restart'); // ->artisan('horizon:terminate');
-    }
-
-    public function local(Runner $run)
-    {
-        $run->external('composer', 'install')
-            ->external('npm', 'install')
-            ->external('npm', 'run', 'development')
-            ->artisan('migrate')
-            ->artisan('cache:clear');
-    }
-}
 ```
 
 You can add any other method which should have the same name as your environment name, for example `staging`, and define different actions.
-
-If you need to run actions with root privileges separately, you can define a method according to the following convention:
-
-```php
-namespace App;
-
-use MadWeb\Formula\Contracts\Runner;
-use MadWeb\Formula\Jobs\Supervisor\MakeQueueSupervisorConfig;
-use MadWeb\Formula\Jobs\Supervisor\MakeSocketSupervisorConfig;
-
-class Install
-{
-    public function production(Runner $run) { ... }
-
-    public function productionRoot(Runner $run)
-    {
-        $run->dispatch(new MakeQueueSupervisorConfig)
-            ->dispatch(new MakeSocketSupervisorConfig)
-            ->external('supervisorctl', 'reread')
-            ->external('supervisorctl', 'update');
-    }
-}
-```
-
-Run it by passing "**root**" option:
-
-```bash
-artisan app:install --root
-```
 
 To see details of running actions use verbosity mode:
 
@@ -238,13 +120,6 @@ class Update
     }
     // ...
 }
-```
-
-If you want to move config classes from the `app` directory to a different place, rebind `app.installer` and `app.updater` keys of service container in the `AppServiceProvider`.
-
-```php
-$this->app->bind('app.installer', \AnotherNamespace\Install::class);
-$this->app->bind('app.updater', \AnotherNamespace\Update::class);
 ```
 
 ### Runner API (available actions to run)
@@ -305,76 +180,6 @@ This job will add
 
 to crontab list.
 
-### Create laravel-echo-server.json config file
-
-If you use [Laravel Echo Server](https://github.com/tlaverdure/laravel-echo-server) for broadcasting events in your application, add dispatch `MakeEchoServerConfig` job to runner chain to create configuration file.
-
-```php
-$run
-    ...
-    ->dispatch(new \MadWeb\Formula\Jobs\MakeEchoServerConfig);
-```
-
-It will create configuration file with default options of [laravel-echo-server](https://github.com/tlaverdure/laravel-echo-server) and prefilled values from your laravel application configuration.
-
-You can override default value by passing array into the job constructor. It would be a good practice to create additional config value for **laravel-echo-server** in `broadcasting.php` config:
-
-```php
-/*
-|--------------------------------------------------------------------------
-| Laravel Echo server configurations
-|--------------------------------------------------------------------------
-|
-| Here you may define all of laravel echo server options
-|
-*/
-'server' => [
-    'authEndpoint' => '/broadcasting/auth',
-    'port' => env('SOCKET_PORT', '6001'),
-    'sslCertPath' => env('SSL_CERT', ''),
-    'sslKeyPath' => env('SSL_PATH', '')
-],
-```
-
-And pass these values to `MakeEchoServerConfig` job constructor.
-
-```php
-$run
-    ...
-    ->dispatch(new \MadWeb\Formula\Jobs\MakeEchoServerConfig(config('broadcasting.server')));
-```
-
-### Create supervisor config file for queues
-
-This job creates supervisor config file for queue workers.
-Add dispatch `MakeQueueSupervisorConfig` job to runner chain.
-
-```php
-$run
-    ...
-    ->dispatch(new \MadWeb\Formula\Jobs\Supervisor\MakeQueueSupervisorConfig);
-```
-
-This job creates configuration file with the command `php artisan queue:work --sleep=3 --tries=3` in `/etc/supervisor/conf.d/` folder by default, with a filename according to this convention `your-application-name-queue.conf`.
-
-If you want to override default options, pass it into job constructor.
-For example if you want to use [Laravel Horizon](https://laravel.com/docs/5.6/horizon) instead of default queue workers.
-
-```php
-$run
-    ...
-    ->dispatch(new \MadWeb\Formula\Jobs\Supervisor\MakeQueueSupervisorConfig([
-        'command' => 'php artisan horizon',
-    ]));
-```
-
-### Create supervisor config file for laravel echo server
-
-On the same way as `MakeQueueSupervisorConfig` job, you can use `MakeSocketSupervisorConfig` to create supervisor config file for launching laravel echo server.
-The difference from `MakeQueueSupervisorConfig` is the command `node ./node_modules/.bin/laravel-echo-server start` and the config filename is `your-application-name-socket.conf`.
-
-Both config files save log files to `your-app-path/storage/logs`.
-
 ## Installation by one command
 
 For running `php artisan app:install` command, you should install composer dependencies at first.
@@ -398,39 +203,6 @@ composer app-install
 ```
 
 to setup your application.
-
-If your application has actions that require root privileges and you use Unix based system, add the following command into your runner chain:
-
-```php
-public function production(Runner $run)
-{
-    $run->artisan(...)
-        ...
-        ->external('sudo', 'php', 'artisan', 'app:install', '--root');
-}
-
-public function productionRoot(Runner $run) { ... }
-```
-
-## Safe Update
-
-In cases when latest changes has been pulled from source control and some functionality of currently not installed package is used in one of a _Service Provider_ you will get an error. To prevent this issue you should make `composer install`
-at first, to simplify this process you can define `app-update` script:
-
-```json
-"scripts": {
-    "app-update": [
-        "@composer install",
-        "@php artisan app:update"
-    ],
-},
-```
-
-Then you can run:
-
-```bash
-composer app-update
-```
 
 ## Upgrading
 
@@ -458,12 +230,12 @@ If you discover any security related issues, please email madweb.dev@gmail.com i
 
 Thanks [Nuno Maduro](https://github.com/nunomaduro) for [laravel-console-task](https://github.com/nunomaduro/laravel-console-task) package which gives pretty tasks outputs
 
-- [Mad Web](https://github.com/mad-web)
+- [Qruto](https://github.com/qruto)
 - [All Contributors](../../contributors)
 
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-[link-author]: https://github.com/mad-web
+[link-author]: https://github.com/qruto
 [link-contributors]: ../../contributors
