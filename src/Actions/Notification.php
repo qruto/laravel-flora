@@ -8,8 +8,10 @@ use NunoMaduro\LaravelDesktopNotifier\Contracts\Notifier;
 
 class Notification extends Action
 {
-    public static string $label = 'notification';
+    /** No label for silent notification action */
+    public static string $label = '';
 
+    /** Make notification as silent to not display it in the console output */
     protected bool $silent = true;
 
     public function __construct(
@@ -20,11 +22,13 @@ class Notification extends Action
     ) {
     }
 
+    /** Get notification name */
     public function name(): string
     {
         return $this->string;
     }
 
+    /** Perform desktop notification */
     public function run(): bool
     {
         $notifier = $this->container[Notifier::class];

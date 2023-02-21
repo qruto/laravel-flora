@@ -3,7 +3,6 @@
 namespace Qruto\Formula\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Qruto\Formula\Actions\ActionTerminatedException;
@@ -19,24 +18,21 @@ abstract class FormulaCommand extends Command
 {
     use PackageDiscover;
 
+    /**
+     * The type of build.
+     */
     protected FormulaType $type;
 
+    /**
+     * Execute the action.
+     */
     public function handle(
         Container $container,
         AssetsVersion $assetsVersion,
-        Repository $config,
         ChainVault $vault,
         ExceptionHandler $exceptionHandler
     ): int {
-        $autoInstruction = true;
-
-        if ($customBuildExists = file_exists($build = base_path('routes/build.php'))) {
-            $autoInstruction = false;
-
-            require $build;
-        } else {
-            require __DIR__.'/../../build.php';
-        }
+        $autoInstruction = $this->loadInstructions();
 
         $formula = $this->getFormula($vault);
 
@@ -78,12 +74,11 @@ abstract class FormulaCommand extends Command
 
         $assetsFailed = false;
 
-        if ($assetsVersion->outdated()) {
-            $this->output->newLine();
+        $this->output->newLine();
 
+        if ($assetsVersion->outdated()) {
             $assetsFailed = ! $this->laravel[Assets::class]->publish($this->type, $this->components, $this->output->isVerbose());
         } else {
-            $this->output->newLine();
             $this->components->twoColumnDetail('<fg=green>No assets for publishing</>');
         }
 
@@ -92,9 +87,7 @@ abstract class FormulaCommand extends Command
         $this->output->newLine();
 
         if ($run->internal->doneWithFailures() || $assetsFailed) {
-            $exceptions = $run->internal->exceptions();
-
-            $this->askToShowErrors($exceptions, $exceptionHandler);
+            $this->askToShowErrors($run->internal->exceptions(), $exceptionHandler);
 
             $this->components->error(ucfirst($this->title()).' occur errors. Run with <fg=cyan>-v</> flag to see more details');
 
@@ -107,15 +100,21 @@ abstract class FormulaCommand extends Command
     }
 
     /**
-     * Returns formula instance for current command.
+     * Returns vault of instructions for current command type.
      */
     protected function getFormula(ChainVault $vault): Chain
     {
         return $vault->get($this->type);
     }
 
+    /**
+     * Returns command action title.
+     */
     abstract protected function title(): string;
 
+    /**
+     * Ask user to show errors.
+     */
     private function askToShowErrors(array $exceptions, ExceptionHandler $exceptionHandler): void
     {
         if (! empty($exceptions) && $this->components->confirm('Show errors?')) {
@@ -129,5 +128,23 @@ abstract class FormulaCommand extends Command
                 $this->output->newLine();
             }
         }
+    }
+
+    /**
+     * Load custom build instructions.
+     */
+    private function loadInstructions(): bool
+    {
+        $autoInstruction = true;
+
+        if ($customBuildExists = file_exists($build = base_path('routes/build.php'))) {
+            $autoInstruction = false;
+
+            require $build;
+        } else {
+            require __DIR__.'/../../build.php';
+        }
+
+        return $autoInstruction;
     }
 }

@@ -10,22 +10,28 @@ use Throwable;
 
 abstract class Action
 {
+    /** Exception thrown during an action */
     protected ?Throwable $exception = null;
 
+    /** Label for the action */
     public static string $label;
 
+    /** Color for the action label */
     protected string $color = 'white';
 
-    protected string $description;
-
+    /** Whether the action was terminated */
     protected bool $terminated = false;
 
+    /** Whether the action was successful */
     protected bool $successful = false;
 
+    /** Whether the action should be silent */
     protected bool $silent = false;
 
+    /** Current command environment output interface */
     protected OutputInterface $output;
 
+    /** Perform the action */
     public function __invoke(Factory $outputComponents, int $labelWidth): bool
     {
         $callback = function (): bool {
@@ -58,21 +64,25 @@ abstract class Action
         return $this->failed();
     }
 
+    /** Determines whether the action has failed */
     public function failed(): bool
     {
         return ! $this->successful;
     }
 
+    /** Determines whether the action has been terminated */
     public function terminated(): bool
     {
         return $this->terminated;
     }
 
+    /** Get exception thrown during performing */
     public function getException(): ?Throwable
     {
         return $this->exception;
     }
 
+    /** Set the output interface */
     public function withOutput(OutputInterface $output): static
     {
         $this->output = $output;
@@ -80,6 +90,7 @@ abstract class Action
         return $this;
     }
 
+    /** Returns spaces string required to format label width */
     private function spaces(string $title, int $width): string
     {
         if ($width === 0) {
@@ -89,6 +100,7 @@ abstract class Action
         return str_repeat(' ', $width - strlen($title));
     }
 
+    /** Returns formatted action title */
     public function title(int $width = 0): string
     {
         $name = $this->name();
@@ -105,15 +117,19 @@ abstract class Action
         return $title;
     }
 
+    /** Returns action name */
     abstract public function name(): string;
 
+    /** Returns action description */
     protected function description(): string
     {
         return '';
     }
 
+    /** Run action specific needs */
     abstract public function run(): bool;
 
+    /** Determines whether action is silent */
     public function isSilent(): bool
     {
         return $this->silent;

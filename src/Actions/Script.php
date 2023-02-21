@@ -12,8 +12,10 @@ class Script extends Action
 {
     use ReflectsClosures;
 
+    /** Label for script with chain of actions */
     public static string $label = 'script';
 
+    /** Show script with chain of actions label in orange color */
     protected string $color = '#f97316';
 
     public function __construct(
@@ -26,11 +28,13 @@ class Script extends Action
         $this->container->call($this->callback, ['run' => $this->run, ...$this->arguments]);
     }
 
+    /** Get name of custom script */
     public function name(): string
     {
         return $this->name;
     }
 
+    /** Handle custom script with chain of actions */
     public function __invoke(Factory $outputComponents, int $labelWidth = 0): bool
     {
         $callback = fn (): bool => $this->successful = $this->run($labelWidth);
@@ -58,6 +62,7 @@ class Script extends Action
         return $this->failed();
     }
 
+    /** Run custom script with chain of actions */
     public function run(int $labelWidth = 0): bool
     {
         $this->run->internal->breakOnTerminate()->start($labelWidth);
@@ -69,6 +74,7 @@ class Script extends Action
         return ! $this->run->internal->doneWithFailures();
     }
 
+    /** Write dots divider line to the output */
     private function writeDotsLine(int $offset = 0): void
     {
         $width = min(terminal()->width(), 150);

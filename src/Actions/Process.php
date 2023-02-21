@@ -8,8 +8,10 @@ use RuntimeException;
 
 class Process extends Action
 {
+    /** Label for custom process */
     public static string $label = 'exec';
 
+    /** Show custom process label in blue color */
     protected string $color = 'blue';
 
     public function __construct(
@@ -18,6 +20,7 @@ class Process extends Action
     ) {
     }
 
+    /** Get custom process name */
     public function name(): string
     {
         $argumentsString = implode(' ', $this->parameters);
@@ -25,6 +28,7 @@ class Process extends Action
         return "$this->command".($argumentsString !== '' ? ' '.$argumentsString : '');
     }
 
+    /** Handle custom process */
     public function run(): bool
     {
         $result = $this->runProcess();
@@ -36,6 +40,7 @@ class Process extends Action
         throw new RuntimeException(trim($result->errorOutput()), $result->exitCode());
     }
 
+    /** Run custom process */
     private function runProcess(): ProcessResult
     {
         if ($this->parameters === []) {
@@ -45,6 +50,7 @@ class Process extends Action
         return ProcessFacade::forever()->run(array_merge([$this->command], $this->parameters));
     }
 
+    /** Get custom process command name */
     public function getCommand(): string
     {
         return $this->command;
