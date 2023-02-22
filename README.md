@@ -46,7 +46,7 @@ Define everything required to update application in one place.
 
 **Laravel Formula** gives you the ability to declare these processes and run it by simple `app:install` and `app:update` artisan commands, which run predefined actions chain depending on the current environment.
 
-> Put knowledge of the setup instructions at the application level
+> 🧠🚀 Put knowledge of the setup instructions at the application level
 
 ## Installation
 
@@ -58,21 +58,19 @@ composer require qruto/laravel-formula
 
 ## Usage
 
-When you just fetch a fresh application, run:
+When you just fetch a fresh application:
 
 ```bash
 php artisan install
 ```
 
-For refresh application state run:
+For refresh application state:
 
 ```bash
 php artisan update
 ```
 
-ℹ️ Instruction depends on current application environment.
-
-It will run chain of predefined actions suitable for most cases.
+ℹ️ Instruction depends on current application environment. It will run chain of predefined actions suitable for most cases.
 
 To customize Formula instructions for each environment, you need to publish config files.
 
@@ -116,7 +114,7 @@ App::update('production', fn (Run $run) => $run
 ```
 
 There you can find instructions for `local` and `production` environments.
-Feel free to add your specific environment like `staging` or else.
+Feel free to change it any way you need or add your specific environment like `staging`.
 
 `build` script contains assets building commands:
 
