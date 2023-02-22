@@ -20,8 +20,8 @@
 
 ## Introduction
 
-Bring application to live by one command.
-It will run chain of required commands to install or update the application.
+Formula allows you to bring Laravel application to live by one command.
+Use default or define custom chain of actions required to **install** or **update** application.
 
 Replace ~~**installation**~~ section in readme file with:
 
@@ -42,15 +42,11 @@ php artisan update
 
 it will take care of the rest of the work.
 
-Define everything required to update application in one place.
-
-**Laravel Formula** gives you the ability to declare these processes and run it by simple `app:install` and `app:update` artisan commands, which run predefined actions chain depending on the current environment.
-
 > 🧠🚀 Put knowledge of the setup instructions at the application level
 
 ## Installation
 
-Via Composer
+Via Composer:
 
 ``` bash
 composer require qruto/laravel-formula
@@ -70,15 +66,23 @@ For refresh application state:
 php artisan update
 ```
 
-ℹ️ Instruction depends on current application environment. It will run chain of predefined actions suitable for most cases.
+ℹ️ Instruction depends on current application environment. Package has predefined actions suitable for most cases.
 
-To customize Formula instructions for each environment, you need to publish config files.
+See detailed output in verbosity mode:
 
 ```bash
-php artisan vendor:publish --tag=formulas
+php artisan app:update -v
 ```
 
-Open `routes/build.php` file.
+## Configuration
+
+To customize Formula instructions for each environment, you need to publish setup files.
+
+```bash
+php artisan formula:setup
+```
+
+This command will create `routes/setup.php` file with predefined instructions for `local` and `production` environments.
 
 ```php
 use Qruto\Formula\Run;
@@ -113,8 +117,10 @@ App::update('production', fn (Run $run) => $run
 );
 ```
 
-There you can find instructions for `local` and `production` environments.
 Feel free to change it any way you need or add your specific environment like `staging`.
+
+<details>
+<summary>`build` and `cache` scripts details</summary>
 
 `build` script contains assets building commands:
 
@@ -130,11 +136,43 @@ php artisan route:cache
 php artisan config:cache
 php artisan event:cache
 ```
+</details>
 
-See detailed output in verbosity mode:
+Configure assets publishing in `config/formula.php`.
+
+```php
+return [
+    /*
+    |--------------------------------------------------------------------------
+    | Force Assets Publish
+    |--------------------------------------------------------------------------
+    |
+    | Force publish assets on every installation or update. By default, assets
+    | will always be force published, which would completely automate the
+    | setup. Switch it to false if you want to manually publish assets.
+    | For example if you prefer to commit them.
+    */
+    'force_publish' => true,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Publishable Assets
+    |--------------------------------------------------------------------------
+    |
+    | List of assets that will be published during installation or update.
+    | Most of required assets detects on the way. If you need specific
+    | tag or provider, feel free to add it to the array.
+    */
+    'assets' => [
+        'laravel-assets',
+    ],
+];
+```
+
+If you need to customize just assets publishing, you can publish only configuration file:
 
 ```bash
-php artisan app:update -v
+php artisan vendor:publish --tag=formula-config
 ```
 
 ### Custom Scripts
@@ -148,20 +186,17 @@ Run::newScript('some', fn (Run $run) => $run
 );
 ```
 
-### Runner API (available actions to run)
+### Available Actions
 
 ```php
 $run
-    ->command('command', ['argument' => 'argument_value', '-param' => 'param_value', '--option' => 'option_value', ...]) // Artisan command
-    ->exec('command', 'argument', '-param', 'param_value', '--option=option_value', ...) // Any external command by arguments
-    ->exec('command argument -param param_value --option=option_value') // Any external command by string
-    ->call(function ($arg) {}, $arg) // Callable function (like for call_user_func)
-    ->job(new JobClass) // Dispatch job task
-    ->script('build') // Run custom script
-    ->notification('Some message') // Send notification to Slack
+    ->command('command') // Run artisan command
+    ->script('build') // Perform custom script
+    ->exec('process') // Execute external process
+    ->job(new JobClass) // Dispatch job
+    ->call(fn () => makeSomething()) // Call callable function 
+    ->notify('Done!') // Send notification
 ```
-
-### Package Actions
 
 ## Useful jobs
 
@@ -180,17 +215,18 @@ $run
 This job will add
 
 ```txt
-* * * * * cd /path-to-your-project && php artisan schedule:run >> /dev/null 2>&1
+* * * * * cd /app-path && php artisan schedule:run >> /dev/null 2>&1
 ```
 
 to crontab list.
 
-## Installation by one command
+## Combine With Composer Scripts
 
-For running `php artisan app:install` command, you should install composer dependencies at first.
-It would be nice to have the ability to install an application by one command. We provide nice hack to implement this behavior.
-
-Add `update` command to your application `composer.json` script section:
+Updating the application is required after any dependencies change.
+To automate this process add `update` command to your application
+`composer.json` script `post-autoload-dump` section and remove
+default `vendor:publish` command from `post-update-cmd` section.
+Update command will take care of assets publishing.
 
 ```diff
 "post-autoload-dump": [

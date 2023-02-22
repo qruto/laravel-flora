@@ -28,10 +28,6 @@ class Assets
             return true;
         }
 
-        if ($this->publishOnInstallDisabled($type)) {
-            return true;
-        }
-
         foreach (resolve('formula.packages') as $package) {
             if ($package->exists() && $tag = $package->instruction()->assetsTag) {
                 $assets[] = $tag;
@@ -86,11 +82,6 @@ class Assets
         $this->makePublishCallback($assets)();
     }
 
-    private function publishOnInstallDisabled(FormulaType $type): bool
-    {
-        return $type === FormulaType::Install && ! $this->config['formula.always_publish'];
-    }
-
     private function assetsString(array $assets): string
     {
         $assetsString = '';
@@ -112,6 +103,7 @@ class Assets
     {
         $tags = [];
         $publishCallbacks = [];
+        $forced = $this->config['formula.force_publish'];
 
         foreach ($assets as $key => $value) {
             $parameters = ['--provider' => '', '--tag' => []];
@@ -127,12 +119,12 @@ class Assets
             }
 
             if (! empty($parameters['--provider'])) {
-                $publishCallbacks[] = fn () => $this->artisan->call('vendor:publish', $parameters + ['--force' => true, '--no-interaction' => true]) === 0;
+                $publishCallbacks[] = fn () => $this->artisan->call('vendor:publish', $parameters + ['--force' => $forced, '--no-interaction' => true]) === 0;
             }
         }
 
         if ($tags !== []) {
-            $publishCallbacks[] = fn () => $this->artisan->call('vendor:publish', ['--tag' => $tags, '--force' => true]) === 0;
+            $publishCallbacks[] = fn () => $this->artisan->call('vendor:publish', ['--tag' => $tags, '--force' => $forced, '--no-interaction' => true]) === 0;
         }
 
         return fn () => collect($publishCallbacks)
