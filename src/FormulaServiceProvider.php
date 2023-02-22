@@ -4,7 +4,7 @@ namespace Qruto\Formula;
 
 use Illuminate\Foundation\Application;
 use Qruto\Formula\Console\Commands\InstallCommand;
-use Qruto\Formula\Console\Commands\PublishCommand;
+use Qruto\Formula\Console\Commands\SetupCommand;
 use Qruto\Formula\Console\Commands\UpdateCommand;
 use Qruto\Formula\Contracts\Chain as ChainContract;
 use Qruto\Formula\Contracts\ChainVault as ChainVaultContract;
@@ -25,7 +25,7 @@ class FormulaServiceProvider extends PackageServiceProvider
             ->hasCommands(
                 InstallCommand::class,
                 UpdateCommand::class,
-                PublishCommand::class
+                SetupCommand::class
             );
     }
 

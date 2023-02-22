@@ -143,12 +143,12 @@ abstract class FormulaCommand extends Command
     {
         $autoInstruction = true;
 
-        if ($customBuildExists = file_exists($build = base_path('routes/build.php'))) {
+        if ($customBuildExists = file_exists($build = base_path('routes/setup.php'))) {
             $autoInstruction = false;
 
             require $build;
         } else {
-            require __DIR__.'/../../build.php';
+            require __DIR__.'/../../setup.php';
         }
 
         return $autoInstruction;

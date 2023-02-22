@@ -11,7 +11,7 @@ uses(PackageDiscover::class);
 beforeEach(function () {
     app()->bind(WorkCommand::class, fn () => new stdClass());
 
-    require __DIR__.'/../../src/build.php';
+    require __DIR__.'/../../src/setup.php';
 });
 
 it('can discover horizon', function () {

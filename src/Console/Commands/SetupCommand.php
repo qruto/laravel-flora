@@ -13,37 +13,26 @@ use Qruto\Formula\Enums\Environment;
 use Qruto\Formula\Enums\FormulaType;
 use Qruto\Formula\Run;
 
-class PublishCommand extends Command
+class SetupCommand extends Command
 {
     use PackageDiscover;
 
-    public $signature = 'formula:publish';
+    public $signature = 'formula:setup {--force : Overwrite existing build instructions}';
 
     public $description = 'Publish setup instructions.';
 
     public function handle(Container $container, ChainVault $vault): int
     {
-        require __DIR__.'/../../build.php';
+        $forced = $this->option('force');
+        $setupFilePath = base_path('routes/setup.php');
 
-        $code = Str::before(file_get_contents(__DIR__.'/../../build.php'), 'App::install');
-
-        $run = $this->makeRunner($container);
-
-        foreach (FormulaType::cases() as $type) {
-            foreach (Environment::cases() as $env) {
-                $vault->get($type)->get($env->value)($run);
-
-                $this->discoverPackages($type, $env->value, $run);
-
-                $code .= $this->generateFormulaCode($type, $env, $run).PHP_EOL.PHP_EOL;
-
-                $run = $this->makeRunner($container);
-            }
+        if (file_exists($setupFilePath) && ! $forced) {
+            $this->components->warn('Setup instructions already exist. Use <fg=cyan>--force</> to overwrite.');
+        } else {
+            $this->publishSetupInstructions($container, $vault, $setupFilePath);
         }
 
-        file_put_contents(base_path('routes/build.php'), Str::beforeLast($code, PHP_EOL));
-
-        $this->components->info('Initialization instructions published to [routes/build.php]');
+        $this->call('vendor:publish', ['--tag' => 'formula-config', '--force' => $forced]);
 
         return self::SUCCESS;
     }
@@ -56,7 +45,7 @@ class PublishCommand extends Command
         ]);
     }
 
-    protected function generateFormulaCode(
+    protected function generateSetupCode(
         FormulaType $type,
         Environment $environment,
         Run $run
@@ -86,5 +75,30 @@ class PublishCommand extends Command
         }
 
         return $code.');';
+    }
+
+    private function publishSetupInstructions(Container $container, ChainVault $vault, string $setupFilePath): void
+    {
+        require __DIR__.'/../../setup.php';
+
+        $code = Str::before(file_get_contents(__DIR__.'/../../setup.php'), 'App::install');
+
+        $run = $this->makeRunner($container);
+
+        foreach (FormulaType::cases() as $type) {
+            foreach (Environment::cases() as $env) {
+                $vault->get($type)->get($env->value)($run);
+
+                $this->discoverPackages($type, $env->value, $run);
+
+                $code .= $this->generateSetupCode($type, $env, $run).PHP_EOL.PHP_EOL;
+
+                $run = $this->makeRunner($container);
+            }
+        }
+
+        file_put_contents($setupFilePath, Str::beforeLast($code, PHP_EOL));
+
+        $this->components->info('Setup instructions published to [routes/setup.php]');
     }
 }

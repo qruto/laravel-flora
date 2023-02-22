@@ -4,7 +4,7 @@ use Qruto\Formula\Enums\Environment;
 use Qruto\Formula\Enums\FormulaType;
 
 beforeEach(function () {
-    require __DIR__.'/../src/build.php';
+    require __DIR__.'/../src/setup.php';
 });
 
 test('update production instruction', function () {
