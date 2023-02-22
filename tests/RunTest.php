@@ -1,7 +1,7 @@
 <?php
 
-use Qruto\Formula\Actions\ActionTerminatedException;
-use Qruto\Formula\Actions\Callback;
+use Qruto\Power\Actions\ActionTerminatedException;
+use Qruto\Power\Actions\Callback;
 use Symfony\Component\Console\Output\BufferedOutput;
 
 test('run latest action', function () {

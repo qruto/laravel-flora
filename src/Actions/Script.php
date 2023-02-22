@@ -1,11 +1,11 @@
 <?php
 
-namespace Qruto\Formula\Actions;
+namespace Qruto\Power\Actions;
 
 use Illuminate\Console\View\Components\Factory;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Traits\ReflectsClosures;
-use Qruto\Formula\Run;
+use Qruto\Power\Run;
 use function Termwind\terminal;
 
 class Script extends Action

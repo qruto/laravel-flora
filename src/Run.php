@@ -1,14 +1,14 @@
 <?php
 
-namespace Qruto\Formula;
+namespace Qruto\Power;
 
 use Illuminate\Console\Application;
-use Qruto\Formula\Actions\Artisan;
-use Qruto\Formula\Actions\Callback;
-use Qruto\Formula\Actions\Job;
-use Qruto\Formula\Actions\Notification;
-use Qruto\Formula\Actions\Process;
-use Qruto\Formula\Actions\Script;
+use Qruto\Power\Actions\Artisan;
+use Qruto\Power\Actions\Callback;
+use Qruto\Power\Actions\Job;
+use Qruto\Power\Actions\Notification;
+use Qruto\Power\Actions\Process;
+use Qruto\Power\Actions\Script;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Run

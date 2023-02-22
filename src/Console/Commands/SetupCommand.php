@@ -1,23 +1,23 @@
 <?php
 
-namespace Qruto\Formula\Console\Commands;
+namespace Qruto\Power\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Str;
-use Qruto\Formula\Actions\Artisan;
-use Qruto\Formula\Actions\Process;
-use Qruto\Formula\Actions\Script;
-use Qruto\Formula\Contracts\ChainVault;
-use Qruto\Formula\Enums\Environment;
-use Qruto\Formula\Enums\FormulaType;
-use Qruto\Formula\Run;
+use Qruto\Power\Actions\Artisan;
+use Qruto\Power\Actions\Process;
+use Qruto\Power\Actions\Script;
+use Qruto\Power\Contracts\ChainVault;
+use Qruto\Power\Enums\Environment;
+use Qruto\Power\Enums\PowerType;
+use Qruto\Power\Run;
 
 class SetupCommand extends Command
 {
     use PackageDiscover;
 
-    public $signature = 'formula:setup {--force : Overwrite existing build instructions}';
+    public $signature = 'power:setup {--force : Overwrite existing build instructions}';
 
     public $description = 'Publish setup instructions.';
 
@@ -32,7 +32,7 @@ class SetupCommand extends Command
             $this->publishSetupInstructions($container, $vault, $setupFilePath);
         }
 
-        $this->call('vendor:publish', ['--tag' => 'formula-config', '--force' => $forced]);
+        $this->call('vendor:publish', ['--tag' => 'power-config', '--force' => $forced]);
 
         return self::SUCCESS;
     }
@@ -46,7 +46,7 @@ class SetupCommand extends Command
     }
 
     protected function generateSetupCode(
-        FormulaType $type,
+        PowerType $type,
         Environment $environment,
         Run $run
     ): string {
@@ -85,7 +85,7 @@ class SetupCommand extends Command
 
         $run = $this->makeRunner($container);
 
-        foreach (FormulaType::cases() as $type) {
+        foreach (PowerType::cases() as $type) {
             foreach (Environment::cases() as $env) {
                 $vault->get($type)->get($env->value)($run);
 

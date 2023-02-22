@@ -1,9 +1,9 @@
 {
-    "name": "qruto/laravel-formula",
+    "name": "qruto/laravel-power",
     "description": "A convenient way to setup your application",
     "keywords": [
         "qruto",
-        "laravel-formula",
+        "laravel-power",
         "install",
         "update",
         "deploy",
@@ -16,7 +16,7 @@
         "job",
         "tasks"
     ],
-    "homepage": "https://github.com/qruto/laravel-formula",
+    "homepage": "https://github.com/qruto/laravel-power",
     "license": "MIT",
     "authors": [
         {
@@ -55,12 +55,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Qruto\\Formula\\": "src"
+            "Qruto\\Power\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Qruto\\Formula\\Tests\\": "tests"
+            "Qruto\\Power\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -93,7 +93,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Qruto\\Formula\\FormulaServiceProvider"
+                "Qruto\\Power\\PowerServiceProvider"
             ]
         }
     },

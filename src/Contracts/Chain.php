@@ -1,6 +1,6 @@
 <?php
 
-namespace Qruto\Formula\Contracts;
+namespace Qruto\Power\Contracts;
 
 interface Chain
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Qruto\Formula\Discovers;
+namespace Qruto\Power\Discovers;
 
 use Illuminate\Container\Container;
 

@@ -1,10 +1,10 @@
 <?php
 
 use Laravel\VaporUi\Console\PublishCommand;
-use Qruto\Formula\Console\Commands\PackageDiscover;
-use Qruto\Formula\Discovers\VaporUiDiscover;
-use Qruto\Formula\Enums\Environment;
-use Qruto\Formula\Enums\FormulaType;
+use Qruto\Power\Console\Commands\PackageDiscover;
+use Qruto\Power\Discovers\VaporUiDiscover;
+use Qruto\Power\Enums\Environment;
+use Qruto\Power\Enums\PowerType;
 
 uses(PackageDiscover::class);
 
@@ -19,10 +19,10 @@ it('can discover vapor ui', function () {
 it('no actions defined for any environment', function () {
     $run = makeRunner();
 
-    $this->discoverPackages(FormulaType::Install, Environment::Local->value, $run);
-    $this->discoverPackages(FormulaType::Install, Environment::Production->value, $run);
-    $this->discoverPackages(FormulaType::Update, Environment::Local->value, $run);
-    $this->discoverPackages(FormulaType::Update, Environment::Production->value, $run);
+    $this->discoverPackages(PowerType::Install, Environment::Local->value, $run);
+    $this->discoverPackages(PowerType::Install, Environment::Production->value, $run);
+    $this->discoverPackages(PowerType::Update, Environment::Local->value, $run);
+    $this->discoverPackages(PowerType::Update, Environment::Production->value, $run);
 
     $this->assertCount(0, $run->internal->getCollection());
 });
@@ -30,7 +30,7 @@ it('no actions defined for any environment', function () {
 it('defines publishable asset', function () {
     $assets = [];
 
-    foreach ($this->app['formula.packages'] as $package) {
+    foreach ($this->app['power.packages'] as $package) {
         if ($package->exists() && $tag = $package->instruction()->assetsTag) {
             $assets[] = $tag;
         }

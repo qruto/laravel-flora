@@ -1,12 +1,12 @@
 <?php
 
-namespace Qruto\Formula\Console\Commands;
+namespace Qruto\Power\Console\Commands;
 
-use Qruto\Formula\Enums\FormulaType;
+use Qruto\Power\Enums\PowerType;
 
-class InstallCommand extends FormulaCommand
+class InstallCommand extends PowerCommand
 {
-    protected FormulaType $type = FormulaType::Install;
+    protected PowerType $type = PowerType::Install;
 
     /**
      * The name and signature of the console command.

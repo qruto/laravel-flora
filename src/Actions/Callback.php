@@ -1,6 +1,6 @@
 <?php
 
-namespace Qruto\Formula\Actions;
+namespace Qruto\Power\Actions;
 
 use Illuminate\Contracts\Container\Container;
 

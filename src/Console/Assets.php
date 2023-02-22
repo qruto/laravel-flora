@@ -1,6 +1,6 @@
 <?php
 
-namespace Qruto\Formula\Console;
+namespace Qruto\Power\Console;
 
 use Closure;
 use Illuminate\Console\View\Components\Factory;
@@ -8,8 +8,8 @@ use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Events\VendorTagPublished;
-use Qruto\Formula\AssetPublishException;
-use Qruto\Formula\Enums\FormulaType;
+use Qruto\Power\AssetPublishException;
+use Qruto\Power\Enums\PowerType;
 use function throw_if;
 
 class Assets
@@ -20,15 +20,15 @@ class Assets
     {
     }
 
-    public function publish(FormulaType $type, Factory $components, bool $verbose = false): bool
+    public function publish(PowerType $type, Factory $components, bool $verbose = false): bool
     {
-        $assets = $this->config['formula.assets'];
+        $assets = $this->config['power.assets'];
 
         if ($assets === []) {
             return true;
         }
 
-        foreach (resolve('formula.packages') as $package) {
+        foreach (resolve('power.packages') as $package) {
             if ($package->exists() && $tag = $package->instruction()->assetsTag) {
                 $assets[] = $tag;
             }
@@ -103,7 +103,7 @@ class Assets
     {
         $tags = [];
         $publishCallbacks = [];
-        $forced = $this->config['formula.force_publish'];
+        $forced = $this->config['power.force_publish'];
 
         foreach ($assets as $key => $value) {
             $parameters = ['--provider' => '', '--tag' => []];

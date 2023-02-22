@@ -1,8 +1,8 @@
 <?php
 
-namespace Qruto\Formula\Enums;
+namespace Qruto\Power\Enums;
 
-enum FormulaType: string
+enum PowerType: string
 {
     case Install = 'install';
     case Update = 'update';

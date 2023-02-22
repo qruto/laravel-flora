@@ -1,27 +1,27 @@
 <?php
 
-namespace Qruto\Formula\Console\Commands;
+namespace Qruto\Power\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Debug\ExceptionHandler;
-use Qruto\Formula\Actions\ActionTerminatedException;
-use Qruto\Formula\AssetsVersion;
-use Qruto\Formula\Console\Assets;
-use Qruto\Formula\Contracts\Chain;
-use Qruto\Formula\Contracts\ChainVault;
-use Qruto\Formula\Enums\FormulaType;
-use Qruto\Formula\Run;
-use Qruto\Formula\UndefinedScriptException;
+use Qruto\Power\Actions\ActionTerminatedException;
+use Qruto\Power\AssetsVersion;
+use Qruto\Power\Console\Assets;
+use Qruto\Power\Contracts\Chain;
+use Qruto\Power\Contracts\ChainVault;
+use Qruto\Power\Enums\PowerType;
+use Qruto\Power\Run;
+use Qruto\Power\UndefinedScriptException;
 
-abstract class FormulaCommand extends Command
+abstract class PowerCommand extends Command
 {
     use PackageDiscover;
 
     /**
      * The type of build.
      */
-    protected FormulaType $type;
+    protected PowerType $type;
 
     /**
      * Execute the action.
@@ -34,7 +34,7 @@ abstract class FormulaCommand extends Command
     ): int {
         $autoInstruction = $this->loadInstructions();
 
-        $formula = $this->getFormula($vault);
+        $power = $this->getPower($vault);
 
         $env = $this->getLaravel()->environment();
 
@@ -55,7 +55,7 @@ abstract class FormulaCommand extends Command
         });
 
         try {
-            $container->call($formula->get($env), ['run' => $run]);
+            $container->call($power->get($env), ['run' => $run]);
         } catch (UndefinedScriptException $e) {
             $this->components->error($e->getMessage());
 
@@ -102,7 +102,7 @@ abstract class FormulaCommand extends Command
     /**
      * Returns vault of instructions for current command type.
      */
-    protected function getFormula(ChainVault $vault): Chain
+    protected function getPower(ChainVault $vault): Chain
     {
         return $vault->get($this->type);
     }

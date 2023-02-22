@@ -1,10 +1,10 @@
 <?php
 
-namespace Qruto\Formula\Contracts;
+namespace Qruto\Power\Contracts;
 
-use Qruto\Formula\Enums\FormulaType;
+use Qruto\Power\Enums\PowerType;
 
 interface ChainVault
 {
-    public function get(FormulaType $type): Chain;
+    public function get(PowerType $type): Chain;
 }

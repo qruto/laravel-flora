@@ -4,7 +4,7 @@
 
 namespace Illuminate\Support\Facades
 {
-    use Qruto\Formula\Run;
+    use Qruto\Power\Run;
 
     class App
     {

@@ -1,10 +1,10 @@
 <?php
 
-namespace Qruto\Formula\Discovers;
+namespace Qruto\Power\Discovers;
 
 use Closure;
-use Qruto\Formula\Enums\Environment;
-use Qruto\Formula\Enums\FormulaType;
+use Qruto\Power\Enums\Environment;
+use Qruto\Power\Enums\PowerType;
 
 class Instruction
 {
@@ -15,7 +15,7 @@ class Instruction
     ) {
     }
 
-    public function get(FormulaType $type, ?Environment $environment = null): Closure
+    public function get(PowerType $type, ?Environment $environment = null): Closure
     {
         if (is_null($environment)) {
             $environment = Environment::Production;

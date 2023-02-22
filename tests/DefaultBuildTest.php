@@ -1,7 +1,7 @@
 <?php
 
-use Qruto\Formula\Enums\Environment;
-use Qruto\Formula\Enums\FormulaType;
+use Qruto\Power\Enums\Environment;
+use Qruto\Power\Enums\PowerType;
 
 beforeEach(function () {
     require __DIR__.'/../src/setup.php';
@@ -16,7 +16,7 @@ test('update production instruction', function () {
             'queue:restart',
             'build',
         ],
-        actionNamesForEnvironment(FormulaType::Update, Environment::Production)
+        actionNamesForEnvironment(PowerType::Update, Environment::Production)
     );
 });
 
@@ -27,7 +27,7 @@ test('update local instruction', function () {
             'cache:clear',
             'build',
         ],
-        actionNamesForEnvironment(FormulaType::Update, Environment::Local)
+        actionNamesForEnvironment(PowerType::Update, Environment::Local)
     );
 });
 
@@ -40,7 +40,7 @@ test('install production instruction', function () {
             'cache',
             'build',
         ],
-        actionNamesForEnvironment(FormulaType::Install, Environment::Production)
+        actionNamesForEnvironment(PowerType::Install, Environment::Production)
     );
 });
 
@@ -52,6 +52,6 @@ test('install local instruction', function () {
             'storage:link',
             'build',
         ],
-        actionNamesForEnvironment(FormulaType::Install, Environment::Local)
+        actionNamesForEnvironment(PowerType::Install, Environment::Local)
     );
 });

@@ -1,26 +1,26 @@
 <?php
 
-namespace Qruto\Formula;
+namespace Qruto\Power;
 
 use Illuminate\Foundation\Application;
-use Qruto\Formula\Console\Commands\InstallCommand;
-use Qruto\Formula\Console\Commands\SetupCommand;
-use Qruto\Formula\Console\Commands\UpdateCommand;
-use Qruto\Formula\Contracts\Chain as ChainContract;
-use Qruto\Formula\Contracts\ChainVault as ChainVaultContract;
-use Qruto\Formula\Discovers\HorizonDiscover;
-use Qruto\Formula\Discovers\IdeHelperDiscover;
-use Qruto\Formula\Discovers\VaporUiDiscover;
-use Qruto\Formula\Enums\FormulaType;
+use Qruto\Power\Console\Commands\InstallCommand;
+use Qruto\Power\Console\Commands\SetupCommand;
+use Qruto\Power\Console\Commands\UpdateCommand;
+use Qruto\Power\Contracts\Chain as ChainContract;
+use Qruto\Power\Contracts\ChainVault as ChainVaultContract;
+use Qruto\Power\Discovers\HorizonDiscover;
+use Qruto\Power\Discovers\IdeHelperDiscover;
+use Qruto\Power\Discovers\VaporUiDiscover;
+use Qruto\Power\Enums\PowerType;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class FormulaServiceProvider extends PackageServiceProvider
+class PowerServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
         $package
-            ->name('formula')
+            ->name('power')
             ->hasConfigFile()
             ->hasCommands(
                 InstallCommand::class,
@@ -39,12 +39,12 @@ class FormulaServiceProvider extends PackageServiceProvider
         //TODO: refactor
         Application::macro(
             'install',
-            fn (string $environment, callable $callback) => $vault->get(FormulaType::Install)->set($environment, $callback)
+            fn (string $environment, callable $callback) => $vault->get(PowerType::Install)->set($environment, $callback)
         );
 
         Application::macro(
             'update',
-            fn (string $environment, callable $callback) => $vault->get(FormulaType::Update)->set($environment, $callback)
+            fn (string $environment, callable $callback) => $vault->get(PowerType::Update)->set($environment, $callback)
         );
 
         Run::newScript('build', fn (Run $run) => $run
@@ -67,7 +67,7 @@ class FormulaServiceProvider extends PackageServiceProvider
         $this->app->bind(ChainContract::class, Chain::class);
         $this->app->singleton(ChainVaultContract::class, ChainVault::class);
 
-        $this->app->singleton('formula.packages', fn () => [
+        $this->app->singleton('power.packages', fn () => [
             new VaporUiDiscover(),
             new HorizonDiscover(),
             new IdeHelperDiscover(),

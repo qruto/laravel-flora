@@ -1,6 +1,6 @@
 <?php
 
-namespace Qruto\Formula\Tests\TestFixtures;
+namespace Qruto\Power\Tests\TestFixtures;
 
 use Illuminate\Support\ServiceProvider;
 

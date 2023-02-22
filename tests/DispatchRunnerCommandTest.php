@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Bus;
-use Qruto\Formula\Run;
-use Qruto\Formula\Tests\TestFixtures\TestJob;
+use Qruto\Power\Run;
+use Qruto\Power\Tests\TestFixtures\TestJob;
 
 beforeEach(fn () => Bus::fake());
 

@@ -1,26 +1,26 @@
 <p align="center">
     <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="https://github.com/qruto/laravel-formula/raw/HEAD/art/logo-dark.svg">
-        <source media="(prefers-color-scheme: light)" srcset="https://github.com/qruto/laravel-formula/raw/HEAD/art/logo-light.svg">
-        <img alt="Laravel Wave Logo" src="https://github.com/qruto/laravel-formula/raw/HEAD/art/logo-light.svg">
+        <source media="(prefers-color-scheme: dark)" srcset="https://github.com/qruto/laravel-power/raw/HEAD/art/logo-dark.svg">
+        <source media="(prefers-color-scheme: light)" srcset="https://github.com/qruto/laravel-power/raw/HEAD/art/logo-light.svg">
+        <img alt="Laravel Wave Logo" src="https://github.com/qruto/laravel-power/raw/HEAD/art/logo-light.svg">
     </picture>
 </p>
 <p align="center">A convenient way to automate <strong>setup</strong> of your application.</p>
 <p align="center">
-    <a href="https://github.com/qruto/laravel-formula/actions/workflows/tests.yml"><img src="https://github.com/qruto/laravel-formula/actions/workflows/tests.yml/badge.svg" alt="Build Status"></a>
-    <a href="https://github.com/qruto/laravel-formula/actions/workflows/styles.yml"><img src="https://github.com/qruto/laravel-formula/actions/workflows/styles.yml/badge.svg" alt="Styles check"></a>
-    <a href="https://github.com/qruto/laravel-formula/actions/workflows/types.yml"><img src="https://github.com/qruto/laravel-formula/actions/workflows/types.yml/badge.svg" alt="Types check"></a>
-    <a href="https://github.com/qruto/laravel-formula/actions/workflows/refactor.yml"><img src="https://github.com/qruto/laravel-formula/actions/workflows/refactor.yml/badge.svg" alt="Refactor code"></a>
-    <a href="https://packagist.org/packages/qruto/laravel-formula"><img src="https://img.shields.io/packagist/dt/qruto/laravel-formula" alt="Total Downloads"></a>
-    <a href="https://packagist.org/packages/qruto/laravel-formula"><img src="https://img.shields.io/packagist/v/qruto/laravel-formula" alt="Latest Stable Version"></a>
+    <a href="https://github.com/qruto/laravel-power/actions/workflows/tests.yml"><img src="https://github.com/qruto/laravel-power/actions/workflows/tests.yml/badge.svg" alt="Build Status"></a>
+    <a href="https://github.com/qruto/laravel-power/actions/workflows/styles.yml"><img src="https://github.com/qruto/laravel-power/actions/workflows/styles.yml/badge.svg" alt="Styles check"></a>
+    <a href="https://github.com/qruto/laravel-power/actions/workflows/types.yml"><img src="https://github.com/qruto/laravel-power/actions/workflows/types.yml/badge.svg" alt="Types check"></a>
+    <a href="https://github.com/qruto/laravel-power/actions/workflows/refactor.yml"><img src="https://github.com/qruto/laravel-power/actions/workflows/refactor.yml/badge.svg" alt="Refactor code"></a>
+    <a href="https://packagist.org/packages/qruto/laravel-power"><img src="https://img.shields.io/packagist/dt/qruto/laravel-power" alt="Total Downloads"></a>
+    <a href="https://packagist.org/packages/qruto/laravel-power"><img src="https://img.shields.io/packagist/v/qruto/laravel-power" alt="Latest Stable Version"></a>
 </p>
 <p align="center">
-    <img width="650" alt="Laravel Formula Demo" src="https://github.com/qruto/laravel-formula/raw/HEAD/art/demo.png" />
+    <img width="650" alt="Laravel Power Demo" src="https://github.com/qruto/laravel-power/raw/HEAD/art/demo.png" />
 </p>
 
 ## Introduction
 
-Formula allows you to bring Laravel application to live by one command.
+Power allows you to bring Laravel application to live by one command.
 Use default or define custom chain of actions required to **install** or **update** application.
 
 Replace ~~**installation**~~ section in readme file with:
@@ -49,7 +49,7 @@ it will take care of the rest of the work.
 Via Composer:
 
 ``` bash
-composer require qruto/laravel-formula
+composer require qruto/laravel-power
 ```
 
 ## Usage
@@ -76,16 +76,16 @@ php artisan app:update -v
 
 ## Configuration
 
-To customize Formula instructions for each environment, you need to publish setup files.
+To customize Power instructions for each environment, you need to publish setup files.
 
 ```bash
-php artisan formula:setup
+php artisan power:setup
 ```
 
 This command will create `routes/setup.php` file with predefined instructions for `local` and `production` environments.
 
 ```php
-use Qruto\Formula\Run;
+use Qruto\Power\Run;
 
 App::install('local', fn (Run $run) => $run
     ->command('key:generate')
@@ -139,7 +139,7 @@ php artisan event:cache
 ```
 </details>
 
-Configure assets publishing in `config/formula.php`.
+Configure assets publishing in `config/power.php`.
 
 ```php
 return [
@@ -173,7 +173,7 @@ return [
 If you need to customize just assets publishing, you can publish only configuration file:
 
 ```bash
-php artisan vendor:publish --tag=formula-config
+php artisan vendor:publish --tag=power-config
 ```
 
 ### Custom Scripts
@@ -203,7 +203,7 @@ $run
 
 ## Useful jobs
 
-Laravel formula provides some useful jobs to make setup of your application much easier.
+Laravel power provides some useful jobs to make setup of your application much easier.
 
 ### Create cron task for scheduling tasks
 
@@ -212,7 +212,7 @@ To enable [Laravel Scheduling](https://laravel.com/docs/6.x/scheduling) add disp
 ```php
 $run
     ...
-    ->dispatch(new \MadWeb\Formula\Jobs\MakeCronTask)
+    ->dispatch(new \MadWeb\Power\Jobs\MakeCronTask)
 ```
 
 This job will add

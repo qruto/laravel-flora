@@ -14,7 +14,7 @@
 */
 
 use Illuminate\Support\Facades\App;
-use Qruto\Formula\Run;
+use Qruto\Power\Run;
 
 App::install('local', fn (Run $run) => $run
     ->command('key:generate')

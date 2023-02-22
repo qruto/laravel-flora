@@ -3,11 +3,11 @@
 use Illuminate\Console\Application;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Support\Facades\App;
-use Qruto\Formula\Contracts\ChainVault;
-use Qruto\Formula\Enums\Environment;
-use Qruto\Formula\Enums\FormulaType;
-use Qruto\Formula\Run;
-use Qruto\Formula\Tests\TestCase;
+use Qruto\Power\Contracts\ChainVault;
+use Qruto\Power\Enums\Environment;
+use Qruto\Power\Enums\PowerType;
+use Qruto\Power\Run;
+use Qruto\Power\Tests\TestCase;
 use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -41,7 +41,7 @@ function makeRunner(?OutputInterface $output = null): Run
     return new Run(new Application(app(), app()->make(Dispatcher::class), 'unknown'), $output ?? new BufferedOutput());
 }
 
-function actionNamesForEnvironment(FormulaType $type, Environment $env, ?Run $run = null): array
+function actionNamesForEnvironment(PowerType $type, Environment $env, ?Run $run = null): array
 {
     $run = $run ?? makeRunner();
 

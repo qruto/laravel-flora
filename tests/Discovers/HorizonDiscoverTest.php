@@ -1,10 +1,10 @@
 <?php
 
 use Laravel\Horizon\Console\WorkCommand;
-use Qruto\Formula\Console\Commands\PackageDiscover;
-use Qruto\Formula\Discovers\HorizonDiscover;
-use Qruto\Formula\Enums\Environment;
-use Qruto\Formula\Enums\FormulaType;
+use Qruto\Power\Console\Commands\PackageDiscover;
+use Qruto\Power\Discovers\HorizonDiscover;
+use Qruto\Power\Enums\Environment;
+use Qruto\Power\Enums\PowerType;
 
 uses(PackageDiscover::class);
 
@@ -21,9 +21,9 @@ it('can discover horizon', function () {
 it('can get horizon instruction', function () {
     $run = makeRunner();
 
-    actionNamesForEnvironment(FormulaType::Update, Environment::Production, $run);
+    actionNamesForEnvironment(PowerType::Update, Environment::Production, $run);
 
-    $this->discoverPackages(FormulaType::Update, Environment::Production->value, $run);
+    $this->discoverPackages(PowerType::Update, Environment::Production->value, $run);
 
     $this->assertEquals(
         [
@@ -40,7 +40,7 @@ it('can get horizon instruction', function () {
 it('has no instructions for install process', function () {
     $run = makeRunner();
 
-    $this->discoverPackages(FormulaType::Install, Environment::Production->value, $run);
+    $this->discoverPackages(PowerType::Install, Environment::Production->value, $run);
 
     $this->assertCount(0, $run->internal->getCollection());
 });

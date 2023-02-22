@@ -1,12 +1,12 @@
 <?php
 
-namespace Qruto\Formula\Test;
+namespace Qruto\Power\Test;
 
 use Illuminate\Contracts\Cache\Repository;
-use Qruto\Formula\Run;
-use Qruto\Formula\Tests\TestFixtures\TestServiceProviderMultipleTags;
-use Qruto\Formula\Tests\TestFixtures\TestServiceProviderOne;
-use Qruto\Formula\Tests\TestFixtures\TestServiceProviderTwo;
+use Qruto\Power\Run;
+use Qruto\Power\Tests\TestFixtures\TestServiceProviderMultipleTags;
+use Qruto\Power\Tests\TestFixtures\TestServiceProviderOne;
+use Qruto\Power\Tests\TestFixtures\TestServiceProviderTwo;
 use function unlink;
 
 afterEach(function () {
@@ -23,7 +23,7 @@ afterEach(function () {
 });
 function prepare(array $assets): object
 {
-    config()->set('formula.assets', $assets);
+    config()->set('power.assets', $assets);
 
     return new class(chain(fn (Run $run) => $run->call(fn () => true))->run())
     {

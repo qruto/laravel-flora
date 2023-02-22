@@ -1,6 +1,6 @@
 <?php
 
-namespace Qruto\Formula\Enums;
+namespace Qruto\Power\Enums;
 
 enum Environment: string
 {

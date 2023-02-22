@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Artisan;
-use Qruto\Formula\Run;
+use Qruto\Power\Run;
 use Symfony\Component\Console\Command\Command;
 
 it('successfully command artisan commands', function () {

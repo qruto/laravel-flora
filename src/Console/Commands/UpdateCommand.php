@@ -1,12 +1,12 @@
 <?php
 
-namespace Qruto\Formula\Console\Commands;
+namespace Qruto\Power\Console\Commands;
 
-use Qruto\Formula\Enums\FormulaType;
+use Qruto\Power\Enums\PowerType;
 
-class UpdateCommand extends FormulaCommand
+class UpdateCommand extends PowerCommand
 {
-    protected FormulaType $type = FormulaType::Update;
+    protected PowerType $type = PowerType::Update;
 
     /**
      * The name and signature of the console command.

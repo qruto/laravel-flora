@@ -1,6 +1,6 @@
 <?php
 
-namespace Qruto\Formula;
+namespace Qruto\Power;
 
 use Illuminate\Contracts\Cache\Repository;
 

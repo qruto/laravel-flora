@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Artisan;
-use Qruto\Formula\Run;
-use Qruto\Formula\UndefinedScriptException;
+use Qruto\Power\Run;
+use Qruto\Power\UndefinedScriptException;
 use Symfony\Component\Console\Command\Command;
 
 it('throws exception when no instructions found for current test environment',
