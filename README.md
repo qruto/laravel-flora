@@ -15,7 +15,7 @@
     <a href="https://packagist.org/packages/qruto/laravel-formula"><img src="https://img.shields.io/packagist/v/qruto/laravel-formula" alt="Latest Stable Version"></a>
 </p>
 <p align="center">
-    <img width="600" alt="Laravel Formula Demo" src="https://github.com/qruto/laravel-formula/raw/HEAD/art/demo.png" />
+    <img width="650" alt="Laravel Formula Demo" src="https://github.com/qruto/laravel-formula/raw/HEAD/art/demo.png" />
 </p>
 
 ## Introduction
