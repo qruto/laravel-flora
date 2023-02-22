@@ -201,6 +201,28 @@ $run
     ->notify('Done!') // Send notification
 ```
 
+## Combine With Composer Scripts
+
+Updating the application is required after any dependencies change.
+To automate this process add `update` command to your application
+`composer.json` script `post-autoload-dump` section and remove
+default `vendor:publish` command from `post-update-cmd` section.
+Update command will take care of assets publishing.
+
+```diff
+"post-autoload-dump": [
+    "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump", 
+-     "@php artisan package:discover --ansi"
++     "@php artisan package:discover --ansi",
++     "@php artisan update"
+],
+- "post-update-cmd": [
+-     "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+- ],
+```
+
+Now everything is up-to-date after each dependency change.
+
 ## Useful jobs
 
 Laravel power provides some useful jobs to make setup of your application much easier.
@@ -222,28 +244,6 @@ This job will add
 ```
 
 to crontab list.
-
-## Combine With Composer Scripts
-
-Updating the application is required after any dependencies change.
-To automate this process add `update` command to your application
-`composer.json` script `post-autoload-dump` section and remove
-default `vendor:publish` command from `post-update-cmd` section.
-Update command will take care of assets publishing.
-
-```diff
-"post-autoload-dump": [
-    "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump", 
-+     "@php artisan package:discover --ansi",
-+     "@php artisan update"
--     "@php artisan package:discover --ansi"
-],
-- "post-update-cmd": [
--     "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
-- ],
-```
-
-Now everything is up-to-date after each dependency change.
 
 ## Upgrading
 
