@@ -66,7 +66,7 @@ For refresh application state:
 php artisan update
 ```
 
-ℹ️ Instruction depends on current application environment. Package has predefined actions suitable for most cases.
+ℹ️ Instruction depends on current application **environment**. Package has predefined actions suitable for most cases.
 
 See detailed output in verbosity mode:
 
@@ -117,10 +117,11 @@ App::update('production', fn (Run $run) => $run
 );
 ```
 
-Feel free to change it any way you need or add your specific environment like `staging`.
+Feel free to change it any way you need or add specific environment like `staging`.
 
 <details>
-<summary>`build` and `cache` scripts details</summary>
+
+<summary>`build` and `cache` script details</summary>
 
 `build` script contains assets building commands:
 
@@ -177,12 +178,14 @@ php artisan vendor:publish --tag=formula-config
 
 ### Custom Scripts
 
-Define custom script calling `Run::newScript` in service provider's `boot` method:
+Override or define custom script in service provider's `boot` method:
 
 ```php
-Run::newScript('some', fn (Run $run) => $run
-    ->exec('some command')
-    ->exec('another command')
+Run::newScript('cache', fn (Run $run) => $run
+    ->command('route:cache')
+    ->command('config:cache')
+    ->command('event:cache')
+    ->command('view:cache')
 );
 ```
 
