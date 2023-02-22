@@ -117,16 +117,22 @@ abstract class FormulaCommand extends Command
      */
     private function askToShowErrors(array $exceptions, ExceptionHandler $exceptionHandler): void
     {
-        if (! empty($exceptions) && $this->components->confirm('Show errors?')) {
-            foreach ($exceptions as $exception) {
-                $this->components->twoColumnDetail($exception['title'], '<fg=red;options=bold>FAIL</>');
+        if ($exceptions === []) {
+            return;
+        }
 
-                $exceptionHandler->renderForConsole($this->getOutput(), $exception['e']);
-                $exceptionHandler->report($exception['e']);
+        if (! $this->components->confirm('Show errors?')) {
+            return;
+        }
 
-                $this->output->newLine();
-                $this->output->newLine();
-            }
+        foreach ($exceptions as $exception) {
+            $this->components->twoColumnDetail($exception['title'], '<fg=red;options=bold>FAIL</>');
+
+            $exceptionHandler->renderForConsole($this->getOutput(), $exception['e']);
+            $exceptionHandler->report($exception['e']);
+
+            $this->output->newLine();
+            $this->output->newLine();
         }
     }
 

@@ -3,13 +3,12 @@
 namespace Qruto\Formula\Discovers;
 
 use Illuminate\Container\Container;
-use Laravel\VaporUi\Console\PublishCommand;
 
 class VaporUiDiscover implements PackageDiscover
 {
     public function exists(): bool
     {
-        return Container::getInstance()->has(PublishCommand::class);
+        return Container::getInstance()->has('Laravel\VaporUi\Console\PublishCommand');
     }
 
     public function instruction(): Instruction

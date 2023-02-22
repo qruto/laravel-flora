@@ -226,11 +226,11 @@ Please see [CONTRIBUTING](.github/CONTRIBUTING.md) and [CONDUCT](.github/CODE_OF
 
 ## Security
 
-If you discover any security related issues, please email madweb.dev@gmail.com instead of using the issue tracker.
+If you discover any security related issues, please email bro@qruto.to instead of using the issue tracker.
 
 ## Credits
 
-Thanks [Nuno Maduro](https://github.com/nunomaduro) for [laravel-console-task](https://github.com/nunomaduro/laravel-console-task) package which gives pretty tasks outputs
+Thanks [Nuno Maduro](https://github.com/nunomaduro) for [laravel-desktop-notifier](https://github.com/nunomaduro/laravel-desktop-notifier) package which brings desktop notifications to Laravel.
 
 - [Qruto](https://github.com/qruto)
 - [All Contributors](../../contributors)

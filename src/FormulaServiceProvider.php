@@ -67,12 +67,10 @@ class FormulaServiceProvider extends PackageServiceProvider
         $this->app->bind(ChainContract::class, Chain::class);
         $this->app->singleton(ChainVaultContract::class, ChainVault::class);
 
-        $this->app->singleton('formula.packages', function () {
-            return [
-                new VaporUiDiscover(),
-                new HorizonDiscover(),
-                new IdeHelperDiscover(),
-            ];
-        });
+        $this->app->singleton('formula.packages', fn () => [
+            new VaporUiDiscover(),
+            new HorizonDiscover(),
+            new IdeHelperDiscover(),
+        ]);
     }
 }
