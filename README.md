@@ -21,36 +21,26 @@
 ## Introduction
 
 Bring application to live by one command.
-It will run chain of required commands to install or update application.
+It will run chain of required commands to install or update the application.
 
 Replace ~~**installation**~~ section in readme file with:
+
 ```bash
 php artisan install
 ```
 
-Refresh application state.
+Refresh application state by:
 
-- after `composer update`
-- after `git pull/checkout/megre/...`
-- in deploy script
-
-Run:
 ```bash
 php artisan update
 ```
 
+- after `composer install/update`
+- after `git pull/checkout/megre/...`
+- in deploy script
+- in CI/CD pipeline
+
 it will take care of the rest of the work.
-
-Add `update` command to your application `composer.json` script section:
-
-```diff
-"scripts": {
-    "post-update-cmd": [
--        "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
-+        "@php artisan update"
-    ]
-}
-```
 
 Define everything required to update application in one place.
 
@@ -66,60 +56,98 @@ Via Composer
 composer require qruto/laravel-formula
 ```
 
-then publish formula classes:
+## Usage
+
+When you just fetch a fresh application, run:
+
+```bash
+php artisan install
+```
+
+For refresh application state run:
+
+```bash
+php artisan update
+```
+
+ℹ️ Instruction depends on current application environment.
+
+It will run chain of predefined actions suitable for most cases.
+
+To customize Formula instructions for each environment, you need to publish config files.
 
 ```bash
 php artisan vendor:publish --tag=formulas
 ```
 
-It will create `Install` and `Update` classes in `app` directory
-which contains `local` and `production` methods according to different environments.
-This methods should return runner chain with specific actions to install or update processes.
-
-You can override config key which stores current environment value, publish config file and set `env_config_key` value.
-
-```bash
-php artisan vendor:publish --provider="MadWeb\Formula\FormulaServiceProvider" --tag=config
-```
-
-## Usage
-
-Usage of `app:install` and `app:update` command are the same except that `app:install` uses `Install` class and `app:update` uses `Update` class.
-
-Install class contents:
+Open `routes/build.php` file.
 
 ```php
-Runner::task('build', fn (Runner $run) =>
-    $run->exec('npm run install')
-        ->exec('npm run build')
+use Qruto\Formula\Run;
+
+App::install('local', fn (Run $run) => $run
+    ->command('key:generate')
+    ->command('migrate')
+    ->command('storage:link')
+    ->script('build')
 );
 
-Runner::task('cache', fn (Runner $run) =>
-    $run->command('route:cache')
-        ->command('config:cache')
-        ->command('event:cache')
+App::install('production', fn (Run $run) => $run
+    ->command('key:generate', ['--force' => true])
+    ->command('migrate', ['--force' => true])
+    ->command('storage:link')
+    ->script('cache')
+    ->script('build')
+);
+
+App::update('local', fn (Run $run) => $run
+    ->command('migrate')
+    ->command('cache:clear')
+    ->script('build')
+);
+
+App::update('production', fn (Run $run) => $run
+    ->script('cache')
+    ->command('migrate', ['--force' => true])
+    ->command('cache:clear')
+    ->command('queue:restart')
+    ->script('build')
 );
 ```
 
-You can add any other method which should have the same name as your environment name, for example `staging`, and define different actions.
+There you can find instructions for `local` and `production` environments.
+Feel free to add your specific environment like `staging` or else.
 
-To see details of running actions use verbosity mode:
+`build` script contains assets building commands:
+
+```bash
+npm install
+npm run build
+```
+
+`cache` script provides general application caching:
+
+```bash
+php artisan route:cache
+php artisan config:cache
+php artisan event:cache
+```
+
+See detailed output in verbosity mode:
 
 ```bash
 php artisan app:update -v
 ```
 
-You can inject any service from [service container](https://laravel.com/docs/6.x/container) in constructor:
+### Custom Scripts
+
+Define custom script calling `Run::newScript` in service provider's `boot` method:
 
 ```php
-class Update
-{
-    public function __construct(Filesystem $storage)
-    {
-        $this->storage = $storage;
-    }
-    // ...
-}
+Run::newScript('some', fn (Run $run) => $run
+    ->exec('some command')
+    ->exec('another command')
+);
 ```
 
 ### Runner API (available actions to run)
@@ -131,32 +159,11 @@ $run
     ->exec('command argument -param param_value --option=option_value') // Any external command by string
     ->call(function ($arg) {}, $arg) // Callable function (like for call_user_func)
     ->job(new JobClass) // Dispatch job task
-    ->jobNow(new JobClass) // Dispatch job task without queue
-    ->publish(ServiceProvider::class) // Publish single service provider assets
-    ->publish([
-        ServiceProvider::class,
-        AnotherServiceProvider::class,
-    ]) // Publish multiple packages assets
-    ->publish([ServiceProvider::class => 'public']) // Publish package assets with tag
-    ->publish([ServiceProvider::class => ['public', 'assets']]) // Publish package assets with multiple tags
-    ->publishForce(ServiceProvider::class) // Force publish, works in any variations
-    ->publishTag('public') // Publish specific tag
-    ->publishTag(['public', 'assets']) // Publish multiple tags
-    ->publishTagForce('public') // Force publish tags
+    ->script('build') // Run custom script
+    ->notification('Some message') // Send notification to Slack
 ```
 
-### Laravel Nova
-
-If you use [Laravel Nova](https://nova.laravel.com), don't forget to publish **Nova** assets on each update:
-
-```php
-// Update class
-$run
-    ...
-    ->artisan('nova:publish')
-    // or
-    ->publishTag('nova-assets')
-```
+### Package Actions
 
 ## Useful jobs
 
@@ -185,24 +192,21 @@ to crontab list.
 For running `php artisan app:install` command, you should install composer dependencies at first.
 It would be nice to have the ability to install an application by one command. We provide nice hack to implement this behavior.
 
-Add `app-install` script into `scripts` section in `composer.json`.
+Add `update` command to your application `composer.json` script section:
 
-```json
-"scripts": {
-    "app-install": [
-        "@composer install",
-        "@php artisan app:install"
-    ],
-}
+```diff
+"post-autoload-dump": [
+    "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump", 
++     "@php artisan package:discover --ansi",
++     "@php artisan update"
+-     "@php artisan package:discover --ansi"
+],
+- "post-update-cmd": [
+-     "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+- ],
 ```
 
-Then you can run just
-
-```bash
-composer app-install
-```
-
-to setup your application.
+Now everything is up-to-date after each dependency change.
 
 ## Upgrading
 
