@@ -74,6 +74,16 @@ See detailed output in verbosity mode:
 php artisan app:update -v
 ```
 
+### Side Packages Support
+
+Power automatically detects several packages for performing necessary actions on install or update.
+For example: publish Vapor UI assets, generate IDE helper files, terminate Horizon workers etc.
+
+Supported:
+- [Laravel Vapor Ui](https://github.com/laravel/vapor-ui)
+- [Laravel Horizon](https://github.com/laravel/horizon)
+- [Laravel IDE Helper](https://github.com/barryvdh/laravel-ide-helper)
+
 ## Configuration
 
 To customize Power instructions for each environment, you need to publish setup files.
