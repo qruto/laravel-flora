@@ -31,11 +31,40 @@ All necessary actions to make the application ready to work in one place. Packag
 _Power_ allows you to bring Laravel application to live by one command.
 Use default or define custom chain of actions required to **install** or **update** application.
 
+Updating the application is required after any dependencies change.
+Automate this process by adding `update` command to your application
+`composer.json` script `post-autoload-dump` section and remove
+default `vendor:publish` command from `post-update-cmd` section.
+`update` command will take care of assets publishing.
+
+```diff
+"post-autoload-dump": [
+    "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump", 
+-     "@php artisan package:discover --ansi"
++     "@php artisan update"
+],
+- "post-update-cmd": [
+-     "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+- ],
+```
+
+## Installation
+
+Via Composer:
+
+``` bash
+composer require qruto/laravel-power
+```
+
+## Usage
+
 Replace ~~**installation**~~ section in readme file with:
 
 ```bash
 php artisan install
 ```
+
+When you fetch a fresh application, everything will be set up for you.
 
 Refresh application state by:
 
@@ -49,28 +78,6 @@ php artisan update
 - in CI/CD pipeline
 
 it will take care of the rest of the work.
-
-## Installation
-
-Via Composer:
-
-``` bash
-composer require qruto/laravel-power
-```
-
-## Usage
-
-When you just fetch a fresh application:
-
-```bash
-php artisan install
-```
-
-For refresh application state:
-
-```bash
-php artisan update
-```
 
 ℹ️ Instruction depends on current **environment**. Package has predefined actions suitable for most cases.
 
@@ -217,48 +224,7 @@ $run
     ->notify('Done!') // Send notification
 ```
 
-## Combine With Composer Scripts
-
-Updating the application is required after any dependencies change.
-To automate this process add `update` command to your application
-`composer.json` script `post-autoload-dump` section and remove
-default `vendor:publish` command from `post-update-cmd` section.
-Update command will take care of assets publishing.
-
-```diff
-"post-autoload-dump": [
-    "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump", 
--     "@php artisan package:discover --ansi"
-+     "@php artisan update"
-],
-- "post-update-cmd": [
--     "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
-- ],
-```
-
 Now everything is up-to-date after each dependency change.
-
-## Useful jobs
-
-Laravel power provides some useful jobs to make setup of your application much easier.
-
-### Create cron task for scheduling tasks
-
-To enable [Laravel Scheduling](https://laravel.com/docs/6.x/scheduling) add dispatch `MakeCronTask` job to runner chain to create cron task for your application.
-
-```php
-$run
-    ...
-    ->dispatch(new \MadWeb\Power\Jobs\MakeCronTask)
-```
-
-This job will add
-
-```txt
-* * * * * cd /app-path && php artisan schedule:run >> /dev/null 2>&1
-```
-
-to crontab list.
 
 ## Upgrading
 
