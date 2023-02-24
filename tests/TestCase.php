@@ -2,6 +2,7 @@
 
 namespace Qruto\Power\Tests;
 
+use NunoMaduro\LaravelDesktopNotifier\LaravelDesktopNotifierServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Qruto\Power\PowerServiceProvider;
 use Qruto\Power\Tests\TestFixtures\TestServiceProviderMultipleTags;
@@ -13,6 +14,7 @@ class TestCase extends Orchestra
     protected function getPackageProviders($app): array
     {
         return [
+            LaravelDesktopNotifierServiceProvider::class,
             PowerServiceProvider::class,
             TestServiceProviderOne::class,
             TestServiceProviderTwo::class,

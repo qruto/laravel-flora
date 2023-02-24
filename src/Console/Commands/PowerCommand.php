@@ -73,8 +73,6 @@ abstract class PowerCommand extends Command
 
         $packagesDiscovered = $this->discoverPackages();
 
-        $assetsPublished = $this->publishAssets($assetsVersion);
-
         if ($this->output->isVerbose()) {
             $this->components->info('Running actions');
         } else {
@@ -82,6 +80,10 @@ abstract class PowerCommand extends Command
         }
 
         $run->internal->start();
+
+        $this->output->newLine();
+
+        $assetsPublished = $this->publishAssets($assetsVersion);
 
         $this->output->newLine();
 

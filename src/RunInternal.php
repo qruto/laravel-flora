@@ -63,11 +63,6 @@ class RunInternal
         return static::$scripts[$name];
     }
 
-    public function getApplication(): Application
-    {
-        return $this->application;
-    }
-
     public function start(int $labelWidth = 0): void
     {
         foreach ($this->collection as $action) {

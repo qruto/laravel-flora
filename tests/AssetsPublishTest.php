@@ -21,11 +21,11 @@ afterEach(function () {
         unlink($assetPathTwo);
     }
 });
-function prepare(array $assets): object
+function prepare(array $assets, bool $verbose = false): object
 {
     config()->set('power.assets', $assets);
 
-    return new class(chain(fn (Run $run) => $run->call(fn () => true))->run())
+    return new class(chain(fn (Run $run) => $run->call(fn () => true), $verbose)->run())
     {
         public string $assetOnePath;
 
@@ -91,6 +91,16 @@ it('successfully publishes two service provider', fn () => prepare([
 ])->assertAllAssetsPublished());
 
 it('successfully publishes a single tag', fn () => prepare(['one'])->assertAssetOnePublished());
+
+it(
+    'successfully publishes a single tag in verbose mode',
+    function () {
+        $chain = prepare(['one'], true);
+
+        $chain->test()->expectsOutputToContain(sprintf('Copying file [%s] to [%s]', __DIR__.'/TestFixtures/asset-one.txt', 'public/asset-one.txt'));
+        $chain->assertAssetOnePublished();
+    }
+);
 
 it('successfully publishes single service provider with tag string', function () {
     $core = prepare([
