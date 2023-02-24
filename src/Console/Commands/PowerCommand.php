@@ -73,6 +73,8 @@ abstract class PowerCommand extends Command
 
         $packagesDiscovered = $this->discoverPackages();
 
+        $assetsPublished = $this->publishAssets($assetsVersion);
+
         if ($this->output->isVerbose()) {
             $this->components->info('Running actions');
         } else {
@@ -83,9 +85,7 @@ abstract class PowerCommand extends Command
 
         $this->output->newLine();
 
-        $assetsPublished = $this->publishAssets($assetsVersion);
-
-        $this->output->newLine();
+        $assetsVersion->stampUpdate();
 
         if ($run->internal->doneWithFailures() || ! $assetsPublished || ! $packagesDiscovered) {
             $this->askToShowErrors($run->internal->exceptions(), $exceptionHandler);
@@ -188,7 +188,9 @@ abstract class PowerCommand extends Command
             $this->components->twoColumnDetail('<fg=green>No assets for publishing</>');
         }
 
-        $assetsVersion->stampUpdate();
+        if ($this->output->isVerbose()) {
+            $this->output->newLine();
+        }
 
         return $success;
     }
