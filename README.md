@@ -223,7 +223,6 @@ Update command will take care of assets publishing.
 "post-autoload-dump": [
     "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump", 
 -     "@php artisan package:discover --ansi"
-+     "@php artisan package:discover --ansi",
 +     "@php artisan update"
 ],
 - "post-update-cmd": [
