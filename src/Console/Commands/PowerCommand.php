@@ -162,6 +162,7 @@ abstract class PowerCommand extends Command
         }
 
         try {
+            /** @throws PackageDiscoverException */
             $this->components->task(
                 'Packages discovery',
                 function () {
