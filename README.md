@@ -18,9 +18,17 @@
     <img width="650" alt="Laravel Power Demo" src="https://github.com/qruto/laravel-power/raw/HEAD/art/demo.png" />
 </p>
 
+## Goal
+
+The main goal of _Laravel Power_ is to automate the process of setting up a Laravel application.
+
+All necessary actions to make the application ready to work in one place. Packages discovering, assets publishing, database migrations, etc.
+
+> 🧠🚀 Put the knowledge of setup instructions at the application level.
+
 ## Introduction
 
-Power allows you to bring Laravel application to live by one command.
+_Power_ allows you to bring Laravel application to live by one command.
 Use default or define custom chain of actions required to **install** or **update** application.
 
 Replace ~~**installation**~~ section in readme file with:
@@ -41,8 +49,6 @@ php artisan update
 - in CI/CD pipeline
 
 it will take care of the rest of the work.
-
-> 🧠🚀 Put knowledge of the setup instructions at the application level
 
 ## Installation
 
@@ -66,7 +72,7 @@ For refresh application state:
 php artisan update
 ```
 
-ℹ️ Instruction depends on current application **environment**. Package has predefined actions suitable for most cases.
+ℹ️ Instruction depends on current **environment**. Package has predefined actions suitable for most cases.
 
 See detailed output in verbosity mode:
 
@@ -76,7 +82,7 @@ php artisan app:update -v
 
 ### Side Packages Support
 
-Power automatically detects several packages for performing necessary actions on install or update.
+_Power_ automatically detects several packages for performing necessary actions on install or update.
 For example: publish Vapor UI assets, generate IDE helper files, terminate Horizon workers etc.
 
 Supported:
@@ -86,7 +92,7 @@ Supported:
 
 ## Configuration
 
-To customize Power instructions for each environment, you need to publish setup files.
+To customize instructions for each environment, you need to publish setup files.
 
 ```bash
 php artisan power:setup
