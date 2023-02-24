@@ -22,7 +22,7 @@
 
 The main goal of _Laravel Power_ is to automate the process of setting up a Laravel application.
 
-All necessary actions to make the application ready to work in one place. Packages discovering, assets publishing, database migrations, etc.
+All necessary actions to make the application ready to work in one place. Packages discovering, assets publishing, database migrations, caching etc.
 
 > 🧠🚀 Put the knowledge of setup instructions at the application level.
 
@@ -64,7 +64,7 @@ Replace ~~**installation**~~ section in readme file with:
 php artisan install
 ```
 
-When you fetch a fresh application, everything will be set up for you.
+Run it when you fetch a fresh application, everything will be set up for you.
 
 Refresh application state by:
 
@@ -162,7 +162,7 @@ php artisan event:cache
 ```
 </details>
 
-Configure assets publishing in `config/power.php`.
+In addition it will create `config/power.php` for configuration assets publishing.
 
 ```php
 return [
