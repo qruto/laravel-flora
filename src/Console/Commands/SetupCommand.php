@@ -15,7 +15,7 @@ use Qruto\Power\Run;
 
 class SetupCommand extends Command
 {
-    use PackageDiscover;
+    use PackageInstruction;
 
     public $signature = 'power:setup {--force : Overwrite existing build instructions}';
 
@@ -89,7 +89,7 @@ class SetupCommand extends Command
             foreach (Environment::cases() as $env) {
                 $vault->get($type)->get($env->value)($run);
 
-                $this->discoverPackages($type, $env->value, $run);
+                $this->instructPackages($type, $env->value, $run);
 
                 $code .= $this->generateSetupCode($type, $env, $run).PHP_EOL.PHP_EOL;
 

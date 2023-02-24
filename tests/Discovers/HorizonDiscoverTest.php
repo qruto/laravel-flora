@@ -1,12 +1,12 @@
 <?php
 
 use Laravel\Horizon\Console\WorkCommand;
-use Qruto\Power\Console\Commands\PackageDiscover;
+use Qruto\Power\Console\Commands\PackageInstruction;
 use Qruto\Power\Discovers\HorizonDiscover;
 use Qruto\Power\Enums\Environment;
 use Qruto\Power\Enums\PowerType;
 
-uses(PackageDiscover::class);
+uses(PackageInstruction::class);
 
 beforeEach(function () {
     app()->bind(WorkCommand::class, fn () => new stdClass());
@@ -23,7 +23,7 @@ it('can get horizon instruction', function () {
 
     actionNamesForEnvironment(PowerType::Update, Environment::Production, $run);
 
-    $this->discoverPackages(PowerType::Update, Environment::Production->value, $run);
+    $this->instructPackages(PowerType::Update, Environment::Production->value, $run);
 
     $this->assertEquals(
         [
@@ -40,7 +40,7 @@ it('can get horizon instruction', function () {
 it('has no instructions for install process', function () {
     $run = makeRunner();
 
-    $this->discoverPackages(PowerType::Install, Environment::Production->value, $run);
+    $this->instructPackages(PowerType::Install, Environment::Production->value, $run);
 
     $this->assertCount(0, $run->internal->getCollection());
 });

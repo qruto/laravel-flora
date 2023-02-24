@@ -11,12 +11,13 @@ use Qruto\Power\Console\Assets;
 use Qruto\Power\Contracts\Chain;
 use Qruto\Power\Contracts\ChainVault;
 use Qruto\Power\Enums\PowerType;
+use Qruto\Power\PackageDiscoverException;
 use Qruto\Power\Run;
 use Qruto\Power\UndefinedScriptException;
 
 abstract class PowerCommand extends Command
 {
-    use PackageDiscover;
+    use PackageInstruction;
 
     /**
      * The type of build.
@@ -63,30 +64,30 @@ abstract class PowerCommand extends Command
         }
 
         if ($autoInstruction) {
-            $this->discoverPackages($this->type, $env, $run);
+            $this->instructPackages($this->type, $env, $run);
         }
 
-        $this->components->alert('Application '.$this->title());
+        $this->components->alert(sprintf('Application %s', $this->title()));
 
         $this->output->newLine();
+
+        $packagesDiscovered = $this->discoverPackages();
+
+        if ($this->output->isVerbose()) {
+            $this->components->info('Running actions');
+        } else {
+            $this->output->newLine();
+        }
 
         $run->internal->start();
 
-        $assetsFailed = false;
+        $this->output->newLine();
+
+        $assetsPublished = $this->publishAssets($assetsVersion);
 
         $this->output->newLine();
 
-        if ($assetsVersion->outdated()) {
-            $assetsFailed = ! $this->laravel[Assets::class]->publish($this->type, $this->components, $this->output->isVerbose());
-        } else {
-            $this->components->twoColumnDetail('<fg=green>No assets for publishing</>');
-        }
-
-        $assetsVersion->stampUpdate();
-
-        $this->output->newLine();
-
-        if ($run->internal->doneWithFailures() || $assetsFailed) {
+        if ($run->internal->doneWithFailures() || ! $assetsPublished || ! $packagesDiscovered) {
             $this->askToShowErrors($run->internal->exceptions(), $exceptionHandler);
 
             $this->components->error(ucfirst($this->title()).' occur errors. Run with <fg=cyan>-v</> flag to see more details');
@@ -152,5 +153,42 @@ abstract class PowerCommand extends Command
         }
 
         return $autoInstruction;
+    }
+
+    private function discoverPackages(): bool
+    {
+        if ($this->output->isVerbose()) {
+            return $this->call('package:discover') === 0;
+        }
+
+        try {
+            $this->components->task(
+                'Packages discovery',
+                function () {
+                    if ($this->callSilent('package:discover') !== 0) {
+                        throw new PackageDiscoverException();
+                    }
+                }
+            );
+
+            return true;
+        } catch (PackageDiscoverException) {
+            return false;
+        }
+    }
+
+    private function publishAssets(AssetsVersion $assetsVersion): bool
+    {
+        $success = true;
+
+        if ($assetsVersion->outdated()) {
+            $success = $this->laravel[Assets::class]->publish($this->components, $this->output->isVerbose());
+        } else {
+            $this->components->twoColumnDetail('<fg=green>No assets for publishing</>');
+        }
+
+        $assetsVersion->stampUpdate();
+
+        return $success;
     }
 }

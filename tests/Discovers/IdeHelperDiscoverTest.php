@@ -1,12 +1,12 @@
 <?php
 
 use Qruto\Power\Actions\Artisan;
-use Qruto\Power\Console\Commands\PackageDiscover;
+use Qruto\Power\Console\Commands\PackageInstruction;
 use Qruto\Power\Discovers\IdeHelperDiscover;
 use Qruto\Power\Enums\Environment;
 use Qruto\Power\Enums\PowerType;
 
-uses(PackageDiscover::class);
+uses(PackageInstruction::class);
 
 beforeEach(function () {
     app()->bind('command.ide-helper.generate', fn () => new stdClass());
@@ -19,7 +19,7 @@ it('can discover ide helper', function () {
 it('can get ide helper instruction', function () {
     $run = makeRunner();
 
-    $this->discoverPackages(PowerType::Install, Environment::Local->value, $run);
+    $this->instructPackages(PowerType::Install, Environment::Local->value, $run);
 
     $this->assertCount(3, $run->internal->getCollection());
     $this->assertContainsOnlyInstancesOf(Artisan::class, $run->internal->getCollection());
@@ -38,7 +38,7 @@ it('can get ide helper instruction', function () {
 it('has no instructions for production environment', function () {
     $run = makeRunner();
 
-    $this->discoverPackages(PowerType::Install, Environment::Production->value, $run);
+    $this->instructPackages(PowerType::Install, Environment::Production->value, $run);
 
     $this->assertCount(0, $run->internal->getCollection());
 });

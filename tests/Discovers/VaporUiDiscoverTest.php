@@ -1,12 +1,12 @@
 <?php
 
 use Laravel\VaporUi\Console\PublishCommand;
-use Qruto\Power\Console\Commands\PackageDiscover;
+use Qruto\Power\Console\Commands\PackageInstruction;
 use Qruto\Power\Discovers\VaporUiDiscover;
 use Qruto\Power\Enums\Environment;
 use Qruto\Power\Enums\PowerType;
 
-uses(PackageDiscover::class);
+uses(PackageInstruction::class);
 
 beforeEach(function () {
     app()->bind(PublishCommand::class, fn () => new stdClass());
@@ -19,10 +19,10 @@ it('can discover vapor ui', function () {
 it('no actions defined for any environment', function () {
     $run = makeRunner();
 
-    $this->discoverPackages(PowerType::Install, Environment::Local->value, $run);
-    $this->discoverPackages(PowerType::Install, Environment::Production->value, $run);
-    $this->discoverPackages(PowerType::Update, Environment::Local->value, $run);
-    $this->discoverPackages(PowerType::Update, Environment::Production->value, $run);
+    $this->instructPackages(PowerType::Install, Environment::Local->value, $run);
+    $this->instructPackages(PowerType::Install, Environment::Production->value, $run);
+    $this->instructPackages(PowerType::Update, Environment::Local->value, $run);
+    $this->instructPackages(PowerType::Update, Environment::Production->value, $run);
 
     $this->assertCount(0, $run->internal->getCollection());
 });

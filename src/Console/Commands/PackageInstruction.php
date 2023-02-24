@@ -6,9 +6,9 @@ use Qruto\Power\Enums\Environment;
 use Qruto\Power\Enums\PowerType;
 use Qruto\Power\Run;
 
-trait PackageDiscover
+trait PackageInstruction
 {
-    protected function discoverPackages(PowerType $type, string $environment, Run $run): void
+    protected function instructPackages(PowerType $type, string $environment, Run $run): void
     {
         $discovers = resolve('power.packages');
 

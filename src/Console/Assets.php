@@ -9,18 +9,17 @@ use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Events\VendorTagPublished;
 use Qruto\Power\AssetPublishException;
-use Qruto\Power\Enums\PowerType;
 use function throw_if;
 
 class Assets
 {
-    private static string $title = '<fg=yellow>Publishing assets</>';
+    private static string $title = '<fg=yellow>Assets publishing</>';
 
     public function __construct(protected Dispatcher $events, protected Kernel $artisan, protected Repository $config)
     {
     }
 
-    public function publish(PowerType $type, Factory $components, bool $verbose = false): bool
+    public function publish(Factory $components, bool $verbose = false): bool
     {
         $assets = $this->config['power.assets'];
 
@@ -119,12 +118,12 @@ class Assets
             }
 
             if (! empty($parameters['--provider'])) {
-                $publishCallbacks[] = fn () => $this->artisan->call('vendor:publish', $parameters + ['--force' => $forced, '--no-interaction' => true]) === 0;
+                $publishCallbacks[] = fn () => $this->artisan->call('vendor:publish', $parameters + ['--force' => $forced]) === 0;
             }
         }
 
         if ($tags !== []) {
-            $publishCallbacks[] = fn () => $this->artisan->call('vendor:publish', ['--tag' => $tags, '--force' => $forced, '--no-interaction' => true]) === 0;
+            $publishCallbacks[] = fn () => $this->artisan->call('vendor:publish', ['--tag' => $tags, '--force' => $forced]) === 0;
         }
 
         return fn () => collect($publishCallbacks)
