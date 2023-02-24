@@ -28,6 +28,8 @@ All necessary actions to make the application ready to work in one place. Packag
 
 ## Introduction
 
+Revival of [Laravel Initializer](https://laravel-news.com/automate-app-setup-with-laravel-initializer). Rethinked, prettified, improved, renamed.
+
 _Power_ allows you to bring Laravel application to live by one command.
 Use default or define custom chain of actions required to **install** or **update** application.
 
