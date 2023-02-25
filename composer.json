@@ -1,6 +1,6 @@
 {
     "name": "qruto/laravel-power",
-    "description": "A convenient way to setup your application",
+    "description": "Setup application with single command",
     "keywords": [
         "qruto",
         "laravel-power",
