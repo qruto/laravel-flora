@@ -20,9 +20,10 @@
 
 ## Goal
 
-The main goal of _Laravel Power_ is to automate the process of setting up a Laravel application.
+The main goal of _Laravel Power_ is define and automate the setup process of Laravel application.
+All necessary actions to make the application ready to work in one place.
 
-All necessary actions to make the application ready to work in one place. Packages discovering, assets publishing, database migrations, caching etc.
+Packages discovering, assets building and publishing, running database migrations, caching etc...
 
 > 🧠🚀 Put the knowledge of setup instructions at the application level.
 
