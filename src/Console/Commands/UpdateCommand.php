@@ -1,12 +1,12 @@
 <?php
 
-namespace Qruto\Power\Console\Commands;
+namespace Qruto\Flora\Console\Commands;
 
-use Qruto\Power\Enums\PowerType;
+use Qruto\Flora\Enums\FloraType;
 
-class UpdateCommand extends PowerCommand
+class UpdateCommand extends FloraCommand
 {
-    protected PowerType $type = PowerType::Update;
+    protected FloraType $type = FloraType::Update;
 
     /**
      * The name and signature of the console command.

@@ -1,9 +1,9 @@
 {
-    "name": "qruto/laravel-power",
+    "name": "qruto/laravel-flora",
     "description": "Install and update Laravel application with single command",
     "keywords": [
         "qruto",
-        "laravel-power",
+        "laravel-flora",
         "install",
         "update",
         "deploy",
@@ -16,7 +16,7 @@
         "job",
         "tasks"
     ],
-    "homepage": "https://github.com/qruto/laravel-power",
+    "homepage": "https://github.com/qruto/laravel-flora",
     "license": "MIT",
     "authors": [
         {
@@ -55,7 +55,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Qruto\\Power\\": "src"
+            "Qruto\\Flora\\": "src"
         },
         "files": [
             "src/helpers.php"
@@ -63,7 +63,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Qruto\\Power\\Tests\\": "tests"
+            "Qruto\\Flora\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -96,7 +96,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Qruto\\Power\\PowerServiceProvider"
+                "Qruto\\Flora\\FloraServiceProvider"
             ]
         }
     },

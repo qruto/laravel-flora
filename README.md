@@ -1,26 +1,26 @@
 <p align="center">
     <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="https://github.com/qruto/laravel-power/raw/HEAD/art/logo-dark.svg">
-        <source media="(prefers-color-scheme: light)" srcset="https://github.com/qruto/laravel-power/raw/HEAD/art/logo-light.svg">
-        <img alt="Laravel Wave Logo" src="https://github.com/qruto/laravel-power/raw/HEAD/art/logo-light.svg">
+        <source media="(prefers-color-scheme: dark)" srcset="https://github.com/qruto/laravel-flora/raw/HEAD/art/logo-dark.svg">
+        <source media="(prefers-color-scheme: light)" srcset="https://github.com/qruto/laravel-flora/raw/HEAD/art/logo-light.svg">
+        <img alt="Laravel Wave Logo" src="https://github.com/qruto/laravel-flora/raw/HEAD/art/logo-light.svg">
     </picture>
 </p>
 <p align="center">A convenient way to automate <strong>setup</strong> of your application.</p>
 <p align="center">
-    <a href="https://github.com/qruto/laravel-power/actions/workflows/tests.yml"><img src="https://github.com/qruto/laravel-power/actions/workflows/tests.yml/badge.svg" alt="Build Status"></a>
-    <a href="https://github.com/qruto/laravel-power/actions/workflows/styles.yml"><img src="https://github.com/qruto/laravel-power/actions/workflows/styles.yml/badge.svg" alt="Styles check"></a>
-    <a href="https://github.com/qruto/laravel-power/actions/workflows/types.yml"><img src="https://github.com/qruto/laravel-power/actions/workflows/types.yml/badge.svg" alt="Types check"></a>
-    <a href="https://github.com/qruto/laravel-power/actions/workflows/refactor.yml"><img src="https://github.com/qruto/laravel-power/actions/workflows/refactor.yml/badge.svg" alt="Refactor code"></a>
-    <a href="https://packagist.org/packages/qruto/laravel-power"><img src="https://img.shields.io/packagist/dt/qruto/laravel-power" alt="Total Downloads"></a>
-    <a href="https://packagist.org/packages/qruto/laravel-power"><img src="https://img.shields.io/packagist/v/qruto/laravel-power" alt="Latest Stable Version"></a>
+    <a href="https://github.com/qruto/laravel-flora/actions/workflows/tests.yml"><img src="https://github.com/qruto/laravel-flora/actions/workflows/tests.yml/badge.svg" alt="Build Status"></a>
+    <a href="https://github.com/qruto/laravel-flora/actions/workflows/styles.yml"><img src="https://github.com/qruto/laravel-flora/actions/workflows/styles.yml/badge.svg" alt="Styles check"></a>
+    <a href="https://github.com/qruto/laravel-flora/actions/workflows/types.yml"><img src="https://github.com/qruto/laravel-flora/actions/workflows/types.yml/badge.svg" alt="Types check"></a>
+    <a href="https://github.com/qruto/laravel-flora/actions/workflows/refactor.yml"><img src="https://github.com/qruto/laravel-flora/actions/workflows/refactor.yml/badge.svg" alt="Refactor code"></a>
+    <a href="https://packagist.org/packages/qruto/laravel-flora"><img src="https://img.shields.io/packagist/dt/qruto/laravel-flora" alt="Total Downloads"></a>
+    <a href="https://packagist.org/packages/qruto/laravel-flora"><img src="https://img.shields.io/packagist/v/qruto/laravel-flora" alt="Latest Stable Version"></a>
 </p>
 <p align="center">
-    <img width="650" alt="Laravel Power Demo" src="https://github.com/qruto/laravel-power/raw/HEAD/art/demo.png" />
+    <img width="650" alt="Laravel Flora Demo" src="https://github.com/qruto/laravel-flora/raw/HEAD/art/demo.png" />
 </p>
 
 ## Goal
 
-The main goal of _Laravel Power_ is define and automate the setup process of Laravel application.
+The main goal of _Laravel Flora_ is define and automate the setup process of Laravel application.
 All necessary actions to make the application ready to work in one place.
 
 Packages discovering, assets building and publishing, running database migrations, caching etc...
@@ -31,7 +31,7 @@ Packages discovering, assets building and publishing, running database migration
 
 Revival of [Laravel Initializer](https://laravel-news.com/automate-app-setup-with-laravel-initializer). Rethinked, prettified, improved, renamed.
 
-_Power_ allows you to bring Laravel application to live by one command.
+_Flora_ allows you to bring Laravel application to live by one command.
 Use default or define custom chain of actions required to **install** or **update** application.
 
 Updating the application is required after any dependencies change.
@@ -56,7 +56,7 @@ default `vendor:publish` command from `post-update-cmd` section.
 Via Composer:
 
 ``` bash
-composer require qruto/laravel-power
+composer require qruto/laravel-flora
 ```
 
 ## Usage
@@ -92,7 +92,7 @@ php artisan app:update -v
 
 ### Side Packages Support
 
-_Power_ automatically detects several packages for performing necessary actions on install or update.
+_Flora_ automatically detects several packages for performing necessary actions on install or update.
 For example: publish Vapor UI assets, generate IDE helper files, terminate Horizon workers etc.
 
 Supported:
@@ -105,13 +105,13 @@ Supported:
 To customize instructions for each environment, you need to publish setup files.
 
 ```bash
-php artisan power:setup
+php artisan flora:setup
 ```
 
 This command will create `routes/setup.php` file with predefined instructions for `local` and `production` environments.
 
 ```php
-use Qruto\Power\Run;
+use Qruto\Flora\Run;
 
 App::install('local', fn (Run $run) => $run
     ->command('key:generate')
@@ -165,7 +165,7 @@ php artisan event:cache
 ```
 </details>
 
-In addition it will create `config/power.php` for configuration assets publishing.
+In addition it will create `config/flora.php` for configuration assets publishing.
 
 ```php
 return [
@@ -199,7 +199,7 @@ return [
 If you need to customize just assets publishing, you can publish only configuration file:
 
 ```bash
-php artisan vendor:publish --tag=power-config
+php artisan vendor:publish --tag=flora-config
 ```
 
 ### Custom Scripts

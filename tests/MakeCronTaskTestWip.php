@@ -1,9 +1,9 @@
 <?php
 
-namespace Qruto\Power\Tests;
+namespace Qruto\Flora\Tests;
 
-use Qruto\Power\Jobs\MakeCronTask;
-use Qruto\Power\Run;
+use Qruto\Flora\Jobs\MakeCronTask;
+use Qruto\Flora\Run;
 
 class MakeCronTaskTestWip extends RunnerCommandsTestCase
 {

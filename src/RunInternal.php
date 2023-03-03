@@ -1,11 +1,11 @@
 <?php
 
-namespace Qruto\Power;
+namespace Qruto\Flora;
 
 use Illuminate\Console\Application;
 use Illuminate\Console\View\Components\Factory;
 use Illuminate\Support\Traits\ReflectsClosures;
-use Qruto\Power\Actions\Action;
+use Qruto\Flora\Actions\Action;
 use Symfony\Component\Console\Output\NullOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 

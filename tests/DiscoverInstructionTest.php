@@ -1,8 +1,8 @@
 <?php
 
-use Qruto\Power\Discovers\Instruction;
-use Qruto\Power\Enums\Environment;
-use Qruto\Power\Enums\PowerType;
+use Qruto\Flora\Discovers\Instruction;
+use Qruto\Flora\Enums\Environment;
+use Qruto\Flora\Enums\FloraType;
 
 it('saves install instruction for one environment', function () {
     $callback = fn () => null;
@@ -13,7 +13,7 @@ it('saves install instruction for one environment', function () {
         ]
     );
 
-    $this->assertEquals($callback, $instruction->get(PowerType::Install, Environment::Production));
+    $this->assertEquals($callback, $instruction->get(FloraType::Install, Environment::Production));
 });
 
 it('saves install instruction for two environments', function () {
@@ -27,8 +27,8 @@ it('saves install instruction for two environments', function () {
         ]
     );
 
-    $this->assertEquals($callback, $instruction->get(PowerType::Install));
-    $this->assertEquals($callback2, $instruction->get(PowerType::Install, Environment::Local));
+    $this->assertEquals($callback, $instruction->get(FloraType::Install));
+    $this->assertEquals($callback2, $instruction->get(FloraType::Install, Environment::Local));
 });
 
 it('saves install and update instruction for two environments', function () {
@@ -48,17 +48,17 @@ it('saves install and update instruction for two environments', function () {
         ]
     );
 
-    $this->assertEquals($installCallback, $instruction->get(PowerType::Install, Environment::Production));
-    $this->assertEquals($installCallback2, $instruction->get(PowerType::Install, Environment::Local));
+    $this->assertEquals($installCallback, $instruction->get(FloraType::Install, Environment::Production));
+    $this->assertEquals($installCallback2, $instruction->get(FloraType::Install, Environment::Local));
 
-    $this->assertEquals($updateCallback, $instruction->get(PowerType::Update, Environment::Production));
-    $this->assertEquals($updateCallback2, $instruction->get(PowerType::Update, Environment::Local));
+    $this->assertEquals($updateCallback, $instruction->get(FloraType::Update, Environment::Production));
+    $this->assertEquals($updateCallback2, $instruction->get(FloraType::Update, Environment::Local));
 });
 
 it('returns empty function if no instruction found', function () {
     $instruction = new Instruction();
 
-    $this->assertEquals(null, $instruction->get(PowerType::Install)());
+    $this->assertEquals(null, $instruction->get(FloraType::Install)());
 });
 
 it('returns empty function if no instruction found for the environment', function () {
@@ -68,7 +68,7 @@ it('returns empty function if no instruction found for the environment', functio
         ]
     );
 
-    $this->assertEquals(null, $instruction->get(PowerType::Install, Environment::Local)());
+    $this->assertEquals(null, $instruction->get(FloraType::Install, Environment::Local)());
 });
 
 it('returns one instruction for all environments', function () {
@@ -78,5 +78,5 @@ it('returns one instruction for all environments', function () {
         install: $callback
     );
 
-    $this->assertEquals($callback, $instruction->get(PowerType::Install));
+    $this->assertEquals($callback, $instruction->get(FloraType::Install));
 });

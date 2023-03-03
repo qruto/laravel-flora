@@ -1,6 +1,6 @@
 <?php
 
-namespace Qruto\Power\Tests\TestFixtures;
+namespace Qruto\Flora\Tests\TestFixtures;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;

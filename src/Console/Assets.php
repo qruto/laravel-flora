@@ -1,6 +1,6 @@
 <?php
 
-namespace Qruto\Power\Console;
+namespace Qruto\Flora\Console;
 
 use Closure;
 use Illuminate\Console\View\Components\Factory;
@@ -8,7 +8,7 @@ use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Events\VendorTagPublished;
-use Qruto\Power\AssetPublishException;
+use Qruto\Flora\AssetPublishException;
 use function throw_if;
 
 class Assets
@@ -21,9 +21,9 @@ class Assets
 
     public function publish(Factory $components, bool $verbose = false): bool
     {
-        $assets = $this->config['power.assets'];
+        $assets = $this->config['flora.assets'];
 
-        foreach (resolve('power.packages') as $package) {
+        foreach (resolve('flora.packages') as $package) {
             if ($package->exists() && $tag = $package->instruction()->assetsTag) {
                 $assets[] = $tag;
             }
@@ -100,7 +100,7 @@ class Assets
     {
         $tags = [];
         $publishCallbacks = [];
-        $forced = $this->config['power.force_publish'];
+        $forced = $this->config['flora.force_publish'];
 
         foreach ($assets as $key => $value) {
             $parameters = ['--provider' => '', '--tag' => []];

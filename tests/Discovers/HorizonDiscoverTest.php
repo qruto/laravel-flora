@@ -1,11 +1,11 @@
 <?php
 
 use Laravel\Horizon\Console\WorkCommand;
-use Qruto\Power\Console\Commands\PackageInstruction;
-use Qruto\Power\Discovers\HorizonDiscover;
-use Qruto\Power\Enums\Environment;
-use Qruto\Power\Enums\PowerType;
-use Qruto\Power\SetupInstructions;
+use Qruto\Flora\Console\Commands\PackageInstruction;
+use Qruto\Flora\Discovers\HorizonDiscover;
+use Qruto\Flora\Enums\Environment;
+use Qruto\Flora\Enums\FloraType;
+use Qruto\Flora\SetupInstructions;
 
 uses(PackageInstruction::class);
 
@@ -22,9 +22,9 @@ it('can discover horizon', function () {
 it('can get horizon instruction', function () {
     $run = makeRunner();
 
-    actionNamesForEnvironment(PowerType::Update, Environment::Production, $run);
+    actionNamesForEnvironment(FloraType::Update, Environment::Production, $run);
 
-    $this->instructPackages(PowerType::Update, Environment::Production->value, $run);
+    $this->instructPackages(FloraType::Update, Environment::Production->value, $run);
 
     $this->assertEquals(
         [
@@ -41,7 +41,7 @@ it('can get horizon instruction', function () {
 it('has no instructions for install process', function () {
     $run = makeRunner();
 
-    $this->instructPackages(PowerType::Install, Environment::Production->value, $run);
+    $this->instructPackages(FloraType::Install, Environment::Production->value, $run);
 
     $this->assertCount(0, $run->internal->getCollection());
 });

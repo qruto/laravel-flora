@@ -1,15 +1,15 @@
 <?php
 
-namespace Qruto\Power\Console\Commands;
+namespace Qruto\Flora\Console\Commands;
 
 use Illuminate\Console\Command;
-use Qruto\Power\SetupInstructions;
+use Qruto\Flora\SetupInstructions;
 
 class SetupCommand extends Command
 {
     use PackageInstruction;
 
-    public $signature = 'power:setup {--force : Overwrite existing build instructions}';
+    public $signature = 'flora:setup {--force : Overwrite existing build instructions}';
 
     public $description = 'Publish setup instructions.';
 
@@ -24,7 +24,7 @@ class SetupCommand extends Command
             $this->components->info('Setup instructions published to [routes/setup.php]');
         }
 
-        $this->call('vendor:publish', ['--tag' => 'power-config', '--force' => $forced]);
+        $this->call('vendor:publish', ['--tag' => 'flora-config', '--force' => $forced]);
 
         return self::SUCCESS;
     }

@@ -1,13 +1,13 @@
 <?php
 
-namespace Qruto\Power\Tests;
+namespace Qruto\Flora\Tests;
 
 use NunoMaduro\LaravelDesktopNotifier\LaravelDesktopNotifierServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Qruto\Power\PowerServiceProvider;
-use Qruto\Power\Tests\TestFixtures\TestServiceProviderMultipleTags;
-use Qruto\Power\Tests\TestFixtures\TestServiceProviderOne;
-use Qruto\Power\Tests\TestFixtures\TestServiceProviderTwo;
+use Qruto\Flora\FloraServiceProvider;
+use Qruto\Flora\Tests\TestFixtures\TestServiceProviderMultipleTags;
+use Qruto\Flora\Tests\TestFixtures\TestServiceProviderOne;
+use Qruto\Flora\Tests\TestFixtures\TestServiceProviderTwo;
 
 class TestCase extends Orchestra
 {
@@ -15,7 +15,7 @@ class TestCase extends Orchestra
     {
         return [
             LaravelDesktopNotifierServiceProvider::class,
-            PowerServiceProvider::class,
+            FloraServiceProvider::class,
             TestServiceProviderOne::class,
             TestServiceProviderTwo::class,
             TestServiceProviderMultipleTags::class,

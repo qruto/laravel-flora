@@ -1,6 +1,6 @@
 <?php
 
-namespace Qruto\Power\Actions;
+namespace Qruto\Flora\Actions;
 
 use Illuminate\Contracts\Container\Container;
 

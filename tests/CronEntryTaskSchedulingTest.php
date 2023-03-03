@@ -4,7 +4,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Process;
 use Mockery\MockInterface;
-use Qruto\Power\SetupInstructions;
+use Qruto\Flora\SetupInstructions;
 
 function prepare()
 {

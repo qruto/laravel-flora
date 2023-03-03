@@ -1,10 +1,10 @@
 <?php
 
-namespace Qruto\Power\Actions;
+namespace Qruto\Flora\Actions;
 
 use Exception;
 use Illuminate\Console\View\Components\Factory;
-use Qruto\Power\Console\StopSetupException;
+use Qruto\Flora\Console\StopSetupException;
 use function strlen;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;

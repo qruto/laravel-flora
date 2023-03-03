@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Console\Signals;
-use Qruto\Power\Console\Commands\UpdateCommand;
-use Qruto\Power\Tests\TestFixtures\FakeSignalsRegistry;
+use Qruto\Flora\Console\Commands\UpdateCommand;
+use Qruto\Flora\Tests\TestFixtures\FakeSignalsRegistry;
 
 beforeEach(function () {
     Signals::resolveAvailabilityUsing(fn () => true);

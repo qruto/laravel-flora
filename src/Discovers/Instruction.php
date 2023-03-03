@@ -1,10 +1,10 @@
 <?php
 
-namespace Qruto\Power\Discovers;
+namespace Qruto\Flora\Discovers;
 
 use Closure;
-use Qruto\Power\Enums\Environment;
-use Qruto\Power\Enums\PowerType;
+use Qruto\Flora\Enums\Environment;
+use Qruto\Flora\Enums\FloraType;
 
 class Instruction
 {
@@ -15,7 +15,7 @@ class Instruction
     ) {
     }
 
-    public function get(PowerType $type, ?Environment $environment = null): Closure
+    public function get(FloraType $type, ?Environment $environment = null): Closure
     {
         if (is_null($environment)) {
             $environment = Environment::Production;

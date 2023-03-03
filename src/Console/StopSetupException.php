@@ -1,6 +1,6 @@
 <?php
 
-namespace Qruto\Power\Console;
+namespace Qruto\Flora\Console;
 
 use Exception;
 

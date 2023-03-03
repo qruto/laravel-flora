@@ -2,14 +2,14 @@
 
 use Laravel\Horizon\Console\WorkCommand;
 use Mockery\MockInterface;
-use Qruto\Power\SetupInstructions;
+use Qruto\Flora\SetupInstructions;
 
-afterEach(fn () => unlink(base_path('config/power.php')));
+afterEach(fn () => unlink(base_path('config/flora.php')));
 
 it('successfully generates setup.php instructions code', function () {
     $setupFileContent = file_get_contents(__DIR__.'/../src/setup.php');
 
-    $this->artisan('power:setup')
+    $this->artisan('flora:setup')
         ->expectsOutputToContain('Setup instructions published to [routes/setup.php].')
         ->assertSuccessful();
 
@@ -24,7 +24,7 @@ it('successfully generates setup.php with discovered packages', function () {
 
     $setupFileContent = file_get_contents(__DIR__.'/TestFixtures/setup-packages.php');
 
-    $this->artisan('power:setup')
+    $this->artisan('flora:setup')
         ->expectsOutputToContain('Setup instructions published to [routes/setup.php].')
         ->assertSuccessful();
 
@@ -39,8 +39,8 @@ it('show warning if setup.php already exists', function () {
         fn (MockInterface $mock) => $mock->shouldReceive('customExists')->once()->andReturnTrue()
     );
 
-    $this->artisan('power:setup')
+    $this->artisan('flora:setup')
         ->expectsOutputToContain('Setup instructions already exist.')
-        ->expectsOutputToContain('Publishing [power-config] assets.')
+        ->expectsOutputToContain('Publishing [flora-config] assets.')
         ->assertSuccessful();
 });

@@ -1,6 +1,6 @@
 <?php
 
-namespace Qruto\Power;
+namespace Qruto\Flora;
 
 use Illuminate\Contracts\Cache\Repository;
 

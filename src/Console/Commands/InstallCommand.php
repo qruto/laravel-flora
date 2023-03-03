@@ -1,12 +1,12 @@
 <?php
 
-namespace Qruto\Power\Console\Commands;
+namespace Qruto\Flora\Console\Commands;
 
-use Qruto\Power\Enums\PowerType;
+use Qruto\Flora\Enums\FloraType;
 
-class InstallCommand extends PowerCommand
+class InstallCommand extends FloraCommand
 {
-    protected PowerType $type = PowerType::Install;
+    protected FloraType $type = FloraType::Install;
 
     /**
      * The name and signature of the console command.

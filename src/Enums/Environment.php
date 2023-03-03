@@ -1,6 +1,6 @@
 <?php
 
-namespace Qruto\Power\Enums;
+namespace Qruto\Flora\Enums;
 
 enum Environment: string
 {

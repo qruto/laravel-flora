@@ -1,7 +1,7 @@
 <?php
 
 use NunoMaduro\LaravelDesktopNotifier\Facades\Notifier;
-use Qruto\Power\Run;
+use Qruto\Flora\Run;
 
 it('can send desktop notification', function () {
     Notifier::shouldReceive('send')->once();

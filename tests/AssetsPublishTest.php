@@ -1,16 +1,16 @@
 <?php
 
-namespace Qruto\Power\Test;
+namespace Qruto\Flora\Test;
 
 use function chain;
 use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Support\Facades\Artisan;
-use Qruto\Power\Discovers\Instruction;
-use Qruto\Power\Discovers\PackageDiscover;
-use Qruto\Power\Run;
-use Qruto\Power\Tests\TestFixtures\TestServiceProviderMultipleTags;
-use Qruto\Power\Tests\TestFixtures\TestServiceProviderOne;
-use Qruto\Power\Tests\TestFixtures\TestServiceProviderTwo;
+use Qruto\Flora\Discovers\Instruction;
+use Qruto\Flora\Discovers\PackageDiscover;
+use Qruto\Flora\Run;
+use Qruto\Flora\Tests\TestFixtures\TestServiceProviderMultipleTags;
+use Qruto\Flora\Tests\TestFixtures\TestServiceProviderOne;
+use Qruto\Flora\Tests\TestFixtures\TestServiceProviderTwo;
 use Symfony\Component\Console\Command\Command;
 use function unlink;
 
@@ -28,7 +28,7 @@ afterEach(function () {
 });
 function prepare(array $assets, bool $verbose = false): object
 {
-    config()->set('power.assets', $assets);
+    config()->set('flora.assets', $assets);
 
     return new class(chain(fn (Run $run) => $run->call(fn () => true), $verbose)->run())
     {
@@ -170,7 +170,7 @@ it('don\'t publish assets when latest present', function () {
 it('nothing to publish when no assets', fn () => prepare([])->assertNoAssetsPublished());
 
 it('publishes asset from instruction', function () {
-    $this->app->singleton('power.packages', fn () => [
+    $this->app->singleton('flora.packages', fn () => [
         new class implements PackageDiscover
         {
             public function exists(): bool

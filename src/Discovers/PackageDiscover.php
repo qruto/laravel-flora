@@ -1,6 +1,6 @@
 <?php
 
-namespace Qruto\Power\Discovers;
+namespace Qruto\Flora\Discovers;
 
 // TODO: add support for Laravel Nova
 interface PackageDiscover

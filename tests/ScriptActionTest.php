@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Bus;
-use Qruto\Power\Run;
-use Qruto\Power\Tests\TestFixtures\TestJob;
-use Qruto\Power\UndefinedScriptException;
+use Qruto\Flora\Run;
+use Qruto\Flora\Tests\TestFixtures\TestJob;
+use Qruto\Flora\UndefinedScriptException;
 
 beforeEach(function () {
     Bus::fake();
@@ -25,7 +25,7 @@ test('it successfully running script', function () {
     chain(fn (Run $run) => $run->script('test'))
         ->run()
         ->expectsOutputToContain('script test')
-        ->doesntExpectOutputToContain('job     Qruto\Power\Tests\TestFixtures\TestJob')
+        ->doesntExpectOutputToContain('job     Qruto\Flora\Tests\TestFixtures\TestJob')
         ->assertSuccessful();
 
     Bus::assertDispatched(TestJob::class, 2);
@@ -35,7 +35,7 @@ test('it verbose successfully running script', function () {
     chain(fn (Run $run) => $run->script('test'), true)
         ->run()
         ->expectsOutputToContain('script test')
-        ->expectsOutputToContain('job    Qruto\Power\Tests\TestFixtures\TestJob')
+        ->expectsOutputToContain('job    Qruto\Flora\Tests\TestFixtures\TestJob')
         ->assertSuccessful();
 
     Bus::assertDispatched(TestJob::class, 2);

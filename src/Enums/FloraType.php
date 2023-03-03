@@ -1,8 +1,8 @@
 <?php
 
-namespace Qruto\Power\Enums;
+namespace Qruto\Flora\Enums;
 
-enum PowerType: string
+enum FloraType: string
 {
     case Install = 'install';
     case Update = 'update';

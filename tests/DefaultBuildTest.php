@@ -1,8 +1,8 @@
 <?php
 
-use Qruto\Power\Enums\Environment;
-use Qruto\Power\Enums\PowerType;
-use Qruto\Power\SetupInstructions;
+use Qruto\Flora\Enums\Environment;
+use Qruto\Flora\Enums\FloraType;
+use Qruto\Flora\SetupInstructions;
 
 beforeEach(function () {
     $this->app[SetupInstructions::class]->loadDefault();
@@ -17,7 +17,7 @@ test('update production instruction', function () {
             'queue:restart',
             'build',
         ],
-        actionNamesForEnvironment(PowerType::Update, Environment::Production)
+        actionNamesForEnvironment(FloraType::Update, Environment::Production)
     );
 });
 
@@ -28,7 +28,7 @@ test('update local instruction', function () {
             'cache:clear',
             'build',
         ],
-        actionNamesForEnvironment(PowerType::Update, Environment::Local)
+        actionNamesForEnvironment(FloraType::Update, Environment::Local)
     );
 });
 
@@ -41,7 +41,7 @@ test('install production instruction', function () {
             'cache',
             'build',
         ],
-        actionNamesForEnvironment(PowerType::Install, Environment::Production)
+        actionNamesForEnvironment(FloraType::Install, Environment::Production)
     );
 });
 
@@ -53,6 +53,6 @@ test('install local instruction', function () {
             'storage:link',
             'build',
         ],
-        actionNamesForEnvironment(PowerType::Install, Environment::Local)
+        actionNamesForEnvironment(FloraType::Install, Environment::Local)
     );
 });

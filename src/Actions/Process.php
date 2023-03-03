@@ -1,6 +1,6 @@
 <?php
 
-namespace Qruto\Power\Actions;
+namespace Qruto\Flora\Actions;
 
 use Illuminate\Contracts\Process\ProcessResult;
 use Illuminate\Support\Facades\Process as ProcessFacade;

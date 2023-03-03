@@ -1,6 +1,6 @@
 <?php
 
-use Qruto\Power\Run;
+use Qruto\Flora\Run;
 
 class InjectableService
 {

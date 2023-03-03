@@ -1,6 +1,6 @@
 <?php
 
-namespace Qruto\Power\Tests\TestFixtures;
+namespace Qruto\Flora\Tests\TestFixtures;
 
 class FakeSignalsRegistry
 {

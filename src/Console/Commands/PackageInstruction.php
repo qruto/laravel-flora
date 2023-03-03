@@ -1,16 +1,16 @@
 <?php
 
-namespace Qruto\Power\Console\Commands;
+namespace Qruto\Flora\Console\Commands;
 
-use Qruto\Power\Enums\Environment;
-use Qruto\Power\Enums\PowerType;
-use Qruto\Power\Run;
+use Qruto\Flora\Enums\Environment;
+use Qruto\Flora\Enums\FloraType;
+use Qruto\Flora\Run;
 
 trait PackageInstruction
 {
-    protected function instructPackages(PowerType $type, string $environment, Run $run): void
+    protected function instructPackages(FloraType $type, string $environment, Run $run): void
     {
-        $discovers = resolve('power.packages');
+        $discovers = resolve('flora.packages');
 
         foreach ($discovers as $discover) {
             if ($discover->exists()) {

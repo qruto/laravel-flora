@@ -1,8 +1,8 @@
 <?php
 
-namespace Qruto\Power;
+namespace Qruto\Flora;
 
-use Qruto\Power\Contracts\Chain as ChainContract;
+use Qruto\Flora\Contracts\Chain as ChainContract;
 
 class Chain implements ChainContract
 {

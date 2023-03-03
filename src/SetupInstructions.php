@@ -1,17 +1,17 @@
 <?php
 
-namespace Qruto\Power;
+namespace Qruto\Flora;
 
 use function base_path;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Str;
-use Qruto\Power\Actions\Artisan;
-use Qruto\Power\Actions\Process;
-use Qruto\Power\Actions\Script;
-use Qruto\Power\Console\Commands\PackageInstruction;
-use Qruto\Power\Contracts\ChainVault;
-use Qruto\Power\Enums\Environment;
-use Qruto\Power\Enums\PowerType;
+use Qruto\Flora\Actions\Artisan;
+use Qruto\Flora\Actions\Process;
+use Qruto\Flora\Actions\Script;
+use Qruto\Flora\Console\Commands\PackageInstruction;
+use Qruto\Flora\Contracts\ChainVault;
+use Qruto\Flora\Enums\Environment;
+use Qruto\Flora\Enums\FloraType;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Output\NullOutput;
 
@@ -57,7 +57,7 @@ class SetupInstructions
     }
 
     protected function generateSetupCode(
-        PowerType $type,
+        FloraType $type,
         Environment $environment,
         Run $run
     ): string {
@@ -96,7 +96,7 @@ class SetupInstructions
 
         $run = $this->makeRunner($application);
 
-        foreach (PowerType::cases() as $type) {
+        foreach (FloraType::cases() as $type) {
             foreach (Environment::cases() as $env) {
                 $this->vault->get($type)->get($env->value)($run);
 

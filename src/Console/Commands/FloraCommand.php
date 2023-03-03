@@ -1,35 +1,35 @@
 <?php
 
-namespace Qruto\Power\Console\Commands;
+namespace Qruto\Flora\Console\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\Facades\Process;
-use Qruto\Power\Actions\ActionTerminatedException;
-use function Qruto\Power\any;
-use Qruto\Power\AssetsVersion;
-use function Qruto\Power\clearOutputLineAbove;
-use Qruto\Power\Console\Assets;
-use Qruto\Power\Console\StopSetupException;
-use Qruto\Power\Contracts\Chain;
-use Qruto\Power\Contracts\ChainVault;
-use Qruto\Power\Enums\Environment;
-use Qruto\Power\Enums\PowerType;
-use Qruto\Power\PackageDiscoverException;
-use Qruto\Power\Run;
-use Qruto\Power\SetupInstructions;
-use Qruto\Power\UndefinedScriptException;
+use Qruto\Flora\Actions\ActionTerminatedException;
+use function Qruto\Flora\any;
+use Qruto\Flora\AssetsVersion;
+use function Qruto\Flora\clearOutputLineAbove;
+use Qruto\Flora\Console\Assets;
+use Qruto\Flora\Console\StopSetupException;
+use Qruto\Flora\Contracts\Chain;
+use Qruto\Flora\Contracts\ChainVault;
+use Qruto\Flora\Enums\Environment;
+use Qruto\Flora\Enums\FloraType;
+use Qruto\Flora\PackageDiscoverException;
+use Qruto\Flora\Run;
+use Qruto\Flora\SetupInstructions;
+use Qruto\Flora\UndefinedScriptException;
 
-abstract class PowerCommand extends Command
+abstract class FloraCommand extends Command
 {
     use PackageInstruction;
 
     /**
      * The type of build.
      */
-    protected PowerType $type;
+    protected FloraType $type;
 
     /**
      * Execute the action.
@@ -71,7 +71,7 @@ abstract class PowerCommand extends Command
     /**
      * Returns vault of instructions for current command type.
      */
-    protected function getPower(ChainVault $vault): Chain
+    protected function getFlora(ChainVault $vault): Chain
     {
         return $vault->get($this->type);
     }
@@ -158,7 +158,7 @@ abstract class PowerCommand extends Command
     private function registerScheduler(string $env, Schedule $schedule): void
     {
         if (any(
-            fn () => $this->type !== PowerType::Install,
+            fn () => $this->type !== FloraType::Install,
             fn () => Environment::Production->value !== $env,
             fn () => $schedule->events() === [],
         )) {
@@ -198,12 +198,12 @@ abstract class PowerCommand extends Command
     ): int {
         $autoInstruction = $this->loadInstructions($instructions);
 
-        $power = $this->getPower($vault);
+        $flora = $this->getFlora($vault);
 
         $env = $this->getLaravel()->environment();
 
         try {
-            $container->call($power->get($env), ['run' => $run]);
+            $container->call($flora->get($env), ['run' => $run]);
         } catch (UndefinedScriptException $e) {
             $this->components->error($e->getMessage());
 

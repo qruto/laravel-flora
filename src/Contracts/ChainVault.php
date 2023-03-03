@@ -1,10 +1,10 @@
 <?php
 
-namespace Qruto\Power\Contracts;
+namespace Qruto\Flora\Contracts;
 
-use Qruto\Power\Enums\PowerType;
+use Qruto\Flora\Enums\FloraType;
 
 interface ChainVault
 {
-    public function get(PowerType $type): Chain;
+    public function get(FloraType $type): Chain;
 }

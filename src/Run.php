@@ -1,14 +1,14 @@
 <?php
 
-namespace Qruto\Power;
+namespace Qruto\Flora;
 
 use Illuminate\Console\Application;
-use Qruto\Power\Actions\Artisan;
-use Qruto\Power\Actions\Callback;
-use Qruto\Power\Actions\Job;
-use Qruto\Power\Actions\Notification;
-use Qruto\Power\Actions\Process;
-use Qruto\Power\Actions\Script;
+use Qruto\Flora\Actions\Artisan;
+use Qruto\Flora\Actions\Callback;
+use Qruto\Flora\Actions\Job;
+use Qruto\Flora\Actions\Notification;
+use Qruto\Flora\Actions\Process;
+use Qruto\Flora\Actions\Script;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class Run

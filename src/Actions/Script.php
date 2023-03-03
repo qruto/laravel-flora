@@ -1,12 +1,12 @@
 <?php
 
-namespace Qruto\Power\Actions;
+namespace Qruto\Flora\Actions;
 
 use Illuminate\Console\View\Components\Factory;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Traits\ReflectsClosures;
-use function Qruto\Power\clearOutputLineAbove;
-use Qruto\Power\Run;
+use function Qruto\Flora\clearOutputLineAbove;
+use Qruto\Flora\Run;
 use function Termwind\terminal;
 
 class Script extends Action

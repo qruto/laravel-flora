@@ -1,9 +1,9 @@
 <?php
 
-namespace Qruto\Power\Test;
+namespace Qruto\Flora\Test;
 
 use Illuminate\Support\Facades\Process;
-use Qruto\Power\Run;
+use Qruto\Flora\Run;
 
 it('can run process', function () {
     Process::fake(['php -v' => 'always latest PHP version']);

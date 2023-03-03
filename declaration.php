@@ -2,7 +2,7 @@
 
 namespace Illuminate\Support\Facades
 {
-    use Qruto\Power\Run;
+    use Qruto\Flora\Run;
 
     class App
     {

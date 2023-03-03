@@ -1,26 +1,26 @@
 <?php
 
-namespace Qruto\Power;
+namespace Qruto\Flora;
 
 use Illuminate\Foundation\Application;
-use Qruto\Power\Console\Commands\InstallCommand;
-use Qruto\Power\Console\Commands\SetupCommand;
-use Qruto\Power\Console\Commands\UpdateCommand;
-use Qruto\Power\Contracts\Chain as ChainContract;
-use Qruto\Power\Contracts\ChainVault as ChainVaultContract;
-use Qruto\Power\Discovers\HorizonDiscover;
-use Qruto\Power\Discovers\IdeHelperDiscover;
-use Qruto\Power\Discovers\VaporUiDiscover;
-use Qruto\Power\Enums\PowerType;
+use Qruto\Flora\Console\Commands\InstallCommand;
+use Qruto\Flora\Console\Commands\SetupCommand;
+use Qruto\Flora\Console\Commands\UpdateCommand;
+use Qruto\Flora\Contracts\Chain as ChainContract;
+use Qruto\Flora\Contracts\ChainVault as ChainVaultContract;
+use Qruto\Flora\Discovers\HorizonDiscover;
+use Qruto\Flora\Discovers\IdeHelperDiscover;
+use Qruto\Flora\Discovers\VaporUiDiscover;
+use Qruto\Flora\Enums\FloraType;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
-class PowerServiceProvider extends PackageServiceProvider
+class FloraServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
         $package
-            ->name('power')
+            ->name('flora')
             ->hasConfigFile()
             ->hasCommands(
                 InstallCommand::class,
@@ -39,12 +39,12 @@ class PowerServiceProvider extends PackageServiceProvider
         //TODO: refactor
         Application::macro(
             'install',
-            fn (string $environment, callable $callback) => $vault->get(PowerType::Install)->set($environment, $callback)
+            fn (string $environment, callable $callback) => $vault->get(FloraType::Install)->set($environment, $callback)
         );
 
         Application::macro(
             'update',
-            fn (string $environment, callable $callback) => $vault->get(PowerType::Update)->set($environment, $callback)
+            fn (string $environment, callable $callback) => $vault->get(FloraType::Update)->set($environment, $callback)
         );
 
         Run::newScript('build', fn (Run $run) => $run
@@ -67,7 +67,7 @@ class PowerServiceProvider extends PackageServiceProvider
         $this->app->bind(ChainContract::class, Chain::class);
         $this->app->singleton(ChainVaultContract::class, ChainVault::class);
 
-        $this->app->singleton('power.packages', fn () => [
+        $this->app->singleton('flora.packages', fn () => [
             new VaporUiDiscover(),
             new HorizonDiscover(),
             new IdeHelperDiscover(),
