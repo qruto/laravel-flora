@@ -5,13 +5,14 @@ use Qruto\Power\Console\Commands\PackageInstruction;
 use Qruto\Power\Discovers\HorizonDiscover;
 use Qruto\Power\Enums\Environment;
 use Qruto\Power\Enums\PowerType;
+use Qruto\Power\SetupInstructions;
 
 uses(PackageInstruction::class);
 
 beforeEach(function () {
     app()->bind(WorkCommand::class, fn () => new stdClass());
 
-    require __DIR__.'/../../src/setup.php';
+    $this->app[SetupInstructions::class]->loadDefault();
 });
 
 it('can discover horizon', function () {

@@ -2,9 +2,10 @@
 
 use Qruto\Power\Enums\Environment;
 use Qruto\Power\Enums\PowerType;
+use Qruto\Power\SetupInstructions;
 
 beforeEach(function () {
-    require __DIR__.'/../src/setup.php';
+    $this->app[SetupInstructions::class]->loadDefault();
 });
 
 test('update production instruction', function () {

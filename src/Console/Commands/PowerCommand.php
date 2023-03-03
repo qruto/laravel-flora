@@ -19,6 +19,7 @@ use Qruto\Power\Enums\Environment;
 use Qruto\Power\Enums\PowerType;
 use Qruto\Power\PackageDiscoverException;
 use Qruto\Power\Run;
+use Qruto\Power\SetupInstructions;
 use Qruto\Power\UndefinedScriptException;
 
 abstract class PowerCommand extends Command
@@ -39,6 +40,7 @@ abstract class PowerCommand extends Command
         ChainVault $vault,
         ExceptionHandler $exceptionHandler,
         Schedule $schedule,
+        SetupInstructions $instructions,
     ): int {
         $run = $container->make(Run::class, [
             'application' => $this->getApplication(),
@@ -58,7 +60,7 @@ abstract class PowerCommand extends Command
         });
 
         try {
-            return $this->perform($vault, $container, $run, $assetsVersion, $exceptionHandler, $schedule);
+            return $this->perform($vault, $container, $run, $assetsVersion, $exceptionHandler, $schedule, $instructions);
         } catch (StopSetupException) {
             clearOutputLineAbove($this->output);
 
@@ -106,19 +108,11 @@ abstract class PowerCommand extends Command
     /**
      * Load custom build instructions.
      */
-    private function loadInstructions(): bool
+    private function loadInstructions(SetupInstructions $instructions): bool
     {
-        $autoInstruction = true;
+        $instructions->load();
 
-        if ($customBuildExists = file_exists($build = base_path('routes/setup.php'))) {
-            $autoInstruction = false;
-
-            require $build;
-        } else {
-            require __DIR__.'/../../setup.php';
-        }
-
-        return $autoInstruction;
+        return $instructions->customExists();
     }
 
     private function discoverPackages(): bool
@@ -199,9 +193,10 @@ abstract class PowerCommand extends Command
         Run $run,
         AssetsVersion $assetsVersion,
         ExceptionHandler $exceptionHandler,
-        Schedule $schedule
+        Schedule $schedule,
+        SetupInstructions $instructions,
     ): int {
-        $autoInstruction = $this->loadInstructions();
+        $autoInstruction = $this->loadInstructions($instructions);
 
         $power = $this->getPower($vault);
 

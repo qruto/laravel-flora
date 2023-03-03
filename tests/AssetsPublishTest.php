@@ -2,6 +2,7 @@
 
 namespace Qruto\Power\Test;
 
+use function chain;
 use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Support\Facades\Artisan;
 use Qruto\Power\Discovers\Instruction;
@@ -11,7 +12,6 @@ use Qruto\Power\Tests\TestFixtures\TestServiceProviderMultipleTags;
 use Qruto\Power\Tests\TestFixtures\TestServiceProviderOne;
 use Qruto\Power\Tests\TestFixtures\TestServiceProviderTwo;
 use Symfony\Component\Console\Command\Command;
-use function chain;
 use function unlink;
 
 afterEach(function () {
@@ -171,7 +171,8 @@ it('nothing to publish when no assets', fn () => prepare([])->assertNoAssetsPubl
 
 it('publishes asset from instruction', function () {
     $this->app->singleton('power.packages', fn () => [
-        new class implements PackageDiscover {
+        new class implements PackageDiscover
+        {
             public function exists(): bool
             {
                 return true;
@@ -181,7 +182,7 @@ it('publishes asset from instruction', function () {
             {
                 return new Instruction(assetsTag: 'one');
             }
-        }
+        },
     ]);
 
     prepare([])->assertAssetOnePublished();

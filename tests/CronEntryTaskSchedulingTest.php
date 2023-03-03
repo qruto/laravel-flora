@@ -3,6 +3,8 @@
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Process;
+use Mockery\MockInterface;
+use Qruto\Power\SetupInstructions;
 
 function prepare()
 {
@@ -19,18 +21,17 @@ function prepare()
                 sprintf('* * * * * cd %s && php artisan schedule:run >> /dev/null 2>&1', base_path())
             );
 
-            file_put_contents(base_path('routes/setup.php'), '<?php');
+            test()->mock(SetupInstructions::class, fn (MockInterface $mock) => $mock
+                ->shouldReceive('customExists')
+                ->once()
+                ->andReturn(true)
+                ->shouldReceive('load')
+                ->once()
+            );
 
             app(Schedule::class)->command('inspire')->hourly();
 
             App::install('production', fn ($run) => $run->call(fn () => null));
-        }
-
-        public function __destruct()
-        {
-            $setupPath = base_path('routes/setup.php');
-
-            unlink($setupPath);
         }
 
         public function run()
