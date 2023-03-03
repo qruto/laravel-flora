@@ -4,6 +4,7 @@ namespace Qruto\Power\Actions;
 
 use Exception;
 use Illuminate\Console\View\Components\Factory;
+use Qruto\Power\Console\StopSetupException;
 use function strlen;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
@@ -37,13 +38,13 @@ abstract class Action
         $callback = function (): bool {
             try {
                 return $this->successful = $this->run();
+            } catch (ActionTerminatedException $e) {
+                $this->terminated = true;
+
+                return $this->successful = true;
+            } catch (StopSetupException $e) {
+                throw $e;
             } catch (Exception $e) {
-                if ($e instanceof ActionTerminatedException) {
-                    $this->terminated = true;
-
-                    return $this->successful = true;
-                }
-
                 $this->exception = $e;
 
                 return $this->successful = false;

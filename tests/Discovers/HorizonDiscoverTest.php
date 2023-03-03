@@ -30,8 +30,8 @@ it('can get horizon instruction', function () {
             'cache',
             'migrate',
             'cache:clear',
-            'build',
             'horizon:terminate',
+            'build',
         ],
         runnerActionNames($run),
     );

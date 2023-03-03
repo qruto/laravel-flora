@@ -23,7 +23,7 @@ class Run
             protected OutputInterface $output,
     ) {
         // TODO: up and down
-        $this->internal = new RunInternal($this->application, $output);
+        $this->internal = new RunInternal($this->application, $output, $this);
     }
 
     public static function newScript(string $name, callable $callback)

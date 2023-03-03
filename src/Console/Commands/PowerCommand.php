@@ -3,13 +3,19 @@
 namespace Qruto\Power\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Debug\ExceptionHandler;
+use Illuminate\Support\Facades\Process;
 use Qruto\Power\Actions\ActionTerminatedException;
+use function Qruto\Power\any;
 use Qruto\Power\AssetsVersion;
+use function Qruto\Power\clearOutputLineAbove;
 use Qruto\Power\Console\Assets;
+use Qruto\Power\Console\StopSetupException;
 use Qruto\Power\Contracts\Chain;
 use Qruto\Power\Contracts\ChainVault;
+use Qruto\Power\Enums\Environment;
 use Qruto\Power\Enums\PowerType;
 use Qruto\Power\PackageDiscoverException;
 use Qruto\Power\Run;
@@ -31,23 +37,19 @@ abstract class PowerCommand extends Command
         Container $container,
         AssetsVersion $assetsVersion,
         ChainVault $vault,
-        ExceptionHandler $exceptionHandler
+        ExceptionHandler $exceptionHandler,
+        Schedule $schedule,
     ): int {
-        $autoInstruction = $this->loadInstructions();
-
-        $power = $this->getPower($vault);
-
-        $env = $this->getLaravel()->environment();
-
         $run = $container->make(Run::class, [
             'application' => $this->getApplication(),
             'output' => $this->getOutput(),
         ]);
 
         $this->trap([SIGTERM, SIGINT], function ($signal) use ($run) {
-            if ($this->components->confirm('Installation stop confirm')) {
+            if ($this->components->confirm('Sure you want to stop')) {
                 $this->components->warn(ucfirst($this->title()).' aborted without completion');
-                exit;
+
+                throw new StopSetupException();
             }
 
             $run->internal->rerunLatestAction();
@@ -56,50 +58,12 @@ abstract class PowerCommand extends Command
         });
 
         try {
-            $container->call($power->get($env), ['run' => $run]);
-        } catch (UndefinedScriptException $e) {
-            $this->components->error($e->getMessage());
+            return $this->perform($vault, $container, $run, $assetsVersion, $exceptionHandler, $schedule);
+        } catch (StopSetupException) {
+            clearOutputLineAbove($this->output);
 
             return self::FAILURE;
         }
-
-        if ($autoInstruction) {
-            $this->instructPackages($this->type, $env, $run);
-        }
-
-        $this->components->alert(sprintf('Application %s', $this->title()));
-
-        $this->output->newLine();
-
-        $packagesDiscovered = $this->discoverPackages();
-
-        if ($this->output->isVerbose()) {
-            $this->components->info('Running actions');
-        } else {
-            $this->output->newLine();
-        }
-
-        $run->internal->start();
-
-        $this->output->newLine();
-
-        $assetsPublished = $this->publishAssets($assetsVersion);
-
-        $this->output->newLine();
-
-        $assetsVersion->stampUpdate();
-
-        if ($run->internal->doneWithFailures() || ! $assetsPublished || ! $packagesDiscovered) {
-            $this->askToShowErrors($run->internal->exceptions(), $exceptionHandler);
-
-            $this->components->error(ucfirst($this->title()).' occur errors. Run with <fg=cyan>-v</> flag to see more details');
-
-            return self::FAILURE;
-        }
-
-        $this->components->info(ucfirst($this->title()).' done!');
-
-        return self::SUCCESS;
     }
 
     /**
@@ -195,5 +159,100 @@ abstract class PowerCommand extends Command
         }
 
         return $success;
+    }
+
+    private function registerScheduler(string $env, Schedule $schedule): void
+    {
+        if (any(
+            fn () => $this->type !== PowerType::Install,
+            fn () => Environment::Production->value !== $env,
+            fn () => $schedule->events() === [],
+        )) {
+            return;
+        }
+
+        $task = sprintf('* * * * * cd %s && php artisan schedule:run >> /dev/null 2>&1', base_path());
+
+        $result = Process::run('crontab -l');
+
+        if (str_contains($result->output(), $task)) {
+            $this->components->warn('Cron entry for task scheduling already exists');
+
+            return;
+        }
+
+        if (! $this->components->confirm('Add a cron entry for task scheduling?')) {
+            return;
+        }
+
+        Process::run(sprintf(
+            '(crontab -l 2>/dev/null; echo "%s") | crontab -',
+            $task
+        ));
+
+        $this->components->info("Entry was added [{$task}]");
+    }
+
+    private function perform(
+        ChainVault $vault,
+        Container $container,
+        Run $run,
+        AssetsVersion $assetsVersion,
+        ExceptionHandler $exceptionHandler,
+        Schedule $schedule
+    ): int {
+        $autoInstruction = $this->loadInstructions();
+
+        $power = $this->getPower($vault);
+
+        $env = $this->getLaravel()->environment();
+
+        try {
+            $container->call($power->get($env), ['run' => $run]);
+        } catch (UndefinedScriptException $e) {
+            $this->components->error($e->getMessage());
+
+            return self::FAILURE;
+        }
+
+        if ($autoInstruction) {
+            $this->instructPackages($this->type, $env, $run);
+        }
+
+        $this->components->alert(sprintf('Application %s', $this->title()));
+
+        $this->output->newLine();
+
+        $packagesDiscovered = $this->discoverPackages();
+
+        if ($this->output->isVerbose()) {
+            $this->components->info('Running actions');
+        } else {
+            $this->output->newLine();
+        }
+
+        $run->internal->start();
+
+        $this->output->newLine();
+
+        $assetsPublished = $this->publishAssets($assetsVersion);
+
+        $this->output->newLine();
+
+        $assetsVersion->stampUpdate();
+
+        if ($run->internal->doneWithFailures() || ! $assetsPublished || ! $packagesDiscovered) {
+            $this->askToShowErrors($run->internal->exceptions(), $exceptionHandler);
+
+            $this->components->error(ucfirst($this->title()).' occur errors. Run with <fg=cyan>-v</> flag to see more details');
+
+            return self::FAILURE;
+        }
+
+        $this->registerScheduler($env, $schedule);
+
+        $this->components->info(ucfirst($this->title()).' done!');
+
+        return self::SUCCESS;
     }
 }

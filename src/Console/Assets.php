@@ -23,17 +23,15 @@ class Assets
     {
         $assets = $this->config['power.assets'];
 
-        if ($assets === []) {
-            return true;
-        }
-
         foreach (resolve('power.packages') as $package) {
             if ($package->exists() && $tag = $package->instruction()->assetsTag) {
                 $assets[] = $tag;
             }
         }
 
-        $result = true;
+        if ($assets === []) {
+            return true;
+        }
 
         try {
             if ($verbose) {
@@ -42,10 +40,10 @@ class Assets
                 $this->run($assets, $components);
             }
         } catch (AssetPublishException) {
-            $result = false;
+            return false;
         }
 
-        return $result;
+        return true;
     }
 
     private function run(array $assets, Factory $components): void

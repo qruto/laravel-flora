@@ -5,6 +5,7 @@ namespace Qruto\Power\Actions;
 use Illuminate\Console\View\Components\Factory;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Traits\ReflectsClosures;
+use function Qruto\Power\clearOutputLineAbove;
 use Qruto\Power\Run;
 use function Termwind\terminal;
 
@@ -51,8 +52,7 @@ class Script extends Action
         }
 
         if ($this->run->internal->terminated()) {
-            $this->output->write("\x1B[1A");
-            $this->output->write("\x1B[2K");
+            clearOutputLineAbove($this->output);
         }
 
         if ($this->run->internal->doneWithFailures() && ! empty($this->run->internal->exceptions())) {

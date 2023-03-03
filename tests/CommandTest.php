@@ -23,3 +23,11 @@ it('adopts action name column width by extra spaces', function () {
         ->expectsOutputToContain('call    test-call')
         ->assertSuccessful();
 });
+
+it('fails when package discovery was failed', function () {
+    Artisan::command('package:discover', fn () => Command::FAILURE);
+
+    chain(fn (Run $run) => $run->call(fn () => true))
+        ->run()
+        ->assertFailed();
+});

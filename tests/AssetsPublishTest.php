@@ -3,10 +3,15 @@
 namespace Qruto\Power\Test;
 
 use Illuminate\Contracts\Cache\Repository;
+use Illuminate\Support\Facades\Artisan;
+use Qruto\Power\Discovers\Instruction;
+use Qruto\Power\Discovers\PackageDiscover;
 use Qruto\Power\Run;
 use Qruto\Power\Tests\TestFixtures\TestServiceProviderMultipleTags;
 use Qruto\Power\Tests\TestFixtures\TestServiceProviderOne;
 use Qruto\Power\Tests\TestFixtures\TestServiceProviderTwo;
+use Symfony\Component\Console\Command\Command;
+use function chain;
 use function unlink;
 
 afterEach(function () {
@@ -102,6 +107,18 @@ it(
     }
 );
 
+it(
+    'successfully publishes a provider with tag in verbose mode',
+    function () {
+        $chain = prepare([TestServiceProviderMultipleTags::class => ['one', 'two']], true);
+
+        $chain->test()
+            ->expectsOutputToContain('one, two');
+
+        $chain->assertAllAssetsPublished();
+    }
+);
+
 it('successfully publishes single service provider with tag string', function () {
     $core = prepare([
         TestServiceProviderMultipleTags::class => 'one',
@@ -148,4 +165,30 @@ it('don\'t publish assets when latest present', function () {
     $chain->assertNoAssetsPublished();
 
     unlink($composerLockPath);
+});
+
+it('nothing to publish when no assets', fn () => prepare([])->assertNoAssetsPublished());
+
+it('publishes asset from instruction', function () {
+    $this->app->singleton('power.packages', fn () => [
+        new class implements PackageDiscover {
+            public function exists(): bool
+            {
+                return true;
+            }
+
+            public function instruction(): Instruction
+            {
+                return new Instruction(assetsTag: 'one');
+            }
+        }
+    ]);
+
+    prepare([])->assertAssetOnePublished();
+});
+
+it('fails when publish was failed', function () {
+    Artisan::command('vendor:publish {--tag=*} {--force}', fn () => Command::FAILURE);
+
+    prepare(['one'])->test()->assertFailed();
 });

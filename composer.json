@@ -56,7 +56,10 @@
     "autoload": {
         "psr-4": {
             "Qruto\\Power\\": "src"
-        }
+        },
+        "files": [
+            "src/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

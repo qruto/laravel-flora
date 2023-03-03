@@ -32,8 +32,11 @@ class RunInternal
 
     protected bool $finishedWithFailures = false;
 
-    public function __construct(protected Application $application, protected OutputInterface $output)
-    {
+    public function __construct(
+        protected Application $application,
+        protected OutputInterface $output,
+        protected Run $run
+    ) {
         $this->outputComponents = new Factory($output);
     }
 
@@ -92,16 +95,28 @@ class RunInternal
         $this->collection[] = $action;
     }
 
-    public function filter(callable $callback): self
+    public function replace(callable $callback, callable $prepare): self|bool
     {
         $actionType = $this->firstClosureParameterType($callback);
 
-        $this->collection = collect($this->collection)->filter(
-            fn ($action) => ! collect($this->collection)
-                ->filter(static fn ($action) => $action instanceof $actionType)
-                ->filter($callback)
-                ->contains(static fn ($value) => $action === $value)
-        )->values()->all();
+        $keys = collect($this->collection)->filter(
+            fn ($action) => $action instanceof $actionType
+        )->search($callback);
+
+        if ($keys === false) {
+            return false;
+        }
+
+        $replaceAction = is_int($keys) ? $keys : $keys[0];
+
+        $firstPart = array_slice($this->collection, 0, $replaceAction);
+        $secondPart = array_slice($this->collection, $replaceAction + 1);
+
+        $this->collection = $firstPart;
+
+        $prepare($this->run);
+
+        $this->collection = array_merge($this->collection, $secondPart);
 
         return $this;
     }

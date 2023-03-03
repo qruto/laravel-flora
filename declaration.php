@@ -1,7 +1,5 @@
 <?php
 
-/** @noinspection PhpMultipleClassDeclarationsInspection */
-
 namespace Illuminate\Support\Facades
 {
     use Qruto\Power\Run;
