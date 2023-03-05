@@ -1,8 +1,8 @@
 <p align="center">
     <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="https://github.com/qruto/laravel-flora/raw/HEAD/art/logo-dark.svg">
-        <source media="(prefers-color-scheme: light)" srcset="https://github.com/qruto/laravel-flora/raw/HEAD/art/logo-light.svg">
-        <img alt="Laravel Wave Logo" src="https://github.com/qruto/laravel-flora/raw/HEAD/art/logo-light.svg">
+        <source media="(prefers-color-scheme: dark)" srcset="/art/logo-dark.svg">
+        <source media="(prefers-color-scheme: light)" srcset="/art/logo-light.svg">
+        <img alt="Laravel Wave Logo" src="/art/logo-light.svg">
     </picture>
 </p>
 <p align="center">A convenient way to automate <strong>setup</strong> of your application.</p>
@@ -15,7 +15,7 @@
     <a href="https://packagist.org/packages/qruto/laravel-flora"><img src="https://img.shields.io/packagist/v/qruto/laravel-flora" alt="Latest Stable Version"></a>
 </p>
 <p align="center">
-    <img width="650" alt="Laravel Flora Demo" src="https://github.com/qruto/laravel-flora/raw/HEAD/art/demo.png" />
+    <img width="650" alt="Laravel Flora Demo" src="/art/demo.png" />
 </p>
 
 ## Goal
@@ -90,15 +90,16 @@ See detailed output in verbosity mode:
 php artisan app:update -v
 ```
 
-### Side Packages Support
+### Register Task Scheduler
 
-_Flora_ automatically detects several packages for performing necessary actions on install or update.
-For example: publish Vapor UI assets, generate IDE helper files, terminate Horizon workers etc.
+If:
+- any scheduler task registered
+- installation process performed
+- application in production environment
 
-Supported:
-- [Laravel Vapor Ui](https://github.com/laravel/vapor-ui)
-- [Laravel Horizon](https://github.com/laravel/horizon)
-- [Laravel IDE Helper](https://github.com/barryvdh/laravel-ide-helper)
+then _Flora_ will ask for add cron entry for [running task scheduler every minute](https://laravel.com/docs/master/scheduling#running-the-scheduler).
+
+![Task Scheduler](/art/task-scheduler.png)
 
 ## Configuration
 
@@ -165,7 +166,7 @@ php artisan event:cache
 ```
 </details>
 
-In addition it will create `config/flora.php` for configuration assets publishing.
+In addition, it will create `config/flora.php` for configuration assets publishing.
 
 ```php
 return [
@@ -201,6 +202,16 @@ If you need to customize just assets publishing, you can publish only configurat
 ```bash
 php artisan vendor:publish --tag=flora-config
 ```
+
+### Side Packages Support
+
+_Flora_ automatically detects several packages for performing necessary actions on install or update.
+For example: publish Vapor UI assets, generate IDE helper files, terminate Horizon workers etc.
+
+Supported:
+- [Laravel Vapor Ui](https://github.com/laravel/vapor-ui)
+- [Laravel Horizon](https://github.com/laravel/horizon)
+- [Laravel IDE Helper](https://github.com/barryvdh/laravel-ide-helper)
 
 ### Custom Scripts
 
