@@ -97,7 +97,7 @@ If:
 - installation process performed
 - application in production environment
 
-then _Flora_ will ask for add cron entry for [running task scheduler every minute](https://laravel.com/docs/master/scheduling#running-the-scheduler).
+then _Flora_ will prompt for the addition of a cron entry to [run the task scheduler every minute](https://laravel.com/docs/master/scheduling#running-the-scheduler).
 
 ![Task Scheduler](/art/task-scheduling.png)
 
