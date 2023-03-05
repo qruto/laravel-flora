@@ -88,7 +88,7 @@ php artisan update
 
 it will take care of the rest of the work.
 
-ℹ️ Instruction depends on current **environment**. Package has predefined actions suitable for most cases.
+> ℹ️ Instruction depends on current **environment**. Package has predefined actions suitable for most cases.
 
 See detailed output in verbosity mode:
 
