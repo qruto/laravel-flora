@@ -99,7 +99,7 @@ If:
 
 then _Flora_ will ask for add cron entry for [running task scheduler every minute](https://laravel.com/docs/master/scheduling#running-the-scheduler).
 
-![Task Scheduler](/art/task-scheduler.png)
+![Task Scheduler](/art/task-scheduling.png)
 
 ## Configuration
 
