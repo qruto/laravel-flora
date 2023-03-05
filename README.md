@@ -35,7 +35,7 @@ _Flora_ allows you to bring Laravel application to live by one command.
 Use default or define custom chain of actions required to **install** or **update** application.
 
 Updating the application is required after any dependencies change.
-Automate this process by adding `update` command to your application
+You can automate this process by adding `@php artisan update` command to your application
 `composer.json` script `post-autoload-dump` section and remove
 default `vendor:publish` command from `post-update-cmd` section.
 `update` command will take care of assets publishing.
@@ -49,6 +49,12 @@ default `vendor:publish` command from `post-update-cmd` section.
 - "post-update-cmd": [
 -     "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
 - ],
+```
+
+Setup it with:
+
+```bash
+php artisan flora:setup --script
 ```
 
 ## Installation
