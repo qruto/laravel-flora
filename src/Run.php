@@ -34,7 +34,7 @@ class Run
     public function script(string $name, array $arguments = []): static
     {
         if (! RunInternal::hasScript($name)) {
-            throw UndefinedScriptException::forCustom($name);
+            throw new UndefinedScriptException($name);
         }
 
         $this->internal->push(new Script(

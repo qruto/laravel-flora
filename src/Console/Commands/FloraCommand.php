@@ -15,11 +15,12 @@ use Qruto\Flora\Console\Assets;
 use Qruto\Flora\Console\StopSetupException;
 use Qruto\Flora\Contracts\Chain;
 use Qruto\Flora\Contracts\ChainVault;
+use Qruto\Flora\Discovers\PackageDiscoverException;
 use Qruto\Flora\Enums\Environment;
 use Qruto\Flora\Enums\FloraType;
-use Qruto\Flora\PackageDiscoverException;
 use Qruto\Flora\Run;
 use Qruto\Flora\SetupInstructions;
+use Qruto\Flora\UndefinedInstructionException;
 use Qruto\Flora\UndefinedScriptException;
 
 abstract class FloraCommand extends Command
@@ -204,7 +205,7 @@ abstract class FloraCommand extends Command
 
         try {
             $container->call($flora->get($env), ['run' => $run]);
-        } catch (UndefinedScriptException $e) {
+        } catch (UndefinedScriptException|UndefinedInstructionException $e) {
             $this->components->error($e->getMessage());
 
             return self::FAILURE;

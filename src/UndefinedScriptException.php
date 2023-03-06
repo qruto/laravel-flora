@@ -6,14 +6,8 @@ use Exception;
 
 class UndefinedScriptException extends Exception
 {
-    public static function forCustom(string $name): self
+    public function __construct(string $name)
     {
-        return new self("No custom script registered with name [$name], please register it using Run::newScript().");
-    }
-
-    public static function forEnvironment(string $environment): self
-    {
-        // TODO: separate
-        return new self("No instructions found for [$environment] environment");
+        parent::__construct("No custom script registered with name [$name], please register it using Run::newScript().");
     }
 }

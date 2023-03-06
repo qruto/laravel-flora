@@ -18,7 +18,7 @@ it('throws exception when no scripts found', function () {
     chain(fn (Run $run) => $run->script('non-existing'))
         ->run()
         ->assertFailed()
-        ->expectsOutputToContain(UndefinedScriptException::forCustom('non-existing')->getMessage());
+        ->expectsOutputToContain((new UndefinedScriptException('non-existing'))->getMessage());
 });
 
 test('it successfully running script', function () {

@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Artisan;
 use Qruto\Flora\Run;
-use Qruto\Flora\UndefinedScriptException;
+use Qruto\Flora\UndefinedInstructionException;
 use Symfony\Component\Console\Command\Command;
 
 it('throws exception when no instructions found for current test environment',
@@ -10,7 +10,7 @@ it('throws exception when no instructions found for current test environment',
         chain()
             ->run()
             ->assertFailed()
-            ->expectsOutputToContain(UndefinedScriptException::forEnvironment('testing')->getMessage());
+            ->expectsOutputToContain((new UndefinedInstructionException('testing'))->getMessage());
     }
 );
 

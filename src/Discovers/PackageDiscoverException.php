@@ -1,6 +1,6 @@
 <?php
 
-namespace Qruto\Flora;
+namespace Qruto\Flora\Discovers;
 
 use Exception;
 
