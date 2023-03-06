@@ -20,7 +20,7 @@
 
 ## Goal
 
-The main goal of _Flora_ for Laravel is define and automate the setup process of Laravel application.
+The main goal of _Flora_ is define and automate the setup process of Laravel application.
 All necessary actions to make the application ready to work in one place.
 
 Packages discovering, assets building and publishing, running database migrations, caching etc...
@@ -32,13 +32,13 @@ Packages discovering, assets building and publishing, running database migration
 Revival of [Laravel Initializer](https://laravel-news.com/automate-app-setup-with-laravel-initializer). Rethinked, improved, prettified, renamed.
 
 _Flora_ allows you to bring Laravel application to live by one command.
-Use default or define custom chain of actions required to **install** or **update** application.
+Use default or define custom chain of actions required to **install** or **update** an application.
 
 Run `install` when you fetch a fresh application to prepare it to launch on new environment.
 
 - after `git clone`
 
-Updating the application is required after every dependency or sources change.
+Run `update` on every dependency or source code change.
 
 - after `composer install|update`
 - after `git pull|checkout|megre|...`
@@ -77,7 +77,7 @@ See detailed output in verbosity mode:
 php artisan app:update -v
 ```
 
-You can automate the process by adding `@php artisan update` command to your application
+You can automate the update process by adding `@php artisan update` command to your application
 `composer.json` script `post-autoload-dump` section and remove
 default `vendor:publish` command from `post-update-cmd` section.
 `update` command will take care of assets publishing for you.
