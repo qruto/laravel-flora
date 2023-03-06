@@ -2,7 +2,7 @@
     <picture>
         <source media="(prefers-color-scheme: dark)" srcset="/art/logo-dark.svg">
         <source media="(prefers-color-scheme: light)" srcset="/art/logo-light.svg">
-        <img alt="Laravel Wave Logo" src="/art/logo-light.svg">
+        <img alt="Laravel Flora Logo" src="/art/logo-light.svg">
     </picture>
 </p>
 <p align="center">A convenient way to automate <strong>setup</strong> of your application.</p>
@@ -20,7 +20,7 @@
 
 ## Goal
 
-The main goal of _Laravel Flora_ is define and automate the setup process of Laravel application.
+The main goal of _Flora_ for Laravel is define and automate the setup process of Laravel application.
 All necessary actions to make the application ready to work in one place.
 
 Packages discovering, assets building and publishing, running database migrations, caching etc...
@@ -29,33 +29,23 @@ Packages discovering, assets building and publishing, running database migration
 
 ## Introduction
 
-Revival of [Laravel Initializer](https://laravel-news.com/automate-app-setup-with-laravel-initializer). Rethinked, prettified, improved, renamed.
+Revival of [Laravel Initializer](https://laravel-news.com/automate-app-setup-with-laravel-initializer). Rethinked, improved, prettified, renamed.
 
 _Flora_ allows you to bring Laravel application to live by one command.
 Use default or define custom chain of actions required to **install** or **update** application.
 
-Updating the application is required after any dependencies change.
-You can automate this process by adding `@php artisan update` command to your application
-`composer.json` script `post-autoload-dump` section and remove
-default `vendor:publish` command from `post-update-cmd` section.
-`update` command will take care of assets publishing.
+Run `install` when you fetch a fresh application to prepare it to launch on new environment.
 
-```diff
-"post-autoload-dump": [
-    "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump", 
--     "@php artisan package:discover --ansi"
-+     "@php artisan update"
-],
-- "post-update-cmd": [
--     "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
-- ],
-```
+- after `git clone`
 
-Setup it with:
+Updating the application is required after every dependency or sources change.
 
-```bash
-php artisan flora:setup --script
-```
+- after `composer install|update`
+- after `git pull|checkout|megre|...`
+- in deploy script
+- in CI/CD pipeline
+
+it will take care of the rest of the work.
 
 ## Installation
 
@@ -73,20 +63,11 @@ Replace ~~**installation**~~ section in readme file with:
 php artisan install
 ```
 
-Run it when you fetch a fresh application, everything will be set up for you.
-
 Refresh application state by:
 
 ```bash
 php artisan update
 ```
-
-- after `composer install/update`
-- after `git pull/checkout/megre/...`
-- in deploy script
-- in CI/CD pipeline
-
-it will take care of the rest of the work.
 
 > ℹ️ Instruction depends on current **environment**. Package has predefined actions suitable for most cases.
 
@@ -94,6 +75,28 @@ See detailed output in verbosity mode:
 
 ```bash
 php artisan app:update -v
+```
+
+You can automate the process by adding `@php artisan update` command to your application
+`composer.json` script `post-autoload-dump` section and remove
+default `vendor:publish` command from `post-update-cmd` section.
+`update` command will take care of assets publishing for you.
+
+Setup it with:
+
+```bash
+php artisan flora:setup --script
+```
+
+```diff
+"post-autoload-dump": [
+    "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump", 
+-     "@php artisan package:discover --ansi"
++     "@php artisan update"
+],
+- "post-update-cmd": [
+-     "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
+- ],
 ```
 
 ### Register Task Scheduler
