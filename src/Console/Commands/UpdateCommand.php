@@ -29,7 +29,7 @@ class UpdateCommand extends FloraCommand
      */
     protected $description = 'Update the application according to current environment';
 
-    public function handle(Container $container, AssetsVersion $assetsVersion, ChainVault $vault, ExceptionHandler $exceptionHandler, Schedule $schedule, SetupInstructions $instructions,): int
+    public function handle(Container $container, AssetsVersion $assetsVersion, ChainVault $vault, ExceptionHandler $exceptionHandler, Schedule $schedule, SetupInstructions $instructions): int
     {
         if (config('app.key') === '') {
             $this->components->warn((new MissingAppKeyException())->getMessage());
