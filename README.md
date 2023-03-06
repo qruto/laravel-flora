@@ -2,7 +2,7 @@
     <picture>
         <source media="(prefers-color-scheme: dark)" srcset="/art/logo-dark.png">
         <source media="(prefers-color-scheme: light)" srcset="/art/logo-light.png">
-        <img alt="Laravel Flora Logo" src="/art/logo-light.png">
+        <img width="470" alt="Laravel Flora Logo" src="/art/logo-light.png">
     </picture>
 </p>
 <p align="center">A convenient way to automate <strong>setup</strong> of your application.</p>
