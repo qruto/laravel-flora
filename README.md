@@ -1,7 +1,7 @@
 <p align="center">
     <picture>
-        <source media="(prefers-color-scheme: dark)" srcset="/art/logo-dark.png">
-        <source media="(prefers-color-scheme: light)" srcset="/art/logo-light.png">
+        <source width="350" media="(prefers-color-scheme: dark)" srcset="/art/logo-dark.png">
+        <source width="350" media="(prefers-color-scheme: light)" srcset="/art/logo-light.png">
         <img width="350" alt="Laravel Flora Logo" src="/art/logo-light.png">
     </picture>
 </p>
