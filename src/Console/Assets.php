@@ -54,7 +54,7 @@ class Assets
 
     private function runVerbose(array $assets, Factory $components): void
     {
-        $this->events->listen(function (VendorTagPublished $event) use ($components): void {
+        $this->events->listen(static function (VendorTagPublished $event) use ($components) : void {
             foreach ($event->paths as $from => $to) {
                 $assetType = null;
 
@@ -125,8 +125,8 @@ class Assets
             $publishCallbacks[] = fn (): bool => $this->artisan->call('vendor:publish', ['--tag' => $tags, '--force' => $forced]) === 0;
         }
 
-        return fn (): Collection => collect($publishCallbacks)
-            ->map(fn (callable $callback): bool => $callback())
-            ->each(fn ($value): bool => throw_if(! $value, AssetPublishException::class));
+        return static fn(): Collection => collect($publishCallbacks)
+            ->map(static fn(callable $callback): bool => $callback())
+            ->each(static fn($value): bool => throw_if(! $value, AssetPublishException::class));
     }
 }

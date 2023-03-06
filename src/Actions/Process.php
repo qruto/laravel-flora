@@ -25,7 +25,7 @@ class Process extends Action
     {
         $argumentsString = implode(' ', $this->parameters);
 
-        return "$this->command".($argumentsString !== '' ? ' '.$argumentsString : '');
+        return $this->command.($argumentsString !== '' ? ' '.$argumentsString : '');
     }
 
     /** Handle custom process */

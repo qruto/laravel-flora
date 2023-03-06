@@ -26,7 +26,7 @@ class Artisan extends Action
     }
 
     /** Get artisan command description */
-    public function description(): string
+    protected function description(): string
     {
         if (! $this->output->isVerbose()) {
             return '';
