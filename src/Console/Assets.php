@@ -8,6 +8,7 @@ use Illuminate\Contracts\Config\Repository;
 use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Events\VendorTagPublished;
+use Illuminate\Support\Collection;
 use Qruto\Flora\AssetPublishException;
 use function throw_if;
 
@@ -53,7 +54,7 @@ class Assets
 
     private function runVerbose(array $assets, Factory $components): void
     {
-        $this->events->listen(function (VendorTagPublished $event) use ($components) {
+        $this->events->listen(function (VendorTagPublished $event) use ($components): void {
             foreach ($event->paths as $from => $to) {
                 $assetType = null;
 
@@ -116,16 +117,16 @@ class Assets
             }
 
             if (! empty($parameters['--provider'])) {
-                $publishCallbacks[] = fn () => $this->artisan->call('vendor:publish', $parameters + ['--force' => $forced]) === 0;
+                $publishCallbacks[] = fn (): bool => $this->artisan->call('vendor:publish', $parameters + ['--force' => $forced]) === 0;
             }
         }
 
         if ($tags !== []) {
-            $publishCallbacks[] = fn () => $this->artisan->call('vendor:publish', ['--tag' => $tags, '--force' => $forced]) === 0;
+            $publishCallbacks[] = fn (): bool => $this->artisan->call('vendor:publish', ['--tag' => $tags, '--force' => $forced]) === 0;
         }
 
-        return fn () => collect($publishCallbacks)
-            ->map(fn (callable $callback) => $callback())
-            ->each(fn ($value) => throw_if(! $value, AssetPublishException::class));
+        return fn (): Collection => collect($publishCallbacks)
+            ->map(fn (callable $callback): bool => $callback())
+            ->each(fn ($value): bool => throw_if(! $value, AssetPublishException::class));
     }
 }

@@ -47,12 +47,12 @@ class FloraServiceProvider extends PackageServiceProvider
             fn (string $environment, callable $callback) => $vault->get(FloraType::Update)->set($environment, $callback)
         );
 
-        Run::newScript('build', fn (Run $run) => $run
+        Run::newScript('build', fn (Run $run): Run => $run
             ->exec('npm install')
             ->exec('npm run build')
         );
 
-        Run::newScript('cache', fn (Run $run) => $run
+        Run::newScript('cache', fn (Run $run): Run => $run
             ->command('route:cache')
             ->command('config:cache')
             ->command('event:cache')
@@ -67,7 +67,7 @@ class FloraServiceProvider extends PackageServiceProvider
         $this->app->bind(ChainContract::class, Chain::class);
         $this->app->singleton(ChainVaultContract::class, ChainVault::class);
 
-        $this->app->singleton('flora.packages', fn () => [
+        $this->app->singleton('flora.packages', fn (): array => [
             new VaporUiDiscover(),
             new HorizonDiscover(),
             new IdeHelperDiscover(),

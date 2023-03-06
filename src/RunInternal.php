@@ -100,7 +100,7 @@ class RunInternal
         $actionType = $this->firstClosureParameterType($callback);
 
         $keys = collect($this->collection)->filter(
-            fn ($action) => $action instanceof $actionType
+            fn ($action): bool => $action instanceof $actionType
         )->search($callback);
 
         if ($keys === false) {
@@ -148,7 +148,7 @@ class RunInternal
         $this->latestAction = $action;
 
         $internalLabelWidth = collect($this->collection)
-            ->map(fn (Action $action) => $action->isSilent() ? '' : $action::$label)
+            ->map(fn (Action $action): string => $action->isSilent() ? '' : $action::$label)
             ->reduce(fn ($carry, $label) => max($carry, strlen($label)));
 
         $action(

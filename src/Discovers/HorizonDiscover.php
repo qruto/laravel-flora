@@ -17,10 +17,10 @@ class HorizonDiscover implements PackageDiscover
     {
         return new Instruction(
             update: [
-                'production' => function (Run $run) {
+                'production' => function (Run $run): void {
                     $run->internal->replace(
-                        fn (Artisan $action) => $action->name() === 'queue:restart',
-                        fn (Run $run) => $run->command('horizon:terminate'),
+                        fn (Artisan $action): bool => $action->name() === 'queue:restart',
+                        fn (Run $run): Run => $run->command('horizon:terminate'),
                     );
                 },
             ],

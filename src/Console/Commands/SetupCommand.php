@@ -39,7 +39,7 @@ class SetupCommand extends Command
         return self::SUCCESS;
     }
 
-    private function addToDumpAutoloadScripts()
+    private function addToDumpAutoloadScripts(): void
     {
         $composer = json_decode(file_get_contents(base_path('composer.json')), true, 512, JSON_THROW_ON_ERROR);
         $scripts = [];

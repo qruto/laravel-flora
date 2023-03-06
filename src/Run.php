@@ -26,7 +26,7 @@ class Run
         $this->internal = new RunInternal($this->application, $output, $this);
     }
 
-    public static function newScript(string $name, callable $callback)
+    public static function newScript(string $name, callable $callback): void
     {
         RunInternal::script($name, $callback);
     }

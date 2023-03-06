@@ -16,13 +16,13 @@ class IdeHelperDiscover implements PackageDiscover
     {
         return new Instruction(
             install: [
-                'local' => static fn (Run $run) => $run
+                'local' => static fn (Run $run): Run => $run
                         ->command('ide-helper:generate')
                         ->command('ide-helper:meta')
                         ->command('ide-helper:models', ['--nowrite' => true]),
             ],
             update: [
-                'local' => static fn (Run $run) => $run
+                'local' => static fn (Run $run): Run => $run
                         ->command('ide-helper:generate')
                         ->command('ide-helper:meta')
                         ->command('ide-helper:models', ['--nowrite' => true]),

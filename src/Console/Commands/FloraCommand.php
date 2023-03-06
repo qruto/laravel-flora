@@ -159,9 +159,9 @@ abstract class FloraCommand extends Command
     private function registerScheduler(string $env, Schedule $schedule): void
     {
         if (any(
-            fn () => $this->type !== FloraType::Install,
-            fn () => Environment::Production->value !== $env,
-            fn () => $schedule->events() === [],
+            fn (): bool => $this->type !== FloraType::Install,
+            fn (): bool => Environment::Production->value !== $env,
+            fn (): bool => $schedule->events() === [],
         )) {
             return;
         }
