@@ -82,8 +82,8 @@
             "@test:unit"
         ],
         "fix": [
-            "@lint",
-            "@refactor"
+            "@refactor",
+            "@lint"
         ]
     },
     "config": {
@@ -99,9 +99,6 @@
                 "Qruto\\Flora\\FloraServiceProvider"
             ]
         }
-    },
-    "suggest": {
-        "laravel/framework": "Required to use additional MakeCronTask, MakeEchoServerConfig and MakeSupervisorConfig Jobs."
     },
     "minimum-stability": "dev",
     "prefer-stable": true
