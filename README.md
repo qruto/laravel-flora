@@ -88,6 +88,8 @@ Setup it with:
 php artisan flora:setup --script
 ```
 
+`composer.json` changes:
+
 ```diff
 "post-autoload-dump": [
     "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump", 
@@ -101,12 +103,12 @@ php artisan flora:setup --script
 
 ### Register Task Scheduler
 
-If:
+Conditions:
 - any scheduler task registered
 - installation process performed
 - application in production environment
 
-then _Flora_ will prompt for the addition of a cron entry to [run the task scheduler every minute](https://laravel.com/docs/master/scheduling#running-the-scheduler).
+then you will be prompted for the addition of a cron entry to [run the task scheduler every minute](https://laravel.com/docs/master/scheduling#running-the-scheduler).
 
 ![Task Scheduler](/art/task-scheduling.png)
 
@@ -225,9 +227,9 @@ Supported:
 
 Soon:
 
-[ ] [Laravel Octane](https://laravel.com/docs/10.x/octane#reloading-the-workers)
-[ ] [Laravel Nova](https://nova.laravel.com/docs/4.0/installation.html#updating-nova-s-assets)
-[ ] [Laravel Passport](https://laravel.com/docs/10.x/passport#deploying-passport)
+- [ ] [Laravel Octane](https://laravel.com/docs/10.x/octane#reloading-the-workers)
+- [ ] [Laravel Nova](https://nova.laravel.com/docs/4.0/installation.html#updating-nova-s-assets)
+- [ ] [Laravel Passport](https://laravel.com/docs/10.x/passport#deploying-passport)
 
 ### Custom Scripts
 
@@ -253,8 +255,6 @@ $run
     ->call(fn () => makeSomething()) // Call callable function 
     ->notify('Done!') // Send notification
 ```
-
-Now everything is up-to-date after each dependency change.
 
 ## Upgrading
 
