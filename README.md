@@ -218,9 +218,16 @@ _Flora_ automatically detects several packages for performing necessary actions 
 For example: publish Vapor UI assets, generate IDE helper files, terminate Horizon workers etc.
 
 Supported:
+
 - [Laravel Vapor Ui](https://github.com/laravel/vapor-ui)
 - [Laravel Horizon](https://github.com/laravel/horizon)
-- [Laravel IDE Helper](https://github.com/barryvdh/laravel-ide-helper)
+- [IDE Helper for Laravel](https://github.com/barryvdh/laravel-ide-helper)
+
+Soon:
+
+[ ] [Laravel Octane](https://laravel.com/docs/10.x/octane#reloading-the-workers)
+[ ] [Laravel Nova](https://nova.laravel.com/docs/4.0/installation.html#updating-nova-s-assets)
+[ ] [Laravel Passport](https://laravel.com/docs/10.x/passport#deploying-passport)
 
 ### Custom Scripts
 

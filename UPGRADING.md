@@ -20,3 +20,4 @@ Look at current [configuration](https://github.com/qruto/laravel-flora/README.md
 Assets list for publishing moved to config file.
 
 - `MakeCronJob` removed. During installation process in `production` environment, you will be asked to create a cron job for running task scheduler.
+- Supervisor configuration support planned to be added in the future.
