@@ -58,7 +58,7 @@ Your stars make me happier each day ❤️ ⭐ Sponsorship will enable us to liv
 
 I would be very grateful for mentions or just a sincere "thank you".
 
-💳 [Sponsoring directly to savings jar](https://send.monobank.ua/jar/3eG4Vafvzq) with **card** or Apple Pay/Google Pay.
+💳 [Sponsoring directly to savings jar](https://send.monobank.ua/jar/3eG4Vafvzq) with card or Apple Pay/Google Pay.
 
 ## Installation
 
