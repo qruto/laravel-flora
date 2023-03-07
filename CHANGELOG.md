@@ -10,8 +10,11 @@ New generation release 🎉
 Check out [upgrade guide](https://github.com/qruto/laravel-flora/blob/main/UPGRADING.md) to switch from outdated version.
 
 ⚒️ New `Process` layer for execution
+
 🎨 Sweet Laravel output components
+
 🚥 Signals handling support
+
 📦 Auto instructions for popular packages
 
 ## Previous generation changelog
