@@ -1,8 +1,20 @@
 <p align="center">
     <picture>
-        <source width="350" media="(prefers-color-scheme: dark)" srcset="/art/logo-dark.png">
-        <source width="350" media="(prefers-color-scheme: light)" srcset="/art/logo-light.png">
-        <img width="350" alt="Laravel Flora Logo" src="/art/logo-light.png">
+        <source
+            width="350"
+            media="(prefers-color-scheme: dark)"
+            srcset="https://github.com/qruto/laravel-flora/raw/HEAD/art/logo-dark.png"
+        >
+        <source
+            width="350"
+            media="(prefers-color-scheme: light)"
+            srcset="https://github.com/qruto/laravel-flora/raw/HEAD/art/logo-light.png"
+        >
+        <img
+            width="350"
+            alt="Laravel Flora Logo"
+            src="https://github.com/qruto/laravel-flora/raw/HEAD/art/logo-light.png"
+        >
     </picture>
 </p>
 <p align="center">A convenient way to automate <strong>setup</strong> of your application.</p>
@@ -123,7 +135,7 @@ Conditions:
 
 then you will be prompted for the addition of a cron entry to [run the task scheduler every minute](https://laravel.com/docs/master/scheduling#running-the-scheduler).
 
-![Task Scheduler](/art/task-scheduling.png)
+![Task Scheduler](https://github.com/qruto/laravel-flora/raw/HEAD/art/task-scheduling.png)
 
 ## Configuration
 
