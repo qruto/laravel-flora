@@ -106,16 +106,6 @@ abstract class FloraCommand extends Command
         }
     }
 
-    /**
-     * Load custom build instructions.
-     */
-    private function loadInstructions(SetupInstructions $instructions): bool
-    {
-        $instructions->load();
-
-        return $instructions->customExists();
-    }
-
     private function discoverPackages(): bool
     {
         if ($this->output->isVerbose()) {
@@ -197,7 +187,9 @@ abstract class FloraCommand extends Command
         Schedule $schedule,
         SetupInstructions $instructions,
     ): int {
-        $autoInstruction = $this->loadInstructions($instructions);
+        $instructions->load();
+
+        $autoInstruction = !$instructions->customExists();
 
         $flora = $this->getFlora($vault);
 

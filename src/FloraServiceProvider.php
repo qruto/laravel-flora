@@ -10,6 +10,7 @@ use Qruto\Flora\Contracts\Chain as ChainContract;
 use Qruto\Flora\Contracts\ChainVault as ChainVaultContract;
 use Qruto\Flora\Discovers\HorizonDiscover;
 use Qruto\Flora\Discovers\IdeHelperDiscover;
+use Qruto\Flora\Discovers\TypeScriptTransformerDiscover;
 use Qruto\Flora\Discovers\VaporUiDiscover;
 use Qruto\Flora\Enums\FloraType;
 use Spatie\LaravelPackageTools\Package;
@@ -34,18 +35,7 @@ class FloraServiceProvider extends PackageServiceProvider
      */
     public function packageBooted(): void
     {
-        $vault = $this->app->make(ChainVaultContract::class);
-
-        //TODO: refactor
-        Application::macro(
-            'install',
-            fn (string $environment, callable $callback) => $vault->get(FloraType::Install)->set($environment, $callback)
-        );
-
-        Application::macro(
-            'update',
-            fn (string $environment, callable $callback) => $vault->get(FloraType::Update)->set($environment, $callback)
-        );
+        $this->createAppMacro();
 
         Run::newScript('build', fn (Run $run): Run => $run
             ->exec('npm install')
@@ -71,6 +61,22 @@ class FloraServiceProvider extends PackageServiceProvider
             new VaporUiDiscover(),
             new HorizonDiscover(),
             new IdeHelperDiscover(),
+            new TypeScriptTransformerDiscover(),
         ]);
+    }
+
+    private function createAppMacro(): void
+    {
+        $macros = [
+            'install' => FloraType::Install,
+            'update' => FloraType::Update,
+        ];
+
+        foreach ($macros as $macro => $type) {
+            Application::macro(
+                $macro,
+                fn (string $environment, callable $callback) => $this->app->make(ChainVaultContract::class)->get($type)->set($environment, $callback)
+            );
+        }
     }
 }
