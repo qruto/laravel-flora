@@ -8,7 +8,7 @@ class VaporUiDiscover implements PackageDiscover
 {
     public function exists(): bool
     {
-        return Container::getInstance()->has('Laravel\VaporUi\Console\PublishCommand');
+        return Container::getInstance()->has(\Laravel\VaporUi\Console\PublishCommand::class);
     }
 
     public function instruction(): Instruction

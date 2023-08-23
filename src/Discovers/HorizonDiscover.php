@@ -10,7 +10,7 @@ class HorizonDiscover implements PackageDiscover
 {
     public function exists(): bool
     {
-        return Container::getInstance()->has('Laravel\Horizon\Console\WorkCommand');
+        return Container::getInstance()->has(\Laravel\Horizon\Console\WorkCommand::class);
     }
 
     public function instruction(): Instruction
