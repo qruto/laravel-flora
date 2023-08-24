@@ -10,6 +10,7 @@ use Qruto\Flora\Contracts\Chain as ChainContract;
 use Qruto\Flora\Contracts\ChainVault as ChainVaultContract;
 use Qruto\Flora\Discovers\HorizonDiscover;
 use Qruto\Flora\Discovers\IdeHelperDiscover;
+use Qruto\Flora\Discovers\TrailDiscover;
 use Qruto\Flora\Discovers\TypeScriptTransformerDiscover;
 use Qruto\Flora\Discovers\VaporUiDiscover;
 use Qruto\Flora\Enums\FloraType;
@@ -62,6 +63,7 @@ class FloraServiceProvider extends PackageServiceProvider
             new HorizonDiscover(),
             new IdeHelperDiscover(),
             new TypeScriptTransformerDiscover(),
+            new TrailDiscover(),
         ]);
     }
 
