@@ -17,6 +17,27 @@
         >
     </picture>
 </p>
+
+<p align="center">
+    <picture>
+        <source
+            width="650"
+            media="(prefers-color-scheme: dark)"
+            srcset="https://github.com/qruto/laravel-flora/raw/HEAD/art/code-example-dark.svg"
+        >
+        <source
+            width="650"
+            media="(prefers-color-scheme: light)"
+            srcset="https://github.com/qruto/laravel-flora/raw/HEAD/art/code-example-light.svg"
+        >
+        <img
+            width="650"
+            alt="Laravel Flora Code Example"
+            src="https://github.com/qruto/laravel-flora/raw/HEAD/art/code-example-light.svg"
+        >
+    </picture>
+</p>
+
 <p align="center">A convenient way to automate <strong>setup</strong> of your application.</p>
 <p align="center">
     <a href="https://github.com/qruto/laravel-flora/actions/workflows/tests.yml"><img src="https://github.com/qruto/laravel-flora/actions/workflows/tests.yml/badge.svg" alt="Build Status"></a>
