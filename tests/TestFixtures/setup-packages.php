@@ -24,6 +24,7 @@ App::install('local', fn (Run $run) => $run
     ->command('ide-helper:generate')
     ->command('ide-helper:meta')
     ->command('ide-helper:models', ['--nowrite' => true])
+    ->command('ide-helper:eloquent')
 );
 
 App::install('production', fn (Run $run) => $run
@@ -41,6 +42,7 @@ App::update('local', fn (Run $run) => $run
     ->command('ide-helper:generate')
     ->command('ide-helper:meta')
     ->command('ide-helper:models', ['--nowrite' => true])
+    ->command('ide-helper:eloquent')
 );
 
 App::update('production', fn (Run $run) => $run

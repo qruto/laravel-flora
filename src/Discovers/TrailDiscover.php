@@ -2,12 +2,8 @@
 
 namespace Qruto\Flora\Discovers;
 
-use Illuminate\Container\Container;
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Blade;
 use Qruto\Flora\Run;
-use function class_exists;
-use function config;
 
 class TrailDiscover implements PackageDiscover
 {

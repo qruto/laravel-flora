@@ -9,7 +9,7 @@ use Qruto\Flora\Enums\FloraType;
 uses(PackageInstruction::class);
 
 beforeEach(function () {
-    Artisan::command('trail:generate', fn() => null);
+    Artisan::command('trail:generate', fn () => null);
 });
 
 it('successfully instruct trail:generate for local environment', function () {

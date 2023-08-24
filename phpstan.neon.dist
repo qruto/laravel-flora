@@ -12,3 +12,8 @@ parameters:
     checkMissingIterableValueType: false
     excludePaths:
         - src/setup.php
+    ignoreErrors:
+        - '#^Class Laravel\\Horizon\\Console\\WorkCommand not found#'
+        - '#^Class Spatie\\TypeScriptTransformer\\TypeScriptTransformerConfig not found#'
+        - '#^Class Laravel\\VaporUi\\Console\\PublishCommand not found#'
+

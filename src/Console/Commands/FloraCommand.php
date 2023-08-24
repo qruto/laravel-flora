@@ -189,7 +189,7 @@ abstract class FloraCommand extends Command
     ): int {
         $instructions->load();
 
-        $autoInstruction = !$instructions->customExists();
+        $autoInstruction = ! $instructions->customExists();
 
         $flora = $this->getFlora($vault);
 

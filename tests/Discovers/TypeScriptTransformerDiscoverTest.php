@@ -2,7 +2,6 @@
 
 use Qruto\Flora\Actions\Artisan;
 use Qruto\Flora\Console\Commands\PackageInstruction;
-use Qruto\Flora\Discovers\IdeHelperDiscover;
 use Qruto\Flora\Enums\Environment;
 use Qruto\Flora\Enums\FloraType;
 

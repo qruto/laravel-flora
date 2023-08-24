@@ -21,13 +21,14 @@ it('can get ide helper instruction', function () {
 
     $this->instructPackages(FloraType::Install, Environment::Local->value, $run);
 
-    $this->assertCount(3, $run->internal->getCollection());
+    $this->assertCount(4, $run->internal->getCollection());
     $this->assertContainsOnlyInstancesOf(Artisan::class, $run->internal->getCollection());
     $this->assertEquals(
         [
             'ide-helper:generate',
             'ide-helper:meta',
             'ide-helper:models',
+            'ide-helper:eloquent',
         ],
         collect($run->internal->getCollection())
             ->map(fn ($action) => $action->name())
