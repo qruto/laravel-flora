@@ -38,7 +38,7 @@ class FloraServiceProvider extends PackageServiceProvider
         $this->createAppMacro();
 
         Run::newScript('build', fn (Run $run): Run => $run
-            ->exec('npm install')
+            ->exec('npm ci')
             ->exec('npm run build')
         );
 
