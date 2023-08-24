@@ -27,7 +27,7 @@ class SetupCommand extends Command
 
         if ($instructions->customExists() && ! $forced) {
             $this->components->warn('Setup instructions already exist. Use <fg=cyan>--force</> to overwrite.');
-        } elseif (($app = $this->getApplication()) !== null) {
+        } elseif (($app = $this->getApplication()) instanceof \Symfony\Component\Console\Application) {
             $instructions->publish($app);
             $this->components->info('Setup instructions published to [routes/setup.php]');
         }

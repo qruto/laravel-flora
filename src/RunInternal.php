@@ -159,7 +159,7 @@ class RunInternal
         if ($action->failed()) {
             $this->finishedWithFailures = true;
 
-            if (($e = $action->getException()) !== null) {
+            if (($e = $action->getException()) instanceof \Throwable) {
                 $this->exceptions[] = [
                     'title' => $action->title(),
                     'e' => $e,
