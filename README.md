@@ -18,6 +18,8 @@
     </picture>
 </p>
 
+<p align="center">A convenient way to automate <strong>setup</strong> of your application.</p>
+
 <p align="center">
     <picture>
         <source
@@ -38,7 +40,6 @@
     </picture>
 </p>
 
-<p align="center">A convenient way to automate <strong>setup</strong> of your application.</p>
 <p align="center">
     <a href="https://github.com/qruto/laravel-flora/actions/workflows/tests.yml"><img src="https://github.com/qruto/laravel-flora/actions/workflows/tests.yml/badge.svg" alt="Build Status"></a>
     <a href="https://github.com/qruto/laravel-flora/actions/workflows/styles.yml"><img src="https://github.com/qruto/laravel-flora/actions/workflows/styles.yml/badge.svg" alt="Styles check"></a>
