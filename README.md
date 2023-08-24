@@ -21,17 +21,17 @@
 <p align="center">
     <picture>
         <source
-            width="650"
+            width="450"
             media="(prefers-color-scheme: dark)"
             srcset="https://github.com/qruto/laravel-flora/raw/HEAD/art/code-example-dark.svg"
         >
         <source
-            width="650"
+            width="450"
             media="(prefers-color-scheme: light)"
             srcset="https://github.com/qruto/laravel-flora/raw/HEAD/art/code-example-light.svg"
         >
         <img
-            width="650"
+            width="450"
             alt="Laravel Flora Code Example"
             src="https://github.com/qruto/laravel-flora/raw/HEAD/art/code-example-light.svg"
         >
