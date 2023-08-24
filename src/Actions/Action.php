@@ -5,9 +5,10 @@ namespace Qruto\Flora\Actions;
 use Exception;
 use Illuminate\Console\View\Components\Factory;
 use Qruto\Flora\Console\StopSetupException;
-use function strlen;
 use Symfony\Component\Console\Output\OutputInterface;
 use Throwable;
+
+use function strlen;
 
 abstract class Action
 {

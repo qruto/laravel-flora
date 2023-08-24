@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 uses(TestCase::class)->in(__DIR__);
 
-function chain(?callable $callback = null, $verbose = false): object
+function chain(callable $callback = null, $verbose = false): object
 {
     if ($callback) {
         App::update('testing', $callback);
@@ -36,12 +36,12 @@ function chain(?callable $callback = null, $verbose = false): object
     };
 }
 
-function makeRunner(?OutputInterface $output = null): Run
+function makeRunner(OutputInterface $output = null): Run
 {
     return new Run(new Application(app(), app()->make(Dispatcher::class), 'unknown'), $output ?? new BufferedOutput());
 }
 
-function actionNamesForEnvironment(FloraType $type, Environment $env, ?Run $run = null): array
+function actionNamesForEnvironment(FloraType $type, Environment $env, Run $run = null): array
 {
     $run = $run ?? makeRunner();
 

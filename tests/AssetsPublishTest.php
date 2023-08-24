@@ -2,7 +2,6 @@
 
 namespace Qruto\Flora\Test;
 
-use function chain;
 use Illuminate\Contracts\Cache\Repository;
 use Illuminate\Support\Facades\Artisan;
 use Qruto\Flora\Discovers\Instruction;
@@ -12,6 +11,8 @@ use Qruto\Flora\Tests\TestFixtures\TestServiceProviderMultipleTags;
 use Qruto\Flora\Tests\TestFixtures\TestServiceProviderOne;
 use Qruto\Flora\Tests\TestFixtures\TestServiceProviderTwo;
 use Symfony\Component\Console\Command\Command;
+
+use function chain;
 use function unlink;
 
 afterEach(function () {

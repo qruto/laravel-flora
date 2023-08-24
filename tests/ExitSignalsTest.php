@@ -17,7 +17,7 @@ beforeEach(function () {
 
 it('traps an exit signal', function () {
     $pendingCommand = chain(fn ($run) => $run->call(fn () => null)
-            ->call(fn () => $this->registry->handle(SIGTERM))
+        ->call(fn () => $this->registry->handle(SIGTERM))
     )->run();
 
     $pendingCommand

@@ -2,7 +2,6 @@
 
 namespace Qruto\Flora;
 
-use function base_path;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Str;
 use Qruto\Flora\Actions\Artisan;
@@ -14,6 +13,8 @@ use Qruto\Flora\Enums\Environment;
 use Qruto\Flora\Enums\FloraType;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Output\NullOutput;
+
+use function base_path;
 
 class SetupInstructions
 {

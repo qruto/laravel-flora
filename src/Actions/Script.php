@@ -5,8 +5,9 @@ namespace Qruto\Flora\Actions;
 use Illuminate\Console\View\Components\Factory;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\Traits\ReflectsClosures;
-use function Qruto\Flora\clearOutputLineAbove;
 use Qruto\Flora\Run;
+
+use function Qruto\Flora\clearOutputLineAbove;
 use function Termwind\terminal;
 
 class Script extends Action

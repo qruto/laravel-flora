@@ -11,11 +11,11 @@ class Instruction
     public function __construct(
         protected array|Closure|null $install = null,
         protected array|Closure|null $update = null,
-        public string|null $assetsTag = null,
+        public ?string $assetsTag = null,
     ) {
     }
 
-    public function get(FloraType $type, ?Environment $environment = null): Closure
+    public function get(FloraType $type, Environment $environment = null): Closure
     {
         if (is_null($environment)) {
             $environment = Environment::Production;

@@ -8,9 +8,7 @@ use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Support\Facades\Process;
 use Qruto\Flora\Actions\ActionTerminatedException;
-use function Qruto\Flora\any;
 use Qruto\Flora\AssetsVersion;
-use function Qruto\Flora\clearOutputLineAbove;
 use Qruto\Flora\Console\Assets;
 use Qruto\Flora\Console\StopSetupException;
 use Qruto\Flora\Contracts\Chain;
@@ -22,6 +20,9 @@ use Qruto\Flora\Run;
 use Qruto\Flora\SetupInstructions;
 use Qruto\Flora\UndefinedInstructionException;
 use Qruto\Flora\UndefinedScriptException;
+
+use function Qruto\Flora\any;
+use function Qruto\Flora\clearOutputLineAbove;
 
 abstract class FloraCommand extends Command
 {
