@@ -15,7 +15,7 @@ class Instruction
     ) {
     }
 
-    public function get(FloraType $type, Environment $environment = null): Closure
+    public function get(FloraType $type, ?Environment $environment = null): Closure
     {
         if (is_null($environment)) {
             $environment = Environment::Production;

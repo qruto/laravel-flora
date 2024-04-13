@@ -56,7 +56,7 @@ class Script extends Action
             clearOutputLineAbove($this->output);
         }
 
-        if ($this->run->internal->doneWithFailures() && ! empty($this->run->internal->exceptions())) {
+        if ($this->run->internal->doneWithFailures() && $this->run->internal->exceptions() !== []) {
             $this->exception = $this->run->internal->exceptions()[0]['e'];
         }
 

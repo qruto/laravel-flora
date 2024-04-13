@@ -37,7 +37,7 @@ class Notification extends Action
             ->setTitle($this->string)
             ->setBody($this->body);
 
-        $notification->setIcon(empty($this->icon) ? __DIR__.'/../../laravel-logo.png' : $this->icon);
+        $notification->setIcon($this->icon === null || $this->icon === '' || $this->icon === '0' ? __DIR__.'/../../laravel-logo.png' : $this->icon);
 
         return $notifier->send($notification);
     }

@@ -26,9 +26,13 @@ class Assets
         $assets = $this->config['flora.assets'];
 
         foreach (resolve('flora.packages') as $package) {
-            if ($package->exists() && $tag = $package->instruction()->assetsTag) {
-                $assets[] = $tag;
+            if (! $package->exists()) {
+                continue;
             }
+            if (! ($tag = $package->instruction()->assetsTag)) {
+                continue;
+            }
+            $assets[] = $tag;
         }
 
         if ($assets === []) {
@@ -117,9 +121,11 @@ class Assets
                 $tags[] = $value;
             }
 
-            if (! empty($parameters['--provider'])) {
-                $publishCallbacks[] = fn (): bool => $this->artisan->call('vendor:publish', $parameters + ['--force' => $forced]) === 0;
+            if (! ($parameters['--provider'] !== '' && $parameters['--provider'] !== '0')) {
+                continue;
             }
+
+            $publishCallbacks[] = fn (): bool => $this->artisan->call('vendor:publish', $parameters + ['--force' => $forced]) === 0;
         }
 
         if ($tags !== []) {

@@ -62,14 +62,14 @@ class Run
         return $this;
     }
 
-    public function call(callable $callback, array $parameters = [], string $name = null): static
+    public function call(callable $callback, array $parameters = [], ?string $name = null): static
     {
         $this->internal->push(new Callback($this->application->getLaravel(), $callback, $parameters, $name));
 
         return $this;
     }
 
-    public function job(object|string $job, string $queue = null, string $connection = null): static
+    public function job(object|string $job, ?string $queue = null, ?string $connection = null): static
     {
         $this->internal->push(new Job($job, $queue, $connection));
 
