@@ -1,3 +1,16 @@
+> [!IMPORTANT]
+> ## ⚠️ Looking for a new maintainer
+>
+> I still love this package and don't want to abandon it — I'm looking for someone
+> to take care of it.
+>
+> **Flora** is still useful, still a good fit for Laravel. It just needs someone who
+> wants to take it further. The same goes for its sibling — [🌊 **Wave**](https://github.com/qruto/laravel-wave),
+> Laravel broadcasting without WebSockets.
+>
+> If you can find a place for it in your heart, [open an issue](https://github.com/qruto/laravel-flora/issues/new)
+> or reach out to [@slavarazum](https://github.com/slavarazum) ♥️
+
 <p align="center">
     <picture>
         <source
