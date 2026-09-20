@@ -2,29 +2,34 @@ name: tests
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
     paths:
-      - "**.php"
-      - ".github/workflows/tests.yml"
-      - "phpunit.xml.dist"
-      - "composer.json"
-      - "composer.lock"
+      - **.php
+      - .github/workflows/tests.yml
+      - phpunit.xml.dist
+      - composer.json
+      - composer.lock
   pull_request:
-    branches: [main]
+    branches:
+      - main
 
 jobs:
   test:
     runs-on: ${{ matrix.os }}
+
     strategy:
       fail-fast: true
       matrix:
         os: [ubuntu-latest]
         php: [8.3, 8.2, 8.1]
-        laravel: [10, 11]
+        laravel: [10, 11, '12']
         stability: [prefer-lowest, prefer-stable]
         exclude:
           - php: 8.1
             laravel: 11
+          - laravel: '12'
+            php: 8.1
 
     name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }} - ${{ matrix.stability }} - ${{ matrix.os }}
 
